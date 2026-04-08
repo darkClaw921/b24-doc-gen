@@ -1,6 +1,6 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-04-08T17:37:40.112Z",
+  "generatedAt": "2026-04-08T18:25:48.896Z",
   "nodes": [
     {
       "id": "apps/frontend/tailwind.config.ts",
@@ -324,7 +324,7 @@
           "name": "App",
           "type": "function",
           "path": "apps/frontend/src/App.tsx",
-          "line": 27,
+          "line": 28,
           "exports": [
             "App"
           ]
@@ -809,7 +809,7 @@
           "name": "toAppSettings",
           "type": "function",
           "path": "apps/backend/src/routes/install.ts",
-          "line": 48,
+          "line": 65,
           "exports": [
             "toAppSettings"
           ]
@@ -819,7 +819,7 @@
           "name": "registerInstallRoutes",
           "type": "function",
           "path": "apps/backend/src/routes/install.ts",
-          "line": 67,
+          "line": 84,
           "exports": [
             "registerInstallRoutes"
           ]
@@ -829,7 +829,7 @@
           "name": "InstallBody",
           "type": "interface",
           "path": "apps/backend/src/routes/install.ts",
-          "line": 25,
+          "line": 26,
           "exports": []
         },
         {
@@ -837,7 +837,7 @@
           "name": "RegisterPlacementsBody",
           "type": "interface",
           "path": "apps/backend/src/routes/install.ts",
-          "line": 30,
+          "line": 47,
           "exports": []
         },
         {
@@ -845,7 +845,7 @@
           "name": "InstallStatusResponse",
           "type": "interface",
           "path": "apps/backend/src/routes/install.ts",
-          "line": 36,
+          "line": 53,
           "exports": [
             "InstallStatusResponse"
           ]
@@ -1321,7 +1321,7 @@
           "name": "readDocumentIdEntry",
           "type": "function",
           "path": "apps/backend/src/routes/webhookRun.ts",
-          "line": 109,
+          "line": 111,
           "exports": []
         },
         {
@@ -1329,17 +1329,25 @@
           "name": "parseDealIdFromDocumentId",
           "type": "function",
           "path": "apps/backend/src/routes/webhookRun.ts",
-          "line": 138,
+          "line": 140,
           "exports": [
             "parseDealIdFromDocumentId"
           ]
+        },
+        {
+          "id": "apps/backend/src/routes/webhookRun.ts:normaliseDomain",
+          "name": "normaliseDomain",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhookRun.ts",
+          "line": 169,
+          "exports": []
         },
         {
           "id": "apps/backend/src/routes/webhookRun.ts:pickString",
           "name": "pickString",
           "type": "function",
           "path": "apps/backend/src/routes/webhookRun.ts",
-          "line": 164,
+          "line": 183,
           "exports": []
         },
         {
@@ -1347,7 +1355,7 @@
           "name": "summariseSuccess",
           "type": "function",
           "path": "apps/backend/src/routes/webhookRun.ts",
-          "line": 177,
+          "line": 196,
           "exports": []
         },
         {
@@ -1355,7 +1363,23 @@
           "name": "sendBizprocAck",
           "type": "function",
           "path": "apps/backend/src/routes/webhookRun.ts",
-          "line": 202,
+          "line": 221,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhookRun.ts:sanitiseBodyForLog",
+          "name": "sanitiseBodyForLog",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhookRun.ts",
+          "line": 248,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhookRun.ts:sanitiseRawBodyForLog",
+          "name": "sanitiseRawBodyForLog",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhookRun.ts",
+          "line": 270,
           "exports": []
         },
         {
@@ -1363,7 +1387,7 @@
           "name": "registerWebhookRunRoute",
           "type": "function",
           "path": "apps/backend/src/routes/webhookRun.ts",
-          "line": 223,
+          "line": 278,
           "exports": [
             "registerWebhookRunRoute"
           ]
@@ -1373,7 +1397,7 @@
           "name": "WebhookRunBody",
           "type": "interface",
           "path": "apps/backend/src/routes/webhookRun.ts",
-          "line": 70,
+          "line": 72,
           "exports": []
         },
         {
@@ -1381,7 +1405,7 @@
           "name": "TemplateRunResult",
           "type": "interface",
           "path": "apps/backend/src/routes/webhookRun.ts",
-          "line": 87,
+          "line": 89,
           "exports": []
         }
       ]
@@ -1506,7 +1530,7 @@
           "name": "pickLocalizedLabel",
           "type": "function",
           "path": "apps/backend/src/services/b24Client.ts",
-          "line": 439,
+          "line": 454,
           "exports": []
         },
         {
@@ -1514,7 +1538,7 @@
           "name": "normalizeDealField",
           "type": "function",
           "path": "apps/backend/src/services/b24Client.ts",
-          "line": 455,
+          "line": 470,
           "exports": []
         },
         {
@@ -1522,7 +1546,7 @@
           "name": "appendParam",
           "type": "function",
           "path": "apps/backend/src/services/b24Client.ts",
-          "line": 492,
+          "line": 507,
           "exports": []
         },
         {
@@ -1598,7 +1622,7 @@
           "name": "RawDealField",
           "type": "interface",
           "path": "apps/backend/src/services/b24Client.ts",
-          "line": 419,
+          "line": 434,
           "exports": []
         }
       ]
@@ -2131,6 +2155,178 @@
       ]
     },
     {
+      "id": "apps/backend/src/services/portalAuth.ts",
+      "name": "portalAuth.ts",
+      "type": "file",
+      "path": "apps/backend/src/services/portalAuth.ts",
+      "exports": [
+        "savePortalTokens",
+        "getFreshPortalAuth",
+        "refreshPortalTokens",
+        "PortalAuthError",
+        "PortalAuth"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/services/portalAuth.ts:savePortalTokens",
+          "name": "savePortalTokens",
+          "type": "function",
+          "path": "apps/backend/src/services/portalAuth.ts",
+          "line": 69,
+          "exports": [
+            "savePortalTokens"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/portalAuth.ts:getFreshPortalAuth",
+          "name": "getFreshPortalAuth",
+          "type": "function",
+          "path": "apps/backend/src/services/portalAuth.ts",
+          "line": 111,
+          "exports": [
+            "getFreshPortalAuth"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/portalAuth.ts:refreshPortalTokens",
+          "name": "refreshPortalTokens",
+          "type": "function",
+          "path": "apps/backend/src/services/portalAuth.ts",
+          "line": 156,
+          "exports": [
+            "refreshPortalTokens"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/portalAuth.ts:PortalAuthError",
+          "name": "PortalAuthError",
+          "type": "class",
+          "path": "apps/backend/src/services/portalAuth.ts",
+          "line": 46,
+          "exports": [
+            "PortalAuthError"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/portalAuth.ts:PortalAuth",
+          "name": "PortalAuth",
+          "type": "interface",
+          "path": "apps/backend/src/services/portalAuth.ts",
+          "line": 40,
+          "exports": [
+            "PortalAuth"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/portalAuth.ts:OAUTH_REFRESH_ENDPOINT",
+          "name": "OAUTH_REFRESH_ENDPOINT",
+          "type": "variable",
+          "path": "apps/backend/src/services/portalAuth.ts",
+          "line": 35,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/portalAuth.ts:REFRESH_SKEW_SECONDS",
+          "name": "REFRESH_SKEW_SECONDS",
+          "type": "variable",
+          "path": "apps/backend/src/services/portalAuth.ts",
+          "line": 38,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/services/tokenCrypto.ts",
+      "name": "tokenCrypto.ts",
+      "type": "file",
+      "path": "apps/backend/src/services/tokenCrypto.ts",
+      "exports": [
+        "encryptToken",
+        "decryptToken",
+        "__resetTokenCryptoCacheForTests"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/services/tokenCrypto.ts:getKey",
+          "name": "getKey",
+          "type": "function",
+          "path": "apps/backend/src/services/tokenCrypto.ts",
+          "line": 42,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/tokenCrypto.ts:encryptToken",
+          "name": "encryptToken",
+          "type": "function",
+          "path": "apps/backend/src/services/tokenCrypto.ts",
+          "line": 97,
+          "exports": [
+            "encryptToken"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/tokenCrypto.ts:decryptToken",
+          "name": "decryptToken",
+          "type": "function",
+          "path": "apps/backend/src/services/tokenCrypto.ts",
+          "line": 120,
+          "exports": [
+            "decryptToken"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/tokenCrypto.ts:__resetTokenCryptoCacheForTests",
+          "name": "__resetTokenCryptoCacheForTests",
+          "type": "function",
+          "path": "apps/backend/src/services/tokenCrypto.ts",
+          "line": 145,
+          "exports": [
+            "__resetTokenCryptoCacheForTests"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/tokenCrypto.ts:ALGO",
+          "name": "ALGO",
+          "type": "variable",
+          "path": "apps/backend/src/services/tokenCrypto.ts",
+          "line": 27,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/tokenCrypto.ts:IV_LENGTH",
+          "name": "IV_LENGTH",
+          "type": "variable",
+          "path": "apps/backend/src/services/tokenCrypto.ts",
+          "line": 28,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/tokenCrypto.ts:KEY_LENGTH",
+          "name": "KEY_LENGTH",
+          "type": "variable",
+          "path": "apps/backend/src/services/tokenCrypto.ts",
+          "line": 29,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/tokenCrypto.ts:PREFIX",
+          "name": "PREFIX",
+          "type": "variable",
+          "path": "apps/backend/src/services/tokenCrypto.ts",
+          "line": 30,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/tokenCrypto.ts:cachedKey",
+          "name": "cachedKey",
+          "type": "variable",
+          "path": "apps/backend/src/services/tokenCrypto.ts",
+          "line": 32,
+          "exports": []
+        }
+      ]
+    },
+    {
       "id": "apps/frontend/src/components/AdminOnly.tsx",
       "name": "AdminOnly.tsx",
       "type": "file",
@@ -2372,6 +2568,27 @@
       ]
     },
     {
+      "id": "apps/frontend/src/components/OAuthSync.tsx",
+      "name": "OAuthSync.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/OAuthSync.tsx",
+      "exports": [
+        "OAuthSync"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/OAuthSync.tsx:OAuthSync",
+          "name": "OAuthSync",
+          "type": "function",
+          "path": "apps/frontend/src/components/OAuthSync.tsx",
+          "line": 35,
+          "exports": [
+            "OAuthSync"
+          ]
+        }
+      ]
+    },
+    {
       "id": "apps/frontend/src/components/PlacementGuard.tsx",
       "name": "PlacementGuard.tsx",
       "type": "file",
@@ -2577,7 +2794,7 @@
           "name": "copyToClipboard",
           "type": "function",
           "path": "apps/frontend/src/components/WebhookManagerDialog.tsx",
-          "line": 365,
+          "line": 370,
           "exports": []
         },
         {
@@ -2585,7 +2802,7 @@
           "name": "formatDate",
           "type": "function",
           "path": "apps/frontend/src/components/WebhookManagerDialog.tsx",
-          "line": 391,
+          "line": 396,
           "exports": []
         },
         {
@@ -2593,7 +2810,7 @@
           "name": "toMessage",
           "type": "function",
           "path": "apps/frontend/src/components/WebhookManagerDialog.tsx",
-          "line": 400,
+          "line": 405,
           "exports": []
         },
         {
@@ -2793,7 +3010,7 @@
           "name": "CrmFieldDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 270,
+          "line": 307,
           "exports": [
             "CrmFieldDTO"
           ]
@@ -2803,7 +3020,7 @@
           "name": "FormulaValidateResponse",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 306,
+          "line": 343,
           "exports": [
             "FormulaValidateResponse"
           ]
@@ -2813,7 +3030,7 @@
           "name": "FormulaEvaluateResponse",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 312,
+          "line": 349,
           "exports": [
             "FormulaEvaluateResponse"
           ]
@@ -2823,7 +3040,7 @@
           "name": "ThemeDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 337,
+          "line": 374,
           "exports": [
             "ThemeDTO"
           ]
@@ -2833,7 +3050,7 @@
           "name": "UpdateThemeBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 350,
+          "line": 387,
           "exports": [
             "UpdateThemeBody"
           ]
@@ -2843,7 +3060,7 @@
           "name": "TemplateListItemDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 379,
+          "line": 416,
           "exports": [
             "TemplateListItemDTO"
           ]
@@ -2853,7 +3070,7 @@
           "name": "FormulaDependenciesDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 390,
+          "line": 427,
           "exports": [
             "FormulaDependenciesDTO"
           ]
@@ -2863,7 +3080,7 @@
           "name": "FormulaDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 396,
+          "line": 433,
           "exports": [
             "FormulaDTO"
           ]
@@ -2873,7 +3090,7 @@
           "name": "TemplateDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 405,
+          "line": 442,
           "exports": [
             "TemplateDTO"
           ]
@@ -2883,7 +3100,7 @@
           "name": "FormulaInputDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 417,
+          "line": 454,
           "exports": [
             "FormulaInputDTO"
           ]
@@ -2893,7 +3110,7 @@
           "name": "UpdateTemplateBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 425,
+          "line": 462,
           "exports": [
             "UpdateTemplateBody"
           ]
@@ -2903,7 +3120,7 @@
           "name": "FormulaEvaluationResultDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 436,
+          "line": 473,
           "exports": [
             "FormulaEvaluationResultDTO"
           ]
@@ -2913,7 +3130,7 @@
           "name": "TemplatePreviewResponseDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 445,
+          "line": 482,
           "exports": [
             "TemplatePreviewResponseDTO"
           ]
@@ -2923,7 +3140,7 @@
           "name": "GenerateBindingDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 452,
+          "line": 489,
           "exports": [
             "GenerateBindingDTO"
           ]
@@ -2933,7 +3150,7 @@
           "name": "GenerateResponseDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 458,
+          "line": 495,
           "exports": [
             "GenerateResponseDTO"
           ]
@@ -2943,7 +3160,7 @@
           "name": "SettingsDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 527,
+          "line": 564,
           "exports": [
             "SettingsDTO"
           ]
@@ -2953,7 +3170,7 @@
           "name": "DealFileFieldDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 535,
+          "line": 572,
           "exports": [
             "DealFileFieldDTO"
           ]
@@ -2963,7 +3180,7 @@
           "name": "WebhookListItemDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 578,
+          "line": 615,
           "exports": [
             "WebhookListItemDTO"
           ]
@@ -2973,7 +3190,7 @@
           "name": "CreateWebhookBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 583,
+          "line": 620,
           "exports": [
             "CreateWebhookBody"
           ]
@@ -2983,7 +3200,7 @@
           "name": "UpdateWebhookBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 590,
+          "line": 627,
           "exports": [
             "UpdateWebhookBody"
           ]
@@ -3031,7 +3248,7 @@
           "name": "usersApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 259,
+          "line": 296,
           "exports": [
             "usersApi"
           ]
@@ -3041,7 +3258,7 @@
           "name": "dealApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 280,
+          "line": 317,
           "exports": [
             "dealApi"
           ]
@@ -3051,7 +3268,7 @@
           "name": "crmApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 291,
+          "line": 328,
           "exports": [
             "crmApi"
           ]
@@ -3061,7 +3278,7 @@
           "name": "formulasApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 320,
+          "line": 357,
           "exports": [
             "formulasApi"
           ]
@@ -3071,7 +3288,7 @@
           "name": "themesApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 357,
+          "line": 394,
           "exports": [
             "themesApi"
           ]
@@ -3081,7 +3298,7 @@
           "name": "templatesApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 469,
+          "line": 506,
           "exports": [
             "templatesApi"
           ]
@@ -3091,7 +3308,7 @@
           "name": "generateApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 518,
+          "line": 555,
           "exports": [
             "generateApi"
           ]
@@ -3101,7 +3318,7 @@
           "name": "settingsApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 544,
+          "line": 581,
           "exports": [
             "settingsApi"
           ]
@@ -3111,7 +3328,7 @@
           "name": "webhooksApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 595,
+          "line": 632,
           "exports": [
             "webhooksApi"
           ]

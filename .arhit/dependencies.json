@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-08T17:37:55.743Z",
+  "generatedAt": "2026-04-08T18:26:07.198Z",
   "dependencies": [
     {
       "from": "apps/frontend/tailwind.config.ts",
@@ -587,6 +587,12 @@
       "to": "@/components/PlacementGuard",
       "type": "import",
       "toElement": "PlacementGuard"
+    },
+    {
+      "from": "apps/frontend/src/App.tsx",
+      "to": "@/components/OAuthSync",
+      "type": "import",
+      "toElement": "OAuthSync"
     },
     {
       "from": "apps/frontend/src/App.tsx",
@@ -2181,6 +2187,12 @@
     },
     {
       "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "import",
+      "toElement": "savePortalTokens"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
       "to": "apps/backend/src/middleware/role.ts",
       "type": "import",
       "toElement": "invalidateRoleCache"
@@ -2337,6 +2349,41 @@
       "to": "apps/backend/src/routes/install.ts",
       "type": "call",
       "fromElement": "registerInstallRoutes",
+      "toElement": "savePortalTokens"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "request.log.info"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "request.log.warn"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "request.log.warn"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
       "toElement": "invalidateRoleCache"
     },
     {
@@ -2345,6 +2392,69 @@
       "type": "call",
       "fromElement": "registerInstallRoutes",
       "toElement": "toAppSettings"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "app.post"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "reply.forbidden"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "savePortalTokens"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "request.log.info"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "request.log.error"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "reply.internalServerError"
     },
     {
       "from": "apps/backend/src/routes/install.ts",
@@ -4277,6 +4387,12 @@
     },
     {
       "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "node:stream",
+      "type": "import",
+      "toElement": "Readable"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
       "to": "apps/backend/src/prisma/client.ts",
       "type": "import",
       "toElement": "prisma"
@@ -4292,6 +4408,18 @@
       "to": "apps/backend/src/services/b24Client.ts",
       "type": "import",
       "toElement": "B24Error"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "import",
+      "toElement": "getFreshPortalAuth"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "import",
+      "toElement": "PortalAuthError"
     },
     {
       "from": "apps/backend/src/routes/webhookRun.ts",
@@ -4406,8 +4534,120 @@
       "from": "apps/backend/src/routes/webhookRun.ts",
       "to": "apps/backend/src/routes/webhookRun.ts",
       "type": "call",
+      "fromElement": "sanitiseBodyForLog",
+      "toElement": "t.slice"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "sanitiseBodyForLog",
+      "toElement": "maskToken"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "sanitiseBodyForLog",
+      "toElement": "maskToken"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "sanitiseBodyForLog",
+      "toElement": "maskToken"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "sanitiseBodyForLog",
+      "toElement": "maskToken"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "sanitiseRawBodyForLog",
+      "toElement": "raw.replace"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "sanitiseRawBodyForLog",
+      "toElement": "val.slice"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
       "fromElement": "registerWebhookRunRoute",
       "toElement": "app.post"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "chunks.push"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "Buffer.isBuffer"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "Buffer.concat"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "rawBuffer.toString"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "Readable.from"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.info"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "sanitiseRawBodyForLog"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "sanitiseBodyForLog"
     },
     {
       "from": "apps/backend/src/routes/webhookRun.ts",
@@ -4484,6 +4724,13 @@
       "to": "apps/backend/src/routes/webhookRun.ts",
       "type": "call",
       "fromElement": "registerWebhookRunRoute",
+      "toElement": "pickString"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
       "toElement": "logger.warn"
     },
     {
@@ -4492,6 +4739,41 @@
       "type": "call",
       "fromElement": "registerWebhookRunRoute",
       "toElement": "Boolean"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "Boolean"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "normaliseDomain"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "normaliseDomain"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.warn"
     },
     {
       "from": "apps/backend/src/routes/webhookRun.ts",
@@ -4533,42 +4815,28 @@
       "to": "apps/backend/src/routes/webhookRun.ts",
       "type": "call",
       "fromElement": "registerWebhookRunRoute",
-      "toElement": "pickString"
+      "toElement": "getFreshPortalAuth"
     },
     {
       "from": "apps/backend/src/routes/webhookRun.ts",
       "to": "apps/backend/src/routes/webhookRun.ts",
       "type": "call",
       "fromElement": "registerWebhookRunRoute",
-      "toElement": "pickString"
+      "toElement": "logger.error"
     },
     {
       "from": "apps/backend/src/routes/webhookRun.ts",
       "to": "apps/backend/src/routes/webhookRun.ts",
       "type": "call",
       "fromElement": "registerWebhookRunRoute",
-      "toElement": "logger.warn"
+      "toElement": "reply.serviceUnavailable"
     },
     {
       "from": "apps/backend/src/routes/webhookRun.ts",
       "to": "apps/backend/src/routes/webhookRun.ts",
       "type": "call",
       "fromElement": "registerWebhookRunRoute",
-      "toElement": "Boolean"
-    },
-    {
-      "from": "apps/backend/src/routes/webhookRun.ts",
-      "to": "apps/backend/src/routes/webhookRun.ts",
-      "type": "call",
-      "fromElement": "registerWebhookRunRoute",
-      "toElement": "Boolean"
-    },
-    {
-      "from": "apps/backend/src/routes/webhookRun.ts",
-      "to": "apps/backend/src/routes/webhookRun.ts",
-      "type": "call",
-      "fromElement": "registerWebhookRunRoute",
-      "toElement": "reply.badRequest"
+      "toElement": "reply.internalServerError"
     },
     {
       "from": "apps/backend/src/routes/webhookRun.ts",
@@ -6792,6 +7060,417 @@
       "toElement": "warnings.push"
     },
     {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "node_modules/.pnpm/@prisma+client@5.22.0_prisma@5.22.0/node_modules/@prisma/client/default.d.ts",
+      "type": "import",
+      "toElement": "AppSettings"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/prisma/client.ts",
+      "type": "import",
+      "toElement": "prisma"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "import",
+      "toElement": "decryptToken"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "import",
+      "toElement": "encryptToken"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "extends",
+      "fromElement": "PortalAuthError",
+      "toElement": "Error"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "toElement": "super"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "savePortalTokens",
+      "toElement": "encryptToken"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "savePortalTokens",
+      "toElement": "encryptToken"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "savePortalTokens",
+      "toElement": "encryptToken"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "savePortalTokens",
+      "toElement": "prisma.appSettings.upsert"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "getFreshPortalAuth",
+      "toElement": "prisma.appSettings.findUnique"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "getFreshPortalAuth",
+      "toElement": "Date.now"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "getFreshPortalAuth",
+      "toElement": "row.authExpiresAt.getTime"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "getFreshPortalAuth",
+      "toElement": "decryptToken"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "getFreshPortalAuth",
+      "toElement": "refreshPortalTokens"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "refreshPortalTokens",
+      "toElement": "decryptToken"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "refreshPortalTokens",
+      "toElement": "fetch"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "refreshPortalTokens",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "refreshPortalTokens",
+      "toElement": "resp.text"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "refreshPortalTokens",
+      "toElement": "text.slice"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "refreshPortalTokens",
+      "toElement": "JSON.parse"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "refreshPortalTokens",
+      "toElement": "text.slice"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "refreshPortalTokens",
+      "toElement": "Math.floor"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "refreshPortalTokens",
+      "toElement": "Date.now"
+    },
+    {
+      "from": "apps/backend/src/services/portalAuth.ts",
+      "to": "apps/backend/src/services/portalAuth.ts",
+      "type": "call",
+      "fromElement": "refreshPortalTokens",
+      "toElement": "savePortalTokens"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "node:crypto",
+      "type": "import",
+      "toElement": "createCipheriv"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "node:crypto",
+      "type": "import",
+      "toElement": "createDecipheriv"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "node:crypto",
+      "type": "import",
+      "toElement": "hkdfSync"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "node:crypto",
+      "type": "import",
+      "toElement": "randomBytes"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "getKey",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "getKey",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "getKey",
+      "toElement": "hkdfSync"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "getKey",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "getKey",
+      "toElement": "Buffer.alloc"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "getKey",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "getKey",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "encryptToken",
+      "toElement": "plain.startsWith"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "encryptToken",
+      "toElement": "getKey"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "encryptToken",
+      "toElement": "randomBytes"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "encryptToken",
+      "toElement": "createCipheriv"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "encryptToken",
+      "toElement": "Buffer.concat"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "encryptToken",
+      "toElement": "cipher.update"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "encryptToken",
+      "toElement": "cipher.final"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "encryptToken",
+      "toElement": "cipher.getAuthTag"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "encryptToken",
+      "toElement": "iv.toString"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "encryptToken",
+      "toElement": "tag.toString"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "encryptToken",
+      "toElement": "ciphertext.toString"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "decryptToken",
+      "toElement": "stored.startsWith"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "decryptToken",
+      "toElement": "stored.slice"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "decryptToken",
+      "toElement": "body.split"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "decryptToken",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "decryptToken",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "decryptToken",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "decryptToken",
+      "toElement": "getKey"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "decryptToken",
+      "toElement": "createDecipheriv"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "decryptToken",
+      "toElement": "decipher.setAuthTag"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "decryptToken",
+      "toElement": "Buffer.concat"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "decryptToken",
+      "toElement": "decipher.update"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "decryptToken",
+      "toElement": "decipher.final"
+    },
+    {
+      "from": "apps/backend/src/services/tokenCrypto.ts",
+      "to": "apps/backend/src/services/tokenCrypto.ts",
+      "type": "call",
+      "fromElement": "decryptToken",
+      "toElement": "plain.toString"
+    },
+    {
       "from": "apps/frontend/src/components/AdminOnly.tsx",
       "to": "node_modules/.pnpm/@types+react@18.3.28/node_modules/@types/react/index.d.ts",
       "type": "import",
@@ -7880,6 +8559,71 @@
       "type": "call",
       "fromElement": "insertFormula",
       "toElement": "editor.chain"
+    },
+    {
+      "from": "apps/frontend/src/components/OAuthSync.tsx",
+      "to": "node_modules/.pnpm/@types+react@18.3.28/node_modules/@types/react/index.d.ts",
+      "type": "import",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/components/OAuthSync.tsx",
+      "to": "node_modules/.pnpm/@types+react@18.3.28/node_modules/@types/react/index.d.ts",
+      "type": "import",
+      "toElement": "useRef"
+    },
+    {
+      "from": "apps/frontend/src/components/OAuthSync.tsx",
+      "to": "@/lib/useCurrentRole",
+      "type": "import",
+      "toElement": "useCurrentRole"
+    },
+    {
+      "from": "apps/frontend/src/components/OAuthSync.tsx",
+      "to": "@/lib/b24",
+      "type": "import",
+      "toElement": "getB24Auth"
+    },
+    {
+      "from": "apps/frontend/src/components/OAuthSync.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "installApi"
+    },
+    {
+      "from": "apps/frontend/src/components/OAuthSync.tsx",
+      "to": "apps/frontend/src/components/OAuthSync.tsx",
+      "type": "call",
+      "fromElement": "OAuthSync",
+      "toElement": "useCurrentRole"
+    },
+    {
+      "from": "apps/frontend/src/components/OAuthSync.tsx",
+      "to": "apps/frontend/src/components/OAuthSync.tsx",
+      "type": "call",
+      "fromElement": "OAuthSync",
+      "toElement": "useRef"
+    },
+    {
+      "from": "apps/frontend/src/components/OAuthSync.tsx",
+      "to": "apps/frontend/src/components/OAuthSync.tsx",
+      "type": "call",
+      "fromElement": "OAuthSync",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/components/OAuthSync.tsx",
+      "to": "apps/frontend/src/components/OAuthSync.tsx",
+      "type": "call",
+      "fromElement": "OAuthSync",
+      "toElement": "getB24Auth"
+    },
+    {
+      "from": "apps/frontend/src/components/OAuthSync.tsx",
+      "to": "apps/frontend/src/components/OAuthSync.tsx",
+      "type": "call",
+      "fromElement": "OAuthSync",
+      "toElement": "console.warn"
     },
     {
       "from": "apps/frontend/src/components/PlacementGuard.tsx",
@@ -10162,6 +10906,12 @@
       "from": "apps/frontend/src/lib/api.ts",
       "to": "apps/frontend/src/lib/api.ts",
       "type": "call",
+      "toElement": "apiRequest"
+    },
+    {
+      "from": "apps/frontend/src/lib/api.ts",
+      "to": "apps/frontend/src/lib/api.ts",
+      "type": "call",
       "toElement": "qs.set"
     },
     {
@@ -11226,6 +11976,12 @@
     },
     {
       "from": "apps/frontend/src/pages/InstallPage.tsx",
+      "to": "@/lib/b24",
+      "type": "import",
+      "toElement": "getB24Auth"
+    },
+    {
+      "from": "apps/frontend/src/pages/InstallPage.tsx",
       "to": "apps/frontend/src/pages/InstallPage.tsx",
       "type": "call",
       "fromElement": "useDebouncedValue",
@@ -11349,6 +12105,13 @@
       "type": "call",
       "fromElement": "InstallPage",
       "toElement": "useMutation"
+    },
+    {
+      "from": "apps/frontend/src/pages/InstallPage.tsx",
+      "to": "apps/frontend/src/pages/InstallPage.tsx",
+      "type": "call",
+      "fromElement": "InstallPage",
+      "toElement": "getB24Auth"
     },
     {
       "from": "apps/frontend/src/pages/InstallPage.tsx",

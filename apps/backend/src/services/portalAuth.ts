@@ -29,6 +29,7 @@
 
 import type { AppSettings as PrismaAppSettings } from '@prisma/client';
 import { prisma } from '../prisma/client.js';
+import { decryptToken, encryptToken } from './tokenCrypto.js';
 
 /** Refresh endpoint documented at https://apidocs.bitrix24.com/api-reference/oauth/ */
 const OAUTH_REFRESH_ENDPOINT = 'https://oauth.bitrix.info/oauth/token/';
@@ -73,13 +74,18 @@ export async function savePortalTokens(input: {
   domain: string;
   applicationToken?: string | null;
 }): Promise<void> {
+  // Tokens are stored encrypted at rest (AES-256-GCM via tokenCrypto).
+  // encryptToken() is idempotent, so callers may hand us either fresh
+  // plaintext from Bitrix or an already-encrypted value without issue.
   const baseData = {
-    accessToken: input.accessToken,
-    refreshToken: input.refreshToken,
+    accessToken: encryptToken(input.accessToken),
+    refreshToken: encryptToken(input.refreshToken),
     authExpiresAt: input.expiresAt,
     memberId: input.memberId,
     portalDomain: input.domain,
-    ...(input.applicationToken ? { applicationToken: input.applicationToken } : {}),
+    ...(input.applicationToken
+      ? { applicationToken: encryptToken(input.applicationToken) }
+      : {}),
   };
 
   await prisma.appSettings.upsert({
@@ -122,8 +128,17 @@ export async function getFreshPortalAuth(): Promise<PortalAuth> {
   const stillFresh = expiresMs - nowMs > REFRESH_SKEW_SECONDS * 1000;
 
   if (stillFresh) {
+    // decryptToken is tolerant of legacy plaintext rows — if the row
+    // predates encryption it comes through untouched.
+    const plainAccess = decryptToken(row.accessToken);
+    if (!plainAccess) {
+      throw new PortalAuthError(
+        'Stored access token is empty after decryption',
+        'missing_tokens',
+      );
+    }
     return {
-      accessToken: row.accessToken,
+      accessToken: plainAccess,
       domain: row.portalDomain,
       memberId: row.memberId,
     };
@@ -154,13 +169,21 @@ export async function refreshPortalTokens(row: PrismaAppSettings): Promise<Porta
     );
   }
 
+  const plainRefresh = decryptToken(row.refreshToken);
+  if (!plainRefresh) {
+    throw new PortalAuthError(
+      'Cannot refresh: stored refreshToken is empty after decryption',
+      'missing_tokens',
+    );
+  }
+
   const url =
     `${OAUTH_REFRESH_ENDPOINT}?` +
     new URLSearchParams({
       grant_type: 'refresh_token',
       client_id: clientId,
       client_secret: clientSecret,
-      refresh_token: row.refreshToken,
+      refresh_token: plainRefresh,
     }).toString();
 
   let resp: Response;
