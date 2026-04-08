@@ -5,6 +5,7 @@ import { TemplateEditorPage } from '@/pages/TemplateEditorPage';
 import { GeneratePage } from '@/pages/GeneratePage';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { PlacementGuard } from '@/components/PlacementGuard';
+import { OAuthSync } from '@/components/OAuthSync';
 import { Toaster } from '@/components/ui/toaster';
 
 /**
@@ -28,6 +29,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <PlacementGuard>
+        <OAuthSync />
         <Routes>
           <Route path="/install" element={<InstallPage />} />
           <Route path="/templates" element={<TemplatesPage />} />

@@ -31,10 +31,12 @@ import {
   Loader2,
   AlertCircle,
   Pencil,
+  Webhook,
 } from 'lucide-react';
 import { ThemeSidebar } from '@/components/ThemeSidebar';
 import { TemplateUploader } from '@/components/TemplateUploader';
 import { AdminOnly } from '@/components/AdminOnly';
+import { WebhookManagerDialog } from '@/components/WebhookManagerDialog';
 import { useCurrentRole } from '@/lib/useCurrentRole';
 import {
   Dialog,
@@ -68,6 +70,9 @@ export function TemplatesPage() {
   const [selectedThemeId, setSelectedThemeId] = useState<string | null>(null);
   const [searchInput, setSearchInput] = useState('');
   const [uploadOpen, setUploadOpen] = useState(false);
+  const [webhookTarget, setWebhookTarget] = useState<
+    { id: string; name: string } | null
+  >(null);
 
   const search = useDebouncedValue(searchInput, 250);
 
@@ -213,14 +218,27 @@ export function TemplatesPage() {
                       {tpl.hasOriginalDocx && ' · .docx'}
                     </span>
                     {isAdmin && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => navigate(`/templates/${tpl.id}/edit`)}
-                      >
-                        <Pencil className="mr-1 h-3.5 w-3.5" />
-                        Открыть
-                      </Button>
+                      <div className="flex items-center gap-1">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() =>
+                            setWebhookTarget({ id: tpl.id, name: tpl.name })
+                          }
+                          title="Webhook шаблона"
+                        >
+                          <Webhook className="mr-1 h-3.5 w-3.5" />
+                          Webhook
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => navigate(`/templates/${tpl.id}/edit`)}
+                        >
+                          <Pencil className="mr-1 h-3.5 w-3.5" />
+                          Открыть
+                        </Button>
+                      </div>
                     )}
                   </div>
                 </li>
@@ -229,6 +247,13 @@ export function TemplatesPage() {
           )}
         </section>
       </main>
+
+      <WebhookManagerDialog
+        scope="template"
+        targetId={webhookTarget?.id ?? null}
+        targetName={webhookTarget?.name ?? null}
+        onClose={() => setWebhookTarget(null)}
+      />
     </div>
   );
 }

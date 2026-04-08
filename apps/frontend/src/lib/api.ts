@@ -10,6 +10,7 @@
  * (`apps/frontend/vite.config.ts`) can route it to the backend.
  */
 
+import type { WebhookSummary } from '@b24-doc-gen/shared';
 import { getB24AuthHeaders } from './b24';
 
 /**
@@ -241,8 +242,45 @@ export const meApi = {
 export const installApi = {
   status: () => apiRequest<InstallStatusDTO>('/install/status'),
 
-  install: (body: { adminUserIds: number[]; dealFieldBinding?: string | null }) =>
+  install: (body: {
+    adminUserIds: number[];
+    dealFieldBinding?: string | null;
+    /**
+     * Full SDK auth snapshot — forwarded so the backend can persist
+     * long-lived OAuth tokens for server-to-server flows (webhook
+     * executor, scheduled jobs). Optional; omission only disables
+     * those background flows.
+     */
+    oauth?: {
+      accessToken: string;
+      refreshToken: string;
+      /** Unix seconds (SDK `expires`). */
+      expiresAt: number;
+      memberId: string;
+      domain: string;
+    };
+  }) =>
     apiRequest<{ settings: InstallSettingsDTO }>('/install', {
+      method: 'POST',
+      body,
+    }),
+
+  /**
+   * Forward the current SDK auth snapshot so the backend can keep a
+   * fresh OAuth refresh_token on file for server-to-server flows.
+   * Called on app startup from `App.tsx` when the current user is an
+   * admin.
+   */
+  syncOAuth: (body: {
+    oauth: {
+      accessToken: string;
+      refreshToken: string;
+      expiresAt: number;
+      memberId: string;
+      domain: string;
+    };
+  }) =>
+    apiRequest<{ ok: true }>('/install/sync-oauth', {
       method: 'POST',
       body,
     }),
@@ -555,4 +593,65 @@ export const settingsApi = {
       '/settings/create-field',
       { method: 'POST', body },
     ),
+};
+
+/* ------------------------------------------------------------------ */
+/* Webhooks                                                            */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Webhook list item. The backend's `GET /api/webhooks` returns each
+ * `WebhookSummary` with two extra joined fields so the UI can render a
+ * human-readable target name without a second round-trip:
+ *
+ *   - `themeName`    — present when `scope === 'theme'`.
+ *   - `templateName` — present when `scope === 'template'`.
+ *
+ * Both fields are nullable in case the referenced row was deleted.
+ * Mutations (`create`, `patch`) return the plain `WebhookSummary`
+ * (without the join fields), so callers should refetch the list after
+ * a mutation to pick up a fresh `themeName`/`templateName`.
+ */
+export interface WebhookListItemDTO extends WebhookSummary {
+  themeName: string | null;
+  templateName: string | null;
+}
+
+export interface CreateWebhookBody {
+  scope: 'theme' | 'template';
+  themeId?: string;
+  templateId?: string;
+  label?: string | null;
+}
+
+export interface UpdateWebhookBody {
+  label?: string | null;
+  enabled?: boolean;
+}
+
+export const webhooksApi = {
+  /** `GET /api/webhooks` — admin-only list of configured webhook triggers. */
+  list: (signal?: AbortSignal) =>
+    apiRequest<{ webhooks: WebhookListItemDTO[] }>('/webhooks', { signal }),
+
+  /**
+   * `POST /api/webhooks` — create a new webhook for a Theme or a single
+   * Template. The backend generates the cryptorandom token and returns
+   * the resulting `WebhookSummary` (including the public `url`).
+   */
+  create: (body: CreateWebhookBody) =>
+    apiRequest<{ webhook: WebhookSummary }>('/webhooks', { method: 'POST', body }),
+
+  /**
+   * `PATCH /api/webhooks/:id` — update `label` and/or `enabled`. All
+   * other fields (`scope`, `token`, `themeId`, `templateId`) are
+   * immutable by design, so the DTO intentionally accepts only those
+   * two keys.
+   */
+  patch: (id: string, body: UpdateWebhookBody) =>
+    apiRequest<{ webhook: WebhookSummary }>(`/webhooks/${id}`, { method: 'PATCH', body }),
+
+  /** `DELETE /api/webhooks/:id` — remove a webhook. Returns 204. */
+  remove: (id: string) =>
+    apiRequest<void>(`/webhooks/${id}`, { method: 'DELETE' }),
 };

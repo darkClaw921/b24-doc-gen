@@ -45,6 +45,7 @@ import { ApiError, themesApi, type ThemeDTO } from '@/lib/api';
 import { useCurrentRole } from '@/lib/useCurrentRole';
 import { cn } from '@/lib/utils';
 import { ThemeSettingsDialog } from './ThemeSettingsDialog';
+import { WebhookManagerDialog } from './WebhookManagerDialog';
 
 export interface ThemeSidebarProps {
   /** Currently selected theme id. May be null on first render. */
@@ -71,6 +72,7 @@ export function ThemeSidebar({
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [settingsTheme, setSettingsTheme] = useState<ThemeDTO | null>(null);
+  const [webhookTheme, setWebhookTheme] = useState<ThemeDTO | null>(null);
 
   const {
     data,
@@ -232,6 +234,9 @@ export function ThemeSidebar({
                         <DropdownMenuItem onClick={() => setSettingsTheme(theme)}>
                           Настройки темы
                         </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setWebhookTheme(theme)}>
+                          Webhook темы
+                        </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => openRename(theme)}>
                           Переименовать
                         </DropdownMenuItem>
@@ -262,6 +267,13 @@ export function ThemeSidebar({
       <ThemeSettingsDialog
         theme={settingsTheme}
         onClose={() => setSettingsTheme(null)}
+      />
+
+      <WebhookManagerDialog
+        scope="theme"
+        targetId={webhookTheme?.id ?? null}
+        targetName={webhookTheme?.name ?? null}
+        onClose={() => setWebhookTheme(null)}
       />
 
       <Dialog open={dialog !== null} onOpenChange={(open) => !open && closeDialog()}>

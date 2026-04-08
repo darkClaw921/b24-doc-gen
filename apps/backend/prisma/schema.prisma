@@ -22,6 +22,26 @@ model AppSettings {
   portalDomain     String
   adminUserIds     String
   dealFieldBinding String?
+  /// Secret token that Bitrix24 sends on every bizproc robot / outgoing
+  /// webhook call. Populated on first install (install.ts) from the
+  /// `APP_SID` / `auth.application_token` field. Routes that accept
+  /// Bitrix-originated callbacks validate the incoming token against
+  /// this value to authenticate the caller.
+  applicationToken String?
+  /// OAuth tokens captured from the frontend BX24 SDK at install time.
+  /// Used by server-to-server flows (e.g. the webhook executor) where
+  /// there is no live iframe session to forward an access token from.
+  /// `authExpiresAt` is the absolute expiry of `accessToken`; when it
+  /// is in the past, the portalAuth service calls oauth.bitrix.info to
+  /// exchange `refreshToken` for a fresh pair.
+  accessToken      String?
+  refreshToken     String?
+  authExpiresAt    DateTime?
+  /// Stable per-portal member id captured from the SDK. Used by the
+  /// webhook executor to verify that an incoming robot callback really
+  /// belongs to the installed portal (compared to auth[member_id] in
+  /// the Bitrix payload).
+  memberId         String?
   installedAt      DateTime @default(now())
 }
 
@@ -43,6 +63,7 @@ model Theme {
   addToTimeline    Boolean    @default(true)
   dealFieldBinding String?
   templates        Template[]
+  webhooks         Webhook[]
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt
 }
@@ -59,6 +80,7 @@ model Template {
   contentHtml  String
   originalDocx Bytes?
   formulas     Formula[]
+  webhooks     Webhook[]
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
@@ -80,6 +102,38 @@ model Formula {
   expression String
   dependsOn  String
 
-  @@index([templateId])
   @@unique([templateId, tagKey])
+  @@index([templateId])
+}
+
+/// A webhook trigger for document generation. Created by admins and
+/// invoked by Bitrix24 "Outgoing webhook" robots. When Bitrix POSTs to
+/// /api/webhook/run/:token, the backend runs the same generation
+/// pipeline as the manual UI button for every Template in scope.
+///
+/// - `token` is a URL-safe cryptorandom string (base64url, 32+ bytes).
+/// - `scope` is either "theme" (generate all Templates inside a Theme)
+///   or "template" (generate a single Template). Exactly one of
+///   `themeId`/`templateId` is set depending on scope.
+/// - `enabled` lets admins temporarily pause a webhook without
+///   deleting it.
+/// - `lastUsedAt`/`useCount` are maintained by the executor endpoint
+///   for basic observability.
+model Webhook {
+  id         String    @id @default(cuid())
+  token      String    @unique
+  scope      String
+  themeId    String?
+  templateId String?
+  label      String?
+  enabled    Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  lastUsedAt DateTime?
+  useCount   Int       @default(0)
+
+  theme    Theme?    @relation(fields: [themeId], references: [id], onDelete: Cascade)
+  template Template? @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@index([themeId])
+  @@index([templateId])
 }

@@ -233,7 +233,13 @@ export function isPlausibleBitrixDomain(value: string): boolean {
  * Paths that do NOT require authentication. Uses startsWith matching
  * on the raw URL path.
  */
-const PUBLIC_PATHS = ['/health', '/api/health'];
+// Paths listed here are matched with exact equality OR as a prefix
+// followed by `/` (see `isPublicPath`). `/api/webhook/run` is public
+// because the inbound caller is Bitrix24's bizproc engine (not a user
+// inside the iframe) — there is no x-b24-* header set to verify. The
+// route handler enforces its own auth via the URL token + the
+// AppSettings.applicationToken shared secret.
+const PUBLIC_PATHS = ['/health', '/api/health', '/api/webhook/run'];
 
 function isPublicPath(url: string): boolean {
   const pathname = url.split('?')[0] ?? '';

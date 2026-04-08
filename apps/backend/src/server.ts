@@ -9,6 +9,8 @@ dns.setDefaultResultOrder('ipv4first');
 
 import Fastify, { type FastifyInstance, type FastifyError, type FastifyReply, type FastifyRequest } from 'fastify';
 import cors from '@fastify/cors';
+import formbody from '@fastify/formbody';
+import qs from 'qs';
 import multipart from '@fastify/multipart';
 import sensible from '@fastify/sensible';
 import fastifyStatic from '@fastify/static';
@@ -28,6 +30,8 @@ import { registerFormulaRoutes } from './routes/formulas.js';
 import { registerSettingsRoutes } from './routes/settings.js';
 import { registerGenerateRoutes } from './routes/generate.js';
 import { registerMeRoutes } from './routes/me.js';
+import { registerWebhookRoutes } from './routes/webhooks.js';
+import { registerWebhookRunRoute } from './routes/webhookRun.js';
 import { registerAuthMiddleware } from './middleware/auth.js';
 
 /**
@@ -68,14 +72,19 @@ export async function buildServer(): Promise<FastifyInstance> {
     credentials: true,
   });
 
-  // Bitrix24 sends POST events (install/open) with
-  // Content-Type: application/x-www-form-urlencoded.
-  // Register a pass-through parser — we only need the query params, not the body.
-  app.addContentTypeParser(
-    'application/x-www-form-urlencoded',
-    { parseAs: 'string' },
-    (_req, body, done) => done(null, body),
-  );
+  // Bitrix24 sends POST events with Content-Type:
+  // application/x-www-form-urlencoded. Three distinct paths care:
+  //   1. Install / open placement POSTs hit the SPA (`POST /`) and never
+  //      read the body — they only care about the query params.
+  //   2. Outgoing webhook robot POSTs hit `/api/webhook/run/:token` with
+  //      a nested payload (`auth[access_token]=…&document_id[2]=DEAL_123`).
+  //   3. Future bizproc handler POSTs use the same nested-bracket format.
+  // @fastify/formbody wires in a proper parser; we pass `qs.parse` so
+  // nested keys like `auth[access_token]` and indexed arrays like
+  // `document_id[2]` are deserialised into real objects/arrays.
+  await app.register(formbody, {
+    parser: (str) => qs.parse(str),
+  });
 
   // Multipart uploads (.docx template files).
   await app.register(multipart, {
@@ -99,6 +108,8 @@ export async function buildServer(): Promise<FastifyInstance> {
   await app.register(registerSettingsRoutes);
   await app.register(registerGenerateRoutes);
   await app.register(registerMeRoutes);
+  await app.register(registerWebhookRoutes);
+  await app.register(registerWebhookRunRoute);
 
   // ── Frontend serving (registered LAST so /api/* routes always win) ──
   const frontendDist = path.resolve(__dirname, '../../../frontend/dist');

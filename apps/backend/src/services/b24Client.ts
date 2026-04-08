@@ -164,8 +164,23 @@ export class B24Client {
       }
     }
     if (!res) {
+      // Drill into the error shape — undici wraps the underlying
+      // syscall/DNS/TLS problem in `.cause`, which is the actually
+      // useful part of "fetch failed". Surface it in the message so
+      // operators don't have to stare at a generic error.
+      const errObj = lastErr as Error & {
+        code?: string;
+        cause?: Error & { code?: string; errno?: number; syscall?: string; address?: string };
+      };
+      const causeMsg = errObj?.cause
+        ? `cause=${errObj.cause.name ?? 'Error'}:${errObj.cause.message ?? ''}${
+            errObj.cause.code ? ` code=${errObj.cause.code}` : ''
+          }${errObj.cause.syscall ? ` syscall=${errObj.cause.syscall}` : ''}${
+            errObj.cause.address ? ` address=${errObj.cause.address}` : ''
+          }`
+        : '';
       throw new B24Error(
-        `Network error calling ${method}: ${(lastErr as Error)?.message ?? 'unknown'}`,
+        `Network error calling ${method}: ${errObj?.message ?? 'unknown'}${causeMsg ? ` (${causeMsg})` : ''}`,
         'NETWORK_ERROR',
         0,
         lastErr,

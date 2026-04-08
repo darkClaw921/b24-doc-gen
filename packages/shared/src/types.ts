@@ -283,6 +283,52 @@ export interface ApiError {
 }
 
 /* ------------------------------------------------------------------ */
+/* Webhook triggers                                                    */
+/* ------------------------------------------------------------------ */
+
+/**
+ * A webhook trigger that admins can attach to a Theme or a single
+ * Template. When Bitrix24 "Outgoing webhook" robot POSTs to the
+ * backend URL, the same generation pipeline used by the manual UI
+ * button runs for every Template in scope.
+ *
+ * Dates are serialized as ISO strings (not `Date`) so the shape is
+ * safe to transport over JSON between the backend and the frontend.
+ */
+export interface WebhookSummary {
+  /** Primary key (cuid). */
+  id: string;
+  /** URL-safe cryptorandom token used as the URL segment. */
+  token: string;
+  /**
+   * Full public URL of the webhook, built as
+   * `${PUBLIC_URL}/api/webhook/run/${token}` on the backend.
+   * The admin copies this URL into the Bitrix24 robot config.
+   */
+  url: string;
+  /**
+   * Scope of the webhook:
+   * - `theme` — generates every Template inside `themeId`.
+   * - `template` — generates the single Template `templateId`.
+   */
+  scope: 'theme' | 'template';
+  /** Target Theme id when `scope === 'theme'`, otherwise null. */
+  themeId: string | null;
+  /** Target Template id when `scope === 'template'`, otherwise null. */
+  templateId: string | null;
+  /** Human-readable label shown in the admin UI. */
+  label: string | null;
+  /** If false, incoming requests are rejected with 403. */
+  enabled: boolean;
+  /** ISO timestamp of creation. */
+  createdAt: string;
+  /** ISO timestamp of the last successful invocation, or null. */
+  lastUsedAt: string | null;
+  /** Total number of times this webhook has been invoked. */
+  useCount: number;
+}
+
+/* ------------------------------------------------------------------ */
 /* User roles                                                          */
 /* ------------------------------------------------------------------ */
 

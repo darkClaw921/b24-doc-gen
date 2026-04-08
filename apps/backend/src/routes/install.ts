@@ -20,11 +20,28 @@ import type { AppSettings as PrismaAppSettings } from '@prisma/client';
 import type { AppSettings } from '@b24-doc-gen/shared';
 import { prisma } from '../prisma/client.js';
 import { B24Client, B24Error } from '../services/b24Client.js';
+import { savePortalTokens } from '../services/portalAuth.js';
 import { invalidateRoleCache } from '../middleware/role.js';
 
 interface InstallBody {
   adminUserIds: number[];
   dealFieldBinding?: string | null;
+  /**
+   * Full BX24 SDK auth snapshot forwarded from the frontend so the
+   * backend can keep long-lived tokens for server-to-server flows
+   * (primarily the webhook executor). Optional: older install flows
+   * do not send it, and the upsert will still succeed, but webhook
+   * calls will fail with `missing_tokens` until the admin re-opens the
+   * app in the portal iframe.
+   */
+  oauth?: {
+    accessToken: string;
+    refreshToken: string;
+    /** Unix seconds from the SDK (`expires` field). */
+    expiresAt: number;
+    memberId: string;
+    domain: string;
+  };
 }
 
 interface RegisterPlacementsBody {
@@ -128,11 +145,107 @@ export async function registerInstallRoutes(app: FastifyInstance): Promise<void>
       },
     });
 
+    // If the frontend forwarded its full SDK auth snapshot, persist the
+    // OAuth pair so the webhook executor (and any other server-to-server
+    // caller) can act on behalf of the portal later. Best-effort: we log
+    // but don't fail install if persistence hiccups, otherwise a token
+    // shape change could break the primary onboarding flow.
+    const oauth = body.oauth;
+    if (oauth && oauth.accessToken && oauth.refreshToken && oauth.memberId && oauth.domain) {
+      try {
+        await savePortalTokens({
+          accessToken: oauth.accessToken,
+          refreshToken: oauth.refreshToken,
+          expiresAt: new Date(oauth.expiresAt * 1000),
+          memberId: oauth.memberId,
+          domain: oauth.domain,
+        });
+        request.log.info(
+          { memberId: oauth.memberId, domain: oauth.domain },
+          'install: portal OAuth tokens captured',
+        );
+      } catch (err) {
+        request.log.warn(
+          { err: err instanceof Error ? err.message : String(err) },
+          'install: failed to persist portal OAuth tokens (non-fatal)',
+        );
+      }
+    } else {
+      request.log.warn(
+        'install: frontend did not forward OAuth snapshot; webhook executor will be unavailable until re-install',
+      );
+    }
+
     // Admin list just changed — drop cached role lookups so the next
     // requireAdmin() call sees the freshly installed admin set.
     invalidateRoleCache();
 
     return { settings: toAppSettings(row) };
+  });
+
+  /* ---------------------------------------------------------------- */
+  /* POST /api/install/sync-oauth                                      */
+  /*                                                                    */
+  /* Called by the frontend on every app open so the backend always    */
+  /* has a fresh refresh_token on file for server-to-server flows      */
+  /* (webhook executor). This is admin-gated at the middleware layer   */
+  /* via the normal B24 preHandler — the frontend only hits it when    */
+  /* the current iframe user is an app admin.                           */
+  /* ---------------------------------------------------------------- */
+  app.post<{
+    Body: {
+      oauth?: {
+        accessToken: string;
+        refreshToken: string;
+        expiresAt: number;
+        memberId: string;
+        domain: string;
+      };
+    };
+  }>('/api/install/sync-oauth', async (request, reply) => {
+    const auth = request.b24Auth;
+    if (!auth) return reply.unauthorized('B24 auth payload missing');
+
+    const oauth = request.body?.oauth;
+    if (
+      !oauth ||
+      !oauth.accessToken ||
+      !oauth.refreshToken ||
+      !oauth.memberId ||
+      !oauth.domain ||
+      typeof oauth.expiresAt !== 'number'
+    ) {
+      return reply.badRequest('oauth payload is incomplete');
+    }
+
+    // Safety: the SDK snapshot must belong to the currently
+    // authenticated portal, otherwise an admin from one portal could
+    // overwrite tokens for another install. We only have one install
+    // per backend so this is a paranoid check, but cheap.
+    if (oauth.domain !== auth.domain || oauth.memberId !== auth.memberId) {
+      return reply.forbidden('oauth payload does not match authenticated portal');
+    }
+
+    try {
+      await savePortalTokens({
+        accessToken: oauth.accessToken,
+        refreshToken: oauth.refreshToken,
+        expiresAt: new Date(oauth.expiresAt * 1000),
+        memberId: oauth.memberId,
+        domain: oauth.domain,
+      });
+      request.log.info(
+        { memberId: oauth.memberId, domain: oauth.domain },
+        'sync-oauth: portal OAuth tokens updated',
+      );
+      return { ok: true };
+    } catch (err) {
+      request.log.error(
+        { err: err instanceof Error ? err.message : String(err) },
+        'sync-oauth: failed to persist tokens',
+      );
+      return reply.internalServerError('failed to persist oauth tokens');
+    }
   });
 
   /* ---------------------------------------------------------------- */

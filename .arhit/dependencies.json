@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-08T00:20:38.642Z",
+  "generatedAt": "2026-04-08T17:37:55.743Z",
   "dependencies": [
     {
       "from": "apps/frontend/tailwind.config.ts",
@@ -15,13 +15,13 @@
     },
     {
       "from": "apps/frontend/vite.config.ts",
-      "to": "node_modules/.pnpm/vite@5.4.21_@types+node@20.19.39/node_modules/vite/dist/node/index.d.ts",
+      "to": "node_modules/.pnpm/vite@5.4.21_@types+node@20.19.39_terser@5.46.1/node_modules/vite/dist/node/index.d.ts",
       "type": "import",
       "toElement": "defineConfig"
     },
     {
       "from": "apps/frontend/vite.config.ts",
-      "to": "node_modules/.pnpm/@vitejs+plugin-react@4.7.0_vite@5.4.21_@types+node@20.19.39_/node_modules/@vitejs/plugin-react/dist/index.d.ts",
+      "to": "node_modules/.pnpm/@vitejs+plugin-react@4.7.0_vite@5.4.21_@types+node@20.19.39_terser@5.46.1_/node_modules/@vitejs/plugin-react/dist/index.d.ts",
       "type": "import",
       "toElement": "default"
     },
@@ -94,6 +94,18 @@
     {
       "from": "apps/backend/src/server.ts",
       "to": "node_modules/.pnpm/@fastify+cors@9.0.1/node_modules/@fastify/cors/types/index.d.ts",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/backend/src/server.ts",
+      "to": "node_modules/.pnpm/@fastify+formbody@7.4.0/node_modules/@fastify/formbody/types/formbody.d.ts",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/backend/src/server.ts",
+      "to": "node_modules/.pnpm/@types+qs@6.15.0/node_modules/@types/qs/index.d.ts",
       "type": "import",
       "toElement": "default"
     },
@@ -201,6 +213,18 @@
     },
     {
       "from": "apps/backend/src/server.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "import",
+      "toElement": "registerWebhookRoutes"
+    },
+    {
+      "from": "apps/backend/src/server.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "import",
+      "toElement": "registerWebhookRunRoute"
+    },
+    {
+      "from": "apps/backend/src/server.ts",
       "to": "apps/backend/src/middleware/auth.ts",
       "type": "import",
       "toElement": "registerAuthMiddleware"
@@ -249,14 +273,14 @@
       "to": "apps/backend/src/server.ts",
       "type": "call",
       "fromElement": "buildServer",
-      "toElement": "app.addContentTypeParser"
+      "toElement": "app.register"
     },
     {
       "from": "apps/backend/src/server.ts",
       "to": "apps/backend/src/server.ts",
       "type": "call",
       "fromElement": "buildServer",
-      "toElement": "done"
+      "toElement": "qs.parse"
     },
     {
       "from": "apps/backend/src/server.ts",
@@ -278,6 +302,20 @@
       "type": "call",
       "fromElement": "buildServer",
       "toElement": "registerAuthMiddleware"
+    },
+    {
+      "from": "apps/backend/src/server.ts",
+      "to": "apps/backend/src/server.ts",
+      "type": "call",
+      "fromElement": "buildServer",
+      "toElement": "app.register"
+    },
+    {
+      "from": "apps/backend/src/server.ts",
+      "to": "apps/backend/src/server.ts",
+      "type": "call",
+      "fromElement": "buildServer",
+      "toElement": "app.register"
     },
     {
       "from": "apps/backend/src/server.ts",
@@ -4226,6 +4264,867 @@
       "toElement": "String"
     },
     {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "node_modules/.pnpm/fastify@4.29.1/node_modules/fastify/fastify.d.ts",
+      "type": "import",
+      "toElement": "FastifyInstance"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "node_modules/.pnpm/fastify@4.29.1/node_modules/fastify/fastify.d.ts",
+      "type": "import",
+      "toElement": "FastifyBaseLogger"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/prisma/client.ts",
+      "type": "import",
+      "toElement": "prisma"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "import",
+      "toElement": "B24Client"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "import",
+      "toElement": "B24Error"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "import",
+      "toElement": "runGeneration"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "import",
+      "toElement": "GenerationError"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "import",
+      "toElement": "GenerationResult"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "readDocumentIdEntry",
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "readDocumentIdEntry",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "parseDealIdFromDocumentId",
+      "toElement": "value.trim"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "parseDealIdFromDocumentId",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "parseDealIdFromDocumentId",
+      "toElement": "Number.isFinite"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "parseDealIdFromDocumentId",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "parseDealIdFromDocumentId",
+      "toElement": "Number.isFinite"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "pickString",
+      "toElement": "v.trim"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "pickString",
+      "toElement": "v.trim"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "sendBizprocAck",
+      "toElement": "client.callMethod"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "sendBizprocAck",
+      "toElement": "logger.info"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "sendBizprocAck",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "sendBizprocAck",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "app.post"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "reply.notFound"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "prisma.webhook.findUnique"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "reply.notFound"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "reply.notFound"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "prisma.appSettings.findUnique"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.error"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "pickString"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "Boolean"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "readDocumentIdEntry"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "parseDealIdFromDocumentId"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "pickString"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "pickString"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "Boolean"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "Boolean"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.error"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "reply.internalServerError"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.error"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "reply.internalServerError"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "prisma.template.findMany"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "rows.map"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.error"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "reply.internalServerError"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "runGeneration"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "results.push"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "summariseSuccess"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "results.push"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "results.push"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "results.push"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.error"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "prisma.webhook.update"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "pickString"
+    },
+    {
+      "from": "apps/backend/src/routes/webhookRun.ts",
+      "to": "apps/backend/src/routes/webhookRun.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRunRoute",
+      "toElement": "sendBizprocAck"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "node_modules/.pnpm/fastify@4.29.1/node_modules/fastify/fastify.d.ts",
+      "type": "import",
+      "toElement": "FastifyInstance"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "node:crypto",
+      "type": "import",
+      "toElement": "randomBytes"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "node_modules/.pnpm/@prisma+client@5.22.0_prisma@5.22.0/node_modules/@prisma/client/default.d.ts",
+      "type": "import",
+      "toElement": "Prisma"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "packages/shared/src/index.ts",
+      "type": "import",
+      "toElement": "WebhookSummary"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/prisma/client.ts",
+      "type": "import",
+      "toElement": "prisma"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/middleware/role.ts",
+      "type": "import",
+      "toElement": "requireAdmin"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "resolvePublicBaseUrl",
+      "toElement": "raw.replace"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "buildWebhookUrl",
+      "toElement": "resolvePublicBaseUrl"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "toWebhookSummary",
+      "toElement": "buildWebhookUrl"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "toWebhookSummary",
+      "toElement": "row.createdAt.toISOString"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "toWebhookSummary",
+      "toElement": "row.lastUsedAt.toISOString"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "normalizeLabel",
+      "toElement": "value.trim"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "generateToken",
+      "toElement": "randomBytes"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "app.get"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "prisma.webhook.findMany"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "rows.map"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "toWebhookSummary"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "app.post"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "normalizeScope"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "normalizeLabel"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "body.themeId.trim"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "body.themeId.trim"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "prisma.theme.findUnique"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.notFound"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "body.templateId.trim"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "body.templateId.trim"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "prisma.template.findUnique"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.notFound"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "generateToken"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "prisma.webhook.create"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.internalServerError"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.code"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "toWebhookSummary"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "app.patch"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "normalizeLabel"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "Object.keys"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "prisma.webhook.update"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "toWebhookSummary"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.notFound"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "app.delete"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "prisma.webhook.delete"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.code"
+    },
+    {
+      "from": "apps/backend/src/routes/webhooks.ts",
+      "to": "apps/backend/src/routes/webhooks.ts",
+      "type": "call",
+      "fromElement": "registerWebhookRoutes",
+      "toElement": "reply.notFound"
+    },
+    {
       "from": "apps/backend/src/services/b24Client.ts",
       "to": "packages/shared/src/index.ts",
       "type": "import",
@@ -5519,6 +6418,378 @@
       "type": "call",
       "fromElement": "toEvaluationResult",
       "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "node_modules/.pnpm/fastify@4.29.1/node_modules/fastify/fastify.d.ts",
+      "type": "import",
+      "toElement": "FastifyBaseLogger"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "packages/shared/src/index.ts",
+      "type": "import",
+      "toElement": "FormulaEvaluationResult"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "packages/shared/src/index.ts",
+      "type": "import",
+      "toElement": "GenerateResponse"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/prisma/client.ts",
+      "type": "import",
+      "toElement": "prisma"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "import",
+      "toElement": "B24Client"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "import",
+      "toElement": "B24Error"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "import",
+      "toElement": "getDealContext"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "import",
+      "toElement": "DealDataError"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "import",
+      "toElement": "evaluateExpression"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "import",
+      "toElement": "buildDocxFromHtml"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "import",
+      "toElement": "DocxBuildError"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "import",
+      "toElement": "toAppSettings"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "extends",
+      "fromElement": "GenerationError",
+      "toElement": "Error"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "toElement": "super"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "prisma.template.findUnique"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "prisma.appSettings.findUnique"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "toAppSettings"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "Number.isFinite"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "getDealContext"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "evaluateExpression"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "buildDocxFromHtml"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "client.callMethod"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "Number.isFinite"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "template.name.replace"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "Date.now"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "client.uploadDiskFile"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "client.getDealFields"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "dealFields.find"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "Boolean"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "docxBuffer.toString"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "client.callMethod"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "Number.isFinite"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "Number.isFinite"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "existingRefs.push"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "client.callMethod"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "warnings.push"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "warnings.push"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "client.callMethod"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "docxBuffer.toString"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "warnings.push"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "warnings.push"
     },
     {
       "from": "apps/frontend/src/components/AdminOnly.tsx",
@@ -7717,6 +8988,12 @@
     },
     {
       "from": "apps/frontend/src/components/ThemeSidebar.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "import",
+      "toElement": "WebhookManagerDialog"
+    },
+    {
+      "from": "apps/frontend/src/components/ThemeSidebar.tsx",
       "to": "apps/frontend/src/components/ThemeSidebar.tsx",
       "type": "call",
       "fromElement": "ThemeSidebar",
@@ -7728,6 +9005,13 @@
       "type": "call",
       "fromElement": "ThemeSidebar",
       "toElement": "useCurrentRole"
+    },
+    {
+      "from": "apps/frontend/src/components/ThemeSidebar.tsx",
+      "to": "apps/frontend/src/components/ThemeSidebar.tsx",
+      "type": "call",
+      "fromElement": "ThemeSidebar",
+      "toElement": "useState"
     },
     {
       "from": "apps/frontend/src/components/ThemeSidebar.tsx",
@@ -8070,6 +9354,13 @@
       "to": "apps/frontend/src/components/ThemeSidebar.tsx",
       "type": "call",
       "fromElement": "ThemeSidebar",
+      "toElement": "setWebhookTheme"
+    },
+    {
+      "from": "apps/frontend/src/components/ThemeSidebar.tsx",
+      "to": "apps/frontend/src/components/ThemeSidebar.tsx",
+      "type": "call",
+      "fromElement": "ThemeSidebar",
       "toElement": "openRename"
     },
     {
@@ -8091,6 +9382,13 @@
       "to": "apps/frontend/src/components/ThemeSidebar.tsx",
       "type": "call",
       "fromElement": "ThemeSidebar",
+      "toElement": "setWebhookTheme"
+    },
+    {
+      "from": "apps/frontend/src/components/ThemeSidebar.tsx",
+      "to": "apps/frontend/src/components/ThemeSidebar.tsx",
+      "type": "call",
+      "fromElement": "ThemeSidebar",
       "toElement": "closeDialog"
     },
     {
@@ -8099,6 +9397,535 @@
       "type": "call",
       "fromElement": "ThemeSidebar",
       "toElement": "setName"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "node_modules/.pnpm/@types+react@18.3.28/node_modules/@types/react/index.d.ts",
+      "type": "import",
+      "toElement": "useMemo"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "node_modules/.pnpm/@types+react@18.3.28/node_modules/@types/react/index.d.ts",
+      "type": "import",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "node_modules/.pnpm/@tanstack+react-query@5.96.2_react@18.3.1/node_modules/@tanstack/react-query/build/legacy/index.d.ts",
+      "type": "import",
+      "toElement": "useMutation"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "node_modules/.pnpm/@tanstack+react-query@5.96.2_react@18.3.1/node_modules/@tanstack/react-query/build/legacy/index.d.ts",
+      "type": "import",
+      "toElement": "useQuery"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "node_modules/.pnpm/@tanstack+react-query@5.96.2_react@18.3.1/node_modules/@tanstack/react-query/build/legacy/index.d.ts",
+      "type": "import",
+      "toElement": "useQueryClient"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "node_modules/.pnpm/lucide-react@0.378.0_react@18.3.1/node_modules/lucide-react/dist/lucide-react.d.ts",
+      "type": "import",
+      "toElement": "AlertCircle"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "node_modules/.pnpm/lucide-react@0.378.0_react@18.3.1/node_modules/lucide-react/dist/lucide-react.d.ts",
+      "type": "import",
+      "toElement": "Check"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "node_modules/.pnpm/lucide-react@0.378.0_react@18.3.1/node_modules/lucide-react/dist/lucide-react.d.ts",
+      "type": "import",
+      "toElement": "Copy"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "node_modules/.pnpm/lucide-react@0.378.0_react@18.3.1/node_modules/lucide-react/dist/lucide-react.d.ts",
+      "type": "import",
+      "toElement": "Loader2"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "node_modules/.pnpm/lucide-react@0.378.0_react@18.3.1/node_modules/lucide-react/dist/lucide-react.d.ts",
+      "type": "import",
+      "toElement": "Plus"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "node_modules/.pnpm/lucide-react@0.378.0_react@18.3.1/node_modules/lucide-react/dist/lucide-react.d.ts",
+      "type": "import",
+      "toElement": "Trash2"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "Dialog"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "DialogContent"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "DialogDescription"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "DialogFooter"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "DialogHeader"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "DialogTitle"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "@/components/ui/button",
+      "type": "import",
+      "toElement": "Button"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "@/components/ui/input",
+      "type": "import",
+      "toElement": "Input"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "@/components/ui/use-toast",
+      "type": "import",
+      "toElement": "useToast"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "ApiError"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "webhooksApi"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "WebhookListItemDTO"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "useQueryClient"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "useToast"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "useQuery"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "webhooksApi.list"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "useMemo"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "data.filter"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "queryClient.invalidateQueries"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "useMutation"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "webhooksApi.create"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "invalidate"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "toMessage"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "useMutation"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "webhooksApi.patch"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "invalidate"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "toMessage"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "useMutation"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "webhooksApi.remove"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "invalidate"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "toMessage"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "copyToClipboard"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "setCopiedId"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "window.setTimeout"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "setCopiedId"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "toast"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "toast"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "webhook.label.trim"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "window.confirm"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "deleteMutation.mutate"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "onClose"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "createMutation.mutate"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "toMessage"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "items.map"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "e.currentTarget.select"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "handleCopy"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "patchMutation.mutate"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "formatDate"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "WebhookManagerDialog",
+      "toElement": "handleDelete"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "copyToClipboard",
+      "toElement": "navigator.clipboard.writeText"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "copyToClipboard",
+      "toElement": "document.createElement"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "copyToClipboard",
+      "toElement": "ta.setAttribute"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "copyToClipboard",
+      "toElement": "document.body.appendChild"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "copyToClipboard",
+      "toElement": "ta.select"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "copyToClipboard",
+      "toElement": "document.execCommand"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "copyToClipboard",
+      "toElement": "document.body.removeChild"
+    },
+    {
+      "from": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "to": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "type": "call",
+      "fromElement": "formatDate",
+      "toElement": "d.toLocaleString"
+    },
+    {
+      "from": "apps/frontend/src/lib/api.ts",
+      "to": "packages/shared/src/index.ts",
+      "type": "import",
+      "toElement": "WebhookSummary"
     },
     {
       "from": "apps/frontend/src/lib/api.ts",
@@ -8522,6 +10349,30 @@
       "to": "apps/frontend/src/lib/api.ts",
       "type": "call",
       "toElement": "uploadRequest"
+    },
+    {
+      "from": "apps/frontend/src/lib/api.ts",
+      "to": "apps/frontend/src/lib/api.ts",
+      "type": "call",
+      "toElement": "apiRequest"
+    },
+    {
+      "from": "apps/frontend/src/lib/api.ts",
+      "to": "apps/frontend/src/lib/api.ts",
+      "type": "call",
+      "toElement": "apiRequest"
+    },
+    {
+      "from": "apps/frontend/src/lib/api.ts",
+      "to": "apps/frontend/src/lib/api.ts",
+      "type": "call",
+      "toElement": "apiRequest"
+    },
+    {
+      "from": "apps/frontend/src/lib/api.ts",
+      "to": "apps/frontend/src/lib/api.ts",
+      "type": "call",
+      "toElement": "apiRequest"
     },
     {
       "from": "apps/frontend/src/lib/api.ts",
@@ -11481,6 +13332,12 @@
     },
     {
       "from": "apps/frontend/src/pages/TemplatesPage.tsx",
+      "to": "node_modules/.pnpm/lucide-react@0.378.0_react@18.3.1/node_modules/lucide-react/dist/lucide-react.d.ts",
+      "type": "import",
+      "toElement": "Webhook"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplatesPage.tsx",
       "to": "@/components/ThemeSidebar",
       "type": "import",
       "toElement": "ThemeSidebar"
@@ -11496,6 +13353,12 @@
       "to": "@/components/AdminOnly",
       "type": "import",
       "toElement": "AdminOnly"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplatesPage.tsx",
+      "to": "@/components/WebhookManagerDialog",
+      "type": "import",
+      "toElement": "WebhookManagerDialog"
     },
     {
       "from": "apps/frontend/src/pages/TemplatesPage.tsx",
@@ -11644,6 +13507,13 @@
       "to": "apps/frontend/src/pages/TemplatesPage.tsx",
       "type": "call",
       "fromElement": "TemplatesPage",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplatesPage.tsx",
+      "to": "apps/frontend/src/pages/TemplatesPage.tsx",
+      "type": "call",
+      "fromElement": "TemplatesPage",
       "toElement": "useDebouncedValue"
     },
     {
@@ -11721,7 +13591,21 @@
       "to": "apps/frontend/src/pages/TemplatesPage.tsx",
       "type": "call",
       "fromElement": "TemplatesPage",
+      "toElement": "setWebhookTarget"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplatesPage.tsx",
+      "to": "apps/frontend/src/pages/TemplatesPage.tsx",
+      "type": "call",
+      "fromElement": "TemplatesPage",
       "toElement": "navigate"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplatesPage.tsx",
+      "to": "apps/frontend/src/pages/TemplatesPage.tsx",
+      "type": "call",
+      "fromElement": "TemplatesPage",
+      "toElement": "setWebhookTarget"
     },
     {
       "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",

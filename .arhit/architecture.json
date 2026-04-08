@@ -1,6 +1,6 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-04-08T00:20:21.984Z",
+  "generatedAt": "2026-04-08T17:37:40.112Z",
   "nodes": [
     {
       "id": "apps/frontend/tailwind.config.ts",
@@ -41,7 +41,7 @@
           "name": "buildServer",
           "type": "function",
           "path": "apps/backend/src/server.ts",
-          "line": 38,
+          "line": 42,
           "exports": [
             "buildServer"
           ]
@@ -51,7 +51,7 @@
           "name": "start",
           "type": "function",
           "path": "apps/backend/src/server.ts",
-          "line": 201,
+          "line": 212,
           "exports": []
         },
         {
@@ -59,7 +59,7 @@
           "name": "__dirname",
           "type": "variable",
           "path": "apps/backend/src/server.ts",
-          "line": 20,
+          "line": 22,
           "exports": []
         },
         {
@@ -67,7 +67,7 @@
           "name": "isDirectRun",
           "type": "variable",
           "path": "apps/backend/src/server.ts",
-          "line": 215,
+          "line": 226,
           "exports": []
         }
       ]
@@ -103,6 +103,7 @@
         "ApiErrorBody",
         "ApiErrorEnvelope",
         "ApiError",
+        "WebhookSummary",
         "EntityValues",
         "AppRole"
       ],
@@ -278,6 +279,16 @@
           ]
         },
         {
+          "id": "packages/shared/src/types.ts:WebhookSummary",
+          "name": "WebhookSummary",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 298,
+          "exports": [
+            "WebhookSummary"
+          ]
+        },
+        {
           "id": "packages/shared/src/types.ts:EntityValues",
           "name": "EntityValues",
           "type": "type",
@@ -292,7 +303,7 @@
           "name": "AppRole",
           "type": "type",
           "path": "packages/shared/src/types.ts",
-          "line": 293,
+          "line": 339,
           "exports": [
             "AppRole"
           ]
@@ -430,7 +441,7 @@
           "name": "isPublicPath",
           "type": "function",
           "path": "apps/backend/src/middleware/auth.ts",
-          "line": 238,
+          "line": 244,
           "exports": []
         },
         {
@@ -438,7 +449,7 @@
           "name": "registerAuthMiddleware",
           "type": "function",
           "path": "apps/backend/src/middleware/auth.ts",
-          "line": 248,
+          "line": 254,
           "exports": [
             "registerAuthMiddleware"
           ]
@@ -482,7 +493,7 @@
           "name": "PUBLIC_PATHS",
           "type": "variable",
           "path": "apps/backend/src/middleware/auth.ts",
-          "line": 236,
+          "line": 242,
           "exports": []
         }
       ]
@@ -1296,6 +1307,187 @@
       ]
     },
     {
+      "id": "apps/backend/src/routes/webhookRun.ts",
+      "name": "webhookRun.ts",
+      "type": "file",
+      "path": "apps/backend/src/routes/webhookRun.ts",
+      "exports": [
+        "parseDealIdFromDocumentId",
+        "registerWebhookRunRoute"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/routes/webhookRun.ts:readDocumentIdEntry",
+          "name": "readDocumentIdEntry",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhookRun.ts",
+          "line": 109,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhookRun.ts:parseDealIdFromDocumentId",
+          "name": "parseDealIdFromDocumentId",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhookRun.ts",
+          "line": 138,
+          "exports": [
+            "parseDealIdFromDocumentId"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/webhookRun.ts:pickString",
+          "name": "pickString",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhookRun.ts",
+          "line": 164,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhookRun.ts:summariseSuccess",
+          "name": "summariseSuccess",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhookRun.ts",
+          "line": 177,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhookRun.ts:sendBizprocAck",
+          "name": "sendBizprocAck",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhookRun.ts",
+          "line": 202,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhookRun.ts:registerWebhookRunRoute",
+          "name": "registerWebhookRunRoute",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhookRun.ts",
+          "line": 223,
+          "exports": [
+            "registerWebhookRunRoute"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/webhookRun.ts:WebhookRunBody",
+          "name": "WebhookRunBody",
+          "type": "interface",
+          "path": "apps/backend/src/routes/webhookRun.ts",
+          "line": 70,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhookRun.ts:TemplateRunResult",
+          "name": "TemplateRunResult",
+          "type": "interface",
+          "path": "apps/backend/src/routes/webhookRun.ts",
+          "line": 87,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/routes/webhooks.ts",
+      "name": "webhooks.ts",
+      "type": "file",
+      "path": "apps/backend/src/routes/webhooks.ts",
+      "exports": [
+        "registerWebhookRoutes"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/routes/webhooks.ts:resolvePublicBaseUrl",
+          "name": "resolvePublicBaseUrl",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhooks.ts",
+          "line": 77,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhooks.ts:buildWebhookUrl",
+          "name": "buildWebhookUrl",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhooks.ts",
+          "line": 86,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhooks.ts:toWebhookSummary",
+          "name": "toWebhookSummary",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhooks.ts",
+          "line": 94,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhooks.ts:normalizeLabel",
+          "name": "normalizeLabel",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhooks.ts",
+          "line": 110,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhooks.ts:normalizeScope",
+          "name": "normalizeScope",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhooks.ts",
+          "line": 120,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhooks.ts:generateToken",
+          "name": "generateToken",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhooks.ts",
+          "line": 125,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhooks.ts:registerWebhookRoutes",
+          "name": "registerWebhookRoutes",
+          "type": "function",
+          "path": "apps/backend/src/routes/webhooks.ts",
+          "line": 134,
+          "exports": [
+            "registerWebhookRoutes"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/webhooks.ts:CreateWebhookBody",
+          "name": "CreateWebhookBody",
+          "type": "interface",
+          "path": "apps/backend/src/routes/webhooks.ts",
+          "line": 38,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhooks.ts:UpdateWebhookBody",
+          "name": "UpdateWebhookBody",
+          "type": "interface",
+          "path": "apps/backend/src/routes/webhooks.ts",
+          "line": 45,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhooks.ts:WebhookIdParam",
+          "name": "WebhookIdParam",
+          "type": "interface",
+          "path": "apps/backend/src/routes/webhooks.ts",
+          "line": 50,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/webhooks.ts:WebhookRow",
+          "name": "WebhookRow",
+          "type": "interface",
+          "path": "apps/backend/src/routes/webhooks.ts",
+          "line": 55,
+          "exports": []
+        }
+      ]
+    },
+    {
       "id": "apps/backend/src/services/b24Client.ts",
       "name": "b24Client.ts",
       "type": "file",
@@ -1863,6 +2055,82 @@
       ]
     },
     {
+      "id": "apps/backend/src/services/generationPipeline.ts",
+      "name": "generationPipeline.ts",
+      "type": "file",
+      "path": "apps/backend/src/services/generationPipeline.ts",
+      "exports": [
+        "runGeneration",
+        "GenerationError",
+        "BindingResult",
+        "GenerationResult",
+        "RunGenerationParams",
+        "GenerationErrorKind"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/services/generationPipeline.ts:runGeneration",
+          "name": "runGeneration",
+          "type": "function",
+          "path": "apps/backend/src/services/generationPipeline.ts",
+          "line": 125,
+          "exports": [
+            "runGeneration"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/generationPipeline.ts:GenerationError",
+          "name": "GenerationError",
+          "type": "class",
+          "path": "apps/backend/src/services/generationPipeline.ts",
+          "line": 89,
+          "exports": [
+            "GenerationError"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/generationPipeline.ts:BindingResult",
+          "name": "BindingResult",
+          "type": "interface",
+          "path": "apps/backend/src/services/generationPipeline.ts",
+          "line": 55,
+          "exports": [
+            "BindingResult"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/generationPipeline.ts:GenerationResult",
+          "name": "GenerationResult",
+          "type": "interface",
+          "path": "apps/backend/src/services/generationPipeline.ts",
+          "line": 61,
+          "exports": [
+            "GenerationResult"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/generationPipeline.ts:RunGenerationParams",
+          "name": "RunGenerationParams",
+          "type": "interface",
+          "path": "apps/backend/src/services/generationPipeline.ts",
+          "line": 103,
+          "exports": [
+            "RunGenerationParams"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/generationPipeline.ts:GenerationErrorKind",
+          "name": "GenerationErrorKind",
+          "type": "type",
+          "path": "apps/backend/src/services/generationPipeline.ts",
+          "line": 79,
+          "exports": [
+            "GenerationErrorKind"
+          ]
+        }
+      ]
+    },
+    {
       "id": "apps/frontend/src/components/AdminOnly.tsx",
       "name": "AdminOnly.tsx",
       "type": "file",
@@ -2251,7 +2519,7 @@
           "name": "ThemeSidebar",
           "type": "function",
           "path": "apps/frontend/src/components/ThemeSidebar.tsx",
-          "line": 63,
+          "line": 64,
           "exports": [
             "ThemeSidebar"
           ]
@@ -2261,7 +2529,7 @@
           "name": "toMessage",
           "type": "function",
           "path": "apps/frontend/src/components/ThemeSidebar.tsx",
-          "line": 312,
+          "line": 324,
           "exports": []
         },
         {
@@ -2269,7 +2537,7 @@
           "name": "ThemeSidebarProps",
           "type": "interface",
           "path": "apps/frontend/src/components/ThemeSidebar.tsx",
-          "line": 49,
+          "line": 50,
           "exports": [
             "ThemeSidebarProps"
           ]
@@ -2279,8 +2547,64 @@
           "name": "DialogState",
           "type": "interface",
           "path": "apps/frontend/src/components/ThemeSidebar.tsx",
-          "line": 58,
+          "line": 59,
           "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "name": "WebhookManagerDialog.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+      "exports": [
+        "WebhookManagerDialog",
+        "WebhookManagerDialogProps"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/WebhookManagerDialog.tsx:WebhookManagerDialog",
+          "name": "WebhookManagerDialog",
+          "type": "function",
+          "path": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+          "line": 77,
+          "exports": [
+            "WebhookManagerDialog"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/WebhookManagerDialog.tsx:copyToClipboard",
+          "name": "copyToClipboard",
+          "type": "function",
+          "path": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+          "line": 365,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/WebhookManagerDialog.tsx:formatDate",
+          "name": "formatDate",
+          "type": "function",
+          "path": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+          "line": 391,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/WebhookManagerDialog.tsx:toMessage",
+          "name": "toMessage",
+          "type": "function",
+          "path": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+          "line": 400,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/WebhookManagerDialog.tsx:WebhookManagerDialogProps",
+          "name": "WebhookManagerDialogProps",
+          "type": "interface",
+          "path": "apps/frontend/src/components/WebhookManagerDialog.tsx",
+          "line": 66,
+          "exports": [
+            "WebhookManagerDialogProps"
+          ]
         }
       ]
     },
@@ -2319,6 +2643,9 @@
         "GenerateResponseDTO",
         "SettingsDTO",
         "DealFileFieldDTO",
+        "WebhookListItemDTO",
+        "CreateWebhookBody",
+        "UpdateWebhookBody",
         "AppRoleDTO",
         "meApi",
         "installApi",
@@ -2329,7 +2656,8 @@
         "themesApi",
         "templatesApi",
         "generateApi",
-        "settingsApi"
+        "settingsApi",
+        "webhooksApi"
       ],
       "children": [
         {
@@ -2337,7 +2665,7 @@
           "name": "extractApiMessage",
           "type": "function",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 41,
+          "line": 42,
           "exports": [
             "extractApiMessage"
           ]
@@ -2347,7 +2675,7 @@
           "name": "extractApiCode",
           "type": "function",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 54,
+          "line": 55,
           "exports": [
             "extractApiCode"
           ]
@@ -2357,7 +2685,7 @@
           "name": "apiRequest",
           "type": "function",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 89,
+          "line": 90,
           "exports": [
             "apiRequest"
           ]
@@ -2367,7 +2695,7 @@
           "name": "uploadRequest",
           "type": "function",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 133,
+          "line": 134,
           "exports": [
             "uploadRequest"
           ]
@@ -2377,7 +2705,7 @@
           "name": "ApiError",
           "type": "class",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 66,
+          "line": 67,
           "exports": [
             "ApiError"
           ]
@@ -2387,7 +2715,7 @@
           "name": "ApiErrorBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 26,
+          "line": 27,
           "exports": [
             "ApiErrorBody"
           ]
@@ -2397,7 +2725,7 @@
           "name": "ApiErrorResponse",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 32,
+          "line": 33,
           "exports": [
             "ApiErrorResponse"
           ]
@@ -2407,7 +2735,7 @@
           "name": "RequestOptions",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 82,
+          "line": 83,
           "exports": []
         },
         {
@@ -2415,7 +2743,7 @@
           "name": "UploadOptions",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 128,
+          "line": 129,
           "exports": [
             "UploadOptions"
           ]
@@ -2425,7 +2753,7 @@
           "name": "PortalUserDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 200,
+          "line": 201,
           "exports": [
             "PortalUserDTO"
           ]
@@ -2435,7 +2763,7 @@
           "name": "InstallStatusDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 209,
+          "line": 210,
           "exports": [
             "InstallStatusDTO"
           ]
@@ -2445,7 +2773,7 @@
           "name": "InstallSettingsDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 217,
+          "line": 218,
           "exports": [
             "InstallSettingsDTO"
           ]
@@ -2455,7 +2783,7 @@
           "name": "MeDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 231,
+          "line": 232,
           "exports": [
             "MeDTO"
           ]
@@ -2465,7 +2793,7 @@
           "name": "CrmFieldDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 269,
+          "line": 270,
           "exports": [
             "CrmFieldDTO"
           ]
@@ -2475,7 +2803,7 @@
           "name": "FormulaValidateResponse",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 305,
+          "line": 306,
           "exports": [
             "FormulaValidateResponse"
           ]
@@ -2485,7 +2813,7 @@
           "name": "FormulaEvaluateResponse",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 311,
+          "line": 312,
           "exports": [
             "FormulaEvaluateResponse"
           ]
@@ -2495,7 +2823,7 @@
           "name": "ThemeDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 336,
+          "line": 337,
           "exports": [
             "ThemeDTO"
           ]
@@ -2505,7 +2833,7 @@
           "name": "UpdateThemeBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 349,
+          "line": 350,
           "exports": [
             "UpdateThemeBody"
           ]
@@ -2515,7 +2843,7 @@
           "name": "TemplateListItemDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 378,
+          "line": 379,
           "exports": [
             "TemplateListItemDTO"
           ]
@@ -2525,7 +2853,7 @@
           "name": "FormulaDependenciesDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 389,
+          "line": 390,
           "exports": [
             "FormulaDependenciesDTO"
           ]
@@ -2535,7 +2863,7 @@
           "name": "FormulaDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 395,
+          "line": 396,
           "exports": [
             "FormulaDTO"
           ]
@@ -2545,7 +2873,7 @@
           "name": "TemplateDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 404,
+          "line": 405,
           "exports": [
             "TemplateDTO"
           ]
@@ -2555,7 +2883,7 @@
           "name": "FormulaInputDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 416,
+          "line": 417,
           "exports": [
             "FormulaInputDTO"
           ]
@@ -2565,7 +2893,7 @@
           "name": "UpdateTemplateBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 424,
+          "line": 425,
           "exports": [
             "UpdateTemplateBody"
           ]
@@ -2575,7 +2903,7 @@
           "name": "FormulaEvaluationResultDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 435,
+          "line": 436,
           "exports": [
             "FormulaEvaluationResultDTO"
           ]
@@ -2585,7 +2913,7 @@
           "name": "TemplatePreviewResponseDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 444,
+          "line": 445,
           "exports": [
             "TemplatePreviewResponseDTO"
           ]
@@ -2595,7 +2923,7 @@
           "name": "GenerateBindingDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 451,
+          "line": 452,
           "exports": [
             "GenerateBindingDTO"
           ]
@@ -2605,7 +2933,7 @@
           "name": "GenerateResponseDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 457,
+          "line": 458,
           "exports": [
             "GenerateResponseDTO"
           ]
@@ -2615,7 +2943,7 @@
           "name": "SettingsDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 526,
+          "line": 527,
           "exports": [
             "SettingsDTO"
           ]
@@ -2625,9 +2953,39 @@
           "name": "DealFileFieldDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 534,
+          "line": 535,
           "exports": [
             "DealFileFieldDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:WebhookListItemDTO",
+          "name": "WebhookListItemDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 578,
+          "exports": [
+            "WebhookListItemDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:CreateWebhookBody",
+          "name": "CreateWebhookBody",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 583,
+          "exports": [
+            "CreateWebhookBody"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:UpdateWebhookBody",
+          "name": "UpdateWebhookBody",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 590,
+          "exports": [
+            "UpdateWebhookBody"
           ]
         },
         {
@@ -2635,7 +2993,7 @@
           "name": "AppRoleDTO",
           "type": "type",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 229,
+          "line": 230,
           "exports": [
             "AppRoleDTO"
           ]
@@ -2645,7 +3003,7 @@
           "name": "BASE_URL",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 80,
+          "line": 81,
           "exports": []
         },
         {
@@ -2653,7 +3011,7 @@
           "name": "meApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 236,
+          "line": 237,
           "exports": [
             "meApi"
           ]
@@ -2663,7 +3021,7 @@
           "name": "installApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 241,
+          "line": 242,
           "exports": [
             "installApi"
           ]
@@ -2673,7 +3031,7 @@
           "name": "usersApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 258,
+          "line": 259,
           "exports": [
             "usersApi"
           ]
@@ -2683,7 +3041,7 @@
           "name": "dealApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 279,
+          "line": 280,
           "exports": [
             "dealApi"
           ]
@@ -2693,7 +3051,7 @@
           "name": "crmApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 290,
+          "line": 291,
           "exports": [
             "crmApi"
           ]
@@ -2703,7 +3061,7 @@
           "name": "formulasApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 319,
+          "line": 320,
           "exports": [
             "formulasApi"
           ]
@@ -2713,7 +3071,7 @@
           "name": "themesApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 356,
+          "line": 357,
           "exports": [
             "themesApi"
           ]
@@ -2723,7 +3081,7 @@
           "name": "templatesApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 468,
+          "line": 469,
           "exports": [
             "templatesApi"
           ]
@@ -2733,7 +3091,7 @@
           "name": "generateApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 517,
+          "line": 518,
           "exports": [
             "generateApi"
           ]
@@ -2743,9 +3101,19 @@
           "name": "settingsApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 543,
+          "line": 544,
           "exports": [
             "settingsApi"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:webhooksApi",
+          "name": "webhooksApi",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 595,
+          "exports": [
+            "webhooksApi"
           ]
         }
       ]
@@ -3356,7 +3724,7 @@
           "name": "useDebouncedValue",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplatesPage.tsx",
-          "line": 56,
+          "line": 58,
           "exports": []
         },
         {
@@ -3364,7 +3732,7 @@
           "name": "TemplatesPage",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplatesPage.tsx",
-          "line": 65,
+          "line": 67,
           "exports": [
             "TemplatesPage"
           ]

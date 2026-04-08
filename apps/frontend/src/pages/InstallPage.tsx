@@ -20,7 +20,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { installApi, usersApi, ApiError, type PortalUserDTO } from '@/lib/api';
-import { isB24Available, installFinishB24 } from '@/lib/b24';
+import { isB24Available, installFinishB24, getB24Auth } from '@/lib/b24';
 
 function useDebouncedValue<T>(value: T, delayMs: number): T {
   const [debounced, setDebounced] = useState(value);
@@ -62,8 +62,25 @@ export function InstallPage() {
   /* ------------------------------------------------------------ */
   const saveMutation = useMutation({
     mutationFn: async (adminUserIds: number[]) => {
-      // 1. Persist app settings (admin user IDs) in our DB.
-      const res = await installApi.install({ adminUserIds });
+      // 1. Persist app settings (admin user IDs) in our DB. We also
+      //    forward the SDK auth snapshot so the backend can store the
+      //    OAuth refresh token for server-to-server flows (webhook
+      //    executor). If the SDK hasn't produced an auth payload yet
+      //    (should never happen at this point, but be defensive), we
+      //    just skip it — the install still succeeds.
+      const sdkAuth = getB24Auth();
+      const res = await installApi.install({
+        adminUserIds,
+        oauth: sdkAuth
+          ? {
+              accessToken: sdkAuth.accessToken,
+              refreshToken: sdkAuth.refreshToken,
+              expiresAt: sdkAuth.expiresAt,
+              memberId: sdkAuth.memberId,
+              domain: sdkAuth.domain,
+            }
+          : undefined,
+      });
 
       // 2. Register placements via the backend (which calls placement.bind).
       //    We INSPECT the response — the endpoint always returns 200 with a
