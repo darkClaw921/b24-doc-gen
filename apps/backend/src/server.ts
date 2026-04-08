@@ -112,7 +112,8 @@ export async function buildServer(): Promise<FastifyInstance> {
   await app.register(registerWebhookRunRoute);
 
   // ── Frontend serving (registered LAST so /api/* routes always win) ──
-  const frontendDist = path.resolve(__dirname, '../../../frontend/dist');
+  // __dirname after compile = apps/backend/dist → apps/frontend/dist
+  const frontendDist = path.resolve(__dirname, '../../frontend/dist');
 
   if (!isDev && existsSync(frontendDist)) {
     // Production: serve the compiled SPA from frontend/dist/.
@@ -121,9 +122,21 @@ export async function buildServer(): Promise<FastifyInstance> {
       prefix: '/',
       wildcard: false,
     });
+
+    // Bitrix24 opens the app via POST `/` (and other placement URLs)
+    // with form-urlencoded body containing DOMAIN/APP_SID/AUTH_ID etc.
+    // Static plugin only serves GET/HEAD — we must answer POSTs ourselves
+    // by returning the SPA index.html so the React app can read the
+    // query params and authenticate.
+    const sendIndex = async (_req: FastifyRequest, reply: FastifyReply): Promise<void> => {
+      return reply.code(200).type('text/html; charset=utf-8').sendFile('index.html');
+    };
+    app.post('/', sendIndex);
+
     // SPA fallback — unmatched routes serve index.html for React Router.
-    app.setNotFoundHandler((_request, reply) => {
-      void reply.sendFile('index.html');
+    // Force 200 (sendFile inherits the 404 status from the not-found handler).
+    app.setNotFoundHandler(async (_request, reply) => {
+      return reply.code(200).type('text/html; charset=utf-8').sendFile('index.html');
     });
   } else if (isDev) {
     // Development: transparently reverse-proxy all non-/api traffic to Vite.
