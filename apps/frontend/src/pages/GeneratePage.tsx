@@ -402,7 +402,7 @@ export function GeneratePage() {
           {generateError && (
             <div className="mt-3 flex items-start gap-2 rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs text-destructive">
               <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-              <span>
+              <span className="min-w-0 flex-1 break-words">
                 {generateError instanceof ApiError
                   ? generateError.message
                   : 'Ошибка генерации'}
@@ -413,11 +413,11 @@ export function GeneratePage() {
           {generateResult && (
             <div className="mt-4 rounded-md border border-emerald-300 bg-emerald-50 p-3 text-xs">
               <div className="mb-2 flex items-center gap-2 font-medium text-emerald-800">
-                <CheckCircle2 className="h-4 w-4" />
-                Документ сгенерирован
+                <CheckCircle2 className="h-4 w-4 shrink-0" />
+                <span className="min-w-0 break-words">Документ сгенерирован</span>
               </div>
-              <div className="space-y-1 text-emerald-900">
-                <div>
+              <div className="space-y-1 break-words text-emerald-900">
+                <div className="break-all">
                   <span className="font-medium">Файл:</span> {generateResult.fileName}
                 </div>
                 {generateResult.downloadUrl && (
@@ -427,11 +427,11 @@ export function GeneratePage() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 text-emerald-700 underline hover:text-emerald-900"
                   >
-                    <Download className="h-3 w-3" />
+                    <Download className="h-3 w-3 shrink-0" />
                     Скачать .docx
                   </a>
                 )}
-                <div>
+                <div className="break-words">
                   <span className="font-medium">Привязка:</span>{' '}
                   {generateResult.binding
                     ? generateResult.binding.ok
@@ -439,7 +439,7 @@ export function GeneratePage() {
                       : `${generateResult.binding.fieldName} ✗ ${generateResult.binding.error ?? ''}`
                     : '— (не настроено)'}
                 </div>
-                <div>
+                <div className="break-words">
                   <span className="font-medium">Таймлайн:</span>{' '}
                   {generateResult.timeline.ok
                     ? `комментарий ${generateResult.timeline.commentId ?? ''}`

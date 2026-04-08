@@ -154,7 +154,9 @@ export function TemplateUploader({
         {uploadingFile ? (
           <>
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <div className="text-sm font-medium">Загружаем «{uploadingFile.name}»…</div>
+            <div className="w-full max-w-full text-sm font-medium break-all">
+              Загружаем «{uploadingFile.name}»…
+            </div>
           </>
         ) : (
           <>
@@ -179,12 +181,12 @@ export function TemplateUploader({
               style={{ width: `${progress}%` }}
             />
           </div>
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span className="flex items-center gap-1">
-              <FileText className="h-3 w-3" />
-              {uploadingFile?.name ?? 'Готово'}
+          <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
+            <span className="flex min-w-0 flex-1 items-center gap-1">
+              <FileText className="h-3 w-3 shrink-0" />
+              <span className="truncate">{uploadingFile?.name ?? 'Готово'}</span>
             </span>
-            <span>{progress}%</span>
+            <span className="shrink-0">{progress}%</span>
           </div>
         </div>
       )}
