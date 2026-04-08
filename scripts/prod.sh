@@ -78,7 +78,29 @@ fi
 
 # ---------- миграции ----------
 info "Применяю prod-миграции Prisma..."
-NODE_ENV=production pnpm --filter backend exec prisma migrate deploy
+BACKEND_DIR="$REPO_ROOT/apps/backend"
+MIGRATIONS_DIR="$BACKEND_DIR/prisma/migrations"
+
+# Пытаемся применить миграции. Если БД создана через `db push`
+# (без _prisma_migrations), `migrate deploy` упадёт с P3005.
+# В этом случае одноразово помечаем все существующие миграции как
+# применённые (baseline) и повторяем deploy.
+if ! NODE_ENV=production pnpm --filter backend exec prisma migrate deploy; then
+  warn "migrate deploy не прошёл — пробую baseline существующей БД..."
+  if [[ -d "$MIGRATIONS_DIR" ]]; then
+    for mig in "$MIGRATIONS_DIR"/*/; do
+      name="$(basename "$mig")"
+      [[ "$name" == "migration_lock.toml" ]] && continue
+      info "  baseline: $name"
+      NODE_ENV=production pnpm --filter backend exec prisma migrate resolve --applied "$name" || true
+    done
+    info "Повторный migrate deploy..."
+    NODE_ENV=production pnpm --filter backend exec prisma migrate deploy
+  else
+    error "Папка миграций не найдена: $MIGRATIONS_DIR"
+    exit 1
+  fi
+fi
 NODE_ENV=production pnpm --filter backend exec prisma generate || true
 
 # ---------- запуск ----------
