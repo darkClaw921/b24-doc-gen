@@ -21,7 +21,7 @@
     "@fastify/http-proxy": "^8.4.0",
     "@fastify/multipart": "^8.2.0",
     "@fastify/sensible": "^5.6.0",
-    "@fastify/static": "^9.1.0",
+    "@fastify/static": "^7.0.4",
     "@prisma/client": "^5.14.0",
     "@turbodocx/html-to-docx": "^1.20.1",
     "dotenv": "^16.4.5",
