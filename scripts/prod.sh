@@ -93,7 +93,14 @@ echo -e "  ${YELLOW}Совет:${NC} в проде лучше раздавать
 echo -e "  Нажми ${YELLOW}Ctrl+C${NC} для остановки"
 echo ""
 
-trap 'info "Останавливаю..."; kill 0; exit 0' SIGINT SIGTERM
+cleanup() {
+  trap - SIGINT SIGTERM EXIT
+  info "Останавливаю..."
+  [[ -n "${BACKEND_PID:-}" ]]  && kill "$BACKEND_PID"  2>/dev/null || true
+  [[ -n "${FRONTEND_PID:-}" ]] && kill "$FRONTEND_PID" 2>/dev/null || true
+  exit 0
+}
+trap cleanup SIGINT SIGTERM
 
 export NODE_ENV=production
 
