@@ -31,6 +31,7 @@ import {
   Loader2,
   AlertCircle,
   Pencil,
+  Settings as SettingsIcon,
   Webhook,
 } from 'lucide-react';
 import { ThemeSidebar } from '@/components/ThemeSidebar';
@@ -121,6 +122,16 @@ export function TemplatesPage() {
             </p>
           </div>
           <AdminOnly>
+            <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => navigate('/settings')}
+              title="Открыть настройки приложения"
+            >
+              <SettingsIcon className="mr-2 h-4 w-4" />
+              Настройки
+            </Button>
             <Dialog open={uploadOpen} onOpenChange={setUploadOpen}>
               <DialogTrigger asChild>
                 <Button disabled={!selectedThemeId}>
@@ -144,6 +155,7 @@ export function TemplatesPage() {
                 )}
               </DialogContent>
             </Dialog>
+            </div>
           </AdminOnly>
         </header>
 

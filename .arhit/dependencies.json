@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-08T18:26:07.198Z",
+  "generatedAt": "2026-04-08T23:44:09.814Z",
   "dependencies": [
     {
       "from": "apps/frontend/tailwind.config.ts",
@@ -123,7 +123,7 @@
     },
     {
       "from": "apps/backend/src/server.ts",
-      "to": "node_modules/.pnpm/@fastify+static@9.1.0/node_modules/@fastify/static/types/index.d.ts",
+      "to": "node_modules/.pnpm/@fastify+static@7.0.4/node_modules/@fastify/static/types/index.d.ts",
       "type": "import",
       "toElement": "default"
     },
@@ -413,6 +413,20 @@
       "to": "apps/backend/src/server.ts",
       "type": "call",
       "fromElement": "buildServer",
+      "toElement": "reply.code"
+    },
+    {
+      "from": "apps/backend/src/server.ts",
+      "to": "apps/backend/src/server.ts",
+      "type": "call",
+      "fromElement": "buildServer",
+      "toElement": "app.post"
+    },
+    {
+      "from": "apps/backend/src/server.ts",
+      "to": "apps/backend/src/server.ts",
+      "type": "call",
+      "fromElement": "buildServer",
       "toElement": "app.setNotFoundHandler"
     },
     {
@@ -420,7 +434,7 @@
       "to": "apps/backend/src/server.ts",
       "type": "call",
       "fromElement": "buildServer",
-      "toElement": "reply.sendFile"
+      "toElement": "reply.code"
     },
     {
       "from": "apps/backend/src/server.ts",
@@ -14097,6 +14111,12 @@
       "from": "apps/frontend/src/pages/TemplatesPage.tsx",
       "to": "node_modules/.pnpm/lucide-react@0.378.0_react@18.3.1/node_modules/lucide-react/dist/lucide-react.d.ts",
       "type": "import",
+      "toElement": "Settings"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplatesPage.tsx",
+      "to": "node_modules/.pnpm/lucide-react@0.378.0_react@18.3.1/node_modules/lucide-react/dist/lucide-react.d.ts",
+      "type": "import",
       "toElement": "Webhook"
     },
     {
@@ -14313,6 +14333,13 @@
       "type": "call",
       "fromElement": "TemplatesPage",
       "toElement": "refetch"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplatesPage.tsx",
+      "to": "apps/frontend/src/pages/TemplatesPage.tsx",
+      "type": "call",
+      "fromElement": "TemplatesPage",
+      "toElement": "navigate"
     },
     {
       "from": "apps/frontend/src/pages/TemplatesPage.tsx",

@@ -203,9 +203,9 @@
     "element": "apps/frontend/src/pages/TemplatesPage.tsx",
     "path": "apps/frontend/src/pages/TemplatesPage.tsx",
     "type": "file",
-    "content": "Главная страница админа Phase 3. Layout: ThemeSidebar слева + main справа с header (название, кнопка 'Загрузить шаблон' открывает Dialog с TemplateUploader, disabled пока тема не выбрана), search-input (debounced 250ms через useDebouncedValue) и сеткой карточек шаблонов. Состояние: selectedThemeId, searchInput, uploadOpen. Запросы через templatesApi.list({themeId, search}) с queryKey: ['templates', {themeId, search}]. Карточка показывает имя, имя темы, formulasCount, флаг hasOriginalDocx и кнопку 'Открыть' (navigate /templates/:id/edit). После успешной загрузки нового шаблона — refetch + navigate в редактор.",
+    "content": "Главная страница админки шаблонов. Шапка содержит ThemeSidebar слева и main с заголовком + поиск + список шаблонов. Для админов в шапке доступны кнопки 'Настройки' (navigate('/settings')) и 'Загрузить шаблон' (Dialog с TemplateUploader), обёрнутые в AdminOnly. Темы выбираются через ThemeSidebar, выбранная тема хранится локально, при выборе подгружается templatesApi.list({themeId,search}) через TanStack Query, search debounced 250ms. Карточки шаблонов отображают имя/тему/количество формул, для админов кнопки 'Webhook' (открывает WebhookManagerDialog) и 'Открыть' (navigate('/templates/:id/edit')). useCurrentRole используется для условного рендера админ-действий.",
     "createdAt": "2026-04-07T17:06:56.931Z",
-    "updatedAt": "2026-04-07T17:06:56.931Z"
+    "updatedAt": "2026-04-08T23:44:18.608Z"
   },
   {
     "element": "apps/frontend/src/pages/TemplateEditorPage.tsx",

@@ -1,6 +1,6 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-04-08T18:25:48.896Z",
+  "generatedAt": "2026-04-08T23:43:52.109Z",
   "nodes": [
     {
       "id": "apps/frontend/tailwind.config.ts",
@@ -51,7 +51,7 @@
           "name": "start",
           "type": "function",
           "path": "apps/backend/src/server.ts",
-          "line": 212,
+          "line": 225,
           "exports": []
         },
         {
@@ -67,7 +67,7 @@
           "name": "isDirectRun",
           "type": "variable",
           "path": "apps/backend/src/server.ts",
-          "line": 226,
+          "line": 239,
           "exports": []
         }
       ]
@@ -3941,7 +3941,7 @@
           "name": "useDebouncedValue",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplatesPage.tsx",
-          "line": 58,
+          "line": 59,
           "exports": []
         },
         {
@@ -3949,7 +3949,7 @@
           "name": "TemplatesPage",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplatesPage.tsx",
-          "line": 67,
+          "line": 68,
           "exports": [
             "TemplatesPage"
           ]
