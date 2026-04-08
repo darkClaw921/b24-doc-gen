@@ -78,7 +78,8 @@ fi
 
 # ---------- миграции ----------
 info "Применяю prod-миграции Prisma..."
-NODE_ENV=production pnpm --filter backend prisma migrate deploy
+NODE_ENV=production pnpm --filter backend exec prisma migrate deploy
+NODE_ENV=production pnpm --filter backend exec prisma generate || true
 
 # ---------- запуск ----------
 BACKEND_PORT="${BACKEND_PORT:-3001}"
@@ -98,6 +99,8 @@ cleanup() {
   info "Останавливаю..."
   [[ -n "${BACKEND_PID:-}" ]]  && kill "$BACKEND_PID"  2>/dev/null || true
   [[ -n "${FRONTEND_PID:-}" ]] && kill "$FRONTEND_PID" 2>/dev/null || true
+  wait 2>/dev/null || true
+  stty sane 2>/dev/null || true
   exit 0
 }
 trap cleanup SIGINT SIGTERM

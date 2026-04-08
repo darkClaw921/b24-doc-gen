@@ -103,6 +103,8 @@ cleanup() {
   info "Останавливаю..."
   [[ -n "${BACKEND_PID:-}" ]]  && kill "$BACKEND_PID"  2>/dev/null || true
   [[ -n "${FRONTEND_PID:-}" ]] && kill "$FRONTEND_PID" 2>/dev/null || true
+  wait 2>/dev/null || true
+  stty sane 2>/dev/null || true
   exit 0
 }
 trap cleanup SIGINT SIGTERM
