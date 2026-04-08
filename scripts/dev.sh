@@ -28,17 +28,21 @@ install_node() {
   fi
   if ! command -v curl >/dev/null 2>&1; then
     info "Устанавливаю curl..."
-    $SUDO apt-get update -y
-    $SUDO apt-get install -y curl ca-certificates gnupg
+    ${SUDO:+$SUDO} apt-get update -y
+    ${SUDO:+$SUDO} apt-get install -y curl ca-certificates gnupg
   fi
-  curl -fsSL https://deb.nodesource.com/setup_20.x | $SUDO -E bash -
-  $SUDO apt-get install -y nodejs
+  if [[ -n "$SUDO" ]]; then
+    curl -fsSL https://deb.nodesource.com/setup_20.x | $SUDO -E bash -
+  else
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+  fi
+  ${SUDO:+$SUDO} apt-get install -y nodejs
   success "Node.js установлен: $(node -v)"
 }
 
 install_pnpm() {
   warn "pnpm не найден — устанавливаю..."
-  $SUDO npm install -g pnpm
+  ${SUDO:+$SUDO} npm install -g pnpm
   success "pnpm установлен: $(pnpm -v)"
 }
 
