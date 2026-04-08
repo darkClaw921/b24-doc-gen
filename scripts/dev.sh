@@ -12,14 +12,46 @@ success() { echo -e "${GREEN}[dev]${NC} $*"; }
 warn()    { echo -e "${YELLOW}[dev]${NC} $*"; }
 error()   { echo -e "${RED}[dev]${NC} $*" >&2; }
 
+# ---------- авто-установка зависимостей (Ubuntu/Debian) ----------
+SUDO=""
+if [[ $EUID -ne 0 ]]; then
+  if command -v sudo >/dev/null 2>&1; then SUDO="sudo"; fi
+fi
+
+is_debian() { [[ -f /etc/debian_version ]] || command -v apt-get >/dev/null 2>&1; }
+
+install_node() {
+  warn "node не найден — устанавливаю Node.js 20 LTS..."
+  if ! is_debian; then
+    error "Авто-установка поддерживается только для Ubuntu/Debian. Установи Node.js 20+ вручную."
+    exit 1
+  fi
+  if ! command -v curl >/dev/null 2>&1; then
+    info "Устанавливаю curl..."
+    $SUDO apt-get update -y
+    $SUDO apt-get install -y curl ca-certificates gnupg
+  fi
+  curl -fsSL https://deb.nodesource.com/setup_20.x | $SUDO -E bash -
+  $SUDO apt-get install -y nodejs
+  success "Node.js установлен: $(node -v)"
+}
+
+install_pnpm() {
+  warn "pnpm не найден — устанавливаю..."
+  $SUDO npm install -g pnpm
+  success "pnpm установлен: $(pnpm -v)"
+}
+
 # ---------- проверки ----------
-command -v node  >/dev/null 2>&1 || { error "node не найден"; exit 1; }
-command -v pnpm  >/dev/null 2>&1 || { error "pnpm не найден — установи: npm i -g pnpm"; exit 1; }
+command -v node >/dev/null 2>&1 || install_node
 
 NODE_MAJOR=$(node -e "process.stdout.write(process.versions.node.split('.')[0])")
 if [[ "$NODE_MAJOR" -lt 20 ]]; then
-  error "Требуется Node.js >= 20 (текущий: $(node -v))"; exit 1
+  warn "Требуется Node.js >= 20 (текущий: $(node -v)) — обновляю..."
+  install_node
 fi
+
+command -v pnpm >/dev/null 2>&1 || install_pnpm
 
 # ---------- .env ----------
 ENV_FILE="$REPO_ROOT/apps/backend/.env"
