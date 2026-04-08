@@ -1,0 +1,3 @@
+# apps/frontend/src/components/Editor/TiptapEditor.tsx
+
+TipTap-обёртка для WYSIWYG-редактирования шаблонов. useEditor с расширениями: StarterKit ({heading: {levels: [1,2,3]}}), Image (allowBase64: true, inline: false, чтобы поддержать картинки из mammoth), Table (resizable: true), TableRow, TableHeader, TableCell. Контролируемые props: content (initial HTML), onChange (HTML), onReady (Editor instance), editable, placeholder, className. Re-sync через editor.commands.setContent({emitUpdate: false}) при смене content; setEditable при смене editable. Экспортирует buildTiptapExtensions() для повторного использования и TiptapEditorProps. immediatelyRender: false для совместимости с React StrictMode.

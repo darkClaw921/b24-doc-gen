@@ -1,0 +1,3 @@
+# fetchUserFieldLabels
+
+Приватный метод B24Client. Загружает человекочитаемые подписи UF_CRM_* полей через crm.<entity>.userfield.list с filter.LANG='ru'. Без LANG Bitrix24 не возвращает EDIT_FORM_LABEL/LIST_COLUMN_LABEL — только технический FIELD_NAME, поэтому FieldPicker показывал коды вместо названий. Возвращает Map<FIELD_NAME, label>. Подпись выбирается в порядке: EDIT_FORM_LABEL → LIST_COLUMN_LABEL → LIST_FILTER_LABEL (через pickLocalizedLabel). При ошибке возвращает пустой Map — fallback на технический код лучше, чем сломанный пикер. Используется в getDealFields/getContactFields/getCompanyFields параллельно с crm.*.fields через Promise.all.

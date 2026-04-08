@@ -1,0 +1,3 @@
+# apps/backend/src/services/docxParser.ts
+
+Сервис конвертации .docx → HTML через mammoth.js. Функция parseDocxToHtml(buffer: Buffer): Promise<{html, messages}> валидирует входной buffer (Buffer.isBuffer + length>0), вызывает mammoth.convertToHtml({buffer}, {styleMap, includeDefaultStyleMap: true, ignoreEmptyParagraphs: true}). Кастомный defaultStyleMap покрывает русские (Заголовок 1/2/3) и английские (Title, Subtitle) стили заголовков, Strong/Emphasis character styles, Quote/Intense Quote → blockquote. При ошибке бросает DocxParseError(message, cause). Экспортирует defaultStyleMap для тестов и DocxParseError для catch'а в роуте /api/templates/upload.

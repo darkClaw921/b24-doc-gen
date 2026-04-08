@@ -1,0 +1,402 @@
+[
+  {
+    "element": "phase-1-skeleton",
+    "path": "",
+    "type": "page",
+    "content": "Фаза 1 — Каркас проекта b24-doc-gen. Создана структура pnpm monorepo с тремя пакетами: apps/frontend (Vite + React 18 + TypeScript + Tailwind CSS + shadcn/ui), apps/backend (Fastify + TypeScript + Prisma + SQLite), packages/shared (общие TS-типы). Backend имеет GET /health endpoint на порту 3001, frontend стартует на порту 5173 с проксированием /api на backend. Prisma схема содержит модели AppSettings, Theme, Template, Formula, миграция init применена (dev.db). Все три пакета проходят tsc --noEmit. Подробная документация в architecture.md.",
+    "createdAt": "2026-04-07T16:32:06.651Z",
+    "updatedAt": "2026-04-07T16:32:06.651Z"
+  },
+  {
+    "element": "apps/backend/src/server.ts",
+    "path": "apps/backend/src/server.ts",
+    "type": "file",
+    "content": "Fastify server factory buildServer(). Forces dns.setDefaultResultOrder('ipv4first') at module load to avoid the Node 17+ undici fetch IPv6 stall that causes 'fetch failed' on outbound Bitrix24 calls. Registers logger (pino-pretty in dev), CORS (dev only — Vite cross-origin), multipart, sensible, fastifyStatic for built SPA, http-proxy to Vite in dev, auth middleware, then all route modules: health, deal, users, install, themes, templates, formulas, settings, generate, me. Centralized error handler wraps everything in {error: {code, message, details?}}.",
+    "createdAt": "2026-04-07T16:32:12.869Z",
+    "updatedAt": "2026-04-07T23:05:53.946Z"
+  },
+  {
+    "element": "apps/backend/src/prisma/client.ts",
+    "path": "apps/backend/src/prisma/client.ts",
+    "type": "file",
+    "content": "Singleton PrismaClient. Экспортирует переменную prisma (тип PrismaClient). Хранит инстанс на globalThis.__prismaClient в dev-режиме, чтобы tsx watch не создавал новые соединения к SQLite при каждом hot-reload. В production создаёт новый инстанс без кеша. Логирование: warn/error в dev, только error в production.",
+    "createdAt": "2026-04-07T16:32:17.110Z",
+    "updatedAt": "2026-04-07T16:32:17.110Z"
+  },
+  {
+    "element": "apps/backend/src/routes/health.ts",
+    "path": "apps/backend/src/routes/health.ts",
+    "type": "file",
+    "content": "Регистрирует GET /health endpoint на Fastify-инстансе. Используется для health-check в development и container orchestration. Возвращает {status: 'ok', service: 'b24-doc-gen-backend', uptime: process.uptime(), timestamp: new Date().toISOString()}. Экспортирует registerHealthRoute(app: FastifyInstance): Promise<void>.",
+    "createdAt": "2026-04-07T16:32:19.892Z",
+    "updatedAt": "2026-04-07T16:32:19.892Z"
+  },
+  {
+    "element": "packages/shared/src/types.ts",
+    "path": "packages/shared/src/types.ts",
+    "type": "file",
+    "content": "Пакет общих TypeScript-типов @b24-doc-gen/shared. Используется и на фронтенде, и на бэкенде. Содержит: AppSettings (singleton-настройки с id=1, adminUserIds как number[], dealFieldBinding), Theme (группа шаблонов), Template (шаблон с contentHtml + formulas + originalDocxBase64), Formula (tagKey, label, expression, dependsOn: FormulaDependencies), FormulaDependencies (deal/contact/company: string[]), DealField (дескриптор поля Bitrix24 с code/title/type/items), EntityValues (Record<string, unknown>), FormulaContext (DEAL/CONTACT/COMPANY: EntityValues), FormulaEvaluationResult (результат вычисления формулы с value/rawValue/error), B24AuthPayload (userId/domain/isAppAdmin/tokens), InstallRequest/Response, TemplatePreviewResponse, GenerateRequest/Response, ApiError, AppRole ('admin' | 'user'). Только типы, без runtime-кода.",
+    "createdAt": "2026-04-07T16:32:28.699Z",
+    "updatedAt": "2026-04-07T16:32:28.699Z"
+  },
+  {
+    "element": "apps/frontend/src/main.tsx",
+    "path": "apps/frontend/src/main.tsx",
+    "type": "file",
+    "content": "Точка входа фронтенд-SPA. Создаёт QueryClient (react-query) с refetchOnWindowFocus: false и retry: 1. Оборачивает App в QueryClientProvider + BrowserRouter и монтирует в #root через ReactDOM.createRoot. Использует React.StrictMode.",
+    "createdAt": "2026-04-07T16:32:31.672Z",
+    "updatedAt": "2026-04-07T16:32:31.672Z"
+  },
+  {
+    "element": "apps/frontend/src/App.tsx",
+    "path": "apps/frontend/src/App.tsx",
+    "type": "file",
+    "content": "Корневой компонент фронтенда. Объявляет маршруты React Router: /install (InstallPage), /templates (TemplatesPage), /templates/:id/edit (TemplateEditorPage), /generate (GeneratePage), /settings (SettingsPage). Корень / и 404 редиректят на /templates. Все страницы-заглушки на Фазе 1, реализация начиная с Фазы 2.",
+    "createdAt": "2026-04-07T16:32:34.895Z",
+    "updatedAt": "2026-04-07T16:32:34.895Z"
+  },
+  {
+    "element": "apps/frontend/src/lib/utils.ts",
+    "path": "apps/frontend/src/lib/utils.ts",
+    "type": "file",
+    "content": "Утилита cn(...inputs) — объединение и дедупликация Tailwind CSS классов через clsx + tailwind-merge. Используется всеми shadcn/ui компонентами для совмещения дефолтных классов с пользовательскими className-props.",
+    "createdAt": "2026-04-07T16:32:37.268Z",
+    "updatedAt": "2026-04-07T16:32:37.268Z"
+  },
+  {
+    "element": "b24Client",
+    "path": "",
+    "type": "unknown",
+    "content": "Server-side wrapper around the Bitrix24 REST API. Class B24Client(portal, accessToken) provides callMethod, callBatch, and typed helpers (getDeal, getDealFields, getContact, getCompany, getDealContacts, addTimelineComment, listUsers, uploadDiskFile, listDealUserFields, addDealUserField, updateDeal). B24Error wraps upstream failures with code/status. Batch parameters are serialized PHP-style for compatibility with Bitrix24 batch endpoint.",
+    "createdAt": "2026-04-07T16:47:17.723Z",
+    "updatedAt": "2026-04-07T16:47:17.723Z"
+  },
+  {
+    "element": "auth",
+    "path": "",
+    "type": "unknown",
+    "content": "Fastify preHandler middleware that gates /api/* routes. Reads X-B24-Access-Token / X-B24-Member-Id / X-B24-Domain headers (or body.auth), validates shape and Bitrix24 domain, optionally verifies HMAC signature with B24_APP_SECRET, populates request.b24Auth = {userId, domain, accessToken, memberId}. Public allow-list: /health, /api/health. Throws app.httpErrors.unauthorized on failure.",
+    "createdAt": "2026-04-07T16:47:20.483Z",
+    "updatedAt": "2026-04-07T16:47:20.483Z"
+  },
+  {
+    "element": "b24",
+    "path": "",
+    "type": "unknown",
+    "content": "Frontend Bitrix24 SDK bootstrap (lib/b24.ts). initB24() lazy-initializes B24Frame via initializeB24Frame() with module-scope caching. getB24Auth() returns {accessToken, refreshToken, expiresAt, domain, memberId, scope}. getCurrentDealId() reads deal id from placement options. getCurrentPlacement() returns placement code. getB24AuthHeaders() builds X-B24-* headers for backend calls. Gracefully handles non-iframe context: isB24Available() lets components render fallback UI.",
+    "createdAt": "2026-04-07T16:47:24.880Z",
+    "updatedAt": "2026-04-07T16:47:24.880Z"
+  },
+  {
+    "element": "InstallPage",
+    "path": "apps/frontend/src/pages/InstallPage.tsx",
+    "type": "function",
+    "content": "First-run setup React component. Uses TanStack Query to call installApi.status; if not installed, shows debounced (300ms) user search via usersApi.search and a multi-select list backed by Map<number, PortalUserDTO>. Saving calls installApi.install, then installApi.registerPlacements and INSPECTS results — if any placement.bind failed, throws an explicit error with the placement.list diagnostic so the user sees why (e.g. 'placement CRM_DEAL_DETAIL_TAB not declared in local app manifest') instead of a silent console.warn. On success calls installFinishB24() to trigger the iframe reload, then redirects to /templates as a fallback. Shows fallback UI if isB24Available() is false.",
+    "createdAt": "2026-04-07T16:47:31.508Z",
+    "updatedAt": "2026-04-07T22:35:56.678Z"
+  },
+  {
+    "element": "PlacementGuard",
+    "path": "apps/frontend/src/components/PlacementGuard.tsx",
+    "type": "function",
+    "content": "React wrapper that gates the entire route tree. Renders fallback when SDK unavailable, loads /api/install/status and redirects to /install when not installed, reads ?view= query param to dispatch to /generate, /settings, /templates, /install. Default landing path picked by placement code (CRM_DEAL_DETAIL_TAB->/generate, DEFAULT->/templates).",
+    "createdAt": "2026-04-07T16:47:35.208Z",
+    "updatedAt": "2026-04-07T16:47:35.208Z"
+  },
+  {
+    "element": "install",
+    "path": "",
+    "type": "unknown",
+    "content": "Backend install routes. GET /api/install/status returns {installed, adminUserIds, dealFieldBinding, portalDomain, installedAt}. POST /api/install upserts AppSettings (id=1) with sanitized adminUserIds, portalDomain from request.b24Auth, optional dealFieldBinding. POST /api/install/register-placements: (a) reads handler URL from body.handlerUrl > FRONTEND_PUBLIC_URL > PUBLIC_URL > FRONTEND_URL and rejects non-HTTPS to avoid Bitrix24's ERROR_WRONG_HANDLER_URL; (b) calls placement.list as a diagnostic and returns availablePlacements; (c) calls placement.bind ONLY for CRM_DEAL_DETAIL_TAB (the app entry / DEFAULT placement is set via the manifest's handler URL, not via API — binding it returns ERROR_ARGUMENT); (d) returns {results, availablePlacements, placementListError}. Logs every bind attempt with code and params. Helper toAppSettings(row) converts Prisma row to shared AppSettings shape.",
+    "createdAt": "2026-04-07T16:47:39.904Z",
+    "updatedAt": "2026-04-07T22:38:45.131Z"
+  },
+  {
+    "element": "deal",
+    "path": "",
+    "type": "unknown",
+    "content": "Backend deal proxy routes. GET /api/deal/:id/fields returns crm.deal.fields normalized to DealField[], cached per portal in TTLCache (5 minutes). GET /api/deal/:id/data executes two-stage callBatch: stage 1 fetches crm.deal.get + crm.deal.contact.items.get; stage 2 fetches crm.contact.get (primary contact) + crm.company.get. Returns {deal, contact, company}. invalidateDealFieldsCache(portal?) helper for cache busting after UF_CRM creation.",
+    "createdAt": "2026-04-07T16:47:46.786Z",
+    "updatedAt": "2026-04-07T16:47:46.786Z"
+  },
+  {
+    "element": "users",
+    "path": "",
+    "type": "unknown",
+    "content": "Backend users proxy route. GET /api/users?search=&start= calls user.get with FILTER.NAME=%search% (Bitrix24 wildcard), SORT/ORDER by LAST_NAME, optional pagination start. Normalizes raw rows into PortalUser[] {id, name, lastName, fullName, email, active}.",
+    "createdAt": "2026-04-07T16:47:49.553Z",
+    "updatedAt": "2026-04-07T16:47:49.553Z"
+  },
+  {
+    "element": "cache",
+    "path": "",
+    "type": "unknown",
+    "content": "Tiny dependency-free TTL cache (services/cache.ts). Class TTLCache<V>(defaultTtlMs) with get/set/delete/clear/size. Each entry stores value + expiresAt; get returns undefined for missing or expired keys. Used by routes/deal.ts to cache crm.deal.fields per portal for 5 minutes.",
+    "createdAt": "2026-04-07T16:47:52.597Z",
+    "updatedAt": "2026-04-07T16:47:52.597Z"
+  },
+  {
+    "element": "api",
+    "path": "",
+    "type": "unknown",
+    "content": "Frontend API client (lib/api.ts). apiRequest<T>(path, opts) helper that prefixes /api, attaches X-B24-* auth headers from getB24AuthHeaders(), parses JSON, throws ApiError on non-2xx. Grouped helpers: installApi (status, install, registerPlacements), usersApi (search), dealApi (fields, data). DTO types: PortalUserDTO, InstallStatusDTO, InstallSettingsDTO.",
+    "createdAt": "2026-04-07T16:47:55.370Z",
+    "updatedAt": "2026-04-07T16:47:55.370Z"
+  },
+  {
+    "element": "apps/backend/src/routes/themes.ts",
+    "path": "apps/backend/src/routes/themes.ts",
+    "type": "file",
+    "content": "CRUD for template themes. Endpoints: GET /api/themes (list with _count.templates, ordered by order ASC then name ASC), POST /api/themes (admin only; accepts name, order?, addToTimeline?, dealFieldBinding?), PUT /api/themes/:id (admin only; partial update of name/order/addToTimeline/dealFieldBinding — dealFieldBinding accepts string|null and is normalized via normalizeFieldBinding), DELETE /api/themes/:id (admin only; 409 if templates attached). Exports ThemeDTO {id, name, order, addToTimeline, dealFieldBinding, templatesCount?, createdAt, updatedAt}. All mutations gated by requireAdmin preHandler.",
+    "createdAt": "2026-04-07T17:06:13.018Z",
+    "updatedAt": "2026-04-07T23:00:17.262Z"
+  },
+  {
+    "element": "apps/backend/src/routes/templates.ts",
+    "path": "apps/backend/src/routes/templates.ts",
+    "type": "file",
+    "content": "CRUD шаблонов и multipart upload .docx. Эндпоинты: GET /api/templates?themeId=&search= (фильтр по теме, поиск contains по имени, JOIN с темой и _count формул), GET /api/templates/:id?withDocx=1 (полный шаблон с массивом formulas, опционально base64 originalDocx), POST /api/templates (создать пустой), POST /api/templates/upload (multipart, max 20MB; парсит .docx через docxParser; сохраняет originalDocx в Bytes), PUT /api/templates/:id (транзакционное обновление name/themeId/contentHtml + replaceAll formulas), DELETE /api/templates/:id. Регистрируется через registerTemplateRoutes(app) в server.ts. Использует prisma.$transaction для PUT. Экспортирует TemplateListItemDTO, TemplateDTO, FormulaInput.",
+    "createdAt": "2026-04-07T17:06:18.655Z",
+    "updatedAt": "2026-04-07T17:06:18.655Z"
+  },
+  {
+    "element": "apps/backend/src/services/docxParser.ts",
+    "path": "apps/backend/src/services/docxParser.ts",
+    "type": "file",
+    "content": "Сервис конвертации .docx → HTML через mammoth.js. Функция parseDocxToHtml(buffer: Buffer): Promise<{html, messages}> валидирует входной buffer (Buffer.isBuffer + length>0), вызывает mammoth.convertToHtml({buffer}, {styleMap, includeDefaultStyleMap: true, ignoreEmptyParagraphs: true}). Кастомный defaultStyleMap покрывает русские (Заголовок 1/2/3) и английские (Title, Subtitle) стили заголовков, Strong/Emphasis character styles, Quote/Intense Quote → blockquote. При ошибке бросает DocxParseError(message, cause). Экспортирует defaultStyleMap для тестов и DocxParseError для catch'а в роуте /api/templates/upload.",
+    "createdAt": "2026-04-07T17:06:23.995Z",
+    "updatedAt": "2026-04-07T17:06:23.995Z"
+  },
+  {
+    "element": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+    "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+    "type": "file",
+    "content": "TipTap-обёртка для WYSIWYG-редактирования шаблонов. useEditor с расширениями: StarterKit ({heading: {levels: [1,2,3]}}), Image (allowBase64: true, inline: false, чтобы поддержать картинки из mammoth), Table (resizable: true), TableRow, TableHeader, TableCell. Контролируемые props: content (initial HTML), onChange (HTML), onReady (Editor instance), editable, placeholder, className. Re-sync через editor.commands.setContent({emitUpdate: false}) при смене content; setEditable при смене editable. Экспортирует buildTiptapExtensions() для повторного использования и TiptapEditorProps. immediatelyRender: false для совместимости с React StrictMode.",
+    "createdAt": "2026-04-07T17:06:32.862Z",
+    "updatedAt": "2026-04-07T17:06:32.862Z"
+  },
+  {
+    "element": "apps/frontend/src/components/Editor/Toolbar.tsx",
+    "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
+    "type": "file",
+    "content": "Тулбар форматирования для TiptapEditor. Принимает editor: Editor | null. Кнопки (lucide-react иконки): Bold/Italic/Strike, Heading 1/2/Paragraph, BulletList/OrderedList, вставка таблицы 3x3 с header row (insertTable), вставка картинки через window.prompt URL, undo/redo (с editor.can().undo()/redo() для disabled). Состояние активного форматирования через editor.isActive('bold' | 'heading' { level: 1 } | ...). Внутренний ToolbarButton рендерит button с aria-label, hover-стилями и disabled. Стилизация Tailwind.",
+    "createdAt": "2026-04-07T17:06:37.893Z",
+    "updatedAt": "2026-04-07T17:06:37.893Z"
+  },
+  {
+    "element": "apps/frontend/src/components/TemplateUploader.tsx",
+    "path": "apps/frontend/src/components/TemplateUploader.tsx",
+    "type": "file",
+    "content": "Drag&drop загрузка .docx через react-dropzone. Принимает themeId (required), defaultName, onSuccess(template), onError(message), className. Конфигурация useDropzone: accept = {'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx']}, maxSize = 20MB, multiple: false. После drop вызывает templatesApi.upload({name, themeId, file}, {onProgress}) — XHR с прогрессом. Состояние: progress (0..100 | null), error, uploadingFile. Обработка fileRejections: file-too-large/file-invalid-type → понятные русские сообщения. На успех — onSuccess(template) и navigate в TemplateEditorPage.",
+    "createdAt": "2026-04-07T17:06:43.201Z",
+    "updatedAt": "2026-04-07T17:06:43.201Z"
+  },
+  {
+    "element": "apps/frontend/src/components/ThemeSidebar.tsx",
+    "path": "apps/frontend/src/components/ThemeSidebar.tsx",
+    "type": "file",
+    "content": "Левый сайдбар тем. Загружает список через TanStack Query (queryKey: ['themes']) → themesApi.list. Кнопка '+' открывает Dialog (создание); каждая тема имеет DropdownMenu с пунктами Переименовать/Удалить. Создание/переименование через useMutation + invalidate ['themes']. Удаление: window.confirm перед вызовом, при 409 (есть шаблоны) — inline-баннер. Контролируемый выбор: prop selectedThemeId + onSelect(themeId | null). После удаления выбранной темы вызывает onSelect(null). Использует shadcn/ui компоненты Button, Input, Dialog, DropdownMenu.",
+    "createdAt": "2026-04-07T17:06:51.263Z",
+    "updatedAt": "2026-04-07T17:06:51.263Z"
+  },
+  {
+    "element": "apps/frontend/src/pages/TemplatesPage.tsx",
+    "path": "apps/frontend/src/pages/TemplatesPage.tsx",
+    "type": "file",
+    "content": "Главная страница админа Phase 3. Layout: ThemeSidebar слева + main справа с header (название, кнопка 'Загрузить шаблон' открывает Dialog с TemplateUploader, disabled пока тема не выбрана), search-input (debounced 250ms через useDebouncedValue) и сеткой карточек шаблонов. Состояние: selectedThemeId, searchInput, uploadOpen. Запросы через templatesApi.list({themeId, search}) с queryKey: ['templates', {themeId, search}]. Карточка показывает имя, имя темы, formulasCount, флаг hasOriginalDocx и кнопку 'Открыть' (navigate /templates/:id/edit). После успешной загрузки нового шаблона — refetch + navigate в редактор.",
+    "createdAt": "2026-04-07T17:06:56.931Z",
+    "updatedAt": "2026-04-07T17:06:56.931Z"
+  },
+  {
+    "element": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+    "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+    "type": "file",
+    "content": "Admin WYSIWYG editor at /templates/:id/edit. Loads template via templatesApi.get and themes via themesApi.list (TanStack Query). Local state: editor (TipTap), contentHtml, name, themeId, dirty, saveError, savedAt, formulasByKey (Record<tagKey, FormulaInputDTO>), builderOpen, editingFormulaKey. Click-to-edit: a delegated click listener installed on editor.view.dom catches clicks on span[data-formula-key] pills, sets editingFormulaKey and opens FormulaBuilder pre-filled via initialValues. handleInsertFormula has two modes: EDIT — locates the formulaTag node by old tagKey via doc.descendants, calls tr.setNodeMarkup with new attrs, updates formulasByKey (preserving id, dropping old key if renamed); INSERT — uses editor.chain().insertFormulaTag and merges into formulasByKey. Save serializes formulasByKey via PUT /api/templates/:id. Содержит вложенный компонент EditorFormulaTooltip — Google Sheets-style hover-подсказка для пилюль формул: слушает делегированные mouseover/mouseout на editor.view.dom, через 200ms показывает portal-окно с label + expression + chips зависимостей (DEAL/CONTACT/COMPANY с цветовой маркировкой) + автоматически собранным списком используемых функций через extractUsedHelpers + HelperTooltipContent. pointer-events: none, чтобы не мешать click-to-edit.",
+    "createdAt": "2026-04-07T17:07:02.739Z",
+    "updatedAt": "2026-04-08T00:21:19.545Z"
+  },
+  {
+    "element": "formulaEngine",
+    "path": "",
+    "type": "unknown",
+    "content": "Sandboxed mathjs engine for template formulas. Creates isolated math instance via create(all), then disables dangerous functions (import, createUnit, simplify, derivative, rationalize, resolve, symbolicEqual, reviver, replacer) via Object.defineProperty. Registers helpers: if, concat, format (money/usd/eur/0.00/0.0%/...), dateFormat (iso/date/datetime/dd.MM.yyyy tokens), upper, lower. Exposes validateExpression (AST parse + symbol whitelist), evaluateExpression (compiles + runs with {DEAL, CONTACT, COMPANY} scope), extractDependencies (AST traverse for AccessorNode). Safe against injection: every validated identifier must be DEAL/CONTACT/COMPANY namespace, a whitelisted helper, or a function exposed on the math instance.",
+    "createdAt": "2026-04-07T17:28:54.052Z",
+    "updatedAt": "2026-04-07T17:28:54.052Z"
+  },
+  {
+    "element": "registerFormulaRoutes",
+    "path": "apps/backend/src/routes/formulas.ts",
+    "type": "function",
+    "content": "Fastify route registrar for POST /api/formulas/validate and /api/formulas/evaluate. Validate wraps formulaEngine.validateExpression and returns {valid, error?, dependencies}. Evaluate optionally fetches deal context via two-stage batch (crm.deal.get + crm.deal.contact.items.get → crm.contact.get + crm.company.get) mirroring the routes/deal.ts data endpoint, supports inline context override from the request body, and returns {ok, value, raw, error?, dependencies}. Auth-gated by the global B24 middleware.",
+    "createdAt": "2026-04-07T17:28:58.825Z",
+    "updatedAt": "2026-04-07T17:28:58.825Z"
+  },
+  {
+    "element": "FormulaTag",
+    "path": "apps/frontend/src/components/FormulaTag.tsx",
+    "type": "variable",
+    "content": "TipTap Node extension 'formulaTag' — inline atom node used to embed formula placeholders in templates. Attributes tagKey/label/expression round-trip through data-formula-key/label/expression HTML attributes. parseHTML matches any span[data-formula-key]; renderHTML returns a styled pill ('Σ label') with title=expression. Registers TipTap command insertFormulaTag(attrs) and exports helper insertFormula(editor, attrs). Atom + non-draggable so admins can place and remove but cannot accidentally step inside it.",
+    "createdAt": "2026-04-07T17:29:12.526Z",
+    "updatedAt": "2026-04-07T17:29:12.526Z"
+  },
+  {
+    "element": "FieldPicker",
+    "path": "apps/frontend/src/components/FieldPicker.tsx",
+    "type": "function",
+    "content": "Three-tab CRM field picker used inside FormulaBuilder. Tabs: Сделка/Контакт/Компания. Loads all three field schemas in a single call via crmApi.allFields (GET /api/crm/fields, backend-cached 5 min per portal). Supports free-text search filtering over code or title. Clicking a field invokes onSelect(token, field, entity) with a namespaced token like DEAL.OPPORTUNITY. Shows field type + multiple/required markers.",
+    "createdAt": "2026-04-07T17:29:12.734Z",
+    "updatedAt": "2026-04-07T17:29:12.734Z"
+  },
+  {
+    "element": "FormulaBuilder",
+    "path": "apps/frontend/src/components/FormulaBuilder.tsx",
+    "type": "function",
+    "content": "Modal dialog for building/editing template formulas. Two-column grid: left column holds label, tagKey (auto-slug via generateTagKey with tagKeyDirty flag to respect manual edits), monospaced textarea with caret-aware token insertion, operator palette (+ - * / , == != > < >= <=), helper palette (if/concat/format/dateFormat/upper/lower) — обе палитры теперь оборачивают каждую кнопку в RichTooltip с богатым содержимым: для функций — HelperTooltipContent (signature, описание, таблица аргументов, пример), для операторов — символ + одностроковое описание из OPERATOR_DOCS. Метаданные функций берутся из общего справочника HELPER_DOCS (lib/formulaHelp.ts), локально хранится только snippet вставки и cursorOffset. Опциональный preview-панель (если задан testDealId), live валидация (validateLocally sync + debounced 500ms validateRemote). Insert button blocked until valid + label + tagKey + expression filled. On submit calls onInsert({tagKey, label, expression, dependsOn}). Экспортирует HelperTooltipContent для повторного использования в EditorFormulaTooltip.",
+    "createdAt": "2026-04-07T17:29:20.165Z",
+    "updatedAt": "2026-04-08T00:21:05.491Z"
+  },
+  {
+    "element": "validateLocally",
+    "path": "apps/frontend/src/lib/formulas.ts",
+    "type": "function",
+    "content": "Synchronous client-side sanity check for formula expressions. Catches empty/whitespace, length > 4000, unbalanced parentheses, unclosed string literals (single and double quotes with backslash escaping). Used by FormulaBuilder for immediate feedback before the debounced remote validator fires. Returns LocalValidationResult { valid, error?, remote: false }.",
+    "createdAt": "2026-04-07T17:31:23.578Z",
+    "updatedAt": "2026-04-07T17:31:23.578Z"
+  },
+  {
+    "element": "generateTagKey",
+    "path": "apps/frontend/src/lib/formulas.ts",
+    "type": "function",
+    "content": "Slugifies a human-readable label into a template-unique formula key. Transliterates Cyrillic via an internal CYR_MAP, lowercases, replaces non-[a-z0-9_] runs with underscore, collapses repeats. Falls back to 'formula' when the slug is empty. Appends _2, _3, … until the resulting key is not present in the 'existing' argument.",
+    "createdAt": "2026-04-07T17:31:23.790Z",
+    "updatedAt": "2026-04-07T17:31:23.790Z"
+  },
+  {
+    "element": "phase-4-formulas",
+    "path": "",
+    "type": "page",
+    "content": "# Phase 4 — Formulas and tags\n\nPhase 4 introduces the formula system that powers dynamic values inside document templates.\n\n## Backend\n\n- services/formulaEngine.ts — sandboxed mathjs engine (validateExpression / evaluateExpression / extractDependencies).\n- routes/formulas.ts — POST /api/formulas/validate and POST /api/formulas/evaluate.\n- routes/deal.ts — new GET /api/crm/fields returning deal/contact/company field schemas at once; new caches for contact/company fields.\n- services/b24Client.ts — added getContactFields/getCompanyFields.\n\n## Frontend\n\n- components/FormulaTag.tsx — TipTap Node extension (inline atom) for formula pills.\n- components/FieldPicker.tsx — three-tab picker fed by crmApi.allFields.\n- components/FormulaBuilder.tsx — modal dialog orchestrating label/tagKey/expression with live validation and preview.\n- lib/formulas.ts — validateLocally, validateRemote, generateTagKey helpers.\n- lib/api.ts — crmApi and formulasApi groups.\n- components/Editor/TiptapEditor.tsx — registers FormulaTag in buildTiptapExtensions.\n- components/Editor/Toolbar.tsx — optional Σ button calling onInsertFormula.\n- pages/TemplateEditorPage.tsx — wires FormulaBuilder, holds formulasByKey map, extractFormulasFromEditor walker, sends formulas[] in PUT /api/templates/:id.\n\n## Data flow\n\n1. Admin clicks the Σ toolbar button → FormulaBuilder opens.\n2. Admin types an expression; validateLocally runs synchronously, validateRemote is debounced (500 ms) and hits POST /api/formulas/validate.\n3. Admin picks fields through FieldPicker → tokens like DEAL.OPPORTUNITY are spliced into the textarea at the caret.\n4. On 'Вставить', onInsert delivers {tagKey, label, expression, dependsOn} to TemplateEditorPage which inserts a FormulaTag node into TipTap and stores the metadata in formulasByKey.\n5. On Save, extractFormulasFromEditor walks editor.state.doc.descendants, collects formulaTag nodes, and PUT /api/templates/:id persists the array.",
+    "createdAt": "2026-04-07T17:31:24.003Z",
+    "updatedAt": "2026-04-07T17:31:24.003Z"
+  },
+  {
+    "element": "apps/backend/src/services/dealData.ts",
+    "path": "apps/backend/src/services/dealData.ts",
+    "type": "file",
+    "content": "Сервис Фазы 5: getDealContext(client, dealId) — собирает FormulaContext {DEAL,CONTACT,COMPANY} двумя batch-вызовами Bitrix24 (deal+contacts, затем contact+company при наличии id). Нормализует мульти-значения PHONE/EMAIL/WEB/IM в скаляры через flattenEntity/flattenValue. Бросает DealDataError для случаев когда сделка не найдена. Используется routes/templates.ts (preview) и routes/generate.ts.",
+    "createdAt": "2026-04-07T17:50:29.564Z",
+    "updatedAt": "2026-04-07T17:50:29.564Z"
+  },
+  {
+    "element": "apps/backend/src/services/docxBuilder.ts",
+    "path": "apps/backend/src/services/docxBuilder.ts",
+    "type": "file",
+    "content": "Сервис Фазы 5: buildDocxFromHtml(html, {formulas?, title?}): Promise<Buffer> через @turbodocx/html-to-docx. stripFormulaTags заменяет <span data-formula-key> на computed value (или label при ошибке) regex-replace. wrapAsHtmlDocument оборачивает в HTML5 shell с UTF-8 lang=ru. Параметры: portrait, Arial, fontSize 22, margins 1440 twips A4, table borders. Возвращает Node Buffer через coerceToBuffer (поддерживает Buffer/ArrayBuffer/Blob). DocxBuildError на пустой вход или сбой конвертера.",
+    "createdAt": "2026-04-07T17:50:34.765Z",
+    "updatedAt": "2026-04-07T17:50:34.765Z"
+  },
+  {
+    "element": "apps/backend/src/routes/generate.ts",
+    "path": "apps/backend/src/routes/generate.ts",
+    "type": "file",
+    "content": "POST /api/generate — produce a .docx from a saved template, upload to disk, optionally bind to deal and post timeline comment. Pipeline: 1) load template+formulas+theme; 2) compute effectiveFieldBinding = template.theme.dealFieldBinding ?? settings.dealFieldBinding ?? null; 3) effectiveAddToTimeline = template.theme.addToTimeline; 4) getDealContext for formula evaluation; 5) evaluate formulas; 6) buildDocxFromHtml; 7) disk.storage.getforapp + disk.folder.uploadfile; 8) if effectiveFieldBinding set: query getDealFields() to detect isMultiple, then either set scalar or append fileId to existing array (read from context.DEAL[fieldName]); fallback to value-shape detection if getDealFields fails; 9) if effectiveAddToTimeline true: crm.timeline.comment.add with FILES=[[fileName, base64]] so the .docx attaches as a real file in the timeline. Returns {fileId, fileName, downloadUrl, formulas, binding, timeline, warnings}.",
+    "createdAt": "2026-04-07T17:50:47.953Z",
+    "updatedAt": "2026-04-07T23:00:26.980Z"
+  },
+  {
+    "element": "apps/backend/src/routes/settings.ts",
+    "path": "apps/backend/src/routes/settings.ts",
+    "type": "file",
+    "content": "AppSettings + B24 deal-field bindings. GET /api/settings reads singleton; PUT /api/settings updates dealFieldBinding/adminUserIds (admin only). GET /api/settings/deal-fields returns file-typed UF_CRM_* deal user fields, normalized via normalizeUserField/pickLocalized which handles both flat-string and locale-keyed (ru/en/de) label shapes returned by Bitrix24. POST /api/settings/create-field (admin only) creates a new file-typed UF_CRM_* field via crm.deal.userfield.add — sends EDIT_FORM_LABEL/LIST_COLUMN_LABEL/LIST_FILTER_LABEL/ERROR_MESSAGE/HELP_MESSAGE as locale-keyed objects {ru,en,de} (Bitrix silently ignores flat-string labels on multi-locale portals), accepts multiple? body flag to create multi-value fields. Returns 409 on duplicate XML_ID and 502 on B24 errors.",
+    "createdAt": "2026-04-07T17:50:53.275Z",
+    "updatedAt": "2026-04-07T23:10:27.205Z"
+  },
+  {
+    "element": "apps/frontend/src/pages/GeneratePage.tsx",
+    "path": "apps/frontend/src/pages/GeneratePage.tsx",
+    "type": "file",
+    "content": "Page Фазы 5 для deal-scoped генерации. Три колонки: темы+шаблоны слева (themesApi.list + templatesApi.list по selectedThemeId), preview в центре (templatesApi.preview + dangerouslySetInnerHTML с PREVIEW_STYLES CSS-инъекцией), действия справа (generateApi.generate). useEffect после рендера preview добавляет native title атрибут к span[data-formula-key] с label/expression/value. Без dealId показывает stub. Использует getCurrentDealId из lib/b24. Результат генерации: fileName, downloadUrl, binding (status UF_CRM), timeline (comment), warnings[].",
+    "createdAt": "2026-04-07T17:50:59.064Z",
+    "updatedAt": "2026-04-07T17:50:59.064Z"
+  },
+  {
+    "element": "apps/frontend/src/pages/SettingsPage.tsx",
+    "path": "apps/frontend/src/pages/SettingsPage.tsx",
+    "type": "file",
+    "content": "Page Фазы 5 с управлением AppSettings. Три секции: 1) UF_CRM file field dropdown из settingsApi.dealFields с кнопкой Create через Dialog (XML_ID sanitization A-Z/0-9/_, POST settingsApi.createField); 2) Admin picker — debounced usersApi.search + checkbox выбор, текущие показаны списком с Trash (использует PortalUserDTO); 3) Save-bar с settingsApi.update({dealFieldBinding, adminUserIds}). saveMessage строка для success/error feedback. useDebouncedValue 300ms для поиска.",
+    "createdAt": "2026-04-07T17:51:05.225Z",
+    "updatedAt": "2026-04-07T17:51:05.225Z"
+  },
+  {
+    "element": "Theme",
+    "path": "packages/shared/src/types.ts",
+    "type": "interface",
+    "content": "Prisma model: id, name, order, addToTimeline (default true), dealFieldBinding (nullable), templates relation, createdAt, updatedAt. Per-theme settings: addToTimeline gates whether the generate route posts a timeline comment with the .docx attachment; dealFieldBinding overrides the global AppSettings.dealFieldBinding for templates inside this theme. NULL on dealFieldBinding falls back to AppSettings (or 'no binding' if that's also null).",
+    "createdAt": "2026-04-07T23:00:05.011Z",
+    "updatedAt": "2026-04-07T23:00:05.011Z"
+  },
+  {
+    "element": "ThemeSettingsDialog",
+    "path": "apps/frontend/src/components/ThemeSettingsDialog.tsx",
+    "type": "function",
+    "content": "React modal at apps/frontend/src/components/ThemeSettingsDialog.tsx for editing per-theme generation settings. Props: {theme: ThemeDTO|null, onClose}. Hydrates form from theme on open. Controls: addToTimeline checkbox, select of UF_CRM_* file fields loaded via settingsApi.dealFields (with multi-value badge), inline 'Создать поле' sub-form that calls settingsApi.createField and auto-selects the new field. Save button calls themesApi.update({addToTimeline, dealFieldBinding}) and invalidates ['themes']. Mounted from ThemeSidebar via the per-theme dropdown menu item 'Настройки темы'.",
+    "createdAt": "2026-04-07T23:00:11.462Z",
+    "updatedAt": "2026-04-07T23:00:11.462Z"
+  },
+  {
+    "element": "apps/backend/src/services/b24Client.ts",
+    "path": "apps/backend/src/services/b24Client.ts",
+    "type": "file",
+    "content": "Bitrix24 REST client. Wraps fetch with auth, timeout (15s), JSON envelope unwrapping, B24Error. callMethod retries ONCE on transient network failures (400ms backoff). callBatch packs up to 50 calls. CRM helpers: getDeal, getDealFields, getContactFields, getCompanyFields, listDealUserFields(lang='ru') — passes filter.LANG (mandatory per Bitrix24 docs to receive EDIT_FORM_LABEL/LIST_COLUMN_LABEL/etc; without it labels are silently omitted), addDealUserField, updateDeal, getContact, getCompany, getDealContacts, addTimelineComment. User helpers: listUsers. Disk helpers: uploadDiskFile (base64). Throws B24Error{code, status, raw}.",
+    "createdAt": "2026-04-07T23:05:53.728Z",
+    "updatedAt": "2026-04-07T23:17:28.314Z"
+  },
+  {
+    "element": "apps/frontend/src/components/FormulaTag.tsx",
+    "path": "apps/frontend/src/components/FormulaTag.tsx",
+    "type": "file",
+    "content": "TipTap inline atom node for formula pills inside templates. Attributes: tagKey, label, expression — round-tripped via data-formula-key/label/expression attrs. Inline + atom + selectable; renders as span with bg-blue-100, ring, cursor-pointer + hover:bg-blue-200 to signal click-to-edit. Tooltip carries the expression. parseHTML accepts any span[data-formula-key]. Registers TipTap command insertFormulaTag(attrs) and exports insertFormula(editor, attrs) helper.",
+    "createdAt": "2026-04-07T23:22:10.928Z",
+    "updatedAt": "2026-04-07T23:22:10.928Z"
+  },
+  {
+    "element": "fetchUserFieldLabels",
+    "path": "",
+    "type": "unknown",
+    "content": "Приватный метод B24Client. Загружает человекочитаемые подписи UF_CRM_* полей через crm.<entity>.userfield.list с filter.LANG='ru'. Без LANG Bitrix24 не возвращает EDIT_FORM_LABEL/LIST_COLUMN_LABEL — только технический FIELD_NAME, поэтому FieldPicker показывал коды вместо названий. Возвращает Map<FIELD_NAME, label>. Подпись выбирается в порядке: EDIT_FORM_LABEL → LIST_COLUMN_LABEL → LIST_FILTER_LABEL (через pickLocalizedLabel). При ошибке возвращает пустой Map — fallback на технический код лучше, чем сломанный пикер. Используется в getDealFields/getContactFields/getCompanyFields параллельно с crm.*.fields через Promise.all.",
+    "createdAt": "2026-04-07T23:38:52.070Z",
+    "updatedAt": "2026-04-07T23:38:52.070Z"
+  },
+  {
+    "element": "normalizeDealField",
+    "path": "apps/backend/src/services/b24Client.ts",
+    "type": "function",
+    "content": "Хелпер B24Client. Преобразует сырое поле из crm.deal.fields/crm.contact.fields/crm.company.fields в DealField DTO. Параметры: code (имя поля), meta (RawDealField), userFieldLabel (опциональная подпись из crm.*.userfield.list для UF_CRM_*). Логика заголовка: userFieldLabel имеет приоритет над meta.title/formLabel/listLabel/filterLabel — потому что для UF_CRM_* полей crm.*.fields возвращает в title только технический FIELD_NAME, а человекочитаемое название лежит в EDIT_FORM_LABEL userfield.list. Fallback — сам code.",
+    "createdAt": "2026-04-07T23:38:57.809Z",
+    "updatedAt": "2026-04-07T23:38:57.809Z"
+  },
+  {
+    "element": "reloadParentWindow",
+    "path": "apps/frontend/src/lib/b24.ts",
+    "type": "function",
+    "content": "Хелпер frontend/src/lib/b24.ts. Просит родительское окно Bitrix24 перезагрузиться через B24Frame.parent.reloadWindow() (маппится на BX24.reloadWindow). Используется в GeneratePage после успешной генерации документа: бэкенд привязал файл к UF_CRM_* полю через crm.deal.update, но открытая карточка сделки в Bitrix24 не подхватывает изменения автоматически — без reload пользователь видит старое состояние и должен F5. Ошибки глотаются (проверка frame.parent?.reloadWindow и try/catch) — провалившийся reload не должен ломать UX, пользователь сможет обновить вручную. Вызывается fire-and-forget из onSuccess мутации generateMutation в GeneratePage.",
+    "createdAt": "2026-04-07T23:58:36.092Z",
+    "updatedAt": "2026-04-07T23:58:36.092Z"
+  },
+  {
+    "element": "apps/frontend/src/components/ui/RichTooltip.tsx",
+    "path": "apps/frontend/src/components/ui/RichTooltip.tsx",
+    "type": "file",
+    "content": "Лёгкая всплывающая подсказка в стиле Google Sheets без зависимости от @radix-ui/react-tooltip. Оборачивает children в span (inline-flex), при mouseenter/focus с задержкой 250мс показывает богатое содержимое (ReactNode) через createPortal в document.body. useLayoutEffect переизмеряет реальный размер и корректирует позицию: центрирование по горизонтали, клэмп по краям viewport, флип сверху↔снизу. Props: content, children, delay, side ('top'|'bottom'), className, asBlock. Используется FormulaBuilder (палитры функций/операторов).",
+    "createdAt": "2026-04-08T00:20:47.137Z",
+    "updatedAt": "2026-04-08T00:20:47.137Z"
+  },
+  {
+    "element": "apps/frontend/src/lib/formulaHelp.ts",
+    "path": "apps/frontend/src/lib/formulaHelp.ts",
+    "type": "file",
+    "content": "Справочник метаданных функций и операторов формул. Экспортирует HELPER_DOCS (Record по имени функции: signature, summary, description, args[], examples[]) и OPERATOR_DOCS (символ → краткое описание). Заполнено для if, concat, format, dateFormat, upper, lower и всех операторов palette. Функция extractUsedHelpers(expression) парсит строку формулы регуляркой /\\b([a-zA-Z_]\\w*)\\s*\\(/g и возвращает HelperDoc[] для встретившихся имён — используется в EditorFormulaTooltip для авто-показа справки по функциям внутри пилюли. Один источник правды: используется и FormulaBuilder (тултипы кнопок), и TemplateEditorPage (hover-подсказки над пилюлями).",
+    "createdAt": "2026-04-08T00:20:54.543Z",
+    "updatedAt": "2026-04-08T00:20:54.543Z"
+  }
+]

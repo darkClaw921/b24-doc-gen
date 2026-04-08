@@ -1,0 +1,3 @@
+# formulaEngine
+
+Sandboxed mathjs engine for template formulas. Creates isolated math instance via create(all), then disables dangerous functions (import, createUnit, simplify, derivative, rationalize, resolve, symbolicEqual, reviver, replacer) via Object.defineProperty. Registers helpers: if, concat, format (money/usd/eur/0.00/0.0%/...), dateFormat (iso/date/datetime/dd.MM.yyyy tokens), upper, lower. Exposes validateExpression (AST parse + symbol whitelist), evaluateExpression (compiles + runs with {DEAL, CONTACT, COMPANY} scope), extractDependencies (AST traverse for AccessorNode). Safe against injection: every validated identifier must be DEAL/CONTACT/COMPANY namespace, a whitelisted helper, or a function exposed on the math instance.

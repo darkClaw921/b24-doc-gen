@@ -1,0 +1,3 @@
+# apps/frontend/src/lib/formulaHelp.ts
+
+Справочник метаданных функций и операторов формул. Экспортирует HELPER_DOCS (Record по имени функции: signature, summary, description, args[], examples[]) и OPERATOR_DOCS (символ → краткое описание). Заполнено для if, concat, format, dateFormat, upper, lower и всех операторов palette. Функция extractUsedHelpers(expression) парсит строку формулы регуляркой /\b([a-zA-Z_]\w*)\s*\(/g и возвращает HelperDoc[] для встретившихся имён — используется в EditorFormulaTooltip для авто-показа справки по функциям внутри пилюли. Один источник правды: используется и FormulaBuilder (тултипы кнопок), и TemplateEditorPage (hover-подсказки над пилюлями).

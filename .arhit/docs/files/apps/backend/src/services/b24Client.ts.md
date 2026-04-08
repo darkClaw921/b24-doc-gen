@@ -1,0 +1,3 @@
+# apps/backend/src/services/b24Client.ts
+
+Bitrix24 REST client. Wraps fetch with auth, timeout (15s), JSON envelope unwrapping, B24Error. callMethod retries ONCE on transient network failures (400ms backoff). callBatch packs up to 50 calls. CRM helpers: getDeal, getDealFields, getContactFields, getCompanyFields, listDealUserFields(lang='ru') — passes filter.LANG (mandatory per Bitrix24 docs to receive EDIT_FORM_LABEL/LIST_COLUMN_LABEL/etc; without it labels are silently omitted), addDealUserField, updateDeal, getContact, getCompany, getDealContacts, addTimelineComment. User helpers: listUsers. Disk helpers: uploadDiskFile (base64). Throws B24Error{code, status, raw}.

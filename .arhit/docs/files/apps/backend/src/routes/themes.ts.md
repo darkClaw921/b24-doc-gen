@@ -1,0 +1,3 @@
+# apps/backend/src/routes/themes.ts
+
+CRUD for template themes. Endpoints: GET /api/themes (list with _count.templates, ordered by order ASC then name ASC), POST /api/themes (admin only; accepts name, order?, addToTimeline?, dealFieldBinding?), PUT /api/themes/:id (admin only; partial update of name/order/addToTimeline/dealFieldBinding — dealFieldBinding accepts string|null and is normalized via normalizeFieldBinding), DELETE /api/themes/:id (admin only; 409 if templates attached). Exports ThemeDTO {id, name, order, addToTimeline, dealFieldBinding, templatesCount?, createdAt, updatedAt}. All mutations gated by requireAdmin preHandler.

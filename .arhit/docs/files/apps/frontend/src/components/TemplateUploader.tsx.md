@@ -1,0 +1,3 @@
+# apps/frontend/src/components/TemplateUploader.tsx
+
+Drag&drop загрузка .docx через react-dropzone. Принимает themeId (required), defaultName, onSuccess(template), onError(message), className. Конфигурация useDropzone: accept = {'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx']}, maxSize = 20MB, multiple: false. После drop вызывает templatesApi.upload({name, themeId, file}, {onProgress}) — XHR с прогрессом. Состояние: progress (0..100 | null), error, uploadingFile. Обработка fileRejections: file-too-large/file-invalid-type → понятные русские сообщения. На успех — onSuccess(template) и navigate в TemplateEditorPage.

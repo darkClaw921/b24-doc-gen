@@ -1,0 +1,20 @@
+{
+  "name": "b24-doc-gen",
+  "sourcePaths": [
+    "."
+  ],
+  "ignore": [
+    "node_modules",
+    "dist",
+    ".arhit",
+    ".git",
+    ".omc",
+    ".venv",
+    "venv",
+    "__pycache__",
+    ".tox",
+    ".mypy_cache",
+    ".pytest_cache"
+  ],
+  "language": "unknown"
+}

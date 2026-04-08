@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+.next/
+.turbo/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Database files
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Temp files
+tmp/
+temp/
+.claude
+.beads
+CLAUDE.md
+
+TODO.md
+# Prisma generated client (optional — sometimes kept, sometimes ignored)
+# apps/backend/node_modules/.prisma

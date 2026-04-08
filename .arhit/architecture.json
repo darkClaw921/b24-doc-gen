@@ -1,0 +1,4196 @@
+{
+  "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
+  "generatedAt": "2026-04-08T00:20:21.984Z",
+  "nodes": [
+    {
+      "id": "apps/frontend/tailwind.config.ts",
+      "name": "tailwind.config.ts",
+      "type": "file",
+      "path": "apps/frontend/tailwind.config.ts",
+      "exports": [],
+      "children": [
+        {
+          "id": "apps/frontend/tailwind.config.ts:config",
+          "name": "config",
+          "type": "variable",
+          "path": "apps/frontend/tailwind.config.ts",
+          "line": 8,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/vite.config.ts",
+      "name": "vite.config.ts",
+      "type": "file",
+      "path": "apps/frontend/vite.config.ts",
+      "exports": [],
+      "children": []
+    },
+    {
+      "id": "apps/backend/src/server.ts",
+      "name": "server.ts",
+      "type": "file",
+      "path": "apps/backend/src/server.ts",
+      "exports": [
+        "buildServer"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/server.ts:buildServer",
+          "name": "buildServer",
+          "type": "function",
+          "path": "apps/backend/src/server.ts",
+          "line": 38,
+          "exports": [
+            "buildServer"
+          ]
+        },
+        {
+          "id": "apps/backend/src/server.ts:start",
+          "name": "start",
+          "type": "function",
+          "path": "apps/backend/src/server.ts",
+          "line": 201,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/server.ts:__dirname",
+          "name": "__dirname",
+          "type": "variable",
+          "path": "apps/backend/src/server.ts",
+          "line": 20,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/server.ts:isDirectRun",
+          "name": "isDirectRun",
+          "type": "variable",
+          "path": "apps/backend/src/server.ts",
+          "line": 215,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "packages/shared/src/index.ts",
+      "name": "index.ts",
+      "type": "file",
+      "path": "packages/shared/src/index.ts",
+      "exports": [],
+      "children": []
+    },
+    {
+      "id": "packages/shared/src/types.ts",
+      "name": "types.ts",
+      "type": "file",
+      "path": "packages/shared/src/types.ts",
+      "exports": [
+        "AppSettings",
+        "Theme",
+        "Template",
+        "Formula",
+        "FormulaDependencies",
+        "DealField",
+        "FormulaContext",
+        "FormulaEvaluationResult",
+        "B24AuthPayload",
+        "InstallRequest",
+        "InstallResponse",
+        "TemplatePreviewResponse",
+        "GenerateRequest",
+        "GenerateResponse",
+        "ApiErrorBody",
+        "ApiErrorEnvelope",
+        "ApiError",
+        "EntityValues",
+        "AppRole"
+      ],
+      "children": [
+        {
+          "id": "packages/shared/src/types.ts:AppSettings",
+          "name": "AppSettings",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 18,
+          "exports": [
+            "AppSettings"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:Theme",
+          "name": "Theme",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 42,
+          "exports": [
+            "Theme"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:Template",
+          "name": "Template",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 68,
+          "exports": [
+            "Template"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:Formula",
+          "name": "Formula",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 99,
+          "exports": [
+            "Formula"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:FormulaDependencies",
+          "name": "FormulaDependencies",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 117,
+          "exports": [
+            "FormulaDependencies"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:DealField",
+          "name": "DealField",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 132,
+          "exports": [
+            "DealField"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:FormulaContext",
+          "name": "FormulaContext",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 170,
+          "exports": [
+            "FormulaContext"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:FormulaEvaluationResult",
+          "name": "FormulaEvaluationResult",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 181,
+          "exports": [
+            "FormulaEvaluationResult"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:B24AuthPayload",
+          "name": "B24AuthPayload",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 201,
+          "exports": [
+            "B24AuthPayload"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:InstallRequest",
+          "name": "InstallRequest",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 221,
+          "exports": [
+            "InstallRequest"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:InstallResponse",
+          "name": "InstallResponse",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 227,
+          "exports": [
+            "InstallResponse"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:TemplatePreviewResponse",
+          "name": "TemplatePreviewResponse",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 232,
+          "exports": [
+            "TemplatePreviewResponse"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:GenerateRequest",
+          "name": "GenerateRequest",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 240,
+          "exports": [
+            "GenerateRequest"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:GenerateResponse",
+          "name": "GenerateResponse",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 246,
+          "exports": [
+            "GenerateResponse"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:ApiErrorBody",
+          "name": "ApiErrorBody",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 260,
+          "exports": [
+            "ApiErrorBody"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:ApiErrorEnvelope",
+          "name": "ApiErrorEnvelope",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 270,
+          "exports": [
+            "ApiErrorEnvelope"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:ApiError",
+          "name": "ApiError",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 278,
+          "exports": [
+            "ApiError"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:EntityValues",
+          "name": "EntityValues",
+          "type": "type",
+          "path": "packages/shared/src/types.ts",
+          "line": 163,
+          "exports": [
+            "EntityValues"
+          ]
+        },
+        {
+          "id": "packages/shared/src/types.ts:AppRole",
+          "name": "AppRole",
+          "type": "type",
+          "path": "packages/shared/src/types.ts",
+          "line": 293,
+          "exports": [
+            "AppRole"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/App.tsx",
+      "name": "App.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/App.tsx",
+      "exports": [
+        "App"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/App.tsx:App",
+          "name": "App",
+          "type": "function",
+          "path": "apps/frontend/src/App.tsx",
+          "line": 27,
+          "exports": [
+            "App"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/main.tsx",
+      "name": "main.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/main.tsx",
+      "exports": [],
+      "children": [
+        {
+          "id": "apps/frontend/src/main.tsx:render",
+          "name": "render",
+          "type": "function",
+          "path": "apps/frontend/src/main.tsx",
+          "line": 40,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/main.tsx:queryClient",
+          "name": "queryClient",
+          "type": "variable",
+          "path": "apps/frontend/src/main.tsx",
+          "line": 24,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/main.tsx:rootElement",
+          "name": "rootElement",
+          "type": "variable",
+          "path": "apps/frontend/src/main.tsx",
+          "line": 33,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/main.tsx:root",
+          "name": "root",
+          "type": "variable",
+          "path": "apps/frontend/src/main.tsx",
+          "line": 38,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/vite-env.d.ts",
+      "name": "vite-env.d.ts",
+      "type": "file",
+      "path": "apps/frontend/src/vite-env.d.ts",
+      "exports": [],
+      "children": []
+    },
+    {
+      "id": "apps/backend/src/middleware/auth.ts",
+      "name": "auth.ts",
+      "type": "file",
+      "path": "apps/backend/src/middleware/auth.ts",
+      "exports": [
+        "verifyB24Payload",
+        "isPlausibleBitrixDomain",
+        "registerAuthMiddleware",
+        "B24RequestAuth"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/middleware/auth.ts:resolveUserIdFromB24",
+          "name": "resolveUserIdFromB24",
+          "type": "function",
+          "path": "apps/backend/src/middleware/auth.ts",
+          "line": 44,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/middleware/auth.ts:readAuthCandidates",
+          "name": "readAuthCandidates",
+          "type": "function",
+          "path": "apps/backend/src/middleware/auth.ts",
+          "line": 111,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/middleware/auth.ts:readHeader",
+          "name": "readHeader",
+          "type": "function",
+          "path": "apps/backend/src/middleware/auth.ts",
+          "line": 152,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/middleware/auth.ts:verifyB24Payload",
+          "name": "verifyB24Payload",
+          "type": "function",
+          "path": "apps/backend/src/middleware/auth.ts",
+          "line": 164,
+          "exports": [
+            "verifyB24Payload"
+          ]
+        },
+        {
+          "id": "apps/backend/src/middleware/auth.ts:isPlausibleBitrixDomain",
+          "name": "isPlausibleBitrixDomain",
+          "type": "function",
+          "path": "apps/backend/src/middleware/auth.ts",
+          "line": 208,
+          "exports": [
+            "isPlausibleBitrixDomain"
+          ]
+        },
+        {
+          "id": "apps/backend/src/middleware/auth.ts:isPublicPath",
+          "name": "isPublicPath",
+          "type": "function",
+          "path": "apps/backend/src/middleware/auth.ts",
+          "line": 238,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/middleware/auth.ts:registerAuthMiddleware",
+          "name": "registerAuthMiddleware",
+          "type": "function",
+          "path": "apps/backend/src/middleware/auth.ts",
+          "line": 248,
+          "exports": [
+            "registerAuthMiddleware"
+          ]
+        },
+        {
+          "id": "apps/backend/src/middleware/auth.ts:B24RequestAuth",
+          "name": "B24RequestAuth",
+          "type": "interface",
+          "path": "apps/backend/src/middleware/auth.ts",
+          "line": 72,
+          "exports": [
+            "B24RequestAuth"
+          ]
+        },
+        {
+          "id": "apps/backend/src/middleware/auth.ts:BodyAuthShape",
+          "name": "BodyAuthShape",
+          "type": "interface",
+          "path": "apps/backend/src/middleware/auth.ts",
+          "line": 97,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/middleware/auth.ts:userIdCache",
+          "name": "userIdCache",
+          "type": "variable",
+          "path": "apps/backend/src/middleware/auth.ts",
+          "line": 41,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/middleware/auth.ts:USER_ID_CACHE_TTL_MS",
+          "name": "USER_ID_CACHE_TTL_MS",
+          "type": "variable",
+          "path": "apps/backend/src/middleware/auth.ts",
+          "line": 42,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/middleware/auth.ts:PUBLIC_PATHS",
+          "name": "PUBLIC_PATHS",
+          "type": "variable",
+          "path": "apps/backend/src/middleware/auth.ts",
+          "line": 236,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/middleware/role.ts",
+      "name": "role.ts",
+      "type": "file",
+      "path": "apps/backend/src/middleware/role.ts",
+      "exports": [
+        "invalidateRoleCache",
+        "loadCurrentRole",
+        "requireAdmin"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/middleware/role.ts:invalidateRoleCache",
+          "name": "invalidateRoleCache",
+          "type": "function",
+          "path": "apps/backend/src/middleware/role.ts",
+          "line": 52,
+          "exports": [
+            "invalidateRoleCache"
+          ]
+        },
+        {
+          "id": "apps/backend/src/middleware/role.ts:loadAdminIds",
+          "name": "loadAdminIds",
+          "type": "function",
+          "path": "apps/backend/src/middleware/role.ts",
+          "line": 56,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/middleware/role.ts:loadCurrentRole",
+          "name": "loadCurrentRole",
+          "type": "function",
+          "path": "apps/backend/src/middleware/role.ts",
+          "line": 89,
+          "exports": [
+            "loadCurrentRole"
+          ]
+        },
+        {
+          "id": "apps/backend/src/middleware/role.ts:requireAdmin",
+          "name": "requireAdmin",
+          "type": "function",
+          "path": "apps/backend/src/middleware/role.ts",
+          "line": 108,
+          "exports": [
+            "requireAdmin"
+          ]
+        },
+        {
+          "id": "apps/backend/src/middleware/role.ts:CachedAdmins",
+          "name": "CachedAdmins",
+          "type": "interface",
+          "path": "apps/backend/src/middleware/role.ts",
+          "line": 40,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/middleware/role.ts:adminCache",
+          "name": "adminCache",
+          "type": "variable",
+          "path": "apps/backend/src/middleware/role.ts",
+          "line": 45,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/middleware/role.ts:CACHE_TTL_MS",
+          "name": "CACHE_TTL_MS",
+          "type": "variable",
+          "path": "apps/backend/src/middleware/role.ts",
+          "line": 46,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/prisma/client.ts",
+      "name": "client.ts",
+      "type": "file",
+      "path": "apps/backend/src/prisma/client.ts",
+      "exports": [
+        "prisma"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/prisma/client.ts:prisma",
+          "name": "prisma",
+          "type": "variable",
+          "path": "apps/backend/src/prisma/client.ts",
+          "line": 15,
+          "exports": [
+            "prisma"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/routes/deal.ts",
+      "name": "deal.ts",
+      "type": "file",
+      "path": "apps/backend/src/routes/deal.ts",
+      "exports": [
+        "invalidateDealFieldsCache",
+        "registerDealRoutes"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/routes/deal.ts:invalidateDealFieldsCache",
+          "name": "invalidateDealFieldsCache",
+          "type": "function",
+          "path": "apps/backend/src/routes/deal.ts",
+          "line": 30,
+          "exports": [
+            "invalidateDealFieldsCache"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/deal.ts:registerDealRoutes",
+          "name": "registerDealRoutes",
+          "type": "function",
+          "path": "apps/backend/src/routes/deal.ts",
+          "line": 46,
+          "exports": [
+            "registerDealRoutes"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/deal.ts:pickPrimaryContact",
+          "name": "pickPrimaryContact",
+          "type": "function",
+          "path": "apps/backend/src/routes/deal.ts",
+          "line": 197,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/deal.ts:mapB24Error",
+          "name": "mapB24Error",
+          "type": "function",
+          "path": "apps/backend/src/routes/deal.ts",
+          "line": 209,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/deal.ts:DealParams",
+          "name": "DealParams",
+          "type": "interface",
+          "path": "apps/backend/src/routes/deal.ts",
+          "line": 42,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/deal.ts:DEAL_FIELDS_TTL_MS",
+          "name": "DEAL_FIELDS_TTL_MS",
+          "type": "variable",
+          "path": "apps/backend/src/routes/deal.ts",
+          "line": 21,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/deal.ts:dealFieldsCache",
+          "name": "dealFieldsCache",
+          "type": "variable",
+          "path": "apps/backend/src/routes/deal.ts",
+          "line": 24,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/deal.ts:contactFieldsCache",
+          "name": "contactFieldsCache",
+          "type": "variable",
+          "path": "apps/backend/src/routes/deal.ts",
+          "line": 26,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/deal.ts:companyFieldsCache",
+          "name": "companyFieldsCache",
+          "type": "variable",
+          "path": "apps/backend/src/routes/deal.ts",
+          "line": 27,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/routes/formulas.ts",
+      "name": "formulas.ts",
+      "type": "file",
+      "path": "apps/backend/src/routes/formulas.ts",
+      "exports": [
+        "registerFormulaRoutes"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/routes/formulas.ts:registerFormulaRoutes",
+          "name": "registerFormulaRoutes",
+          "type": "function",
+          "path": "apps/backend/src/routes/formulas.ts",
+          "line": 53,
+          "exports": [
+            "registerFormulaRoutes"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/formulas.ts:fetchDealContext",
+          "name": "fetchDealContext",
+          "type": "function",
+          "path": "apps/backend/src/routes/formulas.ts",
+          "line": 161,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/formulas.ts:ValidateBody",
+          "name": "ValidateBody",
+          "type": "interface",
+          "path": "apps/backend/src/routes/formulas.ts",
+          "line": 34,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/formulas.ts:EvaluateBody",
+          "name": "EvaluateBody",
+          "type": "interface",
+          "path": "apps/backend/src/routes/formulas.ts",
+          "line": 38,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/routes/generate.ts",
+      "name": "generate.ts",
+      "type": "file",
+      "path": "apps/backend/src/routes/generate.ts",
+      "exports": [
+        "registerGenerateRoutes"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/routes/generate.ts:registerGenerateRoutes",
+          "name": "registerGenerateRoutes",
+          "type": "function",
+          "path": "apps/backend/src/routes/generate.ts",
+          "line": 83,
+          "exports": [
+            "registerGenerateRoutes"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/generate.ts:GenerateBody",
+          "name": "GenerateBody",
+          "type": "interface",
+          "path": "apps/backend/src/routes/generate.ts",
+          "line": 50,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/generate.ts:BindingResult",
+          "name": "BindingResult",
+          "type": "interface",
+          "path": "apps/backend/src/routes/generate.ts",
+          "line": 60,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/generate.ts:GenerateRouteResponse",
+          "name": "GenerateRouteResponse",
+          "type": "interface",
+          "path": "apps/backend/src/routes/generate.ts",
+          "line": 66,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/routes/health.ts",
+      "name": "health.ts",
+      "type": "file",
+      "path": "apps/backend/src/routes/health.ts",
+      "exports": [
+        "registerHealthRoute"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/routes/health.ts:registerHealthRoute",
+          "name": "registerHealthRoute",
+          "type": "function",
+          "path": "apps/backend/src/routes/health.ts",
+          "line": 10,
+          "exports": [
+            "registerHealthRoute"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/routes/install.ts",
+      "name": "install.ts",
+      "type": "file",
+      "path": "apps/backend/src/routes/install.ts",
+      "exports": [
+        "toAppSettings",
+        "registerInstallRoutes",
+        "InstallStatusResponse"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/routes/install.ts:toAppSettings",
+          "name": "toAppSettings",
+          "type": "function",
+          "path": "apps/backend/src/routes/install.ts",
+          "line": 48,
+          "exports": [
+            "toAppSettings"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/install.ts:registerInstallRoutes",
+          "name": "registerInstallRoutes",
+          "type": "function",
+          "path": "apps/backend/src/routes/install.ts",
+          "line": 67,
+          "exports": [
+            "registerInstallRoutes"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/install.ts:InstallBody",
+          "name": "InstallBody",
+          "type": "interface",
+          "path": "apps/backend/src/routes/install.ts",
+          "line": 25,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/install.ts:RegisterPlacementsBody",
+          "name": "RegisterPlacementsBody",
+          "type": "interface",
+          "path": "apps/backend/src/routes/install.ts",
+          "line": 30,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/install.ts:InstallStatusResponse",
+          "name": "InstallStatusResponse",
+          "type": "interface",
+          "path": "apps/backend/src/routes/install.ts",
+          "line": 36,
+          "exports": [
+            "InstallStatusResponse"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/routes/me.ts",
+      "name": "me.ts",
+      "type": "file",
+      "path": "apps/backend/src/routes/me.ts",
+      "exports": [
+        "registerMeRoutes",
+        "MeResponse"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/routes/me.ts:registerMeRoutes",
+          "name": "registerMeRoutes",
+          "type": "function",
+          "path": "apps/backend/src/routes/me.ts",
+          "line": 19,
+          "exports": [
+            "registerMeRoutes"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/me.ts:MeResponse",
+          "name": "MeResponse",
+          "type": "interface",
+          "path": "apps/backend/src/routes/me.ts",
+          "line": 14,
+          "exports": [
+            "MeResponse"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/routes/settings.ts",
+      "name": "settings.ts",
+      "type": "file",
+      "path": "apps/backend/src/routes/settings.ts",
+      "exports": [
+        "registerSettingsRoutes",
+        "DealFileFieldDTO"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/routes/settings.ts:loadSettings",
+          "name": "loadSettings",
+          "type": "function",
+          "path": "apps/backend/src/routes/settings.ts",
+          "line": 65,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/settings.ts:requireSettings",
+          "name": "requireSettings",
+          "type": "function",
+          "path": "apps/backend/src/routes/settings.ts",
+          "line": 75,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/settings.ts:normalizeUserField",
+          "name": "normalizeUserField",
+          "type": "function",
+          "path": "apps/backend/src/routes/settings.ts",
+          "line": 89,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/settings.ts:pickLocalized",
+          "name": "pickLocalized",
+          "type": "function",
+          "path": "apps/backend/src/routes/settings.ts",
+          "line": 108,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/settings.ts:registerSettingsRoutes",
+          "name": "registerSettingsRoutes",
+          "type": "function",
+          "path": "apps/backend/src/routes/settings.ts",
+          "line": 128,
+          "exports": [
+            "registerSettingsRoutes"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/settings.ts:PutSettingsBody",
+          "name": "PutSettingsBody",
+          "type": "interface",
+          "path": "apps/backend/src/routes/settings.ts",
+          "line": 39,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/settings.ts:CreateFieldBody",
+          "name": "CreateFieldBody",
+          "type": "interface",
+          "path": "apps/backend/src/routes/settings.ts",
+          "line": 44,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/settings.ts:DealFileFieldDTO",
+          "name": "DealFileFieldDTO",
+          "type": "interface",
+          "path": "apps/backend/src/routes/settings.ts",
+          "line": 52,
+          "exports": [
+            "DealFileFieldDTO"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/routes/templates.ts",
+      "name": "templates.ts",
+      "type": "file",
+      "path": "apps/backend/src/routes/templates.ts",
+      "exports": [
+        "registerTemplateRoutes",
+        "TemplateListItemDTO",
+        "TemplateDTO",
+        "FormulaInput"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/routes/templates.ts:safeName",
+          "name": "safeName",
+          "type": "function",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 118,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:safeContentHtml",
+          "name": "safeContentHtml",
+          "type": "function",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 125,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:parseDependsOn",
+          "name": "parseDependsOn",
+          "type": "function",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 134,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:serializeDependsOn",
+          "name": "serializeDependsOn",
+          "type": "function",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 147,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:toFormulaDto",
+          "name": "toFormulaDto",
+          "type": "function",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 155,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:toTemplateDto",
+          "name": "toTemplateDto",
+          "type": "function",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 170,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:substituteFormulaTagsForPreview",
+          "name": "substituteFormulaTagsForPreview",
+          "type": "function",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 207,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:escapeAttr",
+          "name": "escapeAttr",
+          "type": "function",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 235,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:escapeHtml",
+          "name": "escapeHtml",
+          "type": "function",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 244,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:toTemplateListDto",
+          "name": "toTemplateListDto",
+          "type": "function",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 251,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:registerTemplateRoutes",
+          "name": "registerTemplateRoutes",
+          "type": "function",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 268,
+          "exports": [
+            "registerTemplateRoutes"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:TemplateListItemDTO",
+          "name": "TemplateListItemDTO",
+          "type": "interface",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 50,
+          "exports": [
+            "TemplateListItemDTO"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:TemplateDTO",
+          "name": "TemplateDTO",
+          "type": "interface",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 61,
+          "exports": [
+            "TemplateDTO"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:ListTemplatesQuery",
+          "name": "ListTemplatesQuery",
+          "type": "interface",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 74,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:GetTemplateParams",
+          "name": "GetTemplateParams",
+          "type": "interface",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 79,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:GetTemplateQuery",
+          "name": "GetTemplateQuery",
+          "type": "interface",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 83,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:PreviewTemplateQuery",
+          "name": "PreviewTemplateQuery",
+          "type": "interface",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 87,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:CreateTemplateBody",
+          "name": "CreateTemplateBody",
+          "type": "interface",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 91,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:UpdateTemplateBody",
+          "name": "UpdateTemplateBody",
+          "type": "interface",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 97,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:FormulaInput",
+          "name": "FormulaInput",
+          "type": "interface",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 105,
+          "exports": [
+            "FormulaInput"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:TemplateRow",
+          "name": "TemplateRow",
+          "type": "interface",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 166,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:TemplateListRow",
+          "name": "TemplateListRow",
+          "type": "interface",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 187,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/routes/themes.ts",
+      "name": "themes.ts",
+      "type": "file",
+      "path": "apps/backend/src/routes/themes.ts",
+      "exports": [
+        "registerThemeRoutes",
+        "ThemeDTO"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/routes/themes.ts:normalizeFieldBinding",
+          "name": "normalizeFieldBinding",
+          "type": "function",
+          "path": "apps/backend/src/routes/themes.ts",
+          "line": 57,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/themes.ts:normalizeName",
+          "name": "normalizeName",
+          "type": "function",
+          "path": "apps/backend/src/routes/themes.ts",
+          "line": 65,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/themes.ts:normalizeOrder",
+          "name": "normalizeOrder",
+          "type": "function",
+          "path": "apps/backend/src/routes/themes.ts",
+          "line": 72,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/themes.ts:toThemeDto",
+          "name": "toThemeDto",
+          "type": "function",
+          "path": "apps/backend/src/routes/themes.ts",
+          "line": 89,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/themes.ts:registerThemeRoutes",
+          "name": "registerThemeRoutes",
+          "type": "function",
+          "path": "apps/backend/src/routes/themes.ts",
+          "line": 102,
+          "exports": [
+            "registerThemeRoutes"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/themes.ts:CreateThemeBody",
+          "name": "CreateThemeBody",
+          "type": "interface",
+          "path": "apps/backend/src/routes/themes.ts",
+          "line": 23,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/themes.ts:UpdateThemeBody",
+          "name": "UpdateThemeBody",
+          "type": "interface",
+          "path": "apps/backend/src/routes/themes.ts",
+          "line": 30,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/themes.ts:ThemeIdParam",
+          "name": "ThemeIdParam",
+          "type": "interface",
+          "path": "apps/backend/src/routes/themes.ts",
+          "line": 37,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/themes.ts:ThemeDTO",
+          "name": "ThemeDTO",
+          "type": "interface",
+          "path": "apps/backend/src/routes/themes.ts",
+          "line": 46,
+          "exports": [
+            "ThemeDTO"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/themes.ts:ThemeRowWithCount",
+          "name": "ThemeRowWithCount",
+          "type": "interface",
+          "path": "apps/backend/src/routes/themes.ts",
+          "line": 78,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/routes/users.ts",
+      "name": "users.ts",
+      "type": "file",
+      "path": "apps/backend/src/routes/users.ts",
+      "exports": [
+        "registerUsersRoutes",
+        "PortalUser"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/routes/users.ts:registerUsersRoutes",
+          "name": "registerUsersRoutes",
+          "type": "function",
+          "path": "apps/backend/src/routes/users.ts",
+          "line": 35,
+          "exports": [
+            "registerUsersRoutes"
+          ]
+        },
+        {
+          "id": "apps/backend/src/routes/users.ts:toPortalUser",
+          "name": "toPortalUser",
+          "type": "function",
+          "path": "apps/backend/src/routes/users.ts",
+          "line": 71,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/users.ts:UsersQuery",
+          "name": "UsersQuery",
+          "type": "interface",
+          "path": "apps/backend/src/routes/users.ts",
+          "line": 20,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/users.ts:PortalUser",
+          "name": "PortalUser",
+          "type": "interface",
+          "path": "apps/backend/src/routes/users.ts",
+          "line": 26,
+          "exports": [
+            "PortalUser"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/services/b24Client.ts",
+      "name": "b24Client.ts",
+      "type": "file",
+      "path": "apps/backend/src/services/b24Client.ts",
+      "exports": [
+        "B24Error",
+        "B24Client",
+        "B24ClientConfig",
+        "B24BatchCall",
+        "B24BatchResult",
+        "B24DiskFile"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/services/b24Client.ts:pickLocalizedLabel",
+          "name": "pickLocalizedLabel",
+          "type": "function",
+          "path": "apps/backend/src/services/b24Client.ts",
+          "line": 439,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/b24Client.ts:normalizeDealField",
+          "name": "normalizeDealField",
+          "type": "function",
+          "path": "apps/backend/src/services/b24Client.ts",
+          "line": 455,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/b24Client.ts:appendParam",
+          "name": "appendParam",
+          "type": "function",
+          "path": "apps/backend/src/services/b24Client.ts",
+          "line": 492,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/b24Client.ts:B24Error",
+          "name": "B24Error",
+          "type": "class",
+          "path": "apps/backend/src/services/b24Client.ts",
+          "line": 32,
+          "exports": [
+            "B24Error"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/b24Client.ts:B24Client",
+          "name": "B24Client",
+          "type": "class",
+          "path": "apps/backend/src/services/b24Client.ts",
+          "line": 105,
+          "exports": [
+            "B24Client"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/b24Client.ts:B24ClientConfig",
+          "name": "B24ClientConfig",
+          "type": "interface",
+          "path": "apps/backend/src/services/b24Client.ts",
+          "line": 47,
+          "exports": [
+            "B24ClientConfig"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/b24Client.ts:B24Envelope",
+          "name": "B24Envelope",
+          "type": "interface",
+          "path": "apps/backend/src/services/b24Client.ts",
+          "line": 62,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/b24Client.ts:B24BatchCall",
+          "name": "B24BatchCall",
+          "type": "interface",
+          "path": "apps/backend/src/services/b24Client.ts",
+          "line": 72,
+          "exports": [
+            "B24BatchCall"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/b24Client.ts:B24BatchResult",
+          "name": "B24BatchResult",
+          "type": "interface",
+          "path": "apps/backend/src/services/b24Client.ts",
+          "line": 81,
+          "exports": [
+            "B24BatchResult"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/b24Client.ts:B24DiskFile",
+          "name": "B24DiskFile",
+          "type": "interface",
+          "path": "apps/backend/src/services/b24Client.ts",
+          "line": 92,
+          "exports": [
+            "B24DiskFile"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/b24Client.ts:RawDealField",
+          "name": "RawDealField",
+          "type": "interface",
+          "path": "apps/backend/src/services/b24Client.ts",
+          "line": 419,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/services/cache.ts",
+      "name": "cache.ts",
+      "type": "file",
+      "path": "apps/backend/src/services/cache.ts",
+      "exports": [
+        "TTLCache"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/services/cache.ts:TTLCache",
+          "name": "TTLCache",
+          "type": "class",
+          "path": "apps/backend/src/services/cache.ts",
+          "line": 16,
+          "exports": [
+            "TTLCache"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/cache.ts:Entry",
+          "name": "Entry",
+          "type": "interface",
+          "path": "apps/backend/src/services/cache.ts",
+          "line": 11,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/services/dealData.ts",
+      "name": "dealData.ts",
+      "type": "file",
+      "path": "apps/backend/src/services/dealData.ts",
+      "exports": [
+        "getDealContext",
+        "DealDataError",
+        "__internal"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/services/dealData.ts:getDealContext",
+          "name": "getDealContext",
+          "type": "function",
+          "path": "apps/backend/src/services/dealData.ts",
+          "line": 88,
+          "exports": [
+            "getDealContext"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/dealData.ts:flattenEntity",
+          "name": "flattenEntity",
+          "type": "function",
+          "path": "apps/backend/src/services/dealData.ts",
+          "line": 222,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/dealData.ts:flattenValue",
+          "name": "flattenValue",
+          "type": "function",
+          "path": "apps/backend/src/services/dealData.ts",
+          "line": 231,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/dealData.ts:DealDataError",
+          "name": "DealDataError",
+          "type": "class",
+          "path": "apps/backend/src/services/dealData.ts",
+          "line": 58,
+          "exports": [
+            "DealDataError"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/dealData.ts:__internal",
+          "name": "__internal",
+          "type": "variable",
+          "path": "apps/backend/src/services/dealData.ts",
+          "line": 255,
+          "exports": [
+            "__internal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/services/docxBuilder.ts",
+      "name": "docxBuilder.ts",
+      "type": "file",
+      "path": "apps/backend/src/services/docxBuilder.ts",
+      "exports": [
+        "buildDocxFromHtml",
+        "DocxBuildError",
+        "BuildDocxOptions",
+        "__internal"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/services/docxBuilder.ts:buildDocxFromHtml",
+          "name": "buildDocxFromHtml",
+          "type": "function",
+          "path": "apps/backend/src/services/docxBuilder.ts",
+          "line": 81,
+          "exports": [
+            "buildDocxFromHtml"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/docxBuilder.ts:stripFormulaTags",
+          "name": "stripFormulaTags",
+          "type": "function",
+          "path": "apps/backend/src/services/docxBuilder.ts",
+          "line": 148,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxBuilder.ts:wrapAsHtmlDocument",
+          "name": "wrapAsHtmlDocument",
+          "type": "function",
+          "path": "apps/backend/src/services/docxBuilder.ts",
+          "line": 169,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxBuilder.ts:escapeHtmlText",
+          "name": "escapeHtmlText",
+          "type": "function",
+          "path": "apps/backend/src/services/docxBuilder.ts",
+          "line": 185,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxBuilder.ts:coerceToBuffer",
+          "name": "coerceToBuffer",
+          "type": "function",
+          "path": "apps/backend/src/services/docxBuilder.ts",
+          "line": 198,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxBuilder.ts:DocxBuildError",
+          "name": "DocxBuildError",
+          "type": "class",
+          "path": "apps/backend/src/services/docxBuilder.ts",
+          "line": 45,
+          "exports": [
+            "DocxBuildError"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/docxBuilder.ts:BuildDocxOptions",
+          "name": "BuildDocxOptions",
+          "type": "interface",
+          "path": "apps/backend/src/services/docxBuilder.ts",
+          "line": 59,
+          "exports": [
+            "BuildDocxOptions"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/docxBuilder.ts:__internal",
+          "name": "__internal",
+          "type": "variable",
+          "path": "apps/backend/src/services/docxBuilder.ts",
+          "line": 218,
+          "exports": [
+            "__internal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/services/docxParser.ts",
+      "name": "docxParser.ts",
+      "type": "file",
+      "path": "apps/backend/src/services/docxParser.ts",
+      "exports": [
+        "parseDocxToHtml",
+        "DocxParseError",
+        "ParseDocxResult",
+        "defaultStyleMap"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/services/docxParser.ts:parseDocxToHtml",
+          "name": "parseDocxToHtml",
+          "type": "function",
+          "path": "apps/backend/src/services/docxParser.ts",
+          "line": 112,
+          "exports": [
+            "parseDocxToHtml"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/docxParser.ts:DocxParseError",
+          "name": "DocxParseError",
+          "type": "class",
+          "path": "apps/backend/src/services/docxParser.ts",
+          "line": 95,
+          "exports": [
+            "DocxParseError"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/docxParser.ts:MammothMessage",
+          "name": "MammothMessage",
+          "type": "interface",
+          "path": "apps/backend/src/services/docxParser.ts",
+          "line": 30,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxParser.ts:MammothResult",
+          "name": "MammothResult",
+          "type": "interface",
+          "path": "apps/backend/src/services/docxParser.ts",
+          "line": 35,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxParser.ts:MammothInput",
+          "name": "MammothInput",
+          "type": "interface",
+          "path": "apps/backend/src/services/docxParser.ts",
+          "line": 40,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxParser.ts:MammothOptions",
+          "name": "MammothOptions",
+          "type": "interface",
+          "path": "apps/backend/src/services/docxParser.ts",
+          "line": 46,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxParser.ts:MammothModule",
+          "name": "MammothModule",
+          "type": "interface",
+          "path": "apps/backend/src/services/docxParser.ts",
+          "line": 53,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxParser.ts:ParseDocxResult",
+          "name": "ParseDocxResult",
+          "type": "interface",
+          "path": "apps/backend/src/services/docxParser.ts",
+          "line": 84,
+          "exports": [
+            "ParseDocxResult"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/docxParser.ts:mammothLib",
+          "name": "mammothLib",
+          "type": "variable",
+          "path": "apps/backend/src/services/docxParser.ts",
+          "line": 57,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxParser.ts:defaultStyleMap",
+          "name": "defaultStyleMap",
+          "type": "variable",
+          "path": "apps/backend/src/services/docxParser.ts",
+          "line": 67,
+          "exports": [
+            "defaultStyleMap"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/services/formulaEngine.ts",
+      "name": "formulaEngine.ts",
+      "type": "file",
+      "path": "apps/backend/src/services/formulaEngine.ts",
+      "exports": [
+        "formatNumber",
+        "formatDate",
+        "validateExpression",
+        "evaluateExpression",
+        "extractDependencies",
+        "ValidationResult",
+        "EvaluationResult"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:buildSandboxedMath",
+          "name": "buildSandboxedMath",
+          "type": "function",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 56,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:formatNumber",
+          "name": "formatNumber",
+          "type": "function",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 162,
+          "exports": [
+            "formatNumber"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:formatDate",
+          "name": "formatDate",
+          "type": "function",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 216,
+          "exports": [
+            "formatDate"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:toNumberOrNull",
+          "name": "toNumberOrNull",
+          "type": "function",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 242,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:toDateOrNull",
+          "name": "toDateOrNull",
+          "type": "function",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 254,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:tryParse",
+          "name": "tryParse",
+          "type": "function",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 268,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:collectDeps",
+          "name": "collectDeps",
+          "type": "function",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 289,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:validateExpression",
+          "name": "validateExpression",
+          "type": "function",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 337,
+          "exports": [
+            "validateExpression"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:findUnknownSymbol",
+          "name": "findUnknownSymbol",
+          "type": "function",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 386,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:evaluateExpression",
+          "name": "evaluateExpression",
+          "type": "function",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 434,
+          "exports": [
+            "evaluateExpression"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:extractDependencies",
+          "name": "extractDependencies",
+          "type": "function",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 465,
+          "exports": [
+            "extractDependencies"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:toEvaluationResult",
+          "name": "toEvaluationResult",
+          "type": "function",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 474,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:ValidationResult",
+          "name": "ValidationResult",
+          "type": "interface",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 326,
+          "exports": [
+            "ValidationResult"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:EvaluationResult",
+          "name": "EvaluationResult",
+          "type": "interface",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 419,
+          "exports": [
+            "EvaluationResult"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:EntitySymbol",
+          "name": "EntitySymbol",
+          "type": "type",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 138,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:math",
+          "name": "math",
+          "type": "variable",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 134,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:ENTITY_SYMBOLS",
+          "name": "ENTITY_SYMBOLS",
+          "type": "variable",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 137,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/formulaEngine.ts:KNOWN_NON_ENTITY_SYMBOLS",
+          "name": "KNOWN_NON_ENTITY_SYMBOLS",
+          "type": "variable",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 358,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/AdminOnly.tsx",
+      "name": "AdminOnly.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/AdminOnly.tsx",
+      "exports": [
+        "AdminOnly"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/AdminOnly.tsx:AdminOnly",
+          "name": "AdminOnly",
+          "type": "function",
+          "path": "apps/frontend/src/components/AdminOnly.tsx",
+          "line": 22,
+          "exports": [
+            "AdminOnly"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/AdminOnly.tsx:AdminOnlyProps",
+          "name": "AdminOnlyProps",
+          "type": "interface",
+          "path": "apps/frontend/src/components/AdminOnly.tsx",
+          "line": 17,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/FieldPicker.tsx",
+      "name": "FieldPicker.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/FieldPicker.tsx",
+      "exports": [
+        "FieldPicker",
+        "FieldPickerProps",
+        "FieldPickerEntity"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/FieldPicker.tsx:FieldPicker",
+          "name": "FieldPicker",
+          "type": "function",
+          "path": "apps/frontend/src/components/FieldPicker.tsx",
+          "line": 56,
+          "exports": [
+            "FieldPicker"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/FieldPicker.tsx:FieldList",
+          "name": "FieldList",
+          "type": "function",
+          "path": "apps/frontend/src/components/FieldPicker.tsx",
+          "line": 140,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/FieldPicker.tsx:formatType",
+          "name": "formatType",
+          "type": "function",
+          "path": "apps/frontend/src/components/FieldPicker.tsx",
+          "line": 192,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/FieldPicker.tsx:FieldPickerProps",
+          "name": "FieldPickerProps",
+          "type": "interface",
+          "path": "apps/frontend/src/components/FieldPicker.tsx",
+          "line": 38,
+          "exports": [
+            "FieldPickerProps"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/FieldPicker.tsx:FieldListProps",
+          "name": "FieldListProps",
+          "type": "interface",
+          "path": "apps/frontend/src/components/FieldPicker.tsx",
+          "line": 132,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/FieldPicker.tsx:FieldPickerEntity",
+          "name": "FieldPickerEntity",
+          "type": "type",
+          "path": "apps/frontend/src/components/FieldPicker.tsx",
+          "line": 36,
+          "exports": [
+            "FieldPickerEntity"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/FieldPicker.tsx:ENTITY_LABELS",
+          "name": "ENTITY_LABELS",
+          "type": "variable",
+          "path": "apps/frontend/src/components/FieldPicker.tsx",
+          "line": 50,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "name": "FormulaBuilder.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "exports": [
+        "HelperTooltipContent",
+        "FormulaBuilder",
+        "FormulaBuilderResult",
+        "FormulaBuilderProps"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/FormulaBuilder.tsx:HelperTooltipContent",
+          "name": "HelperTooltipContent",
+          "type": "function",
+          "path": "apps/frontend/src/components/FormulaBuilder.tsx",
+          "line": 139,
+          "exports": [
+            "HelperTooltipContent"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/FormulaBuilder.tsx:FormulaBuilder",
+          "name": "FormulaBuilder",
+          "type": "function",
+          "path": "apps/frontend/src/components/FormulaBuilder.tsx",
+          "line": 186,
+          "exports": [
+            "FormulaBuilder"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/FormulaBuilder.tsx:DepList",
+          "name": "DepList",
+          "type": "function",
+          "path": "apps/frontend/src/components/FormulaBuilder.tsx",
+          "line": 564,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/FormulaBuilder.tsx:FormulaBuilderResult",
+          "name": "FormulaBuilderResult",
+          "type": "interface",
+          "path": "apps/frontend/src/components/FormulaBuilder.tsx",
+          "line": 70,
+          "exports": [
+            "FormulaBuilderResult"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/FormulaBuilder.tsx:FormulaBuilderProps",
+          "name": "FormulaBuilderProps",
+          "type": "interface",
+          "path": "apps/frontend/src/components/FormulaBuilder.tsx",
+          "line": 77,
+          "exports": [
+            "FormulaBuilderProps"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/FormulaBuilder.tsx:HelperDescriptor",
+          "name": "HelperDescriptor",
+          "type": "interface",
+          "path": "apps/frontend/src/components/FormulaBuilder.tsx",
+          "line": 113,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/FormulaBuilder.tsx:OPERATORS",
+          "name": "OPERATORS",
+          "type": "variable",
+          "path": "apps/frontend/src/components/FormulaBuilder.tsx",
+          "line": 97,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/FormulaBuilder.tsx:HELPERS",
+          "name": "HELPERS",
+          "type": "variable",
+          "path": "apps/frontend/src/components/FormulaBuilder.tsx",
+          "line": 125,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/FormulaTag.tsx",
+      "name": "FormulaTag.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/FormulaTag.tsx",
+      "exports": [
+        "insertFormula",
+        "FormulaTagAttributes",
+        "FormulaTag"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/FormulaTag.tsx:insertFormula",
+          "name": "insertFormula",
+          "type": "function",
+          "path": "apps/frontend/src/components/FormulaTag.tsx",
+          "line": 168,
+          "exports": [
+            "insertFormula"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/FormulaTag.tsx:FormulaTagAttributes",
+          "name": "FormulaTagAttributes",
+          "type": "interface",
+          "path": "apps/frontend/src/components/FormulaTag.tsx",
+          "line": 43,
+          "exports": [
+            "FormulaTagAttributes"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/FormulaTag.tsx:DEFAULTS",
+          "name": "DEFAULTS",
+          "type": "variable",
+          "path": "apps/frontend/src/components/FormulaTag.tsx",
+          "line": 65,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/FormulaTag.tsx:FormulaTag",
+          "name": "FormulaTag",
+          "type": "variable",
+          "path": "apps/frontend/src/components/FormulaTag.tsx",
+          "line": 75,
+          "exports": [
+            "FormulaTag"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/PlacementGuard.tsx",
+      "name": "PlacementGuard.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/PlacementGuard.tsx",
+      "exports": [
+        "PlacementGuard"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/PlacementGuard.tsx:defaultPathForPlacement",
+          "name": "defaultPathForPlacement",
+          "type": "function",
+          "path": "apps/frontend/src/components/PlacementGuard.tsx",
+          "line": 37,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/PlacementGuard.tsx:PlacementGuard",
+          "name": "PlacementGuard",
+          "type": "function",
+          "path": "apps/frontend/src/components/PlacementGuard.tsx",
+          "line": 52,
+          "exports": [
+            "PlacementGuard"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/PlacementGuard.tsx:PlacementGuardProps",
+          "name": "PlacementGuardProps",
+          "type": "interface",
+          "path": "apps/frontend/src/components/PlacementGuard.tsx",
+          "line": 48,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/PlacementGuard.tsx:VIEW_TO_PATH",
+          "name": "VIEW_TO_PATH",
+          "type": "variable",
+          "path": "apps/frontend/src/components/PlacementGuard.tsx",
+          "line": 29,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/TemplateUploader.tsx",
+      "name": "TemplateUploader.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/TemplateUploader.tsx",
+      "exports": [
+        "TemplateUploader",
+        "TemplateUploaderProps"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/TemplateUploader.tsx:TemplateUploader",
+          "name": "TemplateUploader",
+          "type": "function",
+          "path": "apps/frontend/src/components/TemplateUploader.tsx",
+          "line": 50,
+          "exports": [
+            "TemplateUploader"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/TemplateUploader.tsx:TemplateUploaderProps",
+          "name": "TemplateUploaderProps",
+          "type": "interface",
+          "path": "apps/frontend/src/components/TemplateUploader.tsx",
+          "line": 37,
+          "exports": [
+            "TemplateUploaderProps"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/TemplateUploader.tsx:MAX_SIZE_BYTES",
+          "name": "MAX_SIZE_BYTES",
+          "type": "variable",
+          "path": "apps/frontend/src/components/TemplateUploader.tsx",
+          "line": 32,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/TemplateUploader.tsx:ACCEPT_MIME",
+          "name": "ACCEPT_MIME",
+          "type": "variable",
+          "path": "apps/frontend/src/components/TemplateUploader.tsx",
+          "line": 33,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/ThemeSettingsDialog.tsx",
+      "name": "ThemeSettingsDialog.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/ThemeSettingsDialog.tsx",
+      "exports": [
+        "ThemeSettingsDialog",
+        "ThemeSettingsDialogProps"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/ThemeSettingsDialog.tsx:ThemeSettingsDialog",
+          "name": "ThemeSettingsDialog",
+          "type": "function",
+          "path": "apps/frontend/src/components/ThemeSettingsDialog.tsx",
+          "line": 48,
+          "exports": [
+            "ThemeSettingsDialog"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ThemeSettingsDialog.tsx:toMessage",
+          "name": "toMessage",
+          "type": "function",
+          "path": "apps/frontend/src/components/ThemeSettingsDialog.tsx",
+          "line": 274,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/ThemeSettingsDialog.tsx:ThemeSettingsDialogProps",
+          "name": "ThemeSettingsDialogProps",
+          "type": "interface",
+          "path": "apps/frontend/src/components/ThemeSettingsDialog.tsx",
+          "line": 41,
+          "exports": [
+            "ThemeSettingsDialogProps"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/ThemeSidebar.tsx",
+      "name": "ThemeSidebar.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/ThemeSidebar.tsx",
+      "exports": [
+        "ThemeSidebar",
+        "ThemeSidebarProps"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/ThemeSidebar.tsx:ThemeSidebar",
+          "name": "ThemeSidebar",
+          "type": "function",
+          "path": "apps/frontend/src/components/ThemeSidebar.tsx",
+          "line": 63,
+          "exports": [
+            "ThemeSidebar"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ThemeSidebar.tsx:toMessage",
+          "name": "toMessage",
+          "type": "function",
+          "path": "apps/frontend/src/components/ThemeSidebar.tsx",
+          "line": 312,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/ThemeSidebar.tsx:ThemeSidebarProps",
+          "name": "ThemeSidebarProps",
+          "type": "interface",
+          "path": "apps/frontend/src/components/ThemeSidebar.tsx",
+          "line": 49,
+          "exports": [
+            "ThemeSidebarProps"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ThemeSidebar.tsx:DialogState",
+          "name": "DialogState",
+          "type": "interface",
+          "path": "apps/frontend/src/components/ThemeSidebar.tsx",
+          "line": 58,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/lib/api.ts",
+      "name": "api.ts",
+      "type": "file",
+      "path": "apps/frontend/src/lib/api.ts",
+      "exports": [
+        "extractApiMessage",
+        "extractApiCode",
+        "apiRequest",
+        "uploadRequest",
+        "ApiError",
+        "ApiErrorBody",
+        "ApiErrorResponse",
+        "UploadOptions",
+        "PortalUserDTO",
+        "InstallStatusDTO",
+        "InstallSettingsDTO",
+        "MeDTO",
+        "CrmFieldDTO",
+        "FormulaValidateResponse",
+        "FormulaEvaluateResponse",
+        "ThemeDTO",
+        "UpdateThemeBody",
+        "TemplateListItemDTO",
+        "FormulaDependenciesDTO",
+        "FormulaDTO",
+        "TemplateDTO",
+        "FormulaInputDTO",
+        "UpdateTemplateBody",
+        "FormulaEvaluationResultDTO",
+        "TemplatePreviewResponseDTO",
+        "GenerateBindingDTO",
+        "GenerateResponseDTO",
+        "SettingsDTO",
+        "DealFileFieldDTO",
+        "AppRoleDTO",
+        "meApi",
+        "installApi",
+        "usersApi",
+        "dealApi",
+        "crmApi",
+        "formulasApi",
+        "themesApi",
+        "templatesApi",
+        "generateApi",
+        "settingsApi"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/lib/api.ts:extractApiMessage",
+          "name": "extractApiMessage",
+          "type": "function",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 41,
+          "exports": [
+            "extractApiMessage"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:extractApiCode",
+          "name": "extractApiCode",
+          "type": "function",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 54,
+          "exports": [
+            "extractApiCode"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:apiRequest",
+          "name": "apiRequest",
+          "type": "function",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 89,
+          "exports": [
+            "apiRequest"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:uploadRequest",
+          "name": "uploadRequest",
+          "type": "function",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 133,
+          "exports": [
+            "uploadRequest"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:ApiError",
+          "name": "ApiError",
+          "type": "class",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 66,
+          "exports": [
+            "ApiError"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:ApiErrorBody",
+          "name": "ApiErrorBody",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 26,
+          "exports": [
+            "ApiErrorBody"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:ApiErrorResponse",
+          "name": "ApiErrorResponse",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 32,
+          "exports": [
+            "ApiErrorResponse"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:RequestOptions",
+          "name": "RequestOptions",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 82,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:UploadOptions",
+          "name": "UploadOptions",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 128,
+          "exports": [
+            "UploadOptions"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:PortalUserDTO",
+          "name": "PortalUserDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 200,
+          "exports": [
+            "PortalUserDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:InstallStatusDTO",
+          "name": "InstallStatusDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 209,
+          "exports": [
+            "InstallStatusDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:InstallSettingsDTO",
+          "name": "InstallSettingsDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 217,
+          "exports": [
+            "InstallSettingsDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:MeDTO",
+          "name": "MeDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 231,
+          "exports": [
+            "MeDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:CrmFieldDTO",
+          "name": "CrmFieldDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 269,
+          "exports": [
+            "CrmFieldDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:FormulaValidateResponse",
+          "name": "FormulaValidateResponse",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 305,
+          "exports": [
+            "FormulaValidateResponse"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:FormulaEvaluateResponse",
+          "name": "FormulaEvaluateResponse",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 311,
+          "exports": [
+            "FormulaEvaluateResponse"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:ThemeDTO",
+          "name": "ThemeDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 336,
+          "exports": [
+            "ThemeDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:UpdateThemeBody",
+          "name": "UpdateThemeBody",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 349,
+          "exports": [
+            "UpdateThemeBody"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:TemplateListItemDTO",
+          "name": "TemplateListItemDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 378,
+          "exports": [
+            "TemplateListItemDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:FormulaDependenciesDTO",
+          "name": "FormulaDependenciesDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 389,
+          "exports": [
+            "FormulaDependenciesDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:FormulaDTO",
+          "name": "FormulaDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 395,
+          "exports": [
+            "FormulaDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:TemplateDTO",
+          "name": "TemplateDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 404,
+          "exports": [
+            "TemplateDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:FormulaInputDTO",
+          "name": "FormulaInputDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 416,
+          "exports": [
+            "FormulaInputDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:UpdateTemplateBody",
+          "name": "UpdateTemplateBody",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 424,
+          "exports": [
+            "UpdateTemplateBody"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:FormulaEvaluationResultDTO",
+          "name": "FormulaEvaluationResultDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 435,
+          "exports": [
+            "FormulaEvaluationResultDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:TemplatePreviewResponseDTO",
+          "name": "TemplatePreviewResponseDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 444,
+          "exports": [
+            "TemplatePreviewResponseDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:GenerateBindingDTO",
+          "name": "GenerateBindingDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 451,
+          "exports": [
+            "GenerateBindingDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:GenerateResponseDTO",
+          "name": "GenerateResponseDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 457,
+          "exports": [
+            "GenerateResponseDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:SettingsDTO",
+          "name": "SettingsDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 526,
+          "exports": [
+            "SettingsDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:DealFileFieldDTO",
+          "name": "DealFileFieldDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 534,
+          "exports": [
+            "DealFileFieldDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:AppRoleDTO",
+          "name": "AppRoleDTO",
+          "type": "type",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 229,
+          "exports": [
+            "AppRoleDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:BASE_URL",
+          "name": "BASE_URL",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 80,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:meApi",
+          "name": "meApi",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 236,
+          "exports": [
+            "meApi"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:installApi",
+          "name": "installApi",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 241,
+          "exports": [
+            "installApi"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:usersApi",
+          "name": "usersApi",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 258,
+          "exports": [
+            "usersApi"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:dealApi",
+          "name": "dealApi",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 279,
+          "exports": [
+            "dealApi"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:crmApi",
+          "name": "crmApi",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 290,
+          "exports": [
+            "crmApi"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:formulasApi",
+          "name": "formulasApi",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 319,
+          "exports": [
+            "formulasApi"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:themesApi",
+          "name": "themesApi",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 356,
+          "exports": [
+            "themesApi"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:templatesApi",
+          "name": "templatesApi",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 468,
+          "exports": [
+            "templatesApi"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:generateApi",
+          "name": "generateApi",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 517,
+          "exports": [
+            "generateApi"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:settingsApi",
+          "name": "settingsApi",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 543,
+          "exports": [
+            "settingsApi"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/lib/b24.ts",
+      "name": "b24.ts",
+      "type": "file",
+      "path": "apps/frontend/src/lib/b24.ts",
+      "exports": [
+        "initB24",
+        "getB24",
+        "isB24Available",
+        "getB24InitError",
+        "getB24Auth",
+        "refreshB24Auth",
+        "getCurrentUserId",
+        "getCurrentDealId",
+        "getCurrentPlacement",
+        "getPlacementOptions",
+        "installFinishB24",
+        "reloadParentWindow",
+        "getB24AuthHeaders",
+        "B24FrontendAuth"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/lib/b24.ts:initB24",
+          "name": "initB24",
+          "type": "function",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 55,
+          "exports": [
+            "initB24"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:getB24",
+          "name": "getB24",
+          "type": "function",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 79,
+          "exports": [
+            "getB24"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:isB24Available",
+          "name": "isB24Available",
+          "type": "function",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 93,
+          "exports": [
+            "isB24Available"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:getB24InitError",
+          "name": "getB24InitError",
+          "type": "function",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 101,
+          "exports": [
+            "getB24InitError"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:getB24Auth",
+          "name": "getB24Auth",
+          "type": "function",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 113,
+          "exports": [
+            "getB24Auth"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:refreshB24Auth",
+          "name": "refreshB24Auth",
+          "type": "function",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 134,
+          "exports": [
+            "refreshB24Auth"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:getCurrentUserId",
+          "name": "getCurrentUserId",
+          "type": "function",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 154,
+          "exports": [
+            "getCurrentUserId"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:getCurrentDealId",
+          "name": "getCurrentDealId",
+          "type": "function",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 179,
+          "exports": [
+            "getCurrentDealId"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:getCurrentPlacement",
+          "name": "getCurrentPlacement",
+          "type": "function",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 193,
+          "exports": [
+            "getCurrentPlacement"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:getPlacementOptions",
+          "name": "getPlacementOptions",
+          "type": "function",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 207,
+          "exports": [
+            "getPlacementOptions"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:installFinishB24",
+          "name": "installFinishB24",
+          "type": "function",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 231,
+          "exports": [
+            "installFinishB24"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:reloadParentWindow",
+          "name": "reloadParentWindow",
+          "type": "function",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 264,
+          "exports": [
+            "reloadParentWindow"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:getB24AuthHeaders",
+          "name": "getB24AuthHeaders",
+          "type": "function",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 278,
+          "exports": [
+            "getB24AuthHeaders"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:B24FrontendAuth",
+          "name": "B24FrontendAuth",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 25,
+          "exports": [
+            "B24FrontendAuth"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:frameInstance",
+          "name": "frameInstance",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 40,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:initPromise",
+          "name": "initPromise",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 41,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/lib/b24.ts:initFailed",
+          "name": "initFailed",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 42,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/lib/formulaHelp.ts",
+      "name": "formulaHelp.ts",
+      "type": "file",
+      "path": "apps/frontend/src/lib/formulaHelp.ts",
+      "exports": [
+        "extractUsedHelpers",
+        "HelperArg",
+        "HelperDoc",
+        "OperatorDoc",
+        "HELPER_DOCS",
+        "OPERATOR_DOCS"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/lib/formulaHelp.ts:extractUsedHelpers",
+          "name": "extractUsedHelpers",
+          "type": "function",
+          "path": "apps/frontend/src/lib/formulaHelp.ts",
+          "line": 148,
+          "exports": [
+            "extractUsedHelpers"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaHelp.ts:HelperArg",
+          "name": "HelperArg",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/formulaHelp.ts",
+          "line": 20,
+          "exports": [
+            "HelperArg"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaHelp.ts:HelperDoc",
+          "name": "HelperDoc",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/formulaHelp.ts",
+          "line": 25,
+          "exports": [
+            "HelperDoc"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaHelp.ts:OperatorDoc",
+          "name": "OperatorDoc",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/formulaHelp.ts",
+          "line": 121,
+          "exports": [
+            "OperatorDoc"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaHelp.ts:HELPER_DOCS",
+          "name": "HELPER_DOCS",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/formulaHelp.ts",
+          "line": 40,
+          "exports": [
+            "HELPER_DOCS"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaHelp.ts:OPERATOR_DOCS",
+          "name": "OPERATOR_DOCS",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/formulaHelp.ts",
+          "line": 126,
+          "exports": [
+            "OPERATOR_DOCS"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/lib/formulas.ts",
+      "name": "formulas.ts",
+      "type": "file",
+      "path": "apps/frontend/src/lib/formulas.ts",
+      "exports": [
+        "validateLocally",
+        "validateRemote",
+        "generateTagKey",
+        "LocalValidationResult",
+        "FormulaDependencies"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/lib/formulas.ts:validateLocally",
+          "name": "validateLocally",
+          "type": "function",
+          "path": "apps/frontend/src/lib/formulas.ts",
+          "line": 61,
+          "exports": [
+            "validateLocally"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulas.ts:validateRemote",
+          "name": "validateRemote",
+          "type": "function",
+          "path": "apps/frontend/src/lib/formulas.ts",
+          "line": 124,
+          "exports": [
+            "validateRemote"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulas.ts:generateTagKey",
+          "name": "generateTagKey",
+          "type": "function",
+          "path": "apps/frontend/src/lib/formulas.ts",
+          "line": 166,
+          "exports": [
+            "generateTagKey"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulas.ts:slugify",
+          "name": "slugify",
+          "type": "function",
+          "path": "apps/frontend/src/lib/formulas.ts",
+          "line": 182,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/lib/formulas.ts:LocalValidationResult",
+          "name": "LocalValidationResult",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/formulas.ts",
+          "line": 37,
+          "exports": [
+            "LocalValidationResult"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulas.ts:FormulaDependencies",
+          "name": "FormulaDependencies",
+          "type": "type",
+          "path": "apps/frontend/src/lib/formulas.ts",
+          "line": 35,
+          "exports": [
+            "FormulaDependencies"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulas.ts:CYR_MAP",
+          "name": "CYR_MAP",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/formulas.ts",
+          "line": 175,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/lib/useApiError.ts",
+      "name": "useApiError.ts",
+      "type": "file",
+      "path": "apps/frontend/src/lib/useApiError.ts",
+      "exports": [
+        "reportApiError",
+        "useApiError"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/lib/useApiError.ts:statusTitle",
+          "name": "statusTitle",
+          "type": "function",
+          "path": "apps/frontend/src/lib/useApiError.ts",
+          "line": 37,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/lib/useApiError.ts:reportApiError",
+          "name": "reportApiError",
+          "type": "function",
+          "path": "apps/frontend/src/lib/useApiError.ts",
+          "line": 50,
+          "exports": [
+            "reportApiError"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/useApiError.ts:useApiError",
+          "name": "useApiError",
+          "type": "function",
+          "path": "apps/frontend/src/lib/useApiError.ts",
+          "line": 78,
+          "exports": [
+            "useApiError"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/useApiError.ts:ReportedError",
+          "name": "ReportedError",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/useApiError.ts",
+          "line": 31,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/lib/useCurrentRole.ts",
+      "name": "useCurrentRole.ts",
+      "type": "file",
+      "path": "apps/frontend/src/lib/useCurrentRole.ts",
+      "exports": [
+        "useCurrentRole",
+        "useInvalidateRole",
+        "UseCurrentRoleResult",
+        "ME_QUERY_KEY"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/lib/useCurrentRole.ts:useCurrentRole",
+          "name": "useCurrentRole",
+          "type": "function",
+          "path": "apps/frontend/src/lib/useCurrentRole.ts",
+          "line": 37,
+          "exports": [
+            "useCurrentRole"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/useCurrentRole.ts:useInvalidateRole",
+          "name": "useInvalidateRole",
+          "type": "function",
+          "path": "apps/frontend/src/lib/useCurrentRole.ts",
+          "line": 65,
+          "exports": [
+            "useInvalidateRole"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/useCurrentRole.ts:UseCurrentRoleResult",
+          "name": "UseCurrentRoleResult",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/useCurrentRole.ts",
+          "line": 26,
+          "exports": [
+            "UseCurrentRoleResult"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/useCurrentRole.ts:ME_QUERY_KEY",
+          "name": "ME_QUERY_KEY",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/useCurrentRole.ts",
+          "line": 24,
+          "exports": [
+            "ME_QUERY_KEY"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/lib/utils.ts",
+      "name": "utils.ts",
+      "type": "file",
+      "path": "apps/frontend/src/lib/utils.ts",
+      "exports": [
+        "cn"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/lib/utils.ts:cn",
+          "name": "cn",
+          "type": "function",
+          "path": "apps/frontend/src/lib/utils.ts",
+          "line": 8,
+          "exports": [
+            "cn"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/pages/GeneratePage.tsx",
+      "name": "GeneratePage.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/pages/GeneratePage.tsx",
+      "exports": [
+        "GeneratePage"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/pages/GeneratePage.tsx:GeneratePage",
+          "name": "GeneratePage",
+          "type": "function",
+          "path": "apps/frontend/src/pages/GeneratePage.tsx",
+          "line": 113,
+          "exports": [
+            "GeneratePage"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/pages/GeneratePage.tsx:PREVIEW_STYLES",
+          "name": "PREVIEW_STYLES",
+          "type": "variable",
+          "path": "apps/frontend/src/pages/GeneratePage.tsx",
+          "line": 86,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/pages/InstallPage.tsx",
+      "name": "InstallPage.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/pages/InstallPage.tsx",
+      "exports": [
+        "InstallPage"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/pages/InstallPage.tsx:useDebouncedValue",
+          "name": "useDebouncedValue",
+          "type": "function",
+          "path": "apps/frontend/src/pages/InstallPage.tsx",
+          "line": 25,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/pages/InstallPage.tsx:InstallPage",
+          "name": "InstallPage",
+          "type": "function",
+          "path": "apps/frontend/src/pages/InstallPage.tsx",
+          "line": 34,
+          "exports": [
+            "InstallPage"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/pages/SettingsPage.tsx",
+      "name": "SettingsPage.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/pages/SettingsPage.tsx",
+      "exports": [
+        "SettingsPage"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/pages/SettingsPage.tsx:useDebouncedValue",
+          "name": "useDebouncedValue",
+          "type": "function",
+          "path": "apps/frontend/src/pages/SettingsPage.tsx",
+          "line": 64,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/pages/SettingsPage.tsx:SettingsPage",
+          "name": "SettingsPage",
+          "type": "function",
+          "path": "apps/frontend/src/pages/SettingsPage.tsx",
+          "line": 77,
+          "exports": [
+            "SettingsPage"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "name": "TemplateEditorPage.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "exports": [
+        "TemplateEditorPage"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/pages/TemplateEditorPage.tsx:TemplateEditorPage",
+          "name": "TemplateEditorPage",
+          "type": "function",
+          "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+          "line": 58,
+          "exports": [
+            "TemplateEditorPage"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/pages/TemplateEditorPage.tsx:formulaDtoToInput",
+          "name": "formulaDtoToInput",
+          "type": "function",
+          "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+          "line": 478,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/pages/TemplateEditorPage.tsx:EditorFormulaTooltip",
+          "name": "EditorFormulaTooltip",
+          "type": "function",
+          "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+          "line": 509,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/pages/TemplatesPage.tsx",
+      "name": "TemplatesPage.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/pages/TemplatesPage.tsx",
+      "exports": [
+        "TemplatesPage"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/pages/TemplatesPage.tsx:useDebouncedValue",
+          "name": "useDebouncedValue",
+          "type": "function",
+          "path": "apps/frontend/src/pages/TemplatesPage.tsx",
+          "line": 56,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/pages/TemplatesPage.tsx:TemplatesPage",
+          "name": "TemplatesPage",
+          "type": "function",
+          "path": "apps/frontend/src/pages/TemplatesPage.tsx",
+          "line": 65,
+          "exports": [
+            "TemplatesPage"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/Editor/index.ts",
+      "name": "index.ts",
+      "type": "file",
+      "path": "apps/frontend/src/components/Editor/index.ts",
+      "exports": [],
+      "children": []
+    },
+    {
+      "id": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+      "name": "TiptapEditor.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+      "exports": [
+        "buildTiptapExtensions",
+        "TiptapEditor",
+        "TiptapEditorProps"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/Editor/TiptapEditor.tsx:buildTiptapExtensions",
+          "name": "buildTiptapExtensions",
+          "type": "function",
+          "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+          "line": 58,
+          "exports": [
+            "buildTiptapExtensions"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/Editor/TiptapEditor.tsx:TiptapEditor",
+          "name": "TiptapEditor",
+          "type": "function",
+          "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+          "line": 88,
+          "exports": [
+            "TiptapEditor"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/Editor/TiptapEditor.tsx:TiptapEditorProps",
+          "name": "TiptapEditorProps",
+          "type": "interface",
+          "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+          "line": 38,
+          "exports": [
+            "TiptapEditorProps"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "name": "Toolbar.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "exports": [
+        "Toolbar",
+        "ToolbarProps"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/Editor/Toolbar.tsx:ToolbarButton",
+          "name": "ToolbarButton",
+          "type": "function",
+          "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
+          "line": 59,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/Editor/Toolbar.tsx:Divider",
+          "name": "Divider",
+          "type": "function",
+          "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
+          "line": 78,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/Editor/Toolbar.tsx:Toolbar",
+          "name": "Toolbar",
+          "type": "function",
+          "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
+          "line": 82,
+          "exports": [
+            "Toolbar"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/Editor/Toolbar.tsx:ToolbarProps",
+          "name": "ToolbarProps",
+          "type": "interface",
+          "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
+          "line": 39,
+          "exports": [
+            "ToolbarProps"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/Editor/Toolbar.tsx:ButtonProps",
+          "name": "ButtonProps",
+          "type": "interface",
+          "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
+          "line": 51,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/ui/button.tsx",
+      "name": "button.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/ui/button.tsx",
+      "exports": [
+        "ButtonProps",
+        "buttonVariants",
+        "Button"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/ui/button.tsx:ButtonProps",
+          "name": "ButtonProps",
+          "type": "interface",
+          "path": "apps/frontend/src/components/ui/button.tsx",
+          "line": 38,
+          "exports": [
+            "ButtonProps"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/button.tsx:buttonVariants",
+          "name": "buttonVariants",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/button.tsx",
+          "line": 12,
+          "exports": [
+            "buttonVariants"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/button.tsx:Button",
+          "name": "Button",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/button.tsx",
+          "line": 44,
+          "exports": [
+            "Button"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/ui/dialog.tsx",
+      "name": "dialog.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/ui/dialog.tsx",
+      "exports": [
+        "Dialog",
+        "DialogTrigger",
+        "DialogPortal",
+        "DialogClose",
+        "DialogOverlay",
+        "DialogContent",
+        "DialogHeader",
+        "DialogFooter",
+        "DialogTitle",
+        "DialogDescription"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/ui/dialog.tsx:Dialog",
+          "name": "Dialog",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dialog.tsx",
+          "line": 11,
+          "exports": [
+            "Dialog"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dialog.tsx:DialogTrigger",
+          "name": "DialogTrigger",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dialog.tsx",
+          "line": 12,
+          "exports": [
+            "DialogTrigger"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dialog.tsx:DialogPortal",
+          "name": "DialogPortal",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dialog.tsx",
+          "line": 13,
+          "exports": [
+            "DialogPortal"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dialog.tsx:DialogClose",
+          "name": "DialogClose",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dialog.tsx",
+          "line": 14,
+          "exports": [
+            "DialogClose"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dialog.tsx:DialogOverlay",
+          "name": "DialogOverlay",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dialog.tsx",
+          "line": 16,
+          "exports": [
+            "DialogOverlay"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dialog.tsx:DialogContent",
+          "name": "DialogContent",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dialog.tsx",
+          "line": 31,
+          "exports": [
+            "DialogContent"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dialog.tsx:DialogHeader",
+          "name": "DialogHeader",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dialog.tsx",
+          "line": 55,
+          "exports": [
+            "DialogHeader"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dialog.tsx:DialogFooter",
+          "name": "DialogFooter",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dialog.tsx",
+          "line": 60,
+          "exports": [
+            "DialogFooter"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dialog.tsx:DialogTitle",
+          "name": "DialogTitle",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dialog.tsx",
+          "line": 68,
+          "exports": [
+            "DialogTitle"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dialog.tsx:DialogDescription",
+          "name": "DialogDescription",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dialog.tsx",
+          "line": 80,
+          "exports": [
+            "DialogDescription"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+      "name": "dropdown-menu.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+      "exports": [
+        "DropdownMenu",
+        "DropdownMenuTrigger",
+        "DropdownMenuGroup",
+        "DropdownMenuPortal",
+        "DropdownMenuSub",
+        "DropdownMenuRadioGroup",
+        "DropdownMenuSubTrigger",
+        "DropdownMenuSubContent",
+        "DropdownMenuContent",
+        "DropdownMenuItem",
+        "DropdownMenuCheckboxItem",
+        "DropdownMenuRadioItem",
+        "DropdownMenuLabel",
+        "DropdownMenuSeparator"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/ui/dropdown-menu.tsx:DropdownMenu",
+          "name": "DropdownMenu",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+          "line": 10,
+          "exports": [
+            "DropdownMenu"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dropdown-menu.tsx:DropdownMenuTrigger",
+          "name": "DropdownMenuTrigger",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+          "line": 11,
+          "exports": [
+            "DropdownMenuTrigger"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dropdown-menu.tsx:DropdownMenuGroup",
+          "name": "DropdownMenuGroup",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+          "line": 12,
+          "exports": [
+            "DropdownMenuGroup"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dropdown-menu.tsx:DropdownMenuPortal",
+          "name": "DropdownMenuPortal",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+          "line": 13,
+          "exports": [
+            "DropdownMenuPortal"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dropdown-menu.tsx:DropdownMenuSub",
+          "name": "DropdownMenuSub",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+          "line": 14,
+          "exports": [
+            "DropdownMenuSub"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dropdown-menu.tsx:DropdownMenuRadioGroup",
+          "name": "DropdownMenuRadioGroup",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+          "line": 15,
+          "exports": [
+            "DropdownMenuRadioGroup"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dropdown-menu.tsx:DropdownMenuSubTrigger",
+          "name": "DropdownMenuSubTrigger",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+          "line": 17,
+          "exports": [
+            "DropdownMenuSubTrigger"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dropdown-menu.tsx:DropdownMenuSubContent",
+          "name": "DropdownMenuSubContent",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+          "line": 36,
+          "exports": [
+            "DropdownMenuSubContent"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dropdown-menu.tsx:DropdownMenuContent",
+          "name": "DropdownMenuContent",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+          "line": 51,
+          "exports": [
+            "DropdownMenuContent"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dropdown-menu.tsx:DropdownMenuItem",
+          "name": "DropdownMenuItem",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+          "line": 69,
+          "exports": [
+            "DropdownMenuItem"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dropdown-menu.tsx:DropdownMenuCheckboxItem",
+          "name": "DropdownMenuCheckboxItem",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+          "line": 85,
+          "exports": [
+            "DropdownMenuCheckboxItem"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dropdown-menu.tsx:DropdownMenuRadioItem",
+          "name": "DropdownMenuRadioItem",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+          "line": 108,
+          "exports": [
+            "DropdownMenuRadioItem"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dropdown-menu.tsx:DropdownMenuLabel",
+          "name": "DropdownMenuLabel",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+          "line": 130,
+          "exports": [
+            "DropdownMenuLabel"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/dropdown-menu.tsx:DropdownMenuSeparator",
+          "name": "DropdownMenuSeparator",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/dropdown-menu.tsx",
+          "line": 142,
+          "exports": [
+            "DropdownMenuSeparator"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/ui/input.tsx",
+      "name": "input.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/ui/input.tsx",
+      "exports": [
+        "InputProps",
+        "Input"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/ui/input.tsx:InputProps",
+          "name": "InputProps",
+          "type": "type",
+          "path": "apps/frontend/src/components/ui/input.tsx",
+          "line": 8,
+          "exports": [
+            "InputProps"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/input.tsx:Input",
+          "name": "Input",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/input.tsx",
+          "line": 10,
+          "exports": [
+            "Input"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/ui/RichTooltip.tsx",
+      "name": "RichTooltip.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/ui/RichTooltip.tsx",
+      "exports": [
+        "RichTooltip",
+        "RichTooltipProps"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/ui/RichTooltip.tsx:RichTooltip",
+          "name": "RichTooltip",
+          "type": "function",
+          "path": "apps/frontend/src/components/ui/RichTooltip.tsx",
+          "line": 55,
+          "exports": [
+            "RichTooltip"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/RichTooltip.tsx:RichTooltipProps",
+          "name": "RichTooltipProps",
+          "type": "interface",
+          "path": "apps/frontend/src/components/ui/RichTooltip.tsx",
+          "line": 40,
+          "exports": [
+            "RichTooltipProps"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/ui/tabs.tsx",
+      "name": "tabs.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/ui/tabs.tsx",
+      "exports": [
+        "Tabs",
+        "TabsList",
+        "TabsTrigger",
+        "TabsContent"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/ui/tabs.tsx:Tabs",
+          "name": "Tabs",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/tabs.tsx",
+          "line": 8,
+          "exports": [
+            "Tabs"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/tabs.tsx:TabsList",
+          "name": "TabsList",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/tabs.tsx",
+          "line": 10,
+          "exports": [
+            "TabsList"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/tabs.tsx:TabsTrigger",
+          "name": "TabsTrigger",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/tabs.tsx",
+          "line": 25,
+          "exports": [
+            "TabsTrigger"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/tabs.tsx:TabsContent",
+          "name": "TabsContent",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/tabs.tsx",
+          "line": 40,
+          "exports": [
+            "TabsContent"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/ui/toast.tsx",
+      "name": "toast.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/ui/toast.tsx",
+      "exports": [
+        "ToastProps",
+        "ToastActionElement",
+        "ToastProvider",
+        "ToastViewport",
+        "Toast",
+        "ToastAction",
+        "ToastClose",
+        "ToastTitle",
+        "ToastDescription"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/ui/toast.tsx:ToastProps",
+          "name": "ToastProps",
+          "type": "type",
+          "path": "apps/frontend/src/components/ui/toast.tsx",
+          "line": 112,
+          "exports": [
+            "ToastProps"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/toast.tsx:ToastActionElement",
+          "name": "ToastActionElement",
+          "type": "type",
+          "path": "apps/frontend/src/components/ui/toast.tsx",
+          "line": 113,
+          "exports": [
+            "ToastActionElement"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/toast.tsx:ToastProvider",
+          "name": "ToastProvider",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/toast.tsx",
+          "line": 12,
+          "exports": [
+            "ToastProvider"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/toast.tsx:ToastViewport",
+          "name": "ToastViewport",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/toast.tsx",
+          "line": 14,
+          "exports": [
+            "ToastViewport"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/toast.tsx:toastVariants",
+          "name": "toastVariants",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/toast.tsx",
+          "line": 29,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/ui/toast.tsx:Toast",
+          "name": "Toast",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/toast.tsx",
+          "line": 45,
+          "exports": [
+            "Toast"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/toast.tsx:ToastAction",
+          "name": "ToastAction",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/toast.tsx",
+          "line": 59,
+          "exports": [
+            "ToastAction"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/toast.tsx:ToastClose",
+          "name": "ToastClose",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/toast.tsx",
+          "line": 74,
+          "exports": [
+            "ToastClose"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/toast.tsx:ToastTitle",
+          "name": "ToastTitle",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/toast.tsx",
+          "line": 92,
+          "exports": [
+            "ToastTitle"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/toast.tsx:ToastDescription",
+          "name": "ToastDescription",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/toast.tsx",
+          "line": 100,
+          "exports": [
+            "ToastDescription"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/ui/toaster.tsx",
+      "name": "toaster.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/ui/toaster.tsx",
+      "exports": [
+        "Toaster"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/ui/toaster.tsx:Toaster",
+          "name": "Toaster",
+          "type": "function",
+          "path": "apps/frontend/src/components/ui/toaster.tsx",
+          "line": 20,
+          "exports": [
+            "Toaster"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/ui/use-toast.ts",
+      "name": "use-toast.ts",
+      "type": "file",
+      "path": "apps/frontend/src/components/ui/use-toast.ts",
+      "exports": [
+        "toast",
+        "dismiss",
+        "useToast"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/ui/use-toast.ts:notify",
+          "name": "notify",
+          "type": "function",
+          "path": "apps/frontend/src/components/ui/use-toast.ts",
+          "line": 31,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/ui/use-toast.ts:setState",
+          "name": "setState",
+          "type": "function",
+          "path": "apps/frontend/src/components/ui/use-toast.ts",
+          "line": 35,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/ui/use-toast.ts:nextId",
+          "name": "nextId",
+          "type": "function",
+          "path": "apps/frontend/src/components/ui/use-toast.ts",
+          "line": 41,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/ui/use-toast.ts:toast",
+          "name": "toast",
+          "type": "function",
+          "path": "apps/frontend/src/components/ui/use-toast.ts",
+          "line": 55,
+          "exports": [
+            "toast"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/use-toast.ts:dismiss",
+          "name": "dismiss",
+          "type": "function",
+          "path": "apps/frontend/src/components/ui/use-toast.ts",
+          "line": 76,
+          "exports": [
+            "dismiss"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/use-toast.ts:useToast",
+          "name": "useToast",
+          "type": "function",
+          "path": "apps/frontend/src/components/ui/use-toast.ts",
+          "line": 87,
+          "exports": [
+            "useToast"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ui/use-toast.ts:State",
+          "name": "State",
+          "type": "interface",
+          "path": "apps/frontend/src/components/ui/use-toast.ts",
+          "line": 24,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/ui/use-toast.ts:ToastInput",
+          "name": "ToastInput",
+          "type": "interface",
+          "path": "apps/frontend/src/components/ui/use-toast.ts",
+          "line": 46,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/ui/use-toast.ts:ToasterToast",
+          "name": "ToasterToast",
+          "type": "type",
+          "path": "apps/frontend/src/components/ui/use-toast.ts",
+          "line": 17,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/ui/use-toast.ts:TOAST_LIMIT",
+          "name": "TOAST_LIMIT",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/use-toast.ts",
+          "line": 14,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/ui/use-toast.ts:TOAST_REMOVE_DELAY",
+          "name": "TOAST_REMOVE_DELAY",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/use-toast.ts",
+          "line": 15,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/ui/use-toast.ts:listeners",
+          "name": "listeners",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/use-toast.ts",
+          "line": 28,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/ui/use-toast.ts:memoryState",
+          "name": "memoryState",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/use-toast.ts",
+          "line": 29,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/ui/use-toast.ts:idCounter",
+          "name": "idCounter",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ui/use-toast.ts",
+          "line": 40,
+          "exports": []
+        }
+      ]
+    }
+  ]
+}

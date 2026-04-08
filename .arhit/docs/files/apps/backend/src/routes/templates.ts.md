@@ -1,0 +1,3 @@
+# apps/backend/src/routes/templates.ts
+
+CRUD шаблонов и multipart upload .docx. Эндпоинты: GET /api/templates?themeId=&search= (фильтр по теме, поиск contains по имени, JOIN с темой и _count формул), GET /api/templates/:id?withDocx=1 (полный шаблон с массивом formulas, опционально base64 originalDocx), POST /api/templates (создать пустой), POST /api/templates/upload (multipart, max 20MB; парсит .docx через docxParser; сохраняет originalDocx в Bytes), PUT /api/templates/:id (транзакционное обновление name/themeId/contentHtml + replaceAll formulas), DELETE /api/templates/:id. Регистрируется через registerTemplateRoutes(app) в server.ts. Использует prisma.$transaction для PUT. Экспортирует TemplateListItemDTO, TemplateDTO, FormulaInput.

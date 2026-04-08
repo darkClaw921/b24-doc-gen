@@ -1,0 +1,3 @@
+# reloadParentWindow
+
+Хелпер frontend/src/lib/b24.ts. Просит родительское окно Bitrix24 перезагрузиться через B24Frame.parent.reloadWindow() (маппится на BX24.reloadWindow). Используется в GeneratePage после успешной генерации документа: бэкенд привязал файл к UF_CRM_* полю через crm.deal.update, но открытая карточка сделки в Bitrix24 не подхватывает изменения автоматически — без reload пользователь видит старое состояние и должен F5. Ошибки глотаются (проверка frame.parent?.reloadWindow и try/catch) — провалившийся reload не должен ломать UX, пользователь сможет обновить вручную. Вызывается fire-and-forget из onSuccess мутации generateMutation в GeneratePage.

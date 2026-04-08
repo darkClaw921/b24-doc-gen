@@ -1,0 +1,85 @@
+// Prisma schema for the b24-doc-gen backend.
+// Datasource: local SQLite file (dev.db).
+// Note: SQLite does not support enums or native JSON columns, so
+// JSON-shaped data (arrays, objects) is stored in String columns and
+// parsed on the application side.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// Application-wide settings. Exactly one row (id = 1) is expected.
+/// `adminUserIds` is a JSON-encoded array of Bitrix24 user IDs.
+/// `dealFieldBinding` is the UF_CRM_* field code where generated
+/// documents are attached, or null until the admin configures it.
+model AppSettings {
+  id               Int      @id @default(1)
+  portalDomain     String
+  adminUserIds     String
+  dealFieldBinding String?
+  installedAt      DateTime @default(now())
+}
+
+/// A logical grouping of templates. Admins can create themes to
+/// organize templates by purpose ("Contracts", "Invoices", etc).
+/// Settings live on the Theme so admins can configure each "folder"
+/// independently:
+/// - `addToTimeline` — whether the generate pipeline posts a timeline
+///   comment with the document attachment for templates inside this theme.
+/// - `dealFieldBinding` — UF_CRM_* file field where the generated .docx
+///   gets attached. Overrides the global AppSettings.dealFieldBinding
+///   (which is kept as a fallback for legacy themes). If the underlying
+///   field is multiple, the generate route appends to the existing list
+///   instead of replacing it.
+model Theme {
+  id               String     @id @default(cuid())
+  name             String
+  order            Int        @default(0)
+  addToTimeline    Boolean    @default(true)
+  dealFieldBinding String?
+  templates        Template[]
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+}
+
+/// A document template uploaded and edited by admins.
+/// - contentHtml holds the TipTap representation with <formula-tag>
+///   inline nodes.
+/// - originalDocx is the raw .docx bytes kept for re-editing.
+model Template {
+  id           String    @id @default(cuid())
+  name         String
+  themeId      String
+  theme        Theme     @relation(fields: [themeId], references: [id])
+  contentHtml  String
+  originalDocx Bytes?
+  formulas     Formula[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([themeId])
+}
+
+/// A formula attached to a template.
+/// - tagKey is referenced from contentHtml by the TipTap formula node.
+/// - expression is a mathjs-compatible string.
+/// - dependsOn is a JSON-encoded object listing the Bitrix24 field
+///   codes read by the expression, grouped by entity (deal/contact/
+///   company). Used to minimize REST calls during preview.
+model Formula {
+  id         String   @id @default(cuid())
+  templateId String
+  template   Template @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  tagKey     String
+  label      String
+  expression String
+  dependsOn  String
+
+  @@index([templateId])
+  @@unique([templateId, tagKey])
+}

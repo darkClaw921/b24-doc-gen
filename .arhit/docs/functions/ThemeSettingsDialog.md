@@ -1,0 +1,3 @@
+# ThemeSettingsDialog
+
+React modal at apps/frontend/src/components/ThemeSettingsDialog.tsx for editing per-theme generation settings. Props: {theme: ThemeDTO|null, onClose}. Hydrates form from theme on open. Controls: addToTimeline checkbox, select of UF_CRM_* file fields loaded via settingsApi.dealFields (with multi-value badge), inline 'Создать поле' sub-form that calls settingsApi.createField and auto-selects the new field. Save button calls themesApi.update({addToTimeline, dealFieldBinding}) and invalidates ['themes']. Mounted from ThemeSidebar via the per-theme dropdown menu item 'Настройки темы'.

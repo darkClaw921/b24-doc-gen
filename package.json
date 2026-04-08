@@ -1,0 +1,28 @@
+{
+  "name": "b24-doc-gen",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bitrix24 document generation application (monorepo)",
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "bash scripts/dev.sh",
+    "prod": "bash scripts/prod.sh",
+    "prod:build": "bash scripts/prod.sh --build-only",
+    "prod:start": "bash scripts/prod.sh --skip-build",
+    "dev:frontend": "pnpm -F frontend dev",
+    "dev:backend": "pnpm -F backend dev",
+    "build": "pnpm -r run build",
+    "lint": "pnpm -r run lint",
+    "typecheck": "pnpm -r run typecheck",
+    "clean": "pnpm -r run clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5"
+  }
+}

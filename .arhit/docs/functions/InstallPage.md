@@ -1,0 +1,3 @@
+# InstallPage
+
+First-run setup React component. Uses TanStack Query to call installApi.status; if not installed, shows debounced (300ms) user search via usersApi.search and a multi-select list backed by Map<number, PortalUserDTO>. Saving calls installApi.install, then installApi.registerPlacements and INSPECTS results — if any placement.bind failed, throws an explicit error with the placement.list diagnostic so the user sees why (e.g. 'placement CRM_DEAL_DETAIL_TAB not declared in local app manifest') instead of a silent console.warn. On success calls installFinishB24() to trigger the iframe reload, then redirects to /templates as a fallback. Shows fallback UI if isB24Available() is false.
