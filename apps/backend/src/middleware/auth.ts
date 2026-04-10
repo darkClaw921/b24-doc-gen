@@ -239,7 +239,7 @@ export function isPlausibleBitrixDomain(value: string): boolean {
 // inside the iframe) — there is no x-b24-* header set to verify. The
 // route handler enforces its own auth via the URL token + the
 // AppSettings.applicationToken shared secret.
-const PUBLIC_PATHS = ['/health', '/api/health', '/api/webhook/run'];
+const PUBLIC_PATHS = ['/health', '/api/health', '/api/webhook/run', '/api/images'];
 
 function isPublicPath(url: string): boolean {
   const pathname = url.split('?')[0] ?? '';

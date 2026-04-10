@@ -61,6 +61,9 @@ async function getBrowser(): Promise<Browser> {
       '--disable-setuid-sandbox',
       '--disable-dev-shm-usage',
       '--disable-gpu',
+      // Allow large data URIs for base64 images.
+      '--disable-web-security',
+      '--allow-file-access-from-files',
     ],
   });
   return browserInstance;
@@ -107,6 +110,20 @@ export async function buildPdfFromHtml(
   const page = await browser.newPage();
   try {
     await page.setContent(wrapped, { waitUntil: 'domcontentloaded', timeout: 15_000 });
+
+    // Wait for all images (including base64 data URIs) to finish loading.
+    // The function runs inside Chromium, so DOM types are available there.
+    await page.evaluate(`
+      Promise.all(
+        Array.from(document.querySelectorAll('img')).map(function(img) {
+          if (img.complete) return Promise.resolve();
+          return new Promise(function(resolve) {
+            img.addEventListener('load', resolve);
+            img.addEventListener('error', resolve);
+          });
+        })
+      )
+    `).catch(() => {});
 
     const pdfBuffer = await page.pdf({
       format: 'A4',

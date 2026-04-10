@@ -190,7 +190,7 @@ export function GeneratePage() {
       if (!meta) return;
       const valueDisplay = meta.error
         ? `Ошибка: ${meta.error}`
-        : meta.value?.startsWith('data:image/')
+        : (meta.value?.startsWith('data:image/') || meta.value?.startsWith('/api/images/'))
           ? 'Значение: [изображение]'
           : `Значение: ${meta.value || '∅'}`;
       const titleParts = [
@@ -493,7 +493,7 @@ export function GeneratePage() {
                     </div>
                     {f.error ? (
                       <div className="mt-1 text-destructive">Ошибка: {f.error}</div>
-                    ) : f.value?.startsWith('data:image/') ? (
+                    ) : (f.value?.startsWith('data:image/') || f.value?.startsWith('/api/images/')) ? (
                       <div className="mt-1 flex items-center gap-2">
                         <span className="text-muted-foreground">Значение: </span>
                         <img

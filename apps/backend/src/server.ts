@@ -32,6 +32,7 @@ import { registerGenerateRoutes } from './routes/generate.js';
 import { registerMeRoutes } from './routes/me.js';
 import { registerWebhookRoutes } from './routes/webhooks.js';
 import { registerWebhookRunRoute } from './routes/webhookRun.js';
+import { registerImageRoutes } from './services/imageCache.js';
 import { registerAuthMiddleware } from './middleware/auth.js';
 
 /**
@@ -110,6 +111,7 @@ export async function buildServer(): Promise<FastifyInstance> {
   await app.register(registerMeRoutes);
   await app.register(registerWebhookRoutes);
   await app.register(registerWebhookRunRoute);
+  await app.register(registerImageRoutes);
 
   // ── Frontend serving (registered LAST so /api/* routes always win) ──
   // __dirname after compile = apps/backend/dist → apps/frontend/dist

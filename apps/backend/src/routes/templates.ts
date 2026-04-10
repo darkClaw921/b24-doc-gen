@@ -43,6 +43,7 @@ import { B24Client } from '../services/b24Client.js';
 import { getDealContext, DealDataError } from '../services/dealData.js';
 import { expandProductTables } from '../services/docxBuilder.js';
 import { scanDocxPlaceholders } from '../services/docxTemplateEngine.js';
+import { replaceBase64WithUrls, cacheImage } from '../services/imageCache.js';
 import { requireAdmin } from '../middleware/role.js';
 
 /* ------------------------------------------------------------------ */
@@ -431,7 +432,23 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
       // HTML is produced by TipTap so it's always well-formed and
       // self-contained, and using cheerio would add a runtime
       // dependency we don't otherwise need.
-      const html = substituteFormulaTagsForPreview(processedHtml, formulaResults);
+      const rawHtml = substituteFormulaTagsForPreview(processedHtml, formulaResults);
+
+      // Replace base64 data URIs with cached image URLs so browsers
+      // that block data: URIs (CSP in Bitrix24 iframes) can still
+      // display images.
+      const html = replaceBase64WithUrls(rawHtml);
+
+      // Also replace base64 in formula values so the frontend can
+      // render image thumbnails without hitting CSP/size limits.
+      for (const [key, result] of Object.entries(formulaResults)) {
+        if (result.value?.startsWith('data:image/')) {
+          formulaResults[key] = {
+            ...result,
+            value: cacheImage(result.value),
+          };
+        }
+      }
 
       const response: TemplatePreviewResponse = {
         html,
