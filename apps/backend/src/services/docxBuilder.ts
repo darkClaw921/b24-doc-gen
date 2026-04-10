@@ -197,16 +197,11 @@ export function expandProductTables(html: string, products: ProductRow[]): strin
   //     persist it — this fallback ensures expansion still works).
   const tableRe = /<table\b[^>]*>([\s\S]*?)<\/table>/gi;
 
-  console.log('[expandProductTables] products count:', products.length);
-  console.log('[expandProductTables] html contains data-product-field:', html.includes('data-product-field'));
-  console.log('[expandProductTables] html contains data-product-image:', html.includes('data-product-image'));
-
   return html.replace(tableRe, (fullMatch, tableInner: string) => {
     // Skip tables that don't contain any product placeholders —
     // only process tables that have data-product-field, data-product-image,
     // or data-product-index spans (or the explicit data-product-table attr).
     const hasProductPlaceholders = /data-product-(?:field|image|index)/.test(fullMatch);
-    console.log('[expandProductTables] table found, hasProductPlaceholders:', hasProductPlaceholders);
     if (!hasProductPlaceholders) {
       return fullMatch;
     }
@@ -302,10 +297,6 @@ function fillProductRow(rowHtml: string, product: ProductRow, index: number): st
     /<span\b[^>]*data-product-image=["']([^"']*)["'][^>]*>[\s\S]*?<\/span>/gi,
     (_m, imageType: string) => {
       const type = (imageType || 'true').toLowerCase();
-      console.log(`[fillProductRow] image replacement: imageType="${imageType}", resolved type="${type}"`);
-      console.log(`[fillProductRow] PREVIEW_PICTURE_BASE64: ${product.PREVIEW_PICTURE_BASE64 ? 'yes (' + product.PREVIEW_PICTURE_BASE64.length + ' chars)' : 'no'}`);
-      console.log(`[fillProductRow] DETAIL_PICTURE_BASE64: ${product.DETAIL_PICTURE_BASE64 ? 'yes' : 'no'}`);
-      console.log(`[fillProductRow] MORE_PHOTO_BASE64: ${product.MORE_PHOTO_BASE64 ? product.MORE_PHOTO_BASE64.length + ' items' : 'no'}`);
       let base64: string | undefined;
       if (type === 'detail') {
         base64 = product.DETAIL_PICTURE_BASE64;
@@ -318,10 +309,8 @@ function fillProductRow(rowHtml: string, product: ProductRow, index: number): st
           ?? product.MORE_PHOTO_BASE64?.[0];
       }
       if (base64) {
-        console.log(`[fillProductRow] generating <img> tag, base64 length: ${base64.length}`);
         return `<img src="${base64}" style="max-width:80px;max-height:80px;display:block;" />`;
       }
-      console.log(`[fillProductRow] no image data found`);
       return '';
     },
   );

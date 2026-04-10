@@ -227,39 +227,18 @@ export async function getDealContext(
   let products: ProductRow[] = [];
   if (fetchProducts) {
     const rawRows = stage1.result.productrows as unknown;
-    console.log('[dealData] fetchProducts=true, rawRows type:', typeof rawRows, 'isArray:', Array.isArray(rawRows));
     if (Array.isArray(rawRows)) {
-      console.log('[dealData] rawRows count:', rawRows.length);
-      if (rawRows.length > 0) {
-        console.log('[dealData] rawRows[0] keys:', Object.keys(rawRows[0] as object));
-        console.log('[dealData] rawRows[0] PRODUCT_ID:', (rawRows[0] as Record<string, unknown>).PRODUCT_ID);
-      }
       products = (rawRows as Array<Record<string, unknown>>).map(normalizeProductRow);
     } else {
-      console.log('[dealData] rawRows not array, fallback to getDealProductRows');
       try {
         products = await client.getDealProductRows(dealIdNum);
-      } catch (err) {
-        console.log('[dealData] getDealProductRows error:', err instanceof Error ? err.message : String(err));
+      } catch {
+        // Fallback failed — products stays empty.
       }
     }
 
-    console.log('[dealData] products count:', products.length);
-    if (products.length > 0) {
-      console.log('[dealData] products[0]:', JSON.stringify(products[0]));
-    }
-    console.log('[dealData] fetchProductImages:', fetchProductImages);
-
     if (fetchProductImages && products.length > 0) {
-      console.log('[dealData] calling attachProductImages...');
       await attachProductImages(client, products);
-      console.log('[dealData] after attachProductImages, products[0] image fields:',
-        JSON.stringify({
-          PREVIEW_PICTURE_BASE64: products[0].PREVIEW_PICTURE_BASE64 ? `${products[0].PREVIEW_PICTURE_BASE64.substring(0, 50)}...` : undefined,
-          DETAIL_PICTURE_BASE64: products[0].DETAIL_PICTURE_BASE64 ? `${products[0].DETAIL_PICTURE_BASE64.substring(0, 50)}...` : undefined,
-          MORE_PHOTO_BASE64: products[0].MORE_PHOTO_BASE64?.length ?? 0,
-        }),
-      );
     }
   }
 
@@ -319,7 +298,6 @@ async function attachProductImages(
     if (existing) existing.push(row);
     else idToRows.set(row.PRODUCT_ID, [row]);
   }
-  console.log('[attachProductImages] unique product IDs:', Array.from(idToRows.keys()));
   if (idToRows.size === 0) return;
 
   const entries = Array.from(idToRows.entries());
@@ -327,65 +305,43 @@ async function attachProductImages(
     const chunk = entries.slice(i, i + IMAGE_CONCURRENCY);
     await Promise.all(
       chunk.map(async ([productId, rows]) => {
-        console.log(`[attachProductImages] catalog.product.get for productId=${productId}...`);
         let catalogProduct: Record<string, unknown> | null = null;
         try {
           const envelope = await client.callMethod<{
             product?: Record<string, unknown>;
           }>('catalog.product.get', { id: productId });
           catalogProduct = envelope?.product ?? null;
-        } catch (err) {
-          console.log(`[attachProductImages] catalog.product.get error:`, err instanceof Error ? err.message : String(err));
+        } catch {
           return;
         }
-        if (!catalogProduct) {
-          console.log(`[attachProductImages] no product data for ${productId}`);
-          return;
-        }
+        if (!catalogProduct) return;
 
-        console.log(`[attachProductImages] product keys:`, Object.keys(catalogProduct).filter(k =>
-          /picture|photo|image|preview|detail/i.test(k),
-        ));
-
-        // Log raw values of image fields
         const rawPreview = catalogProduct.previewPicture ?? catalogProduct.PREVIEW_PICTURE;
         const rawDetail = catalogProduct.detailPicture ?? catalogProduct.DETAIL_PICTURE;
-        console.log(`[attachProductImages] raw previewPicture:`, JSON.stringify(rawPreview));
-        console.log(`[attachProductImages] raw detailPicture:`, JSON.stringify(rawDetail));
 
-        // Extract image URLs from the catalog product fields.
         const previewUrl = extractImageUrl(rawPreview);
         const detailUrl = extractImageUrl(rawDetail);
 
-        console.log(`[attachProductImages] previewUrl=${previewUrl?.substring(0, 80) ?? 'null'}`);
-        console.log(`[attachProductImages] detailUrl=${detailUrl?.substring(0, 80) ?? 'null'}`);
-
-        // MORE_PHOTO is a product property, not a direct field.
-        // Use catalog.productImage.list and try detailUrl → downloadUrl.
+        // MORE_PHOTO: use catalog.productImage.list and try detailUrl → downloadUrl.
         const morePhotoUrls: string[] = [];
         try {
           const images = await client.getProductImages(productId);
-          console.log(`[attachProductImages] productImage.list raw:`, JSON.stringify(images.map(i => ({ ...i, raw: undefined }))));
-          console.log(`[attachProductImages] productImage.list raw fields:`, images.length > 0 ? JSON.stringify(images[0].raw) : 'empty');
           for (const img of images) {
-            // Prefer detailUrl (direct file link) over downloadUrl (signed token, may 404)
             const url = img.detailUrl || img.downloadUrl;
             if (url) morePhotoUrls.push(url);
           }
-        } catch (err) {
-          console.log(`[attachProductImages] productImage.list error:`, err instanceof Error ? err.message : String(err));
+        } catch {
+          // productImage.list failed — continue without more photos.
         }
 
-        // If no URLs from productImage.list, check for MORE_PHOTO property
+        // If no URLs from productImage.list, check for MORE_PHOTO property.
         const morePhotoRaw = catalogProduct.MORE_PHOTO ?? catalogProduct.morePhoto ?? catalogProduct.property258 ?? null;
-        console.log(`[attachProductImages] raw MORE_PHOTO:`, JSON.stringify(morePhotoRaw)?.substring(0, 300));
         if (Array.isArray(morePhotoRaw)) {
           for (const item of morePhotoRaw.slice(0, 10)) {
             const u = extractImageUrl(item);
             if (u) morePhotoUrls.push(u);
           }
         }
-        console.log(`[attachProductImages] morePhotoUrls count: ${morePhotoUrls.length}`);
 
         // Download all images in parallel
         const [previewBase64, detailBase64, moreResults] = await Promise.all([

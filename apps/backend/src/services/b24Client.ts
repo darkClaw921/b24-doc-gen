@@ -477,24 +477,18 @@ export class B24Client {
    * is empty — callers treat that as "no image available".
    */
   async downloadFileAsBase64(url: string): Promise<string> {
-    if (!url) {
-      console.log('[downloadFileAsBase64] empty url, skipping');
-      return '';
-    }
+    if (!url) return '';
 
-    // Handle relative URLs — prefix with portal origin.
     let fullUrl = url;
     if (url.startsWith('/')) {
       fullUrl = `https://${this.portal}${url}`;
     }
 
-    // Only append auth if the URL doesn't already have one.
     let authedUrl = fullUrl;
     if (!/[?&]auth=/.test(fullUrl)) {
       const separator = fullUrl.includes('?') ? '&' : '?';
       authedUrl = `${fullUrl}${separator}auth=${this.accessToken}`;
     }
-    console.log(`[downloadFileAsBase64] fetching: ${authedUrl.substring(0, 120)}...`);
 
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), this.timeoutMs);
@@ -503,23 +497,14 @@ export class B24Client {
         method: 'GET',
         signal: controller.signal,
       });
-      console.log(`[downloadFileAsBase64] status=${res.status}, ok=${res.ok}, content-type=${res.headers.get('content-type')}`);
-      if (!res.ok) {
-        try {
-          const errBody = await res.text();
-          console.log(`[downloadFileAsBase64] error body: ${errBody.substring(0, 500)}`);
-        } catch { /* ignore */ }
-        return '';
-      }
+      if (!res.ok) return '';
       const contentType = res.headers.get('content-type') ?? 'image/jpeg';
       const mime = contentType.split(';')[0].trim();
       const arrayBuffer = await res.arrayBuffer();
-      console.log(`[downloadFileAsBase64] body size=${arrayBuffer.byteLength}, mime=${mime}`);
       if (arrayBuffer.byteLength === 0) return '';
       const base64 = Buffer.from(arrayBuffer).toString('base64');
       return `data:${mime};base64,${base64}`;
-    } catch (err) {
-      console.log('[downloadFileAsBase64] error:', err instanceof Error ? err.message : String(err));
+    } catch {
       return '';
     } finally {
       clearTimeout(timer);
