@@ -234,6 +234,16 @@ async function start(): Promise<void> {
     app.log.error(err);
     process.exit(1);
   }
+
+  // Graceful shutdown: close the shared Puppeteer browser.
+  const shutdown = async () => {
+    const { closePdfBrowser } = await import('./services/pdfBuilder.js');
+    await closePdfBrowser();
+    await app.close();
+    process.exit(0);
+  };
+  process.on('SIGINT', shutdown);
+  process.on('SIGTERM', shutdown);
 }
 
 const isDirectRun = import.meta.url === `file://${process.argv[1]}`;

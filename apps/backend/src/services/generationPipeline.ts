@@ -40,7 +40,7 @@ import { prisma } from '../prisma/client.js';
 import { B24Client, B24Error } from './b24Client.js';
 import { getDealContext, DealDataError } from './dealData.js';
 import { evaluateExpression } from './formulaEngine.js';
-import { buildDocxFromHtml, DocxBuildError } from './docxBuilder.js';
+import { buildPdfFromHtml, PdfBuildError } from './pdfBuilder.js';
 import { toAppSettings } from '../routes/install.js';
 
 /* ------------------------------------------------------------------ */
@@ -201,23 +201,17 @@ export async function runGeneration(
   const warnings: string[] = [];
 
   /* -------------------------------------------------------------- */
-  /* 4) Build the .docx Buffer                                      */
-  /*    Always use the HTML → docx pipeline. When originalDocx is   */
-  /*    available, it is passed as a formatting reference so the     */
-  /*    generated body is injected into the original shell.          */
+  /* 4) Build the PDF Buffer                                        */
   /* -------------------------------------------------------------- */
-  let docxBuffer: Buffer;
+  let pdfBuffer: Buffer;
   try {
-    docxBuffer = await buildDocxFromHtml(template.contentHtml, {
+    pdfBuffer = await buildPdfFromHtml(template.contentHtml, {
       formulas: formulaResults,
       title: template.name,
       products: context.PRODUCTS ?? [],
-      originalDocx: template.originalDocx
-        ? Buffer.from(template.originalDocx)
-        : undefined,
     });
   } catch (err) {
-    if (err instanceof DocxBuildError) {
+    if (err instanceof PdfBuildError) {
       throw new GenerationError('docx_build_failed', err.message);
     }
     throw err;
@@ -254,11 +248,11 @@ export async function runGeneration(
   /* 6) disk.folder.uploadfile                                      */
   /* -------------------------------------------------------------- */
   const safeName = template.name.replace(/[^\p{L}\p{N}._\-\s]/gu, '_').trim() || 'template';
-  const fileName = `${safeName}_deal${dealId}_${Date.now()}.docx`;
+  const fileName = `${safeName}_deal${dealId}_${Date.now()}.pdf`;
 
   let uploaded;
   try {
-    uploaded = await client.uploadDiskFile(folderId, fileName, docxBuffer);
+    uploaded = await client.uploadDiskFile(folderId, fileName, pdfBuffer);
   } catch (err) {
     if (err instanceof B24Error) {
       throw new GenerationError('upload_failed', `disk.folder.uploadfile failed: ${err.message}`);
@@ -293,7 +287,7 @@ export async function runGeneration(
       // Bitrix requires the universal item update for file UF fields
       // and the array-merge format below to preserve existing files
       // when the field is multi-valued.
-      const newFilePayload: [string, string] = [fileName, docxBuffer.toString('base64')];
+      const newFilePayload: [string, string] = [fileName, pdfBuffer.toString('base64')];
 
       let fieldValue: unknown;
       if (isMultiple) {
@@ -366,7 +360,7 @@ export async function runGeneration(
             ENTITY_ID: dealId,
             ENTITY_TYPE: 'deal',
             COMMENT: `Сгенерирован документ: ${template.name}`,
-            FILES: [[fileName, docxBuffer.toString('base64')]],
+            FILES: [[fileName, pdfBuffer.toString('base64')]],
           },
         },
       );

@@ -405,10 +405,12 @@ function escapeHtmlText(value: string): string {
  * These carry the visual formatting that mammoth/html-to-docx strips.
  */
 const FORMATTING_FILES = [
-  'word/styles.xml',        // style definitions (fonts, sizes, spacing)
   'word/fontTable.xml',     // font declarations
   'word/numbering.xml',     // list numbering definitions
-  'word/settings.xml',      // document settings
+  // NOTE: word/styles.xml and word/settings.xml are intentionally
+  // NOT copied — they define paragraph/table styles (alignment,
+  // spacing, borders) that conflict with the generated content.
+  // Copying them causes tables to break and text to re-align.
 ];
 
 /**

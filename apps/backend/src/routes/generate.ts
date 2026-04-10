@@ -39,7 +39,7 @@ import { prisma } from '../prisma/client.js';
 import { B24Client, B24Error } from '../services/b24Client.js';
 import { getDealContext, DealDataError } from '../services/dealData.js';
 import { evaluateExpression } from '../services/formulaEngine.js';
-import { buildDocxFromHtml, DocxBuildError } from '../services/docxBuilder.js';
+import { buildPdfFromHtml, PdfBuildError } from '../services/pdfBuilder.js';
 import { toAppSettings } from './install.js';
 import type { FormulaEvaluationResult } from '@b24-doc-gen/shared';
 
@@ -169,26 +169,18 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
     const warnings: string[] = [];
 
     /* -------------------------------------------------------------- */
-    /* 5) Build the .docx Buffer                                      */
-    /*    Always use the HTML → docx pipeline. When the template has   */
-    /*    an uploaded originalDocx, it is passed as a style/format     */
-    /*    reference so the generated body is injected into the         */
-    /*    original document's shell (preserving fonts, headers,        */
-    /*    footers, page layout, etc.).                                 */
+    /* 5) Build the PDF Buffer                                        */
     /* -------------------------------------------------------------- */
-    let docxBuffer: Buffer;
+    let pdfBuffer: Buffer;
     try {
-      docxBuffer = await buildDocxFromHtml(template.contentHtml, {
+      pdfBuffer = await buildPdfFromHtml(template.contentHtml, {
         formulas: formulaResults,
         title: template.name,
         products: context.PRODUCTS ?? [],
-        originalDocx: template.originalDocx
-          ? Buffer.from(template.originalDocx)
-          : undefined,
       });
     } catch (err) {
-      if (err instanceof DocxBuildError) {
-        return reply.badRequest(`Failed to build .docx: ${err.message}`);
+      if (err instanceof PdfBuildError) {
+        return reply.badRequest(`Failed to build PDF: ${err.message}`);
       }
       throw err;
     }
@@ -217,11 +209,11 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
     /* 7) disk.folder.uploadfile                                      */
     /* -------------------------------------------------------------- */
     const safeName = template.name.replace(/[^\p{L}\p{N}._\-\s]/gu, '_').trim() || 'template';
-    const fileName = `${safeName}_deal${dealId}_${Date.now()}.docx`;
+    const fileName = `${safeName}_deal${dealId}_${Date.now()}.pdf`;
 
     let uploaded;
     try {
-      uploaded = await client.uploadDiskFile(folderId, fileName, docxBuffer);
+      uploaded = await client.uploadDiskFile(folderId, fileName, pdfBuffer);
     } catch (err) {
       if (err instanceof B24Error) {
         return reply.badGateway(`disk.folder.uploadfile failed: ${err.message}`);
@@ -274,7 +266,7 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
         // settings/template config consistent.
         const newFilePayload: [string, string] = [
           fileName,
-          docxBuffer.toString('base64'),
+          pdfBuffer.toString('base64'),
         ];
 
         let fieldValue: unknown;
@@ -363,7 +355,7 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
               ENTITY_ID: dealId as number,
               ENTITY_TYPE: 'deal',
               COMMENT: `Сгенерирован документ: ${template.name}`,
-              FILES: [[fileName, docxBuffer.toString('base64')]],
+              FILES: [[fileName, pdfBuffer.toString('base64')]],
             },
           },
         );

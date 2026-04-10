@@ -448,7 +448,7 @@ export function GeneratePage() {
                     className="inline-flex items-center gap-1 text-emerald-700 underline hover:text-emerald-900"
                   >
                     <Download className="h-3 w-3 shrink-0" />
-                    Скачать .docx
+                    Скачать .pdf
                   </a>
                 )}
                 <div className="break-words">
