@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-10T16:31:29.504Z",
+  "generatedAt": "2026-04-10T18:29:16.529Z",
   "dependencies": [
     {
       "from": "apps/frontend/tailwind.config.ts",
@@ -1769,6 +1769,24 @@
     },
     {
       "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "import",
+      "toElement": "buildDocxFromTemplate"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "import",
+      "toElement": "DocxTemplateError"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "import",
+      "toElement": "scanDocxPlaceholders"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
       "to": "apps/backend/src/routes/install.ts",
       "type": "import",
       "toElement": "toAppSettings"
@@ -1910,7 +1928,77 @@
       "to": "apps/backend/src/routes/generate.ts",
       "type": "call",
       "fromElement": "registerGenerateRoutes",
+      "toElement": "scanDocxPlaceholders"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
+      "toElement": "Object.keys"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
+      "toElement": "placeholders.includes"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
+      "toElement": "request.log.warn"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
+      "toElement": "warnings.push"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
+      "toElement": "request.log.warn"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
+      "toElement": "buildDocxFromTemplate"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
       "toElement": "buildDocxFromHtml"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
+      "toElement": "reply.badRequest"
     },
     {
       "from": "apps/backend/src/routes/generate.ts",
@@ -2177,6 +2265,13 @@
       "type": "call",
       "fromElement": "registerGenerateRoutes",
       "toElement": "warnings.push"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "detectProductUsage",
+      "toElement": "contentHtml.includes"
     },
     {
       "from": "apps/backend/src/routes/generate.ts",
@@ -2644,6 +2739,111 @@
       "type": "call",
       "fromElement": "registerInstallRoutes",
       "toElement": "request.log.warn"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "app.get"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "client.callMethod"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "raw.map"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "reply.badGateway"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "app.delete"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "client.callMethod"
+    },
+    {
+      "from": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/routes/install.ts",
+      "type": "call",
+      "fromElement": "registerInstallRoutes",
+      "toElement": "reply.badGateway"
     },
     {
       "from": "apps/backend/src/routes/me.ts",
@@ -3200,6 +3400,18 @@
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "import",
+      "toElement": "expandProductTables"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "import",
+      "toElement": "scanDocxPlaceholders"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
       "to": "apps/backend/src/middleware/role.ts",
       "type": "import",
       "toElement": "requireAdmin"
@@ -3343,6 +3555,13 @@
       "type": "call",
       "fromElement": "substituteFormulaTagsForPreview",
       "toElement": "escapeAttr"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "substituteFormulaTagsForPreview",
+      "toElement": "computed.startsWith"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
@@ -3538,6 +3757,48 @@
       "to": "apps/backend/src/routes/templates.ts",
       "type": "call",
       "fromElement": "registerTemplateRoutes",
+      "toElement": "row.formulas.map"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "row.contentHtml.includes"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "row.contentHtml.includes"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "row.contentHtml.includes"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "productHelperRe.test"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "productImageHelperRe.test"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
       "toElement": "getDealContext"
     },
     {
@@ -3567,6 +3828,13 @@
       "type": "call",
       "fromElement": "registerTemplateRoutes",
       "toElement": "evaluateExpression"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "expandProductTables"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
@@ -3798,6 +4066,20 @@
       "type": "call",
       "fromElement": "registerTemplateRoutes",
       "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "scanDocxPlaceholders"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "messages.push"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
@@ -5846,7 +6128,43 @@
       "from": "apps/backend/src/services/b24Client.ts",
       "to": "apps/backend/src/services/b24Client.ts",
       "type": "call",
-      "toElement": "url.includes"
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "url.startsWith"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "fullUrl.includes"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "authedUrl.substring"
     },
     {
       "from": "apps/backend/src/services/b24Client.ts",
@@ -5870,6 +6188,36 @@
       "from": "apps/backend/src/services/b24Client.ts",
       "to": "apps/backend/src/services/b24Client.ts",
       "type": "call",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "res.headers.get"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "res.text"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "errBody.substring"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
       "toElement": "res.headers.get"
     },
     {
@@ -5888,7 +6236,25 @@
       "from": "apps/backend/src/services/b24Client.ts",
       "to": "apps/backend/src/services/b24Client.ts",
       "type": "call",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
       "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "String"
     },
     {
       "from": "apps/backend/src/services/b24Client.ts",
@@ -6238,7 +6604,56 @@
       "to": "apps/backend/src/services/dealData.ts",
       "type": "call",
       "fromElement": "getDealContext",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
       "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "Object.keys"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "console.log"
     },
     {
       "from": "apps/backend/src/services/dealData.ts",
@@ -6252,7 +6667,70 @@
       "to": "apps/backend/src/services/dealData.ts",
       "type": "call",
       "fromElement": "getDealContext",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "JSON.stringify"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
       "toElement": "attachProductImages"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "JSON.stringify"
     },
     {
       "from": "apps/backend/src/services/dealData.ts",
@@ -6371,6 +6849,27 @@
       "to": "apps/backend/src/services/dealData.ts",
       "type": "call",
       "fromElement": "attachProductImages",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "Array.from"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "idToRows.keys"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
       "toElement": "Array.from"
     },
     {
@@ -6406,6 +6905,111 @@
       "to": "apps/backend/src/services/dealData.ts",
       "type": "call",
       "fromElement": "attachProductImages",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "client.callMethod"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "Object.keys"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "JSON.stringify"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "JSON.stringify"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "extractImageUrl"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "extractImageUrl"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
       "toElement": "client.getProductImages"
     },
     {
@@ -6413,7 +7017,189 @@
       "to": "apps/backend/src/services/dealData.ts",
       "type": "call",
       "fromElement": "attachProductImages",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "JSON.stringify"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "images.map"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "JSON.stringify"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "morePhotoUrls.push"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "JSON.stringify"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "morePhotoRaw.slice"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "extractImageUrl"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "morePhotoUrls.push"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "Promise.all"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
       "toElement": "client.downloadFileAsBase64"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "Promise.resolve"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "client.downloadFileAsBase64"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "Promise.resolve"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "Promise.all"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "morePhotoUrls.map"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "client.downloadFileAsBase64"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "moreResults.filter"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "validMore.map"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "validMore.map"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "extractImageUrl",
+      "toElement": "value.startsWith"
     },
     {
       "from": "apps/backend/src/services/dealData.ts",
@@ -6521,6 +7307,41 @@
       "to": "apps/backend/src/services/docxBuilder.ts",
       "type": "call",
       "fromElement": "expandProductTables",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "expandProductTables",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "expandProductTables",
+      "toElement": "html.includes"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "expandProductTables",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "expandProductTables",
+      "toElement": "html.includes"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "expandProductTables",
       "toElement": "html.replace"
     },
     {
@@ -6528,14 +7349,28 @@
       "to": "apps/backend/src/services/docxBuilder.ts",
       "type": "call",
       "fromElement": "expandProductTables",
-      "toElement": "fullMatch.match"
+      "toElement": "console.log"
     },
     {
       "from": "apps/backend/src/services/docxBuilder.ts",
       "to": "apps/backend/src/services/docxBuilder.ts",
       "type": "call",
       "fromElement": "expandProductTables",
-      "toElement": "tbodyContent.match"
+      "toElement": "tableInner.match"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "expandProductTables",
+      "toElement": "isTemplateRow"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "expandProductTables",
+      "toElement": "allRows.slice"
     },
     {
       "from": "apps/backend/src/services/docxBuilder.ts",
@@ -6563,7 +7398,21 @@
       "to": "apps/backend/src/services/docxBuilder.ts",
       "type": "call",
       "fromElement": "expandProductTables",
-      "toElement": "fullMatch.replace"
+      "toElement": "fullMatch.match"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "expandProductTables",
+      "toElement": "tableInner.match"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "expandProductTables",
+      "toElement": "tableInner.match"
     },
     {
       "from": "apps/backend/src/services/docxBuilder.ts",
@@ -6592,6 +7441,48 @@
       "type": "call",
       "fromElement": "fillProductRow",
       "toElement": "result.replace"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "fillProductRow",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "fillProductRow",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "fillProductRow",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "fillProductRow",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "fillProductRow",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "fillProductRow",
+      "toElement": "console.log"
     },
     {
       "from": "apps/backend/src/services/docxBuilder.ts",
@@ -6730,6 +7621,216 @@
       "type": "call",
       "fromElement": "parseDocxToHtml",
       "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "node_modules/.pnpm/pizzip@3.2.0/node_modules/pizzip/js/index.d.ts",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "node_modules/.pnpm/docxtemplater@3.68.4/node_modules/docxtemplater/js/docxtemplater.d.ts",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "docxtemplater-image-module-free",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "packages/shared/src/index.ts",
+      "type": "import",
+      "toElement": "FormulaEvaluationResult"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "packages/shared/src/index.ts",
+      "type": "import",
+      "toElement": "ProductRow"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "extends",
+      "fromElement": "DocxTemplateError",
+      "toElement": "Error"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "toElement": "super"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "base64DataURLToArrayBuffer",
+      "toElement": "base64Regex.test"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "base64DataURLToArrayBuffer",
+      "toElement": "dataURL.replace"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "base64DataURLToArrayBuffer",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "base64DataURLToArrayBuffer",
+      "toElement": "binaryString.charCodeAt"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "createImageModule",
+      "toElement": "base64DataURLToArrayBuffer"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "buildDataObject",
+      "toElement": "Object.entries"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "buildDataObject",
+      "toElement": "products.map"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "buildDocxFromTemplate",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "buildDocxFromTemplate",
+      "toElement": "buildDataObject"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "buildDocxFromTemplate",
+      "toElement": "createImageModule"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "buildDocxFromTemplate",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "buildDocxFromTemplate",
+      "toElement": "doc.render"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "buildDocxFromTemplate",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "buildDocxFromTemplate",
+      "toElement": "doc.getZip"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "buildDocxFromTemplate",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "toElement": "require"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "scanDocxPlaceholders",
+      "toElement": "inspectModule"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "scanDocxPlaceholders",
+      "toElement": "iModule.getAllTags"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "scanDocxPlaceholders",
+      "toElement": "collectTagNames"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "scanDocxPlaceholders",
+      "toElement": "Array.from"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "collectTagNames",
+      "toElement": "Object.entries"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "collectTagNames",
+      "toElement": "out.add"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "collectTagNames",
+      "toElement": "Object.keys"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "collectTagNames",
+      "toElement": "collectTagNames"
     },
     {
       "from": "apps/backend/src/services/formulaEngine.ts",
@@ -7245,6 +8346,20 @@
       "to": "apps/backend/src/services/formulaEngine.ts",
       "type": "call",
       "fromElement": "evaluateExpression",
+      "toElement": "type.toLowerCase"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "call",
+      "fromElement": "evaluateExpression",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "call",
+      "fromElement": "evaluateExpression",
       "toElement": "parsed.node.compile"
     },
     {
@@ -7378,6 +8493,24 @@
     },
     {
       "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "import",
+      "toElement": "buildDocxFromTemplate"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "import",
+      "toElement": "DocxTemplateError"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "import",
+      "toElement": "scanDocxPlaceholders"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
       "to": "apps/backend/src/routes/install.ts",
       "type": "import",
       "toElement": "toAppSettings"
@@ -7450,6 +8583,69 @@
       "type": "call",
       "fromElement": "runGeneration",
       "toElement": "evaluateExpression"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "scanDocxPlaceholders"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "Object.keys"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "placeholders.includes"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "warnings.push"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "buildDocxFromTemplate"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "Buffer.from"
     },
     {
       "from": "apps/backend/src/services/generationPipeline.ts",
@@ -7695,6 +8891,13 @@
       "type": "call",
       "fromElement": "runGeneration",
       "toElement": "warnings.push"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "detectProductUsage",
+      "toElement": "contentHtml.includes"
     },
     {
       "from": "apps/backend/src/services/generationPipeline.ts",
@@ -11591,6 +12794,18 @@
       "from": "apps/frontend/src/lib/api.ts",
       "to": "apps/frontend/src/lib/api.ts",
       "type": "call",
+      "toElement": "apiRequest"
+    },
+    {
+      "from": "apps/frontend/src/lib/api.ts",
+      "to": "apps/frontend/src/lib/api.ts",
+      "type": "call",
+      "toElement": "apiRequest"
+    },
+    {
+      "from": "apps/frontend/src/lib/api.ts",
+      "to": "apps/frontend/src/lib/api.ts",
+      "type": "call",
       "toElement": "qs.set"
     },
     {
@@ -13060,6 +14275,12 @@
       "from": "apps/frontend/src/pages/SettingsPage.tsx",
       "to": "node_modules/.pnpm/lucide-react@0.378.0_react@18.3.1/node_modules/lucide-react/dist/lucide-react.d.ts",
       "type": "import",
+      "toElement": "Layout"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "node_modules/.pnpm/lucide-react@0.378.0_react@18.3.1/node_modules/lucide-react/dist/lucide-react.d.ts",
+      "type": "import",
       "toElement": "Loader2"
     },
     {
@@ -13162,7 +14383,19 @@
       "from": "apps/frontend/src/pages/SettingsPage.tsx",
       "to": "@/lib/api",
       "type": "import",
+      "toElement": "placementsApi"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "@/lib/api",
+      "type": "import",
       "toElement": "DealFileFieldDTO"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "PlacementDTO"
     },
     {
       "from": "apps/frontend/src/pages/SettingsPage.tsx",
@@ -13343,6 +14576,62 @@
       "type": "call",
       "fromElement": "SettingsPage",
       "toElement": "debouncedSearch.trim"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "useQuery"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "placementsApi.list"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "useMutation"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "placementsApi.unbind"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "queryClient.invalidateQueries"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "setSaveMessage"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "setSaveMessage"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "useState"
     },
     {
       "from": "apps/frontend/src/pages/SettingsPage.tsx",
@@ -13616,6 +14905,48 @@
       "type": "call",
       "fromElement": "SettingsPage",
       "toElement": "toggleAdmin"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "placementsQuery.data.map"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "setConfirmUnbind"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "setConfirmUnbind"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "setConfirmUnbind"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "unbindMutation.mutate"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "setConfirmUnbind"
     },
     {
       "from": "apps/frontend/src/pages/SettingsPage.tsx",
@@ -15223,6 +16554,24 @@
       "to": "@/lib/utils",
       "type": "import",
       "toElement": "cn"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+      "type": "call",
+      "toElement": "BaseTable.extend"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+      "type": "call",
+      "toElement": "this.parent"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+      "type": "call",
+      "toElement": "el.getAttribute"
     },
     {
       "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",

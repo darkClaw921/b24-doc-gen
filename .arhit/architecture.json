@@ -1,6 +1,6 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-04-10T16:31:10.573Z",
+  "generatedAt": "2026-04-10T18:28:58.529Z",
   "nodes": [
     {
       "id": "apps/frontend/tailwind.config.ts",
@@ -184,7 +184,7 @@
           "name": "FormulaContext",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 216,
+          "line": 231,
           "exports": [
             "FormulaContext"
           ]
@@ -194,7 +194,7 @@
           "name": "FormulaEvaluationResult",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 229,
+          "line": 244,
           "exports": [
             "FormulaEvaluationResult"
           ]
@@ -204,7 +204,7 @@
           "name": "B24AuthPayload",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 249,
+          "line": 264,
           "exports": [
             "B24AuthPayload"
           ]
@@ -214,7 +214,7 @@
           "name": "InstallRequest",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 269,
+          "line": 284,
           "exports": [
             "InstallRequest"
           ]
@@ -224,7 +224,7 @@
           "name": "InstallResponse",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 275,
+          "line": 290,
           "exports": [
             "InstallResponse"
           ]
@@ -234,7 +234,7 @@
           "name": "TemplatePreviewResponse",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 280,
+          "line": 295,
           "exports": [
             "TemplatePreviewResponse"
           ]
@@ -244,7 +244,7 @@
           "name": "GenerateRequest",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 288,
+          "line": 303,
           "exports": [
             "GenerateRequest"
           ]
@@ -254,7 +254,7 @@
           "name": "GenerateResponse",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 294,
+          "line": 309,
           "exports": [
             "GenerateResponse"
           ]
@@ -264,7 +264,7 @@
           "name": "ApiErrorBody",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 308,
+          "line": 323,
           "exports": [
             "ApiErrorBody"
           ]
@@ -274,7 +274,7 @@
           "name": "ApiErrorEnvelope",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 318,
+          "line": 333,
           "exports": [
             "ApiErrorEnvelope"
           ]
@@ -284,7 +284,7 @@
           "name": "ApiError",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 326,
+          "line": 341,
           "exports": [
             "ApiError"
           ]
@@ -294,7 +294,7 @@
           "name": "WebhookSummary",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 346,
+          "line": 361,
           "exports": [
             "WebhookSummary"
           ]
@@ -304,7 +304,7 @@
           "name": "EntityValues",
           "type": "type",
           "path": "packages/shared/src/types.ts",
-          "line": 209,
+          "line": 224,
           "exports": [
             "EntityValues"
           ]
@@ -314,7 +314,7 @@
           "name": "AppRole",
           "type": "type",
           "path": "packages/shared/src/types.ts",
-          "line": 387,
+          "line": 402,
           "exports": [
             "AppRole"
           ]
@@ -752,7 +752,7 @@
           "name": "registerGenerateRoutes",
           "type": "function",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 83,
+          "line": 84,
           "exports": [
             "registerGenerateRoutes"
           ]
@@ -762,7 +762,7 @@
           "name": "detectProductUsage",
           "type": "function",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 403,
+          "line": 442,
           "exports": []
         },
         {
@@ -770,7 +770,7 @@
           "name": "GenerateBody",
           "type": "interface",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 50,
+          "line": 51,
           "exports": []
         },
         {
@@ -778,7 +778,7 @@
           "name": "BindingResult",
           "type": "interface",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 60,
+          "line": 61,
           "exports": []
         },
         {
@@ -786,7 +786,7 @@
           "name": "GenerateRouteResponse",
           "type": "interface",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 66,
+          "line": 67,
           "exports": []
         },
         {
@@ -794,7 +794,7 @@
           "name": "PRODUCT_HELPER_RE",
           "type": "variable",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 394,
+          "line": 433,
           "exports": []
         },
         {
@@ -802,7 +802,7 @@
           "name": "PRODUCT_IMAGE_HELPER_RE",
           "type": "variable",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 395,
+          "line": 434,
           "exports": []
         }
       ]
@@ -1016,7 +1016,7 @@
           "name": "safeName",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 118,
+          "line": 120,
           "exports": []
         },
         {
@@ -1024,7 +1024,7 @@
           "name": "safeContentHtml",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 125,
+          "line": 127,
           "exports": []
         },
         {
@@ -1032,7 +1032,7 @@
           "name": "parseDependsOn",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 134,
+          "line": 136,
           "exports": []
         },
         {
@@ -1040,7 +1040,7 @@
           "name": "serializeDependsOn",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 147,
+          "line": 149,
           "exports": []
         },
         {
@@ -1048,7 +1048,7 @@
           "name": "toFormulaDto",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 155,
+          "line": 157,
           "exports": []
         },
         {
@@ -1056,7 +1056,7 @@
           "name": "toTemplateDto",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 170,
+          "line": 172,
           "exports": []
         },
         {
@@ -1064,7 +1064,7 @@
           "name": "substituteFormulaTagsForPreview",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 207,
+          "line": 209,
           "exports": []
         },
         {
@@ -1072,7 +1072,7 @@
           "name": "escapeAttr",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 235,
+          "line": 247,
           "exports": []
         },
         {
@@ -1080,7 +1080,7 @@
           "name": "escapeHtml",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 244,
+          "line": 256,
           "exports": []
         },
         {
@@ -1088,7 +1088,7 @@
           "name": "toTemplateListDto",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 251,
+          "line": 263,
           "exports": []
         },
         {
@@ -1096,7 +1096,7 @@
           "name": "registerTemplateRoutes",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 268,
+          "line": 280,
           "exports": [
             "registerTemplateRoutes"
           ]
@@ -1106,7 +1106,7 @@
           "name": "TemplateListItemDTO",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 50,
+          "line": 52,
           "exports": [
             "TemplateListItemDTO"
           ]
@@ -1116,7 +1116,7 @@
           "name": "TemplateDTO",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 61,
+          "line": 63,
           "exports": [
             "TemplateDTO"
           ]
@@ -1126,7 +1126,7 @@
           "name": "ListTemplatesQuery",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 74,
+          "line": 76,
           "exports": []
         },
         {
@@ -1134,7 +1134,7 @@
           "name": "GetTemplateParams",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 79,
+          "line": 81,
           "exports": []
         },
         {
@@ -1142,7 +1142,7 @@
           "name": "GetTemplateQuery",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 83,
+          "line": 85,
           "exports": []
         },
         {
@@ -1150,7 +1150,7 @@
           "name": "PreviewTemplateQuery",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 87,
+          "line": 89,
           "exports": []
         },
         {
@@ -1158,7 +1158,7 @@
           "name": "CreateTemplateBody",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 91,
+          "line": 93,
           "exports": []
         },
         {
@@ -1166,7 +1166,7 @@
           "name": "UpdateTemplateBody",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 97,
+          "line": 99,
           "exports": []
         },
         {
@@ -1174,7 +1174,7 @@
           "name": "FormulaInput",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 105,
+          "line": 107,
           "exports": [
             "FormulaInput"
           ]
@@ -1184,7 +1184,7 @@
           "name": "TemplateRow",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 166,
+          "line": 168,
           "exports": []
         },
         {
@@ -1192,7 +1192,7 @@
           "name": "TemplateListRow",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 187,
+          "line": 189,
           "exports": []
         }
       ]
@@ -1565,7 +1565,7 @@
           "name": "pickLocalizedLabel",
           "type": "function",
           "path": "apps/backend/src/services/b24Client.ts",
-          "line": 535,
+          "line": 561,
           "exports": []
         },
         {
@@ -1573,7 +1573,7 @@
           "name": "normalizeProductRow",
           "type": "function",
           "path": "apps/backend/src/services/b24Client.ts",
-          "line": 556,
+          "line": 582,
           "exports": []
         },
         {
@@ -1581,7 +1581,7 @@
           "name": "normalizeDealField",
           "type": "function",
           "path": "apps/backend/src/services/b24Client.ts",
-          "line": 571,
+          "line": 597,
           "exports": []
         },
         {
@@ -1589,7 +1589,7 @@
           "name": "appendParam",
           "type": "function",
           "path": "apps/backend/src/services/b24Client.ts",
-          "line": 608,
+          "line": 634,
           "exports": []
         },
         {
@@ -1665,7 +1665,7 @@
           "name": "RawDealField",
           "type": "interface",
           "path": "apps/backend/src/services/b24Client.ts",
-          "line": 515,
+          "line": 541,
           "exports": []
         }
       ]
@@ -1726,7 +1726,7 @@
           "name": "normalizeProductRow",
           "type": "function",
           "path": "apps/backend/src/services/dealData.ts",
-          "line": 266,
+          "line": 285,
           "exports": []
         },
         {
@@ -1734,7 +1734,15 @@
           "name": "attachProductImages",
           "type": "function",
           "path": "apps/backend/src/services/dealData.ts",
-          "line": 286,
+          "line": 311,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/dealData.ts:extractImageUrl",
+          "name": "extractImageUrl",
+          "type": "function",
+          "path": "apps/backend/src/services/dealData.ts",
+          "line": 427,
           "exports": []
         },
         {
@@ -1742,7 +1750,7 @@
           "name": "flattenEntity",
           "type": "function",
           "path": "apps/backend/src/services/dealData.ts",
-          "line": 342,
+          "line": 461,
           "exports": []
         },
         {
@@ -1750,7 +1758,7 @@
           "name": "flattenValue",
           "type": "function",
           "path": "apps/backend/src/services/dealData.ts",
-          "line": 351,
+          "line": 470,
           "exports": []
         },
         {
@@ -1778,7 +1786,7 @@
           "name": "IMAGE_CONCURRENCY",
           "type": "variable",
           "path": "apps/backend/src/services/dealData.ts",
-          "line": 260,
+          "line": 279,
           "exports": []
         },
         {
@@ -1786,7 +1794,7 @@
           "name": "__internal",
           "type": "variable",
           "path": "apps/backend/src/services/dealData.ts",
-          "line": 375,
+          "line": 494,
           "exports": [
             "__internal"
           ]
@@ -1800,6 +1808,7 @@
       "path": "apps/backend/src/services/docxBuilder.ts",
       "exports": [
         "buildDocxFromHtml",
+        "expandProductTables",
         "DocxBuildError",
         "BuildDocxOptions",
         "__internal"
@@ -1821,14 +1830,16 @@
           "type": "function",
           "path": "apps/backend/src/services/docxBuilder.ts",
           "line": 169,
-          "exports": []
+          "exports": [
+            "expandProductTables"
+          ]
         },
         {
           "id": "apps/backend/src/services/docxBuilder.ts:fillProductRow",
           "name": "fillProductRow",
           "type": "function",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 215,
+          "line": 265,
           "exports": []
         },
         {
@@ -1836,7 +1847,7 @@
           "name": "stripFormulaTags",
           "type": "function",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 258,
+          "line": 326,
           "exports": []
         },
         {
@@ -1844,7 +1855,7 @@
           "name": "wrapAsHtmlDocument",
           "type": "function",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 285,
+          "line": 353,
           "exports": []
         },
         {
@@ -1852,7 +1863,7 @@
           "name": "escapeHtmlText",
           "type": "function",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 301,
+          "line": 369,
           "exports": []
         },
         {
@@ -1860,7 +1871,7 @@
           "name": "coerceToBuffer",
           "type": "function",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 314,
+          "line": 382,
           "exports": []
         },
         {
@@ -1888,7 +1899,7 @@
           "name": "__internal",
           "type": "variable",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 334,
+          "line": 402,
           "exports": [
             "__internal"
           ]
@@ -1994,6 +2005,108 @@
           "exports": [
             "defaultStyleMap"
           ]
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/services/docxTemplateEngine.ts",
+      "name": "docxTemplateEngine.ts",
+      "type": "file",
+      "path": "apps/backend/src/services/docxTemplateEngine.ts",
+      "exports": [
+        "buildDocxFromTemplate",
+        "scanDocxPlaceholders",
+        "DocxTemplateError",
+        "BuildFromTemplateOptions"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.ts:base64DataURLToArrayBuffer",
+          "name": "base64DataURLToArrayBuffer",
+          "type": "function",
+          "path": "apps/backend/src/services/docxTemplateEngine.ts",
+          "line": 73,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.ts:createImageModule",
+          "name": "createImageModule",
+          "type": "function",
+          "path": "apps/backend/src/services/docxTemplateEngine.ts",
+          "line": 96,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.ts:buildDataObject",
+          "name": "buildDataObject",
+          "type": "function",
+          "path": "apps/backend/src/services/docxTemplateEngine.ts",
+          "line": 122,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.ts:buildDocxFromTemplate",
+          "name": "buildDocxFromTemplate",
+          "type": "function",
+          "path": "apps/backend/src/services/docxTemplateEngine.ts",
+          "line": 182,
+          "exports": [
+            "buildDocxFromTemplate"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.ts:scanDocxPlaceholders",
+          "name": "scanDocxPlaceholders",
+          "type": "function",
+          "path": "apps/backend/src/services/docxTemplateEngine.ts",
+          "line": 272,
+          "exports": [
+            "scanDocxPlaceholders"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.ts:collectTagNames",
+          "name": "collectTagNames",
+          "type": "function",
+          "path": "apps/backend/src/services/docxTemplateEngine.ts",
+          "line": 316,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.ts:DocxTemplateError",
+          "name": "DocxTemplateError",
+          "type": "class",
+          "path": "apps/backend/src/services/docxTemplateEngine.ts",
+          "line": 35,
+          "exports": [
+            "DocxTemplateError"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.ts:BuildFromTemplateOptions",
+          "name": "BuildFromTemplateOptions",
+          "type": "interface",
+          "path": "apps/backend/src/services/docxTemplateEngine.ts",
+          "line": 49,
+          "exports": [
+            "BuildFromTemplateOptions"
+          ]
+        },
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.ts:DEFAULT_IMAGE_SIZE",
+          "name": "DEFAULT_IMAGE_SIZE",
+          "type": "variable",
+          "path": "apps/backend/src/services/docxTemplateEngine.ts",
+          "line": 89,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.ts:inspectModule",
+          "name": "inspectModule",
+          "type": "variable",
+          "path": "apps/backend/src/services/docxTemplateEngine.ts",
+          "line": 259,
+          "exports": []
         }
       ]
     },
@@ -2105,7 +2218,7 @@
           "name": "extractDependencies",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 541,
+          "line": 563,
           "exports": [
             "extractDependencies"
           ]
@@ -2115,7 +2228,7 @@
           "name": "toEvaluationResult",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 550,
+          "line": 572,
           "exports": []
         },
         {
@@ -2199,7 +2312,7 @@
           "name": "runGeneration",
           "type": "function",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 125,
+          "line": 126,
           "exports": [
             "runGeneration"
           ]
@@ -2209,7 +2322,7 @@
           "name": "detectProductUsage",
           "type": "function",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 404,
+          "line": 443,
           "exports": []
         },
         {
@@ -2217,7 +2330,7 @@
           "name": "GenerationError",
           "type": "class",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 89,
+          "line": 90,
           "exports": [
             "GenerationError"
           ]
@@ -2227,7 +2340,7 @@
           "name": "BindingResult",
           "type": "interface",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 55,
+          "line": 56,
           "exports": [
             "BindingResult"
           ]
@@ -2237,7 +2350,7 @@
           "name": "GenerationResult",
           "type": "interface",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 61,
+          "line": 62,
           "exports": [
             "GenerationResult"
           ]
@@ -2247,7 +2360,7 @@
           "name": "RunGenerationParams",
           "type": "interface",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 103,
+          "line": 104,
           "exports": [
             "RunGenerationParams"
           ]
@@ -2257,7 +2370,7 @@
           "name": "GenerationErrorKind",
           "type": "type",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 79,
+          "line": 80,
           "exports": [
             "GenerationErrorKind"
           ]
@@ -2267,7 +2380,7 @@
           "name": "PRODUCT_HELPER_RE",
           "type": "variable",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 397,
+          "line": 436,
           "exports": []
         },
         {
@@ -2275,7 +2388,7 @@
           "name": "PRODUCT_IMAGE_HELPER_RE",
           "type": "variable",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 398,
+          "line": 437,
           "exports": []
         }
       ]
@@ -2985,6 +3098,7 @@
         "InstallStatusDTO",
         "InstallSettingsDTO",
         "MeDTO",
+        "PlacementDTO",
         "CrmFieldDTO",
         "FormulaValidateResponse",
         "FormulaEvaluateResponse",
@@ -3008,6 +3122,7 @@
         "AppRoleDTO",
         "meApi",
         "installApi",
+        "placementsApi",
         "usersApi",
         "dealApi",
         "crmApi",
@@ -3148,11 +3263,21 @@
           ]
         },
         {
+          "id": "apps/frontend/src/lib/api.ts:PlacementDTO",
+          "name": "PlacementDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 300,
+          "exports": [
+            "PlacementDTO"
+          ]
+        },
+        {
           "id": "apps/frontend/src/lib/api.ts:CrmFieldDTO",
           "name": "CrmFieldDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 307,
+          "line": 329,
           "exports": [
             "CrmFieldDTO"
           ]
@@ -3162,7 +3287,7 @@
           "name": "FormulaValidateResponse",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 347,
+          "line": 369,
           "exports": [
             "FormulaValidateResponse"
           ]
@@ -3172,7 +3297,7 @@
           "name": "FormulaEvaluateResponse",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 353,
+          "line": 375,
           "exports": [
             "FormulaEvaluateResponse"
           ]
@@ -3182,7 +3307,7 @@
           "name": "ThemeDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 378,
+          "line": 400,
           "exports": [
             "ThemeDTO"
           ]
@@ -3192,7 +3317,7 @@
           "name": "UpdateThemeBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 391,
+          "line": 413,
           "exports": [
             "UpdateThemeBody"
           ]
@@ -3202,7 +3327,7 @@
           "name": "TemplateListItemDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 420,
+          "line": 442,
           "exports": [
             "TemplateListItemDTO"
           ]
@@ -3212,7 +3337,7 @@
           "name": "FormulaDependenciesDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 431,
+          "line": 453,
           "exports": [
             "FormulaDependenciesDTO"
           ]
@@ -3222,7 +3347,7 @@
           "name": "FormulaDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 437,
+          "line": 459,
           "exports": [
             "FormulaDTO"
           ]
@@ -3232,7 +3357,7 @@
           "name": "TemplateDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 446,
+          "line": 468,
           "exports": [
             "TemplateDTO"
           ]
@@ -3242,7 +3367,7 @@
           "name": "FormulaInputDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 458,
+          "line": 480,
           "exports": [
             "FormulaInputDTO"
           ]
@@ -3252,7 +3377,7 @@
           "name": "UpdateTemplateBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 466,
+          "line": 488,
           "exports": [
             "UpdateTemplateBody"
           ]
@@ -3262,7 +3387,7 @@
           "name": "FormulaEvaluationResultDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 477,
+          "line": 499,
           "exports": [
             "FormulaEvaluationResultDTO"
           ]
@@ -3272,7 +3397,7 @@
           "name": "TemplatePreviewResponseDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 486,
+          "line": 508,
           "exports": [
             "TemplatePreviewResponseDTO"
           ]
@@ -3282,7 +3407,7 @@
           "name": "GenerateBindingDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 493,
+          "line": 515,
           "exports": [
             "GenerateBindingDTO"
           ]
@@ -3292,7 +3417,7 @@
           "name": "GenerateResponseDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 499,
+          "line": 521,
           "exports": [
             "GenerateResponseDTO"
           ]
@@ -3302,7 +3427,7 @@
           "name": "SettingsDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 568,
+          "line": 590,
           "exports": [
             "SettingsDTO"
           ]
@@ -3312,7 +3437,7 @@
           "name": "DealFileFieldDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 576,
+          "line": 598,
           "exports": [
             "DealFileFieldDTO"
           ]
@@ -3322,7 +3447,7 @@
           "name": "WebhookListItemDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 619,
+          "line": 641,
           "exports": [
             "WebhookListItemDTO"
           ]
@@ -3332,7 +3457,7 @@
           "name": "CreateWebhookBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 624,
+          "line": 646,
           "exports": [
             "CreateWebhookBody"
           ]
@@ -3342,7 +3467,7 @@
           "name": "UpdateWebhookBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 631,
+          "line": 653,
           "exports": [
             "UpdateWebhookBody"
           ]
@@ -3386,11 +3511,21 @@
           ]
         },
         {
+          "id": "apps/frontend/src/lib/api.ts:placementsApi",
+          "name": "placementsApi",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 307,
+          "exports": [
+            "placementsApi"
+          ]
+        },
+        {
           "id": "apps/frontend/src/lib/api.ts:usersApi",
           "name": "usersApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 296,
+          "line": 318,
           "exports": [
             "usersApi"
           ]
@@ -3400,7 +3535,7 @@
           "name": "dealApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 317,
+          "line": 339,
           "exports": [
             "dealApi"
           ]
@@ -3410,7 +3545,7 @@
           "name": "crmApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 328,
+          "line": 350,
           "exports": [
             "crmApi"
           ]
@@ -3420,7 +3555,7 @@
           "name": "formulasApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 361,
+          "line": 383,
           "exports": [
             "formulasApi"
           ]
@@ -3430,7 +3565,7 @@
           "name": "themesApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 398,
+          "line": 420,
           "exports": [
             "themesApi"
           ]
@@ -3440,7 +3575,7 @@
           "name": "templatesApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 510,
+          "line": 532,
           "exports": [
             "templatesApi"
           ]
@@ -3450,7 +3585,7 @@
           "name": "generateApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 559,
+          "line": 581,
           "exports": [
             "generateApi"
           ]
@@ -3460,7 +3595,7 @@
           "name": "settingsApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 585,
+          "line": 607,
           "exports": [
             "settingsApi"
           ]
@@ -3470,7 +3605,7 @@
           "name": "webhooksApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 636,
+          "line": 658,
           "exports": [
             "webhooksApi"
           ]
@@ -3684,7 +3819,7 @@
           "name": "extractUsedHelpers",
           "type": "function",
           "path": "apps/frontend/src/lib/formulaHelp.ts",
-          "line": 207,
+          "line": 216,
           "exports": [
             "extractUsedHelpers"
           ]
@@ -3714,7 +3849,7 @@
           "name": "OperatorDoc",
           "type": "interface",
           "path": "apps/frontend/src/lib/formulaHelp.ts",
-          "line": 180,
+          "line": 189,
           "exports": [
             "OperatorDoc"
           ]
@@ -3734,7 +3869,7 @@
           "name": "OPERATOR_DOCS",
           "type": "variable",
           "path": "apps/frontend/src/lib/formulaHelp.ts",
-          "line": 185,
+          "line": 194,
           "exports": [
             "OPERATOR_DOCS"
           ]
@@ -3959,7 +4094,7 @@
           "name": "GeneratePage",
           "type": "function",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 113,
+          "line": 118,
           "exports": [
             "GeneratePage"
           ]
@@ -4017,7 +4152,7 @@
           "name": "useDebouncedValue",
           "type": "function",
           "path": "apps/frontend/src/pages/SettingsPage.tsx",
-          "line": 64,
+          "line": 67,
           "exports": []
         },
         {
@@ -4025,7 +4160,7 @@
           "name": "SettingsPage",
           "type": "function",
           "path": "apps/frontend/src/pages/SettingsPage.tsx",
-          "line": 77,
+          "line": 80,
           "exports": [
             "SettingsPage"
           ]
@@ -4165,7 +4300,7 @@
           "name": "buildTiptapExtensions",
           "type": "function",
           "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-          "line": 63,
+          "line": 84,
           "exports": [
             "buildTiptapExtensions"
           ]
@@ -4175,7 +4310,7 @@
           "name": "TiptapEditor",
           "type": "function",
           "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-          "line": 98,
+          "line": 119,
           "exports": [
             "TiptapEditor"
           ]
@@ -4185,10 +4320,18 @@
           "name": "TiptapEditorProps",
           "type": "interface",
           "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-          "line": 43,
+          "line": 64,
           "exports": [
             "TiptapEditorProps"
           ]
+        },
+        {
+          "id": "apps/frontend/src/components/Editor/TiptapEditor.tsx:Table",
+          "name": "Table",
+          "type": "variable",
+          "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+          "line": 48,
+          "exports": []
         }
       ]
     },

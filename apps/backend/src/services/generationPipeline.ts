@@ -198,8 +198,13 @@ export async function runGeneration(
     };
   }
 
+  const warnings: string[] = [];
+
   /* -------------------------------------------------------------- */
   /* 4) Build the .docx Buffer                                      */
+  /*    Always use the HTML → docx pipeline. When originalDocx is   */
+  /*    available, it is passed as a formatting reference so the     */
+  /*    generated body is injected into the original shell.          */
   /* -------------------------------------------------------------- */
   let docxBuffer: Buffer;
   try {
@@ -207,6 +212,9 @@ export async function runGeneration(
       formulas: formulaResults,
       title: template.name,
       products: context.PRODUCTS ?? [],
+      originalDocx: template.originalDocx
+        ? Buffer.from(template.originalDocx)
+        : undefined,
     });
   } catch (err) {
     if (err instanceof DocxBuildError) {
@@ -264,7 +272,6 @@ export async function runGeneration(
   /* -------------------------------------------------------------- */
   /* 7) Optional UF_CRM_* binding                                   */
   /* -------------------------------------------------------------- */
-  const warnings: string[] = [];
   let binding: BindingResult | null = null;
   const fieldName = effectiveFieldBinding;
   if (fieldName) {

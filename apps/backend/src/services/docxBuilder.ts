@@ -35,6 +35,7 @@
  */
 
 import HTMLtoDOCX from '@turbodocx/html-to-docx';
+import PizZip from 'pizzip';
 import type { FormulaEvaluationResult, ProductRow } from '@b24-doc-gen/shared';
 
 /* ------------------------------------------------------------------ */
@@ -73,6 +74,13 @@ export interface BuildDocxOptions {
    * into N rows — one per product.
    */
   products?: ProductRow[];
+  /**
+   * Original .docx buffer (as uploaded by the admin). When provided,
+   * the generated body content is injected into the original document's
+   * shell — preserving styles, fonts, headers, footers, page settings,
+   * theme, and numbering from the original file.
+   */
+  originalDocx?: Buffer;
 }
 
 /**
@@ -138,10 +146,25 @@ export async function buildDocxFromHtml(
     throw new DocxBuildError(`html-to-docx failed: ${message}`, 'CONVERT_FAILED');
   }
 
-  // 4) Normalize the response to a Node Buffer regardless of what the
-  //    library handed back. In Node, html-to-docx already returns a
-  //    Buffer, but the typing union includes ArrayBuffer/Blob.
-  return await coerceToBuffer(raw);
+  // 4) Normalize the response to a Node Buffer.
+  const generatedBuffer = await coerceToBuffer(raw);
+
+  // 5) If an original .docx is available, merge: take the original
+  //    document's shell (styles, fonts, headers, footers, page settings,
+  //    theme, numbering) and inject the generated body content into it.
+  //    This preserves the original document's visual formatting.
+  if (options.originalDocx && options.originalDocx.length > 0) {
+    try {
+      return mergeWithOriginalDocx(options.originalDocx, generatedBuffer);
+    } catch (err) {
+      // If merging fails, fall back to the plain generated buffer
+      // rather than breaking the entire generation.
+      const message = err instanceof Error ? err.message : String(err);
+      console.warn(`[docxBuilder] merge with original .docx failed, using generated: ${message}`);
+    }
+  }
+
+  return generatedBuffer;
 }
 
 /* ------------------------------------------------------------------ */
@@ -371,6 +394,168 @@ function escapeHtmlText(value: string): string {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
+}
+
+/* ------------------------------------------------------------------ */
+/* Original .docx formatting merge                                    */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Files to copy from the original .docx into the generated .docx.
+ * These carry the visual formatting that mammoth/html-to-docx strips.
+ */
+const FORMATTING_FILES = [
+  'word/styles.xml',        // style definitions (fonts, sizes, spacing)
+  'word/fontTable.xml',     // font declarations
+  'word/numbering.xml',     // list numbering definitions
+  'word/settings.xml',      // document settings
+];
+
+/**
+ * Copy formatting assets from the original .docx into the generated
+ * .docx. The generated document already has valid content (body with
+ * formula values and product tables); we just upgrade its formatting
+ * by overwriting the style/theme/font files with the originals.
+ *
+ * Additionally, the `<w:sectPr>` (section properties) from the
+ * original document.xml is transplanted into the generated
+ * document.xml so page size, margins, orientation, and
+ * header/footer references are preserved.
+ */
+function mergeWithOriginalDocx(
+  originalDocx: Buffer,
+  generatedDocx: Buffer,
+): Buffer {
+  const origZip = new PizZip(originalDocx);
+  const genZip = new PizZip(generatedDocx);
+
+  // 1) Copy formatting files from original → generated.
+  for (const path of FORMATTING_FILES) {
+    const file = origZip.file(path);
+    if (file) {
+      genZip.file(path, file.asUint8Array());
+    }
+  }
+
+  // 2) Copy theme directory (word/theme/*) from original.
+  for (const [path, file] of Object.entries(origZip.files)) {
+    if (path.startsWith('word/theme/') && !file.dir) {
+      genZip.file(path, file.asUint8Array());
+    }
+  }
+
+  // 3) Copy headers and footers from original, plus their rels.
+  for (const [path, file] of Object.entries(origZip.files)) {
+    if (/^word\/(header|footer)\d*\.xml$/.test(path) && !file.dir) {
+      genZip.file(path, file.asUint8Array());
+    }
+    // Also copy header/footer relationship files.
+    if (/^word\/_rels\/(header|footer)\d*\.xml\.rels$/.test(path) && !file.dir) {
+      genZip.file(path, file.asUint8Array());
+    }
+  }
+
+  // 4) Copy any media files from original (logos, header images, etc.)
+  for (const [path, file] of Object.entries(origZip.files)) {
+    if (path.startsWith('word/media/') && !file.dir) {
+      // Prefix to avoid collision with generated media.
+      const name = path.slice('word/media/'.length);
+      genZip.file(`word/media/orig_${name}`, file.asUint8Array());
+    }
+  }
+
+  // 5) Transplant <w:sectPr> from original document.xml into generated.
+  //    sectPr controls page size, margins, orientation, header/footer refs.
+  const origDocXml = origZip.file('word/document.xml')?.asText();
+  const genDocXml = genZip.file('word/document.xml')?.asText();
+
+  if (origDocXml && genDocXml) {
+    const origSectPrMatch = origDocXml.match(/<w:sectPr\b[^>]*>[\s\S]*?<\/w:sectPr>/);
+    if (origSectPrMatch) {
+      const origSectPr = origSectPrMatch[0];
+      let updatedGenDocXml: string;
+
+      // Replace existing sectPr in generated, or insert before </w:body>.
+      if (/<w:sectPr\b/.test(genDocXml)) {
+        updatedGenDocXml = genDocXml.replace(
+          /<w:sectPr\b[^>]*>[\s\S]*?<\/w:sectPr>/,
+          origSectPr,
+        );
+      } else {
+        updatedGenDocXml = genDocXml.replace(
+          '</w:body>',
+          `${origSectPr}</w:body>`,
+        );
+      }
+      genZip.file('word/document.xml', updatedGenDocXml);
+    }
+  }
+
+  // 6) Merge relationships: add header/footer/theme rels from original
+  //    into generated document.xml.rels.
+  const origRels = origZip.file('word/_rels/document.xml.rels')?.asText() ?? '';
+  const genRels = genZip.file('word/_rels/document.xml.rels')?.asText() ?? '';
+  if (origRels && genRels) {
+    // Extract header, footer, and theme relationships from original.
+    const relTypes = ['header', 'footer', 'theme', 'fontTable', 'numbering', 'settings'];
+    const relRe = /<Relationship\b[^>]*\/>/gi;
+    const origAllRels = origRels.match(relRe) ?? [];
+    const relsToAdd: string[] = [];
+
+    // Find max rId in generated to avoid collisions.
+    const rIdRe = /Id="rId(\d+)"/g;
+    let maxId = 0;
+    let m: RegExpExecArray | null;
+    while ((m = rIdRe.exec(genRels)) !== null) {
+      const id = parseInt(m[1], 10);
+      if (id > maxId) maxId = id;
+    }
+
+    for (const rel of origAllRels) {
+      const typeMatch = rel.match(/Type="[^"]*\/(\w+)"/);
+      if (!typeMatch) continue;
+      const typeName = typeMatch[1].toLowerCase();
+      if (!relTypes.includes(typeName)) continue;
+
+      // Skip if generated already has this type.
+      if (genRels.includes(`/${typeName}"`)) continue;
+
+      // Remap the rId.
+      maxId++;
+      const remapped = rel
+        .replace(/Id="rId\d+"/, `Id="rId${maxId}"`)
+        // Fix media paths for original media files we prefixed.
+        .replace(/Target="media\/([^"]+)"/, 'Target="media/orig_$1"');
+      relsToAdd.push(remapped);
+    }
+
+    if (relsToAdd.length > 0) {
+      const updatedRels = genRels.replace(
+        '</Relationships>',
+        relsToAdd.join('') + '</Relationships>',
+      );
+      genZip.file('word/_rels/document.xml.rels', updatedRels);
+    }
+  }
+
+  // 7) Ensure [Content_Types].xml has entries for any new file types.
+  const genCT = genZip.file('[Content_Types].xml')?.asText() ?? '';
+  const origCT = origZip.file('[Content_Types].xml')?.asText() ?? '';
+  if (genCT && origCT) {
+    // Copy Override entries for headers/footers from original.
+    const overrideRe = /<Override\b[^>]*PartName="\/word\/(header|footer)\d*\.xml"[^>]*\/>/gi;
+    const origOverrides = origCT.match(overrideRe) ?? [];
+    const missingOverrides = origOverrides.filter((o) => !genCT.includes(o));
+    if (missingOverrides.length > 0) {
+      const updatedCT = genCT.replace(
+        '</Types>',
+        missingOverrides.join('') + '</Types>',
+      );
+      genZip.file('[Content_Types].xml', updatedCT);
+    }
+  }
+
+  return genZip.generate({ type: 'nodebuffer', compression: 'DEFLATE' }) as Buffer;
 }
 
 /**

@@ -42,6 +42,7 @@ import { evaluateExpression } from '../services/formulaEngine.js';
 import { B24Client } from '../services/b24Client.js';
 import { getDealContext, DealDataError } from '../services/dealData.js';
 import { expandProductTables } from '../services/docxBuilder.js';
+import { scanDocxPlaceholders } from '../services/docxTemplateEngine.js';
 import { requireAdmin } from '../middleware/role.js';
 
 /* ------------------------------------------------------------------ */
@@ -541,6 +542,15 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
       throw err;
     }
 
+    // Scan the original .docx for template placeholders.
+    let docxPlaceholders: string[] = [];
+    try {
+      docxPlaceholders = scanDocxPlaceholders(buffer);
+    } catch {
+      // Non-fatal — the template is still valid, just without placeholder info.
+      messages.push('Could not scan .docx for placeholders');
+    }
+
     // Persist the template.
     const row = await prisma.template.create({
       data: {
@@ -555,6 +565,7 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
     return reply.code(201).send({
       template: toTemplateDto(row, false),
       warnings: messages,
+      docxPlaceholders,
     });
   });
 

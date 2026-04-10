@@ -166,8 +166,15 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
       };
     }
 
+    const warnings: string[] = [];
+
     /* -------------------------------------------------------------- */
     /* 5) Build the .docx Buffer                                      */
+    /*    Always use the HTML → docx pipeline. When the template has   */
+    /*    an uploaded originalDocx, it is passed as a style/format     */
+    /*    reference so the generated body is injected into the         */
+    /*    original document's shell (preserving fonts, headers,        */
+    /*    footers, page layout, etc.).                                 */
     /* -------------------------------------------------------------- */
     let docxBuffer: Buffer;
     try {
@@ -175,6 +182,9 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
         formulas: formulaResults,
         title: template.name,
         products: context.PRODUCTS ?? [],
+        originalDocx: template.originalDocx
+          ? Buffer.from(template.originalDocx)
+          : undefined,
       });
     } catch (err) {
       if (err instanceof DocxBuildError) {
@@ -225,7 +235,6 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
     /* -------------------------------------------------------------- */
     /* 8) Optional UF_CRM_* binding                                   */
     /* -------------------------------------------------------------- */
-    const warnings: string[] = [];
     let binding: BindingResult | null = null;
     const fieldName = effectiveFieldBinding;
     if (fieldName) {
