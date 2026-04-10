@@ -153,11 +153,22 @@ export async function runGeneration(
   }
 
   /* -------------------------------------------------------------- */
-  /* 2) Build deal context                                          */
+  /* 2) Determine if product data is needed                         */
+  /* -------------------------------------------------------------- */
+  const { fetchProducts, fetchProductImages } = detectProductUsage(
+    template.contentHtml,
+    template.formulas.map((f) => f.expression),
+  );
+
+  /* -------------------------------------------------------------- */
+  /* 3) Build deal context                                          */
   /* -------------------------------------------------------------- */
   let context;
   try {
-    context = await getDealContext(client, dealId);
+    context = await getDealContext(client, dealId, {
+      fetchProducts,
+      fetchProductImages,
+    });
   } catch (err) {
     if (err instanceof DealDataError) {
       if (err.status === 404) {
@@ -195,6 +206,7 @@ export async function runGeneration(
     docxBuffer = await buildDocxFromHtml(template.contentHtml, {
       formulas: formulaResults,
       title: template.name,
+      products: context.PRODUCTS ?? [],
     });
   } catch (err) {
     if (err instanceof DocxBuildError) {
@@ -375,4 +387,40 @@ export async function runGeneration(
     timeline,
     warnings,
   };
+}
+
+/* ------------------------------------------------------------------ */
+/* Product usage detection                                             */
+/* ------------------------------------------------------------------ */
+
+/** Regex patterns for product-related helpers in formula expressions. */
+const PRODUCT_HELPER_RE = /product(?:Sum|Count|Get|Image)\s*\(/i;
+const PRODUCT_IMAGE_HELPER_RE = /productImage\s*\(/i;
+
+/**
+ * Scan the template HTML and formula expressions to determine whether
+ * product data (and product images) need to be fetched from Bitrix24.
+ */
+function detectProductUsage(
+  contentHtml: string,
+  expressions: string[],
+): { fetchProducts: boolean; fetchProductImages: boolean } {
+  const hasProductTable = contentHtml.includes('data-product-table')
+    || contentHtml.includes('data-product-field');
+  const hasProductImageAttr = contentHtml.includes('data-product-image');
+
+  let hasProductHelper = false;
+  let hasProductImageHelper = false;
+
+  for (const expr of expressions) {
+    if (PRODUCT_HELPER_RE.test(expr)) hasProductHelper = true;
+    if (PRODUCT_IMAGE_HELPER_RE.test(expr)) hasProductImageHelper = true;
+    if (hasProductHelper && hasProductImageHelper) break;
+  }
+
+  const fetchProducts = hasProductTable || hasProductHelper;
+  const fetchProductImages =
+    fetchProducts && (hasProductImageAttr || hasProductImageHelper);
+
+  return { fetchProducts, fetchProductImages };
 }

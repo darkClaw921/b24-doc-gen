@@ -323,9 +323,9 @@
     "element": "apps/frontend/src/pages/SettingsPage.tsx",
     "path": "apps/frontend/src/pages/SettingsPage.tsx",
     "type": "file",
-    "content": "Page Фазы 5 с управлением AppSettings. Три секции: 1) UF_CRM file field dropdown из settingsApi.dealFields с кнопкой Create через Dialog (XML_ID sanitization A-Z/0-9/_, POST settingsApi.createField); 2) Admin picker — debounced usersApi.search + checkbox выбор, текущие показаны списком с Trash (использует PortalUserDTO); 3) Save-bar с settingsApi.update({dealFieldBinding, adminUserIds}). saveMessage строка для success/error feedback. useDebouncedValue 300ms для поиска.",
+    "content": "Страница настроек админа. Секции: 1) Поле для файлов — выбор UF_CRM_* поля типа file для привязки .docx, создание нового поля. 2) Администраторы — поиск пользователей и управление списком админов. 3) Места встройки — список зарегистрированных placement-обработчиков приложения (через GET /api/placements) с возможностью удаления каждого через DELETE /api/placements (placement.unbind). Удаление с диалогом подтверждения.",
     "createdAt": "2026-04-07T17:51:05.225Z",
-    "updatedAt": "2026-04-07T17:51:05.225Z"
+    "updatedAt": "2026-04-10T16:58:21.941Z"
   },
   {
     "element": "Theme",
@@ -462,5 +462,125 @@
     "content": "Portal OAuth helper. savePortalTokens() шифрует accessToken/refreshToken/applicationToken через tokenCrypto.encryptToken перед upsert в AppSettings (id=1). getFreshPortalAuth() читает строку, проверяет expiry (skew 60с) и возвращает расшифрованный accessToken через decryptToken; если токен протух — вызывает refreshPortalTokens. refreshPortalTokens() расшифровывает refreshToken, шлёт его в https://oauth.bitrix.info/oauth/token/ (grant_type=refresh_token, B24_CLIENT_ID/B24_CLIENT_SECRET из env), парсит ответ, сохраняет новую пару через savePortalTokens (которая заново зашифрует). PortalAuthError с kind: not_installed|missing_tokens|missing_client_credentials|refresh_failed. Decryption tolerant к legacy plaintext (см. tokenCrypto) — миграция бесшовная.",
     "createdAt": "2026-04-08T18:26:07.771Z",
     "updatedAt": "2026-04-08T18:26:07.771Z"
+  },
+  {
+    "element": "packages/shared/src/types.ts:ProductRow",
+    "path": "packages/shared/src/types.ts",
+    "type": "interface",
+    "content": "Interface для товарной позиции сделки. Поля: ID, PRODUCT_ID, PRODUCT_NAME, PRICE, QUANTITY, DISCOUNT_SUM, TAX_RATE, SUM, MEASURE_NAME, SORT, IMAGE_BASE64?, IMAGE_URL?. Числовые поля (PRICE, QUANTITY, SUM и т.д.) типизированы как number. IMAGE_BASE64 и IMAGE_URL опциональны — заполняются только при fetchProductImages=true.",
+    "createdAt": "2026-04-10T16:11:26.559Z",
+    "updatedAt": "2026-04-10T16:11:26.559Z"
+  },
+  {
+    "element": "apps/backend/src/services/b24Client.ts:getDealProductRows",
+    "path": "",
+    "type": "unknown",
+    "content": "Метод B24Client для получения товарных позиций сделки. Вызывает crm.deal.productrows.get с параметром id=dealId. Нормализует ответ через normalizeProductRow в ProductRow[]. Возвращает пустой массив если ответ не массив.",
+    "createdAt": "2026-04-10T16:11:32.882Z",
+    "updatedAt": "2026-04-10T16:11:32.882Z"
+  },
+  {
+    "element": "apps/backend/src/services/b24Client.ts:getProductImages",
+    "path": "",
+    "type": "unknown",
+    "content": "Метод B24Client для получения картинок товара каталога. Вызывает catalog.productImage.list с select=[id,name,productId,type,downloadUrl,detailUrl]. Требует OAuth scope catalog. Ошибки проглатываются (возвращает пустой массив) — scope может отсутствовать.",
+    "createdAt": "2026-04-10T16:11:35.065Z",
+    "updatedAt": "2026-04-10T16:11:35.065Z"
+  },
+  {
+    "element": "apps/backend/src/services/b24Client.ts:downloadFileAsBase64",
+    "path": "",
+    "type": "unknown",
+    "content": "Метод B24Client для скачивания файла по URL Bitrix24 и конвертации в base64 data URI. Добавляет ?auth=accessToken к URL для аутентификации. Определяет MIME тип из Content-Type ответа. Возвращает строку data:mime;base64,... или пустую строку при ошибке.",
+    "createdAt": "2026-04-10T16:11:37.449Z",
+    "updatedAt": "2026-04-10T16:11:37.449Z"
+  },
+  {
+    "element": "apps/backend/src/services/dealData.ts:GetDealContextOptions",
+    "path": "apps/backend/src/services/dealData.ts",
+    "type": "interface",
+    "content": "Интерфейс опций для getDealContext. fetchProducts?: boolean — загружать ли товарные позиции через crm.deal.productrows.get. fetchProductImages?: boolean — загружать ли картинки товаров из catalog.productImage.list (работает только совместно с fetchProducts=true).",
+    "createdAt": "2026-04-10T16:11:38.906Z",
+    "updatedAt": "2026-04-10T16:11:38.906Z"
+  },
+  {
+    "element": "apps/backend/src/routes/generate.ts:detectProductUsage",
+    "path": "apps/backend/src/routes/generate.ts",
+    "type": "function",
+    "content": "Приватная функция сканирования шаблона на использование товаров. Проверяет HTML на наличие data-product-table и data-product-image атрибутов, а выражения формул — на вызовы productSum/productCount/productGet/productImage. Возвращает {fetchProducts, fetchProductImages} флаги для getDealContext.",
+    "createdAt": "2026-04-10T16:11:41.076Z",
+    "updatedAt": "2026-04-10T16:11:41.076Z"
+  },
+  {
+    "element": "formulaEngine.ts",
+    "path": "apps/backend/src/services/formulaEngine.ts",
+    "type": "file",
+    "content": "Formula engine now includes 4 product helpers: productCount() returns number of product rows, productSum(field) sums a numeric field across all rows, productGet(index, field) accesses a single row field (1-based), productImage(index) returns base64 image. collectDeps detects these helpers via FunctionNode AST traversal and sets deps.products=true. All helpers are in KNOWN_NON_ENTITY_SYMBOLS.",
+    "createdAt": "2026-04-10T16:15:56.786Z",
+    "updatedAt": "2026-04-10T16:15:56.786Z"
+  },
+  {
+    "element": "formulas.ts",
+    "path": "apps/backend/src/routes/formulas.ts",
+    "type": "file",
+    "content": "Formula validation route (POST /api/formulas/validate) now includes trial evaluation with stub context (empty DEAL/CONTACT/COMPANY objects and empty PRODUCTS array) after AST validation passes. This catches runtime errors in product helper calls during validation.",
+    "createdAt": "2026-04-10T16:16:00.900Z",
+    "updatedAt": "2026-04-10T16:16:00.900Z"
+  },
+  {
+    "element": "apps/backend/src/services/docxBuilder.ts:expandProductTables",
+    "path": "apps/backend/src/services/docxBuilder.ts",
+    "type": "function",
+    "content": "Функция expandProductTables(html, products) раскрывает product-таблицы в HTML. Находит <table data-product-table=\"true\">, берёт последний <tr> в <tbody> как шаблонную строку, клонирует N раз по числу товаров. Замена плейсхолдеров: data-product-field → значение поля, data-product-image → img tag с base64, data-product-index → порядковый номер. Вызывается перед stripFormulaTags в buildDocxFromHtml pipeline.",
+    "createdAt": "2026-04-10T16:21:38.962Z",
+    "updatedAt": "2026-04-10T16:21:38.962Z"
+  },
+  {
+    "element": "apps/backend/src/services/docxBuilder.ts:fillProductRow",
+    "path": "apps/backend/src/services/docxBuilder.ts",
+    "type": "function",
+    "content": "Функция fillProductRow(rowHtml, product, index) подставляет значения конкретного товара в шаблонную строку таблицы. Заменяет data-product-field на значение поля ProductRow, data-product-image на img tag с IMAGE_BASE64, data-product-index на порядковый номер (1-based).",
+    "createdAt": "2026-04-10T16:21:45.195Z",
+    "updatedAt": "2026-04-10T16:21:45.195Z"
+  },
+  {
+    "element": "apps/backend/src/services/docxBuilder.ts:stripFormulaTags",
+    "path": "apps/backend/src/services/docxBuilder.ts",
+    "type": "function",
+    "content": "Функция stripFormulaTags заменяет span[data-formula-key] на вычисленные значения формул. Если значение формулы начинается с data:image/ (например от productImage()), генерирует img tag вместо текстового escape. Это позволяет вставлять картинки товаров в произвольные места шаблона.",
+    "createdAt": "2026-04-10T16:21:50.862Z",
+    "updatedAt": "2026-04-10T16:21:50.862Z"
+  },
+  {
+    "element": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+    "path": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+    "type": "file",
+    "content": "Кастомные TipTap inline atom ноды для product-таблиц. ProductFieldSpan парсит <span data-product-field> и рендерит emerald-пилюлю с именем поля. ProductImageSpan парсит <span data-product-image> и рендерит purple-пилюлю. ProductIndexSpan парсит <span data-product-index> и рендерит gray-пилюлю с символом #. Все три расширения регистрируются в buildTiptapExtensions() в TiptapEditor.tsx.",
+    "createdAt": "2026-04-10T16:31:35.981Z",
+    "updatedAt": "2026-04-10T16:31:35.981Z"
+  },
+  {
+    "element": "apps/backend/src/routes/deal.ts::GET /api/crm/product-fields",
+    "path": "",
+    "type": "unknown",
+    "content": "Статический эндпоинт, возвращающий список полей товарных позиций сделки. Поля захардкожены: PRODUCT_NAME (string), PRICE (double), QUANTITY (double), DISCOUNT_SUM (double), TAX_RATE (double), SUM (double), MEASURE_NAME (string). Не требует дополнительных API-вызовов к Bitrix24. Формат ответа: { fields: CrmFieldDTO[] }.",
+    "createdAt": "2026-04-10T16:31:41.119Z",
+    "updatedAt": "2026-04-10T16:31:41.119Z"
+  },
+  {
+    "element": "packages/shared/src/types.ts#ProductRow",
+    "path": "",
+    "type": "unknown",
+    "content": "Интерфейс товарной позиции сделки. Поля: ID, PRODUCT_ID, PRODUCT_NAME, PRICE, QUANTITY, DISCOUNT_SUM, TAX_RATE, SUM, MEASURE_NAME, SORT. Поля изображений (заполняются при fetchProductImages=true): PREVIEW_PICTURE_BASE64/URL (картинка анонса), DETAIL_PICTURE_BASE64/URL (детальная картинка), MORE_PHOTO_BASE64[]/MORE_PHOTO_URLS[] (массив доп. фото, до 10 шт). Fallback-логика при выборе картинки: preview → detail → more_photo[0].",
+    "createdAt": "2026-04-10T16:55:12.413Z",
+    "updatedAt": "2026-04-10T16:55:12.413Z"
+  },
+  {
+    "element": "apps/backend/src/routes/install.ts",
+    "path": "apps/backend/src/routes/install.ts",
+    "type": "file",
+    "content": "Install/placement routes. GET /api/install/status — проверка установки. POST /api/install — upsert AppSettings с adminUserIds и dealFieldBinding, сохранение OAuth-токенов. POST /api/install/sync-oauth — обновление токенов при каждом открытии. POST /api/install/register-placements — регистрация CRM_DEAL_DETAIL_TAB через placement.bind. GET /api/placements — список зарегистрированных мест встройки через placement.get. DELETE /api/placements — удаление места встройки через placement.unbind (принимает placement и handler в body).",
+    "createdAt": "2026-04-10T16:58:17.932Z",
+    "updatedAt": "2026-04-10T16:58:17.932Z"
   }
 ]

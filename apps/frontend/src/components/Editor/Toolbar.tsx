@@ -18,6 +18,7 @@
  */
 
 import type { Editor } from '@tiptap/react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import {
   Bold,
   Italic,
@@ -32,8 +33,63 @@ import {
   Undo2,
   Redo2,
   Sigma,
+  Package,
+  ChevronDown,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+/** Column descriptors for the product table builder. */
+interface ProductColumnOption {
+  id: string;
+  label: string;
+  /** The data-product-field value, or special markers. */
+  fieldOrMarker: string;
+  /** Whether this column is selected by default. */
+  defaultOn: boolean;
+}
+
+const PRODUCT_COLUMNS: ProductColumnOption[] = [
+  { id: 'index', label: '# (номер)', fieldOrMarker: '__index__', defaultOn: true },
+  { id: 'name', label: 'Название', fieldOrMarker: 'PRODUCT_NAME', defaultOn: true },
+  { id: 'price', label: 'Цена', fieldOrMarker: 'PRICE', defaultOn: true },
+  { id: 'quantity', label: 'Кол-во', fieldOrMarker: 'QUANTITY', defaultOn: true },
+  { id: 'sum', label: 'Сумма', fieldOrMarker: 'SUM', defaultOn: true },
+  { id: 'discount', label: 'Скидка', fieldOrMarker: 'DISCOUNT_SUM', defaultOn: false },
+  { id: 'tax', label: 'НДС (%)', fieldOrMarker: 'TAX_RATE', defaultOn: false },
+  { id: 'measure', label: 'Ед. изм.', fieldOrMarker: 'MEASURE_NAME', defaultOn: false },
+  { id: 'image', label: 'Фото', fieldOrMarker: '__image__', defaultOn: false },
+];
+
+/**
+ * Build product table HTML from the selected column set.
+ */
+function buildProductTableHtml(selectedIds: Set<string>): string {
+  const cols = PRODUCT_COLUMNS.filter((c) => selectedIds.has(c.id));
+  if (cols.length === 0) return '';
+
+  const ths = cols
+    .map((c) => `<th>${c.label}</th>`)
+    .join('');
+
+  const tds = cols
+    .map((c) => {
+      if (c.fieldOrMarker === '__index__') {
+        return '<td><span data-product-index></span></td>';
+      }
+      if (c.fieldOrMarker === '__image__') {
+        return '<td><span data-product-image="preview"></span></td>';
+      }
+      return `<td><span data-product-field="${c.fieldOrMarker}"></span></td>`;
+    })
+    .join('');
+
+  return (
+    `<table data-product-table="true">` +
+    `<thead><tr>${ths}</tr></thead>` +
+    `<tbody><tr>${tds}</tr></tbody>` +
+    `</table>`
+  );
+}
 
 /** Props for the toolbar. The `editor` may be null while loading. */
 export interface ToolbarProps {
@@ -200,6 +256,10 @@ export function Toolbar({ editor, className, onInsertFormula }: ToolbarProps) {
 
       <Divider />
 
+      <ProductTableDropdown editor={editor} />
+
+      <Divider />
+
       <ToolbarButton
         title="Отменить (Ctrl+Z)"
         onClick={() => editor.chain().focus().undo().run()}
@@ -214,6 +274,120 @@ export function Toolbar({ editor, className, onInsertFormula }: ToolbarProps) {
       >
         <Redo2 className="h-4 w-4" />
       </ToolbarButton>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* ProductTableDropdown                                                 */
+/* ------------------------------------------------------------------ */
+
+function ProductTableDropdown({ editor }: { editor: Editor }) {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<Set<string>>(
+    () => new Set(PRODUCT_COLUMNS.filter((c) => c.defaultOn).map((c) => c.id)),
+  );
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close on outside click.
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [open]);
+
+  const toggle = useCallback((id: string) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+
+  const handleInsert = useCallback(() => {
+    const html = buildProductTableHtml(selected);
+    if (!html) return;
+    editor.chain().focus().insertContent(html).run();
+    setOpen(false);
+  }, [editor, selected]);
+
+  const handleQuickInsert = useCallback(() => {
+    const defaultIds = new Set(
+      PRODUCT_COLUMNS.filter((c) => c.defaultOn).map((c) => c.id),
+    );
+    const html = buildProductTableHtml(defaultIds);
+    if (!html) return;
+    editor.chain().focus().insertContent(html).run();
+  }, [editor]);
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      <div className="flex">
+        <button
+          type="button"
+          onClick={handleQuickInsert}
+          title="Таблица товаров"
+          className={cn(
+            'inline-flex h-8 items-center justify-center rounded-l-md border border-transparent px-2',
+            'text-emerald-700 transition-colors hover:bg-emerald-50 hover:text-emerald-800',
+          )}
+        >
+          <Package className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          onClick={() => setOpen((p) => !p)}
+          title="Выбрать колонки таблицы товаров"
+          className={cn(
+            'inline-flex h-8 w-5 items-center justify-center rounded-r-md border border-transparent',
+            'text-emerald-700 transition-colors hover:bg-emerald-50 hover:text-emerald-800',
+            open && 'bg-emerald-50',
+          )}
+        >
+          <ChevronDown className="h-3 w-3" />
+        </button>
+      </div>
+
+      {open && (
+        <div className="absolute left-0 top-full z-50 mt-1 w-56 rounded-md border border-border bg-background p-2 shadow-lg">
+          <div className="mb-2 text-xs font-medium text-muted-foreground">
+            Колонки таблицы товаров
+          </div>
+          {PRODUCT_COLUMNS.map((col) => (
+            <label
+              key={col.id}
+              className="flex cursor-pointer items-center gap-2 rounded px-2 py-1 text-sm hover:bg-muted"
+            >
+              <input
+                type="checkbox"
+                checked={selected.has(col.id)}
+                onChange={() => toggle(col.id)}
+                className="h-3.5 w-3.5 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+              />
+              {col.label}
+            </label>
+          ))}
+          <div className="mt-2 border-t border-border pt-2">
+            <button
+              type="button"
+              onClick={handleInsert}
+              disabled={selected.size === 0}
+              className={cn(
+                'w-full rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white',
+                'hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed',
+              )}
+            >
+              Вставить таблицу
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

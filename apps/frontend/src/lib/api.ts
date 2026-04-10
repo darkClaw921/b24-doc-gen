@@ -293,6 +293,28 @@ export const installApi = {
     }>('/install/register-placements', { method: 'POST', body }),
 };
 
+/* ------------------------------------------------------------------ */
+/* Placements                                                          */
+/* ------------------------------------------------------------------ */
+
+export interface PlacementDTO {
+  placement: string;
+  handler: string;
+  title: string;
+  description: string;
+}
+
+export const placementsApi = {
+  list: (signal?: AbortSignal) =>
+    apiRequest<{ placements: PlacementDTO[] }>('/placements', { signal }),
+
+  unbind: (placement: string, handler: string) =>
+    apiRequest<{ ok: boolean }>('/placements', {
+      method: 'DELETE',
+      body: { placement, handler },
+    }),
+};
+
 export const usersApi = {
   search: (search: string, signal?: AbortSignal) => {
     const qs = new URLSearchParams();
@@ -334,6 +356,10 @@ export const crmApi = {
       company: CrmFieldDTO[];
       cached: boolean;
     }>('/crm/fields', { signal }),
+
+  /** Load the static list of product row fields. */
+  productFields: (signal?: AbortSignal) =>
+    apiRequest<{ fields: CrmFieldDTO[] }>('/crm/product-fields', { signal }),
 };
 
 /* ------------------------------------------------------------------ */

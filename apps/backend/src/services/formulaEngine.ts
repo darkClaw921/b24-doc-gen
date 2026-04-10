@@ -40,7 +40,7 @@
  */
 
 import { create, all, type MathNode, type AccessorNode, type SymbolNode } from 'mathjs';
-import type { FormulaContext, FormulaDependencies } from '@b24-doc-gen/shared';
+import type { FormulaContext, FormulaDependencies, ProductRow } from '@b24-doc-gen/shared';
 
 /* ------------------------------------------------------------------ */
 /* Sandboxed mathjs instance                                           */
@@ -286,14 +286,36 @@ function tryParse(expression: string): { node: MathNode; error?: undefined } | {
  * accessor. Returned arrays are de-duplicated and sorted for stable
  * comparison and storage.
  */
+/** Names of the product helper functions. When any of these appears as
+ *  a call in the AST, `collectDeps` sets `products: true`. */
+const PRODUCT_HELPER_NAMES = new Set<string>([
+  'productCount',
+  'productSum',
+  'productGet',
+  'productImage',
+]);
+
 function collectDeps(node: MathNode): FormulaDependencies {
   const deps: Record<EntitySymbol, Set<string>> = {
     DEAL: new Set(),
     CONTACT: new Set(),
     COMPANY: new Set(),
   };
+  let needsProducts = false;
 
   node.traverse((current) => {
+    // Detect product helper calls: FunctionNode whose fn is a SymbolNode
+    // with one of the product helper names.
+    if (current.type === 'FunctionNode') {
+      const fn = (current as unknown as { fn: MathNode }).fn;
+      if (fn && fn.type === 'SymbolNode') {
+        const name = (fn as SymbolNode).name;
+        if (PRODUCT_HELPER_NAMES.has(name)) {
+          needsProducts = true;
+        }
+      }
+    }
+
     if (current.type !== 'AccessorNode') return;
     const accessor = current as AccessorNode;
     const obj = accessor.object;
@@ -316,6 +338,7 @@ function collectDeps(node: MathNode): FormulaDependencies {
     deal: Array.from(deps.DEAL).sort(),
     contact: Array.from(deps.CONTACT).sort(),
     company: Array.from(deps.COMPANY).sort(),
+    ...(needsProducts ? { products: true } : {}),
   };
 }
 
@@ -363,6 +386,11 @@ const KNOWN_NON_ENTITY_SYMBOLS = new Set<string>([
   'dateFormat',
   'upper',
   'lower',
+  // product helpers
+  'productCount',
+  'productSum',
+  'productGet',
+  'productImage',
   // common math constants and functions registered by mathjs
   'pi',
   'e',
@@ -440,10 +468,80 @@ export function evaluateExpression(
     return { value: '', raw: null, error: parsed.error };
   }
 
+  const products: ProductRow[] = context.PRODUCTS ?? [];
+
   const scope = {
     DEAL: context.DEAL ?? {},
     CONTACT: context.CONTACT ?? {},
     COMPANY: context.COMPANY ?? {},
+
+    /* -------------------------------------------------------------- */
+    /* Product helpers — closures capturing `products`                 */
+    /* -------------------------------------------------------------- */
+
+    /** Return the number of product rows in the deal. */
+    productCount(): number {
+      return products.length;
+    },
+
+    /**
+     * Sum a numeric field across all product rows.
+     * Non-numeric / NaN values are silently skipped.
+     */
+    productSum(field: unknown): number {
+      const key = String(field ?? '');
+      return products.reduce((acc, row) => {
+        const raw = (row as unknown as Record<string, unknown>)[key];
+        const num = typeof raw === 'number' ? raw : parseFloat(String(raw ?? ''));
+        return acc + (Number.isFinite(num) ? num : 0);
+      }, 0);
+    },
+
+    /**
+     * Access a single field of a product row by 1-based index.
+     * Returns '' for out-of-range indices.
+     */
+    productGet(index: unknown, field: unknown): unknown {
+      const idx = Number(index);
+      if (!Number.isFinite(idx) || idx < 1 || idx > products.length) return '';
+      const row = products[idx - 1];
+      if (!row) return '';
+      const key = String(field ?? '');
+      const val = (row as unknown as Record<string, unknown>)[key];
+      return val ?? '';
+    },
+
+    /**
+     * Return the base64-encoded image of a product row (1-based index).
+     *
+     * @param index  — 1-based product row number
+     * @param type   — image type: "preview" | "detail" | "more_photo"
+     *                 (default: "preview", falls back to detail → more_photo[0])
+     * @param photoIndex — 0-based index inside MORE_PHOTO array (default 0)
+     *
+     * Returns '' when the product has no image or the index is out of range.
+     */
+    productImage(index: unknown, type?: unknown, photoIndex?: unknown): string {
+      const idx = Number(index);
+      if (!Number.isFinite(idx) || idx < 1 || idx > products.length) return '';
+      const row = products[idx - 1];
+      if (!row) return '';
+
+      const typeStr = typeof type === 'string' ? type.toLowerCase() : 'preview';
+      const mpIdx = Number(photoIndex ?? 0);
+
+      // Direct type request
+      if (typeStr === 'detail') return row.DETAIL_PICTURE_BASE64 ?? '';
+      if (typeStr === 'more_photo' || typeStr === 'more') {
+        return row.MORE_PHOTO_BASE64?.[mpIdx] ?? '';
+      }
+
+      // "preview" (default) — try preview → detail → more_photo[0]
+      return row.PREVIEW_PICTURE_BASE64
+        ?? row.DETAIL_PICTURE_BASE64
+        ?? row.MORE_PHOTO_BASE64?.[0]
+        ?? '';
+    },
   };
 
   try {

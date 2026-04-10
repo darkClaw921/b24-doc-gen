@@ -27,13 +27,39 @@ import { useEditor, EditorContent, type Editor } from '@tiptap/react';
 import { StarterKit } from '@tiptap/starter-kit';
 import { Image } from '@tiptap/extension-image';
 import {
-  Table,
+  Table as BaseTable,
   TableRow,
   TableHeader,
   TableCell,
 } from '@tiptap/extension-table';
 import { FormulaTag } from '@/components/FormulaTag';
+import {
+  ProductFieldSpan,
+  ProductImageSpan,
+  ProductIndexSpan,
+} from './ProductTableNode';
 import { cn } from '@/lib/utils';
+
+/**
+ * Extended Table node that persists `data-product-table` as an attribute.
+ * The base TipTap Table node drops unknown HTML attributes on parse/render,
+ * so we explicitly register `productTable` as a custom attribute.
+ */
+const Table = BaseTable.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      productTable: {
+        default: null,
+        parseHTML: (el) => el.getAttribute('data-product-table'),
+        renderHTML: (attrs) => {
+          if (!attrs.productTable) return {};
+          return { 'data-product-table': attrs.productTable };
+        },
+      },
+    };
+  },
+});
 
 export interface TiptapEditorProps {
   /** Initial HTML content. Parents may update this when loading data. */
@@ -82,6 +108,11 @@ export function buildTiptapExtensions() {
     // as styled `<span data-formula-key>` pills and picked up by the
     // server-side preview/generation pipeline.
     FormulaTag,
+    // Product table atom nodes — render as styled pills inside product
+    // tables so admins can see which fields/images/indices are used.
+    ProductFieldSpan,
+    ProductImageSpan,
+    ProductIndexSpan,
   ];
 }
 

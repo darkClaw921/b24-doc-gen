@@ -118,6 +118,8 @@ export interface FormulaDependencies {
   deal: string[];
   contact: string[];
   company: string[];
+  /** True when the formula references product helpers (productSum, productGet, etc.). */
+  products?: boolean;
 }
 
 /* ------------------------------------------------------------------ */
@@ -152,6 +154,65 @@ export interface DealField {
 }
 
 /* ------------------------------------------------------------------ */
+/* Product rows                                                        */
+/* ------------------------------------------------------------------ */
+
+/**
+ * A single product row attached to a CRM deal. Mirrors the shape
+ * returned by `crm.deal.productrows.get` with two optional fields
+ * (`IMAGE_BASE64`, `IMAGE_URL`) that are populated only when the
+ * caller requests product images via `fetchProductImages`.
+ */
+export interface ProductRow {
+  /** Row ID inside the deal's product list. */
+  ID: number;
+  /** Catalog product ID (0 when the row is not linked to a catalog item). */
+  PRODUCT_ID: number;
+  /** Display name of the product in the deal. */
+  PRODUCT_NAME: string;
+  /** Unit price (before discount). */
+  PRICE: number;
+  /** Quantity. */
+  QUANTITY: number;
+  /** Discount amount per unit. */
+  DISCOUNT_SUM: number;
+  /** Tax rate in percent (e.g. 20 for 20 %). */
+  TAX_RATE: number;
+  /** Total for this row (PRICE * QUANTITY − discounts + tax). */
+  SUM: number;
+  /** Measurement unit label, e.g. "шт.", "м". */
+  MEASURE_NAME: string;
+  /** Sort order inside the deal. */
+  SORT: number;
+
+  /* ----- Product images (populated when fetchProductImages=true) ----- */
+
+  /**
+   * Preview picture — small thumbnail (картинка для анонса).
+   * Base64 data URI (`data:image/...;base64,...`).
+   */
+  PREVIEW_PICTURE_BASE64?: string;
+  /** Original download URL of the preview picture. */
+  PREVIEW_PICTURE_URL?: string;
+
+  /**
+   * Detail picture — full-size product image (детальная картинка).
+   * Base64 data URI.
+   */
+  DETAIL_PICTURE_BASE64?: string;
+  /** Original download URL of the detail picture. */
+  DETAIL_PICTURE_URL?: string;
+
+  /**
+   * Additional photos (MORE_PHOTO) — array of base64 data URIs.
+   * Only the first few images are fetched (limited by concurrency).
+   */
+  MORE_PHOTO_BASE64?: string[];
+  /** Original download URLs corresponding to MORE_PHOTO_BASE64. */
+  MORE_PHOTO_URLS?: string[];
+}
+
+/* ------------------------------------------------------------------ */
 /* Formula runtime context                                             */
 /* ------------------------------------------------------------------ */
 
@@ -171,6 +232,8 @@ export interface FormulaContext {
   DEAL: EntityValues;
   CONTACT: EntityValues;
   COMPANY: EntityValues;
+  /** Product rows attached to the deal (empty array when not loaded). */
+  PRODUCTS: ProductRow[];
 }
 
 /**

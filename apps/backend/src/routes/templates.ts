@@ -41,6 +41,7 @@ import { parseDocxToHtml, DocxParseError } from '../services/docxParser.js';
 import { evaluateExpression } from '../services/formulaEngine.js';
 import { B24Client } from '../services/b24Client.js';
 import { getDealContext, DealDataError } from '../services/dealData.js';
+import { expandProductTables } from '../services/docxBuilder.js';
 import { requireAdmin } from '../middleware/role.js';
 
 /* ------------------------------------------------------------------ */
@@ -221,12 +222,22 @@ function substituteFormulaTagsForPreview(
       return `<span${attrs}></span>`;
     }
     const computed = result.value ?? '';
-    const extras = ` data-computed-value="${escapeAttr(computed)}"${
+    const isImage = computed.startsWith('data:image/');
+    // For image values, store a short marker instead of the full base64
+    // in the data attribute (it would bloat the HTML and break tooltips).
+    const computedAttr = isImage ? '[image]' : computed;
+    const extras = ` data-computed-value="${escapeAttr(computedAttr)}"${
       result.error ? ` data-formula-error="${escapeAttr(result.error)}"` : ''
     }`;
-    const display = result.error
-      ? `Σ ${escapeHtml(result.label)}`
-      : escapeHtml(computed);
+    let display: string;
+    if (result.error) {
+      display = `Σ ${escapeHtml(result.label)}`;
+    } else if (isImage) {
+      // Render the image inline instead of showing the base64 as text.
+      display = `<img src="${computed}" style="max-width:200px;max-height:200px;display:inline-block;" />`;
+    } else {
+      display = escapeHtml(computed);
+    }
     return `<span${attrs}${extras}>${display}</span>`;
   });
 }
@@ -356,6 +367,23 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
         return reply.unauthorized('Missing access token in B24 auth payload');
       }
 
+      // Detect if the template uses product rows / images so we only
+      // fetch them when needed (same logic as generate.ts).
+      const expressions = row.formulas.map((f) => f.expression);
+      const hasProductTable = row.contentHtml.includes('data-product-table')
+        || row.contentHtml.includes('data-product-field');
+      const hasProductImageAttr = row.contentHtml.includes('data-product-image');
+      const productHelperRe = /product(?:Sum|Count|Get|Image)\s*\(/i;
+      const productImageHelperRe = /productImage\s*\(/i;
+      let hasProductHelper = false;
+      let hasProductImageHelper = false;
+      for (const expr of expressions) {
+        if (productHelperRe.test(expr)) hasProductHelper = true;
+        if (productImageHelperRe.test(expr)) hasProductImageHelper = true;
+      }
+      const fetchProducts = hasProductTable || hasProductHelper;
+      const fetchProductImages = hasProductImageAttr || hasProductImageHelper;
+
       // Load the deal context (single service, same shape everywhere).
       let context;
       try {
@@ -363,7 +391,10 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
           portal: auth.domain,
           accessToken: auth.accessToken,
         });
-        context = await getDealContext(client, dealIdNum);
+        context = await getDealContext(client, dealIdNum, {
+          fetchProducts,
+          fetchProductImages,
+        });
       } catch (err) {
         if (err instanceof DealDataError) {
           if (err.status === 404) return reply.notFound(err.message);
@@ -387,12 +418,19 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
         };
       }
 
+      // Expand product tables — replace template rows with actual
+      // product data so the preview shows real values.
+      let processedHtml = row.contentHtml;
+      if (fetchProducts && context.PRODUCTS.length > 0) {
+        processedHtml = expandProductTables(processedHtml, context.PRODUCTS);
+      }
+
       // Rewrite the HTML so formula placeholders display their
       // computed value. We use a tolerant regex on the <span> — the
       // HTML is produced by TipTap so it's always well-formed and
       // self-contained, and using cheerio would add a runtime
       // dependency we don't otherwise need.
-      const html = substituteFormulaTagsForPreview(row.contentHtml, formulaResults);
+      const html = substituteFormulaTagsForPreview(processedHtml, formulaResults);
 
       const response: TemplatePreviewResponse = {
         html,

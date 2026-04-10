@@ -102,8 +102,13 @@ const PREVIEW_STYLES = `
   .gen-preview-html h3 { font-size: 1.125rem; font-weight: 600; margin: 0.5rem 0; }
   .gen-preview-html p { margin: 0.5rem 0; line-height: 1.6; }
   .gen-preview-html ul, .gen-preview-html ol { margin: 0.5rem 0 0.5rem 1.5rem; }
-  .gen-preview-html table { border-collapse: collapse; margin: 0.5rem 0; }
-  .gen-preview-html th, .gen-preview-html td { border: 1px solid #e2e8f0; padding: 0.25rem 0.5rem; }
+  .gen-preview-html { font-family: Arial, sans-serif; font-size: 11pt; line-height: 1.5; color: #1a1a1a; }
+  .gen-preview-html table { border-collapse: collapse; margin: 0.5rem 0; width: 100%; }
+  .gen-preview-html table colgroup { display: none; }
+  .gen-preview-html th, .gen-preview-html td { border: 1px solid #999; padding: 4px 8px; vertical-align: middle; font-size: 11pt; }
+  .gen-preview-html th { background: #f0f0f0; font-weight: 600; text-align: left; }
+  .gen-preview-html td p, .gen-preview-html th p { margin: 0; }
+  .gen-preview-html td img { max-width: 80px; max-height: 80px; object-fit: contain; border: 1px solid #ddd; border-radius: 2px; display: block; }
 `;
 
 /* ------------------------------------------------------------------ */
@@ -183,12 +188,15 @@ export function GeneratePage() {
       const key = span.getAttribute('data-formula-key') ?? '';
       const meta = previewData.formulas[key];
       if (!meta) return;
+      const valueDisplay = meta.error
+        ? `Ошибка: ${meta.error}`
+        : meta.value?.startsWith('data:image/')
+          ? 'Значение: [изображение]'
+          : `Значение: ${meta.value || '∅'}`;
       const titleParts = [
         `${meta.label || key}`,
         `Формула: ${meta.expression}`,
-        meta.error
-          ? `Ошибка: ${meta.error}`
-          : `Значение: ${meta.value || '∅'}`,
+        valueDisplay,
       ];
       span.setAttribute('title', titleParts.join('\n'));
     });
@@ -359,14 +367,26 @@ export function GeneratePage() {
           )}
 
           {selectedTemplateId && previewData && (
-            <div
-              ref={previewRef}
-              className="gen-preview-html mx-auto max-w-3xl rounded-md border border-border bg-background p-8 shadow-sm"
-              // The HTML is server-rendered + escaped in our backend
-              // route, so direct injection here is safe enough for the
-              // Phase 5 milestone. Phase 6 (bz3.2) revisits hardening.
-              dangerouslySetInnerHTML={{ __html: previewData.html }}
-            />
+            <div className="overflow-auto">
+              <div
+                ref={previewRef}
+                className="gen-preview-html mx-auto rounded-md border border-border bg-white shadow-sm"
+                style={{
+                  // A4 page: 210mm wide, with 25mm margins on each side
+                  // = 160mm content area. We render the full 210mm page
+                  // so the user sees a 1:1 representation. The outer
+                  // container scrolls if the viewport is narrower.
+                  width: '210mm',
+                  minHeight: '297mm',
+                  padding: '25mm',
+                  boxSizing: 'border-box',
+                }}
+                // The HTML is server-rendered + escaped in our backend
+                // route, so direct injection here is safe enough for the
+                // Phase 5 milestone. Phase 6 (bz3.2) revisits hardening.
+                dangerouslySetInnerHTML={{ __html: previewData.html }}
+              />
+            </div>
           )}
         </section>
       </main>
@@ -473,6 +493,16 @@ export function GeneratePage() {
                     </div>
                     {f.error ? (
                       <div className="mt-1 text-destructive">Ошибка: {f.error}</div>
+                    ) : f.value?.startsWith('data:image/') ? (
+                      <div className="mt-1 flex items-center gap-2">
+                        <span className="text-muted-foreground">Значение: </span>
+                        <img
+                          src={f.value}
+                          alt={f.label || f.tagKey}
+                          className="inline-block rounded border border-border"
+                          style={{ maxWidth: 40, maxHeight: 40, objectFit: 'contain' }}
+                        />
+                      </div>
                     ) : (
                       <div className="mt-1">
                         <span className="text-muted-foreground">Значение: </span>

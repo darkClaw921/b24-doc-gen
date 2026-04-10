@@ -33,7 +33,7 @@ import { Input } from '@/components/ui/input';
 import { crmApi, type CrmFieldDTO, ApiError } from '@/lib/api';
 import { cn } from '@/lib/utils';
 
-export type FieldPickerEntity = 'DEAL' | 'CONTACT' | 'COMPANY';
+export type FieldPickerEntity = 'DEAL' | 'CONTACT' | 'COMPANY' | 'PRODUCT';
 
 export interface FieldPickerProps {
   /**
@@ -51,7 +51,23 @@ const ENTITY_LABELS: Record<FieldPickerEntity, string> = {
   DEAL: 'Сделка',
   CONTACT: 'Контакт',
   COMPANY: 'Компания',
+  PRODUCT: 'Товары',
 };
+
+/**
+ * Static product row fields. Matches the backend's
+ * `GET /api/crm/product-fields` response — hardcoded here to avoid an
+ * extra round-trip since these fields never change.
+ */
+const PRODUCT_FIELDS: CrmFieldDTO[] = [
+  { code: 'PRODUCT_NAME', title: 'Название товара', type: 'string' },
+  { code: 'PRICE', title: 'Цена', type: 'double' },
+  { code: 'QUANTITY', title: 'Количество', type: 'double' },
+  { code: 'DISCOUNT_SUM', title: 'Сумма скидки', type: 'double' },
+  { code: 'TAX_RATE', title: 'Ставка НДС', type: 'double' },
+  { code: 'SUM', title: 'Сумма', type: 'double' },
+  { code: 'MEASURE_NAME', title: 'Ед. измерения', type: 'string' },
+];
 
 export function FieldPicker({
   onSelect,
@@ -68,6 +84,7 @@ export function FieldPicker({
   });
 
   const currentFields: CrmFieldDTO[] = useMemo(() => {
+    if (activeEntity === 'PRODUCT') return PRODUCT_FIELDS;
     if (!fieldsQuery.data) return [];
     if (activeEntity === 'DEAL') return fieldsQuery.data.deal;
     if (activeEntity === 'CONTACT') return fieldsQuery.data.contact;
@@ -112,8 +129,8 @@ export function FieldPicker({
         {(Object.keys(ENTITY_LABELS) as FieldPickerEntity[]).map((key) => (
           <TabsContent key={key} value={key} className="mt-3">
             <FieldList
-              loading={fieldsQuery.isLoading}
-              error={fieldsQuery.error}
+              loading={key !== 'PRODUCT' && fieldsQuery.isLoading}
+              error={key !== 'PRODUCT' ? fieldsQuery.error : null}
               fields={activeEntity === key ? filtered : []}
               entity={key}
               onSelect={onSelect}
@@ -166,7 +183,10 @@ function FieldList({ loading, error, fields, entity, onSelect }: FieldListProps)
   return (
     <ul className="max-h-72 overflow-y-auto rounded-md border border-border divide-y divide-border">
       {fields.map((f) => {
-        const token = `${entity}.${f.code}`;
+        const token =
+          entity === 'PRODUCT'
+            ? `productGet(1, "${f.code}")`
+            : `${entity}.${f.code}`;
         return (
           <li key={f.code}>
             <button

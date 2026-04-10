@@ -125,11 +125,22 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
     });
 
     /* -------------------------------------------------------------- */
-    /* 2) Build deal context                                          */
+    /* 2) Determine if product data is needed                         */
+    /* -------------------------------------------------------------- */
+    const { fetchProducts, fetchProductImages } = detectProductUsage(
+      template.contentHtml,
+      template.formulas.map((f) => f.expression),
+    );
+
+    /* -------------------------------------------------------------- */
+    /* 3) Build deal context                                          */
     /* -------------------------------------------------------------- */
     let context;
     try {
-      context = await getDealContext(client, dealId as number);
+      context = await getDealContext(client, dealId as number, {
+        fetchProducts,
+        fetchProductImages,
+      });
     } catch (err) {
       if (err instanceof DealDataError) {
         if (err.status === 404) return reply.notFound(err.message);
@@ -140,7 +151,7 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
     }
 
     /* -------------------------------------------------------------- */
-    /* 3) Evaluate every formula                                      */
+    /* 4) Evaluate every formula                                      */
     /* -------------------------------------------------------------- */
     const formulaResults: Record<string, FormulaEvaluationResult> = {};
     for (const f of template.formulas) {
@@ -156,13 +167,14 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
     }
 
     /* -------------------------------------------------------------- */
-    /* 4) Build the .docx Buffer                                      */
+    /* 5) Build the .docx Buffer                                      */
     /* -------------------------------------------------------------- */
     let docxBuffer: Buffer;
     try {
       docxBuffer = await buildDocxFromHtml(template.contentHtml, {
         formulas: formulaResults,
         title: template.name,
+        products: context.PRODUCTS ?? [],
       });
     } catch (err) {
       if (err instanceof DocxBuildError) {
@@ -172,7 +184,7 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
     }
 
     /* -------------------------------------------------------------- */
-    /* 5) disk.storage.getforapp → folder id                          */
+    /* 6) disk.storage.getforapp → folder id                          */
     /* -------------------------------------------------------------- */
     let folderId: number;
     try {
@@ -192,7 +204,7 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
     }
 
     /* -------------------------------------------------------------- */
-    /* 6) disk.folder.uploadfile                                      */
+    /* 7) disk.folder.uploadfile                                      */
     /* -------------------------------------------------------------- */
     const safeName = template.name.replace(/[^\p{L}\p{N}._\-\s]/gu, '_').trim() || 'template';
     const fileName = `${safeName}_deal${dealId}_${Date.now()}.docx`;
@@ -211,7 +223,7 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
     const downloadUrl = String(uploaded.DOWNLOAD_URL ?? uploaded.DETAIL_URL ?? '');
 
     /* -------------------------------------------------------------- */
-    /* 7) Optional UF_CRM_* binding                                   */
+    /* 8) Optional UF_CRM_* binding                                   */
     /* -------------------------------------------------------------- */
     const warnings: string[] = [];
     let binding: BindingResult | null = null;
@@ -326,7 +338,7 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
     }
 
     /* -------------------------------------------------------------- */
-    /* 8) Timeline comment (per-theme, with file attachment)          */
+    /* 9) Timeline comment (per-theme, with file attachment)          */
     /* -------------------------------------------------------------- */
     let timeline: GenerateRouteResponse['timeline'] = { ok: false };
     if (effectiveAddToTimeline) {
@@ -358,7 +370,7 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
     }
 
     /* -------------------------------------------------------------- */
-    /* 9) Reply                                                       */
+    /* 10) Reply                                                      */
     /* -------------------------------------------------------------- */
     const response: GenerateRouteResponse = {
       fileId,
@@ -372,4 +384,42 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
     };
     return response;
   });
+}
+
+/* ------------------------------------------------------------------ */
+/* Product usage detection                                             */
+/* ------------------------------------------------------------------ */
+
+/** Regex patterns for product-related helpers in formula expressions. */
+const PRODUCT_HELPER_RE = /product(?:Sum|Count|Get|Image)\s*\(/i;
+const PRODUCT_IMAGE_HELPER_RE = /productImage\s*\(/i;
+
+/**
+ * Scan the template HTML and formula expressions to determine whether
+ * product data (and product images) need to be fetched from Bitrix24.
+ *
+ * Uses simple substring / regex checks — no full HTML parsing required.
+ */
+function detectProductUsage(
+  contentHtml: string,
+  expressions: string[],
+): { fetchProducts: boolean; fetchProductImages: boolean } {
+  const hasProductTable = contentHtml.includes('data-product-table')
+    || contentHtml.includes('data-product-field');
+  const hasProductImageAttr = contentHtml.includes('data-product-image');
+
+  let hasProductHelper = false;
+  let hasProductImageHelper = false;
+
+  for (const expr of expressions) {
+    if (PRODUCT_HELPER_RE.test(expr)) hasProductHelper = true;
+    if (PRODUCT_IMAGE_HELPER_RE.test(expr)) hasProductImageHelper = true;
+    if (hasProductHelper && hasProductImageHelper) break;
+  }
+
+  const fetchProducts = hasProductTable || hasProductHelper;
+  const fetchProductImages =
+    fetchProducts && (hasProductImageAttr || hasProductImageHelper);
+
+  return { fetchProducts, fetchProductImages };
 }

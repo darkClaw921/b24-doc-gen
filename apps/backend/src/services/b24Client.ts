@@ -22,6 +22,7 @@
 import type {
   AppSettings as _AppSettings,
   DealField,
+  ProductRow,
 } from '@b24-doc-gen/shared';
 
 /**
@@ -418,6 +419,112 @@ export class B24Client {
       generateUniqueName: true,
     });
   }
+
+  /* ----------------------------------------------------------------- */
+  /* Product rows & images                                              */
+  /* ----------------------------------------------------------------- */
+
+  /**
+   * `crm.deal.productrows.get` — returns all product rows attached to
+   * a deal. Each row is normalised into the `ProductRow` shape: numeric
+   * string fields are coerced to `number`, and missing optional fields
+   * get sensible defaults.
+   */
+  async getDealProductRows(dealId: number): Promise<ProductRow[]> {
+    const raw = await this.callMethod<Array<Record<string, unknown>>>(
+      'crm.deal.productrows.get',
+      { id: dealId },
+    );
+    if (!Array.isArray(raw)) return [];
+    return raw.map(normalizeProductRow);
+  }
+
+  /**
+   * `catalog.productImage.list` — returns images for a catalog product.
+   * Requires the `catalog` OAuth scope. Returns an empty array when the
+   * product has no images or the scope is missing (error swallowed).
+   */
+  async getProductImages(
+    productId: number,
+  ): Promise<Array<{ downloadUrl: string; detailUrl: string; type: string; id: number; raw: Record<string, unknown> }>> {
+    try {
+      const envelope = await this.callMethod<{
+        productImages?: Array<Record<string, unknown>>;
+      }>('catalog.productImage.list', {
+        productId,
+        select: ['id', 'name', 'productId', 'type', 'createTime', 'downloadUrl', 'detailUrl'],
+      });
+      const images = envelope?.productImages;
+      if (!Array.isArray(images)) return [];
+      return images.map((img) => ({
+        downloadUrl: String(img.downloadUrl ?? img.DOWNLOAD_URL ?? ''),
+        detailUrl: String(img.detailUrl ?? img.DETAIL_URL ?? ''),
+        type: String(img.type ?? img.TYPE ?? ''),
+        id: Number(img.id ?? img.ID ?? 0),
+        raw: img,
+      }));
+    } catch {
+      return [];
+    }
+  }
+
+  /**
+   * Download a file from a Bitrix24 URL and return it as a
+   * `data:<mime>;base64,...` string. The access token is appended as
+   * `?auth=...` to authenticate the download.
+   *
+   * Returns an empty string if the download fails or the response body
+   * is empty — callers treat that as "no image available".
+   */
+  async downloadFileAsBase64(url: string): Promise<string> {
+    if (!url) {
+      console.log('[downloadFileAsBase64] empty url, skipping');
+      return '';
+    }
+
+    // Handle relative URLs — prefix with portal origin.
+    let fullUrl = url;
+    if (url.startsWith('/')) {
+      fullUrl = `https://${this.portal}${url}`;
+    }
+
+    // Only append auth if the URL doesn't already have one.
+    let authedUrl = fullUrl;
+    if (!/[?&]auth=/.test(fullUrl)) {
+      const separator = fullUrl.includes('?') ? '&' : '?';
+      authedUrl = `${fullUrl}${separator}auth=${this.accessToken}`;
+    }
+    console.log(`[downloadFileAsBase64] fetching: ${authedUrl.substring(0, 120)}...`);
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), this.timeoutMs);
+    try {
+      const res = await this.fetchImpl(authedUrl, {
+        method: 'GET',
+        signal: controller.signal,
+      });
+      console.log(`[downloadFileAsBase64] status=${res.status}, ok=${res.ok}, content-type=${res.headers.get('content-type')}`);
+      if (!res.ok) {
+        try {
+          const errBody = await res.text();
+          console.log(`[downloadFileAsBase64] error body: ${errBody.substring(0, 500)}`);
+        } catch { /* ignore */ }
+        return '';
+      }
+      const contentType = res.headers.get('content-type') ?? 'image/jpeg';
+      const mime = contentType.split(';')[0].trim();
+      const arrayBuffer = await res.arrayBuffer();
+      console.log(`[downloadFileAsBase64] body size=${arrayBuffer.byteLength}, mime=${mime}`);
+      if (arrayBuffer.byteLength === 0) return '';
+      const base64 = Buffer.from(arrayBuffer).toString('base64');
+      return `data:${mime};base64,${base64}`;
+    } catch (err) {
+      console.log('[downloadFileAsBase64] error:', err instanceof Error ? err.message : String(err));
+      return '';
+    } finally {
+      clearTimeout(timer);
+    }
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -465,6 +572,26 @@ function pickLocalizedLabel(value: unknown): string | null {
     }
   }
   return null;
+}
+
+/**
+ * Coerce a raw product-row record from `crm.deal.productrows.get`
+ * into the typed `ProductRow` shape. Numeric fields that arrive as
+ * strings are parsed to numbers; missing keys default to 0 / ''.
+ */
+function normalizeProductRow(raw: Record<string, unknown>): ProductRow {
+  return {
+    ID: Number(raw.ID ?? 0),
+    PRODUCT_ID: Number(raw.PRODUCT_ID ?? 0),
+    PRODUCT_NAME: String(raw.PRODUCT_NAME ?? ''),
+    PRICE: Number(raw.PRICE ?? 0),
+    QUANTITY: Number(raw.QUANTITY ?? 0),
+    DISCOUNT_SUM: Number(raw.DISCOUNT_SUM ?? 0),
+    TAX_RATE: Number(raw.TAX_RATE ?? 0),
+    SUM: Number(raw.SUM ?? 0),
+    MEASURE_NAME: String(raw.MEASURE_NAME ?? ''),
+    SORT: Number(raw.SORT ?? 0),
+  };
 }
 
 function normalizeDealField(

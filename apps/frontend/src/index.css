@@ -167,6 +167,26 @@
   font-weight: 600;
   text-align: left;
 }
+/* Product table — colored border + badge to distinguish from regular tables */
+.tiptap-content table[data-product-table="true"] {
+  border: 2px solid #10b981;
+  border-radius: 4px;
+  position: relative;
+}
+.tiptap-content table[data-product-table="true"]::before {
+  content: "Таблица товаров";
+  position: absolute;
+  top: -10px;
+  left: 8px;
+  background: #10b981;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 3px;
+  line-height: 1.4;
+  pointer-events: none;
+}
 .tiptap-content [data-placeholder]:empty::before {
   content: attr(data-placeholder);
   color: hsl(var(--muted-foreground));

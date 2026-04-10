@@ -31,6 +31,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   AlertCircle,
   CheckCircle2,
+  Layout,
   Loader2,
   Plus,
   Save,
@@ -52,7 +53,9 @@ import {
   ApiError,
   settingsApi,
   usersApi,
+  placementsApi,
   type DealFileFieldDTO,
+  type PlacementDTO,
   type PortalUserDTO,
   type SettingsDTO,
 } from '@/lib/api';
@@ -144,6 +147,28 @@ export function SettingsPage() {
     queryFn: () => usersApi.search(debouncedSearch),
     enabled: debouncedSearch.trim().length > 0,
   });
+
+  /* -------------------------------------------------------------- */
+  /* Placements                                                      */
+  /* -------------------------------------------------------------- */
+  const placementsQuery = useQuery({
+    queryKey: ['placements'],
+    queryFn: ({ signal }) => placementsApi.list(signal).then((r) => r.placements),
+  });
+
+  const unbindMutation = useMutation({
+    mutationFn: (p: PlacementDTO) => placementsApi.unbind(p.placement, p.handler),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['placements'] });
+      setSaveMessage({ kind: 'ok', text: 'Место встройки удалено' });
+    },
+    onError: (err) => {
+      const msg = err instanceof ApiError ? err.message : 'Не удалось удалить';
+      setSaveMessage({ kind: 'error', text: msg });
+    },
+  });
+
+  const [confirmUnbind, setConfirmUnbind] = useState<PlacementDTO | null>(null);
 
   /* -------------------------------------------------------------- */
   /* Create-field dialog                                             */
@@ -422,6 +447,130 @@ export function SettingsPage() {
           )}
         </div>
       </section>
+
+      {/* ------------------------------------------------------- */}
+      {/* Placements                                              */}
+      {/* ------------------------------------------------------- */}
+      <section className="space-y-3 rounded-md border border-border bg-background p-6 shadow-sm">
+        <div>
+          <h2 className="text-lg font-semibold">Места встройки</h2>
+          <p className="text-sm text-muted-foreground">
+            Зарегистрированные обработчики встройки приложения в интерфейсе Bitrix24.
+            Удаление убирает вкладку/виджет из карточки сделки.
+          </p>
+        </div>
+
+        {placementsQuery.isLoading && (
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            Загружаем…
+          </div>
+        )}
+
+        {placementsQuery.isError && (
+          <div className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            {placementsQuery.error instanceof ApiError
+              ? placementsQuery.error.message
+              : 'Не удалось загрузить список встроек'}
+          </div>
+        )}
+
+        {!placementsQuery.isLoading &&
+          placementsQuery.data &&
+          placementsQuery.data.length === 0 && (
+            <div className="rounded-md border border-dashed border-border p-4 text-sm text-muted-foreground">
+              Нет зарегистрированных мест встройки.
+            </div>
+          )}
+
+        {placementsQuery.data && placementsQuery.data.length > 0 && (
+          <ul className="divide-y divide-border rounded-md border border-border">
+            {placementsQuery.data.map((p, idx) => (
+              <li
+                key={`${p.placement}-${p.handler}-${idx}`}
+                className="flex items-center justify-between px-3 py-2 text-sm"
+              >
+                <div className="flex items-center gap-2 overflow-hidden">
+                  <Layout className="h-4 w-4 shrink-0 text-muted-foreground" />
+                  <div className="min-w-0">
+                    <div className="font-medium">
+                      {p.title || p.placement}
+                    </div>
+                    <div className="truncate text-xs text-muted-foreground">
+                      <code>{p.placement}</code>
+                      {' → '}
+                      <span className="break-all">{p.handler}</span>
+                    </div>
+                    {p.description && (
+                      <div className="text-xs text-muted-foreground">{p.description}</div>
+                    )}
+                  </div>
+                </div>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setConfirmUnbind(p)}
+                  disabled={unbindMutation.isPending}
+                >
+                  <Trash2 className="h-4 w-4 text-destructive" />
+                </Button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      {/* ------------------------------------------------------- */}
+      {/* Confirm unbind dialog                                   */}
+      {/* ------------------------------------------------------- */}
+      <Dialog open={confirmUnbind !== null} onOpenChange={(open) => !open && setConfirmUnbind(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Удалить место встройки?</DialogTitle>
+            <DialogDescription>
+              Встройка <strong>{confirmUnbind?.title || confirmUnbind?.placement}</strong>{' '}
+              (<code>{confirmUnbind?.placement}</code>) будет удалена из Bitrix24.
+              Вкладка/виджет исчезнет из карточки сделки. Вы можете заново
+              зарегистрировать его через переустановку приложения.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setConfirmUnbind(null)}
+              disabled={unbindMutation.isPending}
+            >
+              Отмена
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              disabled={unbindMutation.isPending}
+              onClick={() => {
+                if (confirmUnbind) {
+                  unbindMutation.mutate(confirmUnbind, {
+                    onSuccess: () => setConfirmUnbind(null),
+                  });
+                }
+              }}
+            >
+              {unbindMutation.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Удаляем…
+                </>
+              ) : (
+                <>
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Удалить
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* ------------------------------------------------------- */}
       {/* Save bar                                                */}

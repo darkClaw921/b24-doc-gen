@@ -73,6 +73,26 @@ export async function registerFormulaRoutes(app: FastifyInstance): Promise<void>
         dependencies: { deal: [], contact: [], company: [] },
       };
     }
+
+    // Trial evaluation with stub context so that product helper calls
+    // (and any other runtime issues) are caught during validation rather
+    // than surprising the user at generation time.  The stub context
+    // provides empty entity objects and an empty products array — the
+    // product helpers close over this and return 0 / '' as appropriate.
+    const trialResult = evaluateExpression(expression, {
+      DEAL: {},
+      CONTACT: {},
+      COMPANY: {},
+      PRODUCTS: [],
+    });
+    if (trialResult.error) {
+      return {
+        valid: false,
+        error: trialResult.error,
+        dependencies: result.deps ?? { deal: [], contact: [], company: [] },
+      };
+    }
+
     return {
       valid: true,
       dependencies: result.deps ?? { deal: [], contact: [], company: [] },
@@ -128,6 +148,7 @@ export async function registerFormulaRoutes(app: FastifyInstance): Promise<void>
           DEAL: { ...fetched.DEAL, ...(context.DEAL ?? {}) },
           CONTACT: { ...fetched.CONTACT, ...(context.CONTACT ?? {}) },
           COMPANY: { ...fetched.COMPANY, ...(context.COMPANY ?? {}) },
+          PRODUCTS: fetched.PRODUCTS ?? [],
         };
       } catch (err) {
         const message = err instanceof B24Error ? err.message : (err as Error).message;
@@ -212,5 +233,6 @@ async function fetchDealContext(
     DEAL: dealResult,
     CONTACT: contact,
     COMPANY: company,
+    PRODUCTS: [],
   };
 }

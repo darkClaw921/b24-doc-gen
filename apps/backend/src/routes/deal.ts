@@ -188,6 +188,31 @@ export async function registerDealRoutes(app: FastifyInstance): Promise<void> {
       throw mapB24Error(err);
     }
   });
+
+  /* ---------------------------------------------------------------- */
+  /* GET /api/crm/product-fields                                       */
+  /* ---------------------------------------------------------------- */
+  /**
+   * Returns the static list of product row fields. These are hard-coded
+   * because `crm.deal.productrows` always uses the same schema and
+   * there is no Bitrix24 REST method to introspect it dynamically.
+   */
+  app.get('/api/crm/product-fields', async (request, reply) => {
+    const auth = request.b24Auth;
+    if (!auth) return reply.unauthorized('B24 auth payload missing');
+
+    const fields: Array<{ code: string; title: string; type: string }> = [
+      { code: 'PRODUCT_NAME', title: 'Название товара', type: 'string' },
+      { code: 'PRICE', title: 'Цена', type: 'double' },
+      { code: 'QUANTITY', title: 'Количество', type: 'double' },
+      { code: 'DISCOUNT_SUM', title: 'Сумма скидки', type: 'double' },
+      { code: 'TAX_RATE', title: 'Ставка НДС', type: 'double' },
+      { code: 'SUM', title: 'Сумма', type: 'double' },
+      { code: 'MEASURE_NAME', title: 'Ед. измерения', type: 'string' },
+    ];
+
+    return { fields };
+  });
 }
 
 /**

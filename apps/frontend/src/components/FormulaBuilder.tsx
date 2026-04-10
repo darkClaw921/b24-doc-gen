@@ -132,6 +132,17 @@ const HELPERS: HelperDescriptor[] = [
 ];
 
 /**
+ * Product-specific helpers — shown in a separate palette section so
+ * admins can quickly build product-related formulas.
+ */
+const PRODUCT_HELPERS: HelperDescriptor[] = [
+  { name: 'productSum', insert: 'productSum("SUM")', cursorOffset: 12 },
+  { name: 'productCount', insert: 'productCount()', cursorOffset: 14 },
+  { name: 'productGet', insert: 'productGet(1, "PRODUCT_NAME")', cursorOffset: 11 },
+  { name: 'productImage', insert: 'productImage(1, "preview")', cursorOffset: 13 },
+];
+
+/**
  * Содержимое всплывающей подсказки для функции — рендерится один раз
  * на каждую кнопку палитры. Для пилюль формул в редакторе используется
  * та же разметка, поэтому компонент экспортируется ниже.
@@ -485,6 +496,36 @@ export function FormulaBuilder({
                         type="button"
                         onClick={() => handleHelper(h)}
                         className="h-7 rounded-md border border-input bg-background px-2 font-mono text-xs hover:bg-muted"
+                      >
+                        {h.name}
+                      </button>
+                    </RichTooltip>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Product helpers palette */}
+            <div>
+              <label className="text-xs font-medium text-muted-foreground">Товары</label>
+              <div className="mt-1 flex flex-wrap gap-1">
+                {PRODUCT_HELPERS.map((h) => {
+                  const doc = HELPER_DOCS[h.name];
+                  return (
+                    <RichTooltip
+                      key={h.name}
+                      content={
+                        doc ? (
+                          <HelperTooltipContent doc={doc} />
+                        ) : (
+                          <div className="font-mono text-[11px]">{h.name}()</div>
+                        )
+                      }
+                    >
+                      <button
+                        type="button"
+                        onClick={() => handleHelper(h)}
+                        className="h-7 rounded-md border border-emerald-200 bg-emerald-50 px-2 font-mono text-xs text-emerald-800 hover:bg-emerald-100"
                       >
                         {h.name}
                       </button>

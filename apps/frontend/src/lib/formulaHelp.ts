@@ -116,6 +116,74 @@ export const HELPER_DOCS: Readonly<Record<string, HelperDoc>> = {
     args: [{ name: 's', description: 'Строка или выражение, приводимое к строке.' }],
     examples: ['lower(CONTACT.EMAIL)'],
   },
+  productSum: {
+    name: 'productSum',
+    signature: 'productSum(field)',
+    summary: 'Сумма числового поля по всем товарным позициям сделки.',
+    description:
+      'Перебирает массив товарных позиций сделки и складывает значения указанного числового поля. Возвращает 0 если товаров нет или поле не числовое.',
+    args: [
+      {
+        name: 'field',
+        description:
+          'Имя числового поля товарной позиции в кавычках: "PRICE", "QUANTITY", "SUM", "DISCOUNT_SUM", "TAX_RATE".',
+      },
+    ],
+    examples: [
+      'productSum("SUM")',
+      'productSum("QUANTITY")',
+      'productSum("PRICE") - productSum("DISCOUNT_SUM")',
+    ],
+  },
+  productCount: {
+    name: 'productCount',
+    signature: 'productCount()',
+    summary: 'Количество товарных позиций в сделке.',
+    description:
+      'Возвращает общее число товарных позиций, привязанных к текущей сделке. Возвращает 0, если товаров нет.',
+    args: [],
+    examples: ['productCount()', 'if(productCount() > 0, "Есть товары", "Нет товаров")'],
+  },
+  productGet: {
+    name: 'productGet',
+    signature: 'productGet(index, field)',
+    summary: 'Значение поля конкретного товара по порядковому номеру.',
+    description:
+      'Возвращает значение указанного поля для товара с заданным порядковым номером (нумерация с 1). Если индекс выходит за пределы массива — возвращает пустую строку.',
+    args: [
+      { name: 'index', description: 'Порядковый номер товара (начиная с 1).' },
+      {
+        name: 'field',
+        description:
+          'Имя поля товарной позиции в кавычках: "PRODUCT_NAME", "PRICE", "QUANTITY", "SUM" и т.д.',
+      },
+    ],
+    examples: [
+      'productGet(1, "PRODUCT_NAME")',
+      'productGet(2, "PRICE")',
+      'concat(productGet(1, "PRODUCT_NAME"), " — ", format(productGet(1, "SUM"), "money"))',
+    ],
+  },
+  productImage: {
+    name: 'productImage',
+    signature: 'productImage(index, type?, photoIndex?)',
+    summary: 'Картинка товара по порядковому номеру.',
+    description:
+      'Возвращает base64-строку изображения товара для вставки в документ. ' +
+      'Параметр type задаёт тип картинки: "preview" (анонс, по умолчанию), "detail" (детальная), "more_photo" (доп. фото). ' +
+      'Если тип не найден, пробуется fallback: preview → detail → more_photo[0]. ' +
+      'photoIndex (с 0) — номер фото в массиве MORE_PHOTO.',
+    args: [
+      { name: 'index', description: 'Порядковый номер товара (начиная с 1).' },
+      { name: 'type', description: 'Тип картинки: "preview" (по умолч.), "detail", "more_photo".' },
+      { name: 'photoIndex', description: 'Индекс в массиве MORE_PHOTO (с 0). По умолч. 0.' },
+    ],
+    examples: [
+      'productImage(1)',
+      'productImage(1, "detail")',
+      'productImage(2, "more_photo", 0)',
+    ],
+  },
 };
 
 export interface OperatorDoc {

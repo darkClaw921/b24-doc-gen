@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-08T23:44:09.814Z",
+  "generatedAt": "2026-04-10T16:31:29.504Z",
   "dependencies": [
     {
       "from": "apps/frontend/tailwind.config.ts",
@@ -1451,6 +1451,20 @@
       "from": "apps/backend/src/routes/deal.ts",
       "to": "apps/backend/src/routes/deal.ts",
       "type": "call",
+      "fromElement": "registerDealRoutes",
+      "toElement": "app.get"
+    },
+    {
+      "from": "apps/backend/src/routes/deal.ts",
+      "to": "apps/backend/src/routes/deal.ts",
+      "type": "call",
+      "fromElement": "registerDealRoutes",
+      "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/deal.ts",
+      "to": "apps/backend/src/routes/deal.ts",
+      "type": "call",
       "fromElement": "pickPrimaryContact",
       "toElement": "list.find"
     },
@@ -1538,6 +1552,13 @@
       "type": "call",
       "fromElement": "registerFormulaRoutes",
       "toElement": "validateExpression"
+    },
+    {
+      "from": "apps/backend/src/routes/formulas.ts",
+      "to": "apps/backend/src/routes/formulas.ts",
+      "type": "call",
+      "fromElement": "registerFormulaRoutes",
+      "toElement": "evaluateExpression"
     },
     {
       "from": "apps/backend/src/routes/formulas.ts",
@@ -1834,6 +1855,20 @@
       "type": "call",
       "fromElement": "registerGenerateRoutes",
       "toElement": "toAppSettings"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
+      "toElement": "detectProductUsage"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
+      "toElement": "template.formulas.map"
     },
     {
       "from": "apps/backend/src/routes/generate.ts",
@@ -2142,6 +2177,34 @@
       "type": "call",
       "fromElement": "registerGenerateRoutes",
       "toElement": "warnings.push"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "detectProductUsage",
+      "toElement": "contentHtml.includes"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "detectProductUsage",
+      "toElement": "contentHtml.includes"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "detectProductUsage",
+      "toElement": "PRODUCT_HELPER_RE.test"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "detectProductUsage",
+      "toElement": "PRODUCT_IMAGE_HELPER_RE.test"
     },
     {
       "from": "apps/backend/src/routes/health.ts",
@@ -5420,6 +5483,12 @@
     },
     {
       "from": "apps/backend/src/services/b24Client.ts",
+      "to": "packages/shared/src/index.ts",
+      "type": "import",
+      "toElement": "ProductRow"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
       "to": "apps/backend/src/services/b24Client.ts",
       "type": "extends",
       "fromElement": "B24Error",
@@ -5729,8 +5798,180 @@
       "from": "apps/backend/src/services/b24Client.ts",
       "to": "apps/backend/src/services/b24Client.ts",
       "type": "call",
+      "toElement": "this.callMethod"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "raw.map"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "this.callMethod"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "images.map"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "url.includes"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "setTimeout"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "controller.abort"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "this.fetchImpl"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "res.headers.get"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "contentType.split"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "res.arrayBuffer"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "clearTimeout"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
       "fromElement": "pickLocalizedLabel",
       "toElement": "Object.values"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
     },
     {
       "from": "apps/backend/src/services/b24Client.ts",
@@ -5872,6 +6113,12 @@
     },
     {
       "from": "apps/backend/src/services/dealData.ts",
+      "to": "packages/shared/src/index.ts",
+      "type": "import",
+      "toElement": "ProductRow"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
       "to": "apps/backend/src/services/b24Client.ts",
       "type": "import",
       "toElement": "B24Client"
@@ -5991,7 +6238,21 @@
       "to": "apps/backend/src/services/dealData.ts",
       "type": "call",
       "fromElement": "getDealContext",
-      "toElement": "flattenEntity"
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "client.getDealProductRows"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "attachProductImages"
     },
     {
       "from": "apps/backend/src/services/dealData.ts",
@@ -6006,6 +6267,153 @@
       "type": "call",
       "fromElement": "getDealContext",
       "toElement": "flattenEntity"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "flattenEntity"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "normalizeProductRow",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "idToRows.get"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "existing.push"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "idToRows.set"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "Array.from"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "idToRows.entries"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "entries.slice"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "Promise.all"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "chunk.map"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "client.getProductImages"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "attachProductImages",
+      "toElement": "client.downloadFileAsBase64"
     },
     {
       "from": "apps/backend/src/services/dealData.ts",
@@ -6042,6 +6450,12 @@
     },
     {
       "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "packages/shared/src/index.ts",
+      "type": "import",
+      "toElement": "ProductRow"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
       "to": "apps/backend/src/services/docxBuilder.ts",
       "type": "extends",
       "fromElement": "DocxBuildError",
@@ -6059,6 +6473,13 @@
       "type": "call",
       "fromElement": "buildDocxFromHtml",
       "toElement": "html.trim"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "buildDocxFromHtml",
+      "toElement": "expandProductTables"
     },
     {
       "from": "apps/backend/src/services/docxBuilder.ts",
@@ -6099,6 +6520,104 @@
       "from": "apps/backend/src/services/docxBuilder.ts",
       "to": "apps/backend/src/services/docxBuilder.ts",
       "type": "call",
+      "fromElement": "expandProductTables",
+      "toElement": "html.replace"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "expandProductTables",
+      "toElement": "fullMatch.match"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "expandProductTables",
+      "toElement": "tbodyContent.match"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "expandProductTables",
+      "toElement": "allRows.slice"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "expandProductTables",
+      "toElement": "products.map"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "expandProductTables",
+      "toElement": "fillProductRow"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "expandProductTables",
+      "toElement": "fullMatch.replace"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "fillProductRow",
+      "toElement": "result.replace"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "fillProductRow",
+      "toElement": "escapeHtmlText"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "fillProductRow",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "fillProductRow",
+      "toElement": "result.replace"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "fillProductRow",
+      "toElement": "result.replace"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "fillProductRow",
+      "toElement": "escapeHtmlText"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "fillProductRow",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
       "fromElement": "stripFormulaTags",
       "toElement": "html.replace"
     },
@@ -6122,6 +6641,13 @@
       "type": "call",
       "fromElement": "stripFormulaTags",
       "toElement": "escapeHtmlText"
+    },
+    {
+      "from": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxBuilder.ts",
+      "type": "call",
+      "fromElement": "stripFormulaTags",
+      "toElement": "val.startsWith"
     },
     {
       "from": "apps/backend/src/services/docxBuilder.ts",
@@ -6246,6 +6772,12 @@
       "to": "packages/shared/src/index.ts",
       "type": "import",
       "toElement": "FormulaDependencies"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "packages/shared/src/index.ts",
+      "type": "import",
+      "toElement": "ProductRow"
     },
     {
       "from": "apps/backend/src/services/formulaEngine.ts",
@@ -6524,6 +7056,13 @@
       "to": "apps/backend/src/services/formulaEngine.ts",
       "type": "call",
       "fromElement": "collectDeps",
+      "toElement": "PRODUCT_HELPER_NAMES.has"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "call",
+      "fromElement": "collectDeps",
       "toElement": "ENTITY_SYMBOLS.includes"
     },
     {
@@ -6630,6 +7169,76 @@
       "type": "call",
       "fromElement": "evaluateExpression",
       "toElement": "tryParse"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "call",
+      "fromElement": "evaluateExpression",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "call",
+      "fromElement": "evaluateExpression",
+      "toElement": "products.reduce"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "call",
+      "fromElement": "evaluateExpression",
+      "toElement": "parseFloat"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "call",
+      "fromElement": "evaluateExpression",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "call",
+      "fromElement": "evaluateExpression",
+      "toElement": "Number.isFinite"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "call",
+      "fromElement": "evaluateExpression",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "call",
+      "fromElement": "evaluateExpression",
+      "toElement": "Number.isFinite"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "call",
+      "fromElement": "evaluateExpression",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "call",
+      "fromElement": "evaluateExpression",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "call",
+      "fromElement": "evaluateExpression",
+      "toElement": "Number.isFinite"
     },
     {
       "from": "apps/backend/src/services/formulaEngine.ts",
@@ -6813,6 +7422,20 @@
       "type": "call",
       "fromElement": "runGeneration",
       "toElement": "Number.isFinite"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "detectProductUsage"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "template.formulas.map"
     },
     {
       "from": "apps/backend/src/services/generationPipeline.ts",
@@ -7072,6 +7695,34 @@
       "type": "call",
       "fromElement": "runGeneration",
       "toElement": "warnings.push"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "detectProductUsage",
+      "toElement": "contentHtml.includes"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "detectProductUsage",
+      "toElement": "contentHtml.includes"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "detectProductUsage",
+      "toElement": "PRODUCT_HELPER_RE.test"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "detectProductUsage",
+      "toElement": "PRODUCT_IMAGE_HELPER_RE.test"
     },
     {
       "from": "apps/backend/src/services/portalAuth.ts",
@@ -8466,6 +9117,20 @@
       "type": "call",
       "fromElement": "FormulaBuilder",
       "toElement": "HELPERS.map"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "handleHelper"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "PRODUCT_HELPERS.map"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
@@ -10939,6 +11604,12 @@
       "to": "apps/frontend/src/lib/api.ts",
       "type": "call",
       "toElement": "qs.toString"
+    },
+    {
+      "from": "apps/frontend/src/lib/api.ts",
+      "to": "apps/frontend/src/lib/api.ts",
+      "type": "call",
+      "toElement": "apiRequest"
     },
     {
       "from": "apps/frontend/src/lib/api.ts",
@@ -14398,6 +15069,72 @@
       "toElement": "setWebhookTarget"
     },
     {
+      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "to": "node_modules/.pnpm/@tiptap+core@3.22.2_@tiptap+pm@3.22.2/node_modules/@tiptap/core/dist/index.d.ts",
+      "type": "import",
+      "toElement": "Node"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "to": "node_modules/.pnpm/@tiptap+core@3.22.2_@tiptap+pm@3.22.2/node_modules/@tiptap/core/dist/index.d.ts",
+      "type": "import",
+      "toElement": "mergeAttributes"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "to": "node_modules/.pnpm/@tiptap+core@3.22.2_@tiptap+pm@3.22.2/node_modules/@tiptap/core/dist/index.d.ts",
+      "type": "import",
+      "toElement": "RawCommands"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "type": "call",
+      "toElement": "Node.create"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "type": "call",
+      "toElement": "el.getAttribute"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "type": "call",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "type": "call",
+      "toElement": "mergeAttributes"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "type": "call",
+      "toElement": "Node.create"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "type": "call",
+      "toElement": "mergeAttributes"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "type": "call",
+      "toElement": "Node.create"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "type": "call",
+      "toElement": "mergeAttributes"
+    },
+    {
       "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
       "to": "node_modules/.pnpm/@types+react@18.3.28/node_modules/@types/react/index.d.ts",
       "type": "import",
@@ -14462,6 +15199,24 @@
       "to": "@/components/FormulaTag",
       "type": "import",
       "toElement": "FormulaTag"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "type": "import",
+      "toElement": "ProductFieldSpan"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "type": "import",
+      "toElement": "ProductImageSpan"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
+      "type": "import",
+      "toElement": "ProductIndexSpan"
     },
     {
       "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
@@ -14589,6 +15344,30 @@
     },
     {
       "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "node_modules/.pnpm/@types+react@18.3.28/node_modules/@types/react/index.d.ts",
+      "type": "import",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "node_modules/.pnpm/@types+react@18.3.28/node_modules/@types/react/index.d.ts",
+      "type": "import",
+      "toElement": "useRef"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "node_modules/.pnpm/@types+react@18.3.28/node_modules/@types/react/index.d.ts",
+      "type": "import",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "node_modules/.pnpm/@types+react@18.3.28/node_modules/@types/react/index.d.ts",
+      "type": "import",
+      "toElement": "useCallback"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
       "to": "node_modules/.pnpm/lucide-react@0.378.0_react@18.3.1/node_modules/lucide-react/dist/lucide-react.d.ts",
       "type": "import",
       "toElement": "Bold"
@@ -14667,9 +15446,35 @@
     },
     {
       "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "node_modules/.pnpm/lucide-react@0.378.0_react@18.3.1/node_modules/lucide-react/dist/lucide-react.d.ts",
+      "type": "import",
+      "toElement": "Package"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "node_modules/.pnpm/lucide-react@0.378.0_react@18.3.1/node_modules/lucide-react/dist/lucide-react.d.ts",
+      "type": "import",
+      "toElement": "ChevronDown"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
       "to": "@/lib/utils",
       "type": "import",
       "toElement": "cn"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "buildProductTableHtml",
+      "toElement": "PRODUCT_COLUMNS.filter"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "buildProductTableHtml",
+      "toElement": "selectedIds.has"
     },
     {
       "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
@@ -14845,6 +15650,209 @@
       "type": "call",
       "fromElement": "Toolbar",
       "toElement": "editor.can"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "PRODUCT_COLUMNS.filter"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "useRef"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "dropdownRef.current.contains"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "setOpen"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "document.addEventListener"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "document.removeEventListener"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "useCallback"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "setSelected"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "next.has"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "next.delete"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "next.add"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "useCallback"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "buildProductTableHtml"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "editor.chain"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "setOpen"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "useCallback"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "PRODUCT_COLUMNS.filter"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "buildProductTableHtml"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "editor.chain"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "cn"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "setOpen"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "cn"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "PRODUCT_COLUMNS.map"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "selected.has"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "toggle"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "type": "call",
+      "fromElement": "ProductTableDropdown",
+      "toElement": "cn"
     },
     {
       "from": "apps/frontend/src/components/ui/button.tsx",

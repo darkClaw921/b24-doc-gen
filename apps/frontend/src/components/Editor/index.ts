@@ -9,3 +9,8 @@ export { TiptapEditor, buildTiptapExtensions } from './TiptapEditor';
 export type { TiptapEditorProps } from './TiptapEditor';
 export { Toolbar } from './Toolbar';
 export type { ToolbarProps } from './Toolbar';
+export {
+  ProductFieldSpan,
+  ProductImageSpan,
+  ProductIndexSpan,
+} from './ProductTableNode';

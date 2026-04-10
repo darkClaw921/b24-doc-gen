@@ -353,4 +353,70 @@ export async function registerInstallRoutes(app: FastifyInstance): Promise<void>
       return { results, availablePlacements, placementListError };
     },
   );
+
+  /* ---------------------------------------------------------------- */
+  /* GET /api/placements — list registered placement handlers         */
+  /* ---------------------------------------------------------------- */
+  app.get('/api/placements', async (request, reply) => {
+    const auth = request.b24Auth;
+    if (!auth) return reply.unauthorized('B24 auth payload missing');
+
+    const client = new B24Client({
+      portal: auth.domain,
+      accessToken: auth.accessToken,
+    });
+
+    try {
+      const raw = await client.callMethod<
+        Array<Record<string, unknown>>
+      >('placement.get', {});
+      const placements = Array.isArray(raw)
+        ? raw.map((p) => ({
+            placement: String(p.placement ?? p.PLACEMENT ?? ''),
+            handler: String(p.handler ?? p.HANDLER ?? ''),
+            title: String(p.title ?? p.TITLE ?? ''),
+            description: String(p.description ?? p.DESCRIPTION ?? ''),
+          }))
+        : [];
+      return { placements };
+    } catch (err) {
+      if (err instanceof B24Error) {
+        return reply.badGateway(`placement.get failed: ${err.message}`);
+      }
+      throw err;
+    }
+  });
+
+  /* ---------------------------------------------------------------- */
+  /* DELETE /api/placements — unbind a placement handler               */
+  /* ---------------------------------------------------------------- */
+  app.delete<{
+    Body: { placement: string; handler: string };
+  }>('/api/placements', async (request, reply) => {
+    const auth = request.b24Auth;
+    if (!auth) return reply.unauthorized('B24 auth payload missing');
+
+    const body = request.body ?? ({} as { placement: string; handler: string });
+    if (!body.placement || !body.handler) {
+      return reply.badRequest('placement and handler are required');
+    }
+
+    const client = new B24Client({
+      portal: auth.domain,
+      accessToken: auth.accessToken,
+    });
+
+    try {
+      await client.callMethod('placement.unbind', {
+        PLACEMENT: body.placement,
+        HANDLER: body.handler,
+      });
+      return { ok: true };
+    } catch (err) {
+      if (err instanceof B24Error) {
+        return reply.badGateway(`placement.unbind failed: ${err.message}`);
+      }
+      throw err;
+    }
+  });
 }
