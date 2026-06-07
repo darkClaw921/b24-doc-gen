@@ -18,7 +18,9 @@
  *   3. Build the deal context via `getDealContext` — single source of
  *      truth shared with `GET /api/templates/:id/preview`.
  *   4. Evaluate every formula and capture per-tag results.
- *   5. `buildDocxFromHtml` → Node Buffer.
+ *   5. `buildDocxFromTemplate(template.originalDocx, …)` → Node Buffer
+ *      (formulas + manual fieldValues + product rows substituted directly
+ *      into the original .docx).
  *   6. `disk.storage.getforapp` → folder id, then `disk.folder.uploadfile`
  *      via `client.uploadDiskFile`.
  *   7. (Optional) attach the uploaded file to the deal's `UF_CRM_*`
@@ -40,7 +42,7 @@ import { prisma } from '../prisma/client.js';
 import { B24Client, B24Error } from './b24Client.js';
 import { getDealContext, DealDataError } from './dealData.js';
 import { evaluateExpression } from './formulaEngine.js';
-import { buildPdfFromHtml, PdfBuildError } from './pdfBuilder.js';
+import { buildDocxFromTemplate, DocxTemplateError } from './docxTemplateEngine.js';
 import { toAppSettings } from '../routes/install.js';
 
 /* ------------------------------------------------------------------ */
@@ -223,18 +225,31 @@ export async function runGeneration(
   }
 
   /* -------------------------------------------------------------- */
-  /* 4) Build the PDF Buffer                                        */
+  /* 4) Build the .docx Buffer from the original template           */
   /* -------------------------------------------------------------- */
-  let pdfBuffer: Buffer;
+  // Substitute formula values, manual field values and product rows
+  // directly into the admin-uploaded original .docx (no HTML→PDF step),
+  // preserving all original Word formatting.
+  if (!template.originalDocx || template.originalDocx.length === 0) {
+    throw new GenerationError(
+      'docx_build_failed',
+      `template ${templateId} has no originalDocx`,
+    );
+  }
+  const originalDocx = Buffer.isBuffer(template.originalDocx)
+    ? template.originalDocx
+    : Buffer.from(template.originalDocx);
+
+  let docxBuffer: Buffer;
   try {
-    pdfBuffer = await buildPdfFromHtml(template.contentHtml, {
+    docxBuffer = await buildDocxFromTemplate(originalDocx, {
       formulas: formulaResults,
-      title: template.name,
       products: context.PRODUCTS ?? [],
       fieldValues,
+      title: template.name,
     });
   } catch (err) {
-    if (err instanceof PdfBuildError) {
+    if (err instanceof DocxTemplateError) {
       throw new GenerationError('docx_build_failed', err.message);
     }
     throw err;
@@ -271,11 +286,11 @@ export async function runGeneration(
   /* 6) disk.folder.uploadfile                                      */
   /* -------------------------------------------------------------- */
   const safeName = template.name.replace(/[^\p{L}\p{N}._\-\s]/gu, '_').trim() || 'template';
-  const fileName = `${safeName}_deal${dealId}_${Date.now()}.pdf`;
+  const fileName = `${safeName}_deal${dealId}_${Date.now()}.docx`;
 
   let uploaded;
   try {
-    uploaded = await client.uploadDiskFile(folderId, fileName, pdfBuffer);
+    uploaded = await client.uploadDiskFile(folderId, fileName, docxBuffer);
   } catch (err) {
     if (err instanceof B24Error) {
       throw new GenerationError('upload_failed', `disk.folder.uploadfile failed: ${err.message}`);
@@ -310,7 +325,7 @@ export async function runGeneration(
       // Bitrix requires the universal item update for file UF fields
       // and the array-merge format below to preserve existing files
       // when the field is multi-valued.
-      const newFilePayload: [string, string] = [fileName, pdfBuffer.toString('base64')];
+      const newFilePayload: [string, string] = [fileName, docxBuffer.toString('base64')];
 
       let fieldValue: unknown;
       if (isMultiple) {
@@ -383,7 +398,7 @@ export async function runGeneration(
             ENTITY_ID: dealId,
             ENTITY_TYPE: 'deal',
             COMMENT: `Сгенерирован документ: ${template.name}`,
-            FILES: [[fileName, pdfBuffer.toString('base64')]],
+            FILES: [[fileName, docxBuffer.toString('base64')]],
           },
         },
       );

@@ -76,6 +76,13 @@ export interface Template {
    * Undefined when not loaded to reduce payload.
    */
   originalDocxBase64?: string;
+  /**
+   * Placeholder tags scanned from the original .docx (via
+   * `scanDocxPlaceholders`). Returned alongside `originalDocxBase64`
+   * (i.e. on `?withDocx=1`) so the template editor can list every tag
+   * and flag the ones without a formula/manual-field binding.
+   */
+  docxPlaceholders?: string[];
   /** Formulas attached to this template. */
   formulas: Formula[];
   /** Manual fields the user fills in at generation time. */
@@ -333,10 +340,43 @@ export interface InstallResponse {
   settings: AppSettings;
 }
 
-/** GET /api/templates/:id/preview?dealId=... response. */
+/**
+ * POST /api/templates/:id/preview — request body.
+ *
+ * The preview endpoint substitutes formula values, manual `fieldValues`
+ * and product rows directly into the admin-uploaded original `.docx`
+ * (via `buildDocxFromTemplate`), so it needs the same inputs as
+ * generation: a deal to pull CRM data from and the user's manual field
+ * values.
+ */
+export interface TemplatePreviewRequest {
+  /** Bitrix24 deal ID used to build the formula/product context. */
+  dealId: number;
+  /**
+   * Values for the template's manual fields, keyed by `fieldKey`.
+   * Missing keys fall back to each field's configured default.
+   */
+  fieldValues?: Record<string, string>;
+}
+
+/**
+ * POST /api/templates/:id/preview — response body.
+ *
+ * The preview is a fully-substituted `.docx` (formulas + manual
+ * `fieldValues` + product rows rendered into the original Word archive
+ * via `buildDocxFromTemplate`), returned base64-encoded so the frontend
+ * can render it client-side (e.g. via `docx-preview`). The legacy
+ * server-rendered HTML preview is gone.
+ */
 export interface TemplatePreviewResponse {
-  /** HTML with formula tags replaced by evaluated values. */
-  html: string;
+  /** The substituted preview `.docx`, base64-encoded. */
+  docxBase64: string;
+  /**
+   * Placeholder tags found in the original `.docx`
+   * (from `scanDocxPlaceholders`), used by the editor to highlight and
+   * bind unresolved placeholders.
+   */
+  tags: string[];
   /** Per-formula evaluation results, indexed by tagKey. */
   formulas: Record<string, FormulaEvaluationResult>;
   /** Manual fields the user must fill in before generating. */
@@ -355,10 +395,21 @@ export interface GenerateRequest {
   fieldValues?: Record<string, string>;
 }
 
-/** POST /api/generate — response body. */
+/**
+ * POST /api/generate — response body.
+ *
+ * The generated document is a `.docx` file: the pipeline renders the
+ * admin-uploaded original `.docx` template via `buildDocxFromTemplate`
+ * (substituting formula values, manual `fieldValues`, and product rows
+ * directly into the Word archive), so the uploaded Bitrix24 Disk file and
+ * its download URL point to a `.docx` (the legacy HTML→PDF path is gone).
+ */
 export interface GenerateResponse {
+  /** ID of the generated `.docx` uploaded to Bitrix24 Disk. */
   fileId: number;
+  /** Direct download URL for the generated `.docx` file. */
   downloadUrl: string;
+  /** ID of the timeline comment created with the attached `.docx`, if any. */
   timelineCommentId?: number;
 }
 

@@ -1,0 +1,3 @@
+# TemplateEditorPage
+
+Редактор шаблона /templates/:id/edit (модель тегов .docx). Слева — редактируемый <DocxEditor> (@eigenpal/docx-editor-react), справа — панель «Теги шаблона». Над редактором кнопки «Вставить формулу»/«Вставить поле» (insert-режим): открывают FormulaBuilder/ManualFieldBuilder с чистой формой, при подтверждении создают привязку и вставляют {tagKey} в позицию курсора через ProseMirror (editorRef.getEditorRef().getView() -> view.dispatch(state.tr.insertText)), хелпер insertPlaceholderAtCursor. Новый тег попадает в locallyInsertedTags и сразу виден в панели. Привязка к существующим тегам (bind-режим) — через действия в строке тега. Сохранение: docx (если менялся) -> пересканирование тегов -> formulas/fields.

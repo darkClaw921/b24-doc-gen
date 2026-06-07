@@ -8,26 +8,17 @@
  *   body: { templateId: string, dealId: number }
  *   returns: { fileId, downloadUrl, fieldUpdated, timelineCommentId? }
  *
- * Pipeline (each step short-circuits with a structured error):
- *   1. Load the template + formulas from Prisma.
- *   2. Build the deal context via `getDealContext` (single source of
- *      truth shared with `GET /api/templates/:id/preview`).
- *   3. Evaluate every formula and capture the per-tag result map so
- *      `docxBuilder` can inline the values into the .docx.
- *   4. `buildDocxFromHtml(template.contentHtml, { formulas })`
- *      yields a Node Buffer.
- *   5. `disk.storage.getforapp` returns the application's storage
- *      root. We use `ROOT_OBJECT_ID` as the target folder for the
- *      upload.
- *   6. `disk.folder.uploadfile` (via `B24Client.uploadDiskFile`)
- *      stores the .docx and returns the disk file metadata
- *      (`ID`, `DOWNLOAD_URL`, ...).
- *   7. If `AppSettings.dealFieldBinding` is set, `crm.deal.update`
- *      is called with `{ [UF_CRM_*]: fileId }` so the file shows up
- *      in the deal card. Failures here are non-fatal — we still
- *      return the upload result and report the error in the response.
- *   8. `crm.timeline.comment.add` posts a "Сгенерирован документ"
- *      comment with the download URL. Also non-fatal.
+ * This route is a thin HTTP adapter: it authenticates, performs a
+ * strict up-front validation of required manual fields (rejecting the
+ * request so the UI can prompt the user) and then delegates the entire
+ * generation pipeline to `runGeneration` in `services/generationPipeline`,
+ * which is the single source of truth shared with the bizproc-robot and
+ * outgoing-webhook entry points. `GenerationError` kinds returned by the
+ * pipeline are mapped to Fastify reply helpers (404 / 400 / 502).
+ *
+ * The generated artifact is a `.docx`: `runGeneration` substitutes
+ * formula values, manual `fieldValues` and product rows directly into the
+ * admin-uploaded original `.docx` via `buildDocxFromTemplate`.
  *
  * The route is auth-gated by the global B24 middleware. Phase 6
  * (bz3.1) will additionally enforce the admin role.
@@ -36,12 +27,12 @@
 import type { FastifyInstance } from 'fastify';
 import type { GenerateResponse } from '@b24-doc-gen/shared';
 import { prisma } from '../prisma/client.js';
-import { B24Client, B24Error } from '../services/b24Client.js';
-import { getDealContext, DealDataError } from '../services/dealData.js';
-import { evaluateExpression } from '../services/formulaEngine.js';
-import { buildPdfFromHtml, PdfBuildError } from '../services/pdfBuilder.js';
-import { resolveManualFieldValues } from '../services/generationPipeline.js';
-import { toAppSettings } from './install.js';
+import { B24Client } from '../services/b24Client.js';
+import {
+  runGeneration,
+  resolveManualFieldValues,
+  GenerationError,
+} from '../services/generationPipeline.js';
 import type { FormulaEvaluationResult } from '@b24-doc-gen/shared';
 
 /* ------------------------------------------------------------------ */
@@ -104,24 +95,26 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
     }
 
     /* -------------------------------------------------------------- */
-    /* 1) Load the template + formulas                                */
+    /* Required manual-field validation (hard fail before generating) */
     /* -------------------------------------------------------------- */
-    const template = await prisma.template.findUnique({
+    // The shared pipeline only *warns* about missing required fields so
+    // that server-to-server callers (webhooks) never abort. The
+    // interactive route is stricter: it rejects the request up-front so
+    // the UI can prompt the user to fill them in. We only need the
+    // template's `fields` for this check.
+    const fieldsOnly = await prisma.template.findUnique({
       where: { id: templateId },
-      include: { formulas: true, theme: true, fields: true },
+      select: { fields: true },
     });
-    if (!template) return reply.notFound(`template ${templateId} not found`);
+    if (!fieldsOnly) return reply.notFound(`template ${templateId} not found`);
 
-    /* -------------------------------------------------------------- */
-    /* Manual field values + required validation                      */
-    /* -------------------------------------------------------------- */
     const rawFieldValues =
       body.fieldValues && typeof body.fieldValues === 'object'
         ? body.fieldValues
         : undefined;
-    const fieldValues = resolveManualFieldValues(template.fields, rawFieldValues);
-    const missingRequired = template.fields
-      .filter((f) => f.required && fieldValues[f.fieldKey].trim() === '')
+    const resolvedFields = resolveManualFieldValues(fieldsOnly.fields, rawFieldValues);
+    const missingRequired = fieldsOnly.fields
+      .filter((f) => f.required && resolvedFields[f.fieldKey].trim() === '')
       .map((f) => f.label || f.fieldKey);
     if (missingRequired.length > 0) {
       return reply.badRequest(
@@ -129,319 +122,46 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
       );
     }
 
-    const settingsRow = await prisma.appSettings.findUnique({ where: { id: 1 } });
-    const settings = settingsRow ? toAppSettings(settingsRow) : null;
-
-    // Effective per-template generation settings: theme overrides win.
-    // dealFieldBinding falls back to AppSettings only when the theme has
-    // no per-folder override; addToTimeline is always taken from the theme.
-    const effectiveFieldBinding =
-      template.theme.dealFieldBinding ?? settings?.dealFieldBinding ?? null;
-    const effectiveAddToTimeline = template.theme.addToTimeline;
-
     const client = new B24Client({
       portal: auth.domain,
       accessToken: auth.accessToken,
     });
 
     /* -------------------------------------------------------------- */
-    /* 2) Determine if product data is needed                         */
+    /* Delegate the whole pipeline to runGeneration                   */
     /* -------------------------------------------------------------- */
-    const { fetchProducts, fetchProductImages } = detectProductUsage(
-      template.contentHtml,
-      template.formulas.map((f) => f.expression),
-    );
-
-    /* -------------------------------------------------------------- */
-    /* 3) Build deal context                                          */
-    /* -------------------------------------------------------------- */
-    let context;
+    // runGeneration performs: template load → deal context → formula
+    // evaluation → buildDocxFromTemplate (.docx) → disk upload → optional
+    // UF_CRM_* binding → optional timeline comment, returning a result
+    // whose shape matches GenerateRouteResponse exactly.
     try {
-      context = await getDealContext(client, dealId as number, {
-        fetchProducts,
-        fetchProductImages,
+      const result = await runGeneration({
+        templateId,
+        dealId: dealId as number,
+        client,
+        logger: request.log,
+        fieldValues: rawFieldValues,
       });
+      const response: GenerateRouteResponse = result;
+      return response;
     } catch (err) {
-      if (err instanceof DealDataError) {
-        if (err.status === 404) return reply.notFound(err.message);
-        if (err.status === 400) return reply.badRequest(err.message);
-        return reply.badGateway(err.message);
-      }
-      throw err;
-    }
-
-    /* -------------------------------------------------------------- */
-    /* 4) Evaluate every formula                                      */
-    /* -------------------------------------------------------------- */
-    const formulaResults: Record<string, FormulaEvaluationResult> = {};
-    for (const f of template.formulas) {
-      const r = evaluateExpression(f.expression, context);
-      formulaResults[f.tagKey] = {
-        tagKey: f.tagKey,
-        label: f.label,
-        expression: f.expression,
-        value: r.value,
-        rawValue: r.raw,
-        error: r.error,
-      };
-    }
-
-    const warnings: string[] = [];
-
-    /* -------------------------------------------------------------- */
-    /* 5) Build the PDF Buffer                                        */
-    /* -------------------------------------------------------------- */
-    let pdfBuffer: Buffer;
-    try {
-      pdfBuffer = await buildPdfFromHtml(template.contentHtml, {
-        formulas: formulaResults,
-        title: template.name,
-        products: context.PRODUCTS ?? [],
-        fieldValues,
-      });
-    } catch (err) {
-      if (err instanceof PdfBuildError) {
-        return reply.badRequest(`Failed to build PDF: ${err.message}`);
-      }
-      throw err;
-    }
-
-    /* -------------------------------------------------------------- */
-    /* 6) disk.storage.getforapp → folder id                          */
-    /* -------------------------------------------------------------- */
-    let folderId: number;
-    try {
-      const storage = (await client.callMethod(
-        'disk.storage.getforapp',
-        {},
-      )) as Record<string, unknown>;
-      folderId = Number(storage.ROOT_OBJECT_ID ?? storage.ID ?? 0);
-      if (!Number.isFinite(folderId) || folderId <= 0) {
-        return reply.badGateway('disk.storage.getforapp returned no ROOT_OBJECT_ID');
-      }
-    } catch (err) {
-      if (err instanceof B24Error) {
-        return reply.badGateway(`disk.storage.getforapp failed: ${err.message}`);
-      }
-      throw err;
-    }
-
-    /* -------------------------------------------------------------- */
-    /* 7) disk.folder.uploadfile                                      */
-    /* -------------------------------------------------------------- */
-    const safeName = template.name.replace(/[^\p{L}\p{N}._\-\s]/gu, '_').trim() || 'template';
-    const fileName = `${safeName}_deal${dealId}_${Date.now()}.pdf`;
-
-    let uploaded;
-    try {
-      uploaded = await client.uploadDiskFile(folderId, fileName, pdfBuffer);
-    } catch (err) {
-      if (err instanceof B24Error) {
-        return reply.badGateway(`disk.folder.uploadfile failed: ${err.message}`);
-      }
-      throw err;
-    }
-
-    const fileId = Number(uploaded.ID ?? 0);
-    const downloadUrl = String(uploaded.DOWNLOAD_URL ?? uploaded.DETAIL_URL ?? '');
-
-    /* -------------------------------------------------------------- */
-    /* 8) Optional UF_CRM_* binding                                   */
-    /* -------------------------------------------------------------- */
-    let binding: BindingResult | null = null;
-    const fieldName = effectiveFieldBinding;
-    if (fieldName) {
-      try {
-        // Detect whether the binding field is multi-valued from the
-        // live deal field schema. We need this because the request
-        // shape differs (single = one tuple, multiple = array).
-        let isMultiple = false;
-        try {
-          const dealFields = await client.getDealFields();
-          const meta = dealFields.find((f) => f.code === fieldName);
-          isMultiple = Boolean(meta?.isMultiple);
-        } catch (err) {
-          request.log.warn(
-            { err: err instanceof Error ? err.message : String(err), fieldName },
-            'getDealFields failed in generate; defaulting isMultiple=false',
-          );
+      if (err instanceof GenerationError) {
+        switch (err.kind) {
+          case 'template_not_found':
+          case 'deal_not_found':
+            return reply.notFound(err.message);
+          case 'bad_deal_id':
+          case 'docx_build_failed':
+            return reply.badRequest(err.message);
+          case 'deal_gateway':
+          case 'disk_gateway':
+          case 'upload_failed':
+            return reply.badGateway(err.message);
+          default:
+            throw err;
         }
-
-        // IMPORTANT: per the Bitrix24 docs we must NOT use
-        // `crm.deal.update` for file UF fields — the recommended
-        // method is the universal `crm.item.update` with
-        // `entityTypeId: 2` (deal). It is the only path that reliably
-        // accepts the merge format below.
-        // See: https://apidocs.bitrix24.ru/api-reference/files/how-to-update-files.html
-        //
-        // Format for the file field value:
-        //   - new file:       [filename, base64Content]    (bare tuple)
-        //   - existing file:  { id: <numericId> }          (object)
-        // The whole field value is an array; any existing file NOT
-        // present in that array gets deleted by Bitrix. So when
-        // appending we must enumerate every existing file id.
-        //
-        // We pass `useOriginalUfNames: 'Y'` so we can keep referring
-        // to the field by its original SHOUTY name (UF_CRM_TEST2)
-        // instead of the camelCase form (ufCrm_TEST2) — keeps the
-        // settings/template config consistent.
-        const newFilePayload: [string, string] = [
-          fileName,
-          pdfBuffer.toString('base64'),
-        ];
-
-        let fieldValue: unknown;
-        if (isMultiple) {
-          // Refetch the raw deal record so we see the full array of
-          // existing files. We can't read this from the formula
-          // `context.DEAL` because `flattenEntity`/`flattenValue` in
-          // dealData.ts collapses every array to its first element —
-          // for a multi-file UF that would lose every file but the
-          // first, and Bitrix would silently delete them on update.
-          //
-          // Bitrix may return existing files as bare numeric IDs,
-          // numeric strings, or `{ id, urlMachine, ... }` objects.
-          // We normalise to `{ id: <number> }` for the update.
-          const existingRefs: Array<{ id: number }> = [];
-          try {
-            const rawDeal = await client.callMethod<Record<string, unknown>>(
-              'crm.deal.get',
-              { id: dealId as number },
-            );
-            const raw = rawDeal?.[fieldName];
-            const items = Array.isArray(raw)
-              ? raw
-              : raw !== null && raw !== undefined && raw !== ''
-                ? [raw]
-                : [];
-            for (const item of items) {
-              let id: number | null = null;
-              if (typeof item === 'number') {
-                id = item;
-              } else if (typeof item === 'string') {
-                const n = Number(item);
-                if (Number.isFinite(n)) id = n;
-              } else if (item && typeof item === 'object') {
-                const obj = item as Record<string, unknown>;
-                const candidate = obj.id ?? obj.ID ?? obj.fileId ?? obj.FILE_ID;
-                const n = Number(candidate);
-                if (Number.isFinite(n) && n > 0) id = n;
-              }
-              if (id != null && id > 0) existingRefs.push({ id });
-            }
-          } catch (err) {
-            request.log.warn(
-              { err: err instanceof Error ? err.message : String(err), fieldName },
-              'crm.deal.get failed while resolving existing file IDs; ' +
-                'proceeding with no existing files (may overwrite)',
-            );
-          }
-          fieldValue = [...existingRefs, newFilePayload];
-        } else {
-          // For a single file field Bitrix accepts the bare tuple.
-          fieldValue = newFilePayload;
-        }
-
-        await client.callMethod('crm.item.update', {
-          entityTypeId: 2,
-          id: dealId as number,
-          fields: { [fieldName]: fieldValue },
-          useOriginalUfNames: 'Y',
-        });
-        binding = { fieldName, ok: true };
-      } catch (err) {
-        const msg = err instanceof Error ? err.message : String(err);
-        binding = { fieldName, ok: false, error: msg };
-        warnings.push(`crm.item.update failed for ${fieldName}: ${msg}`);
-        request.log.warn({ err: msg, fieldName }, 'crm.item.update failed');
       }
-    } else {
-      warnings.push('dealFieldBinding not configured');
+      throw err;
     }
-
-    /* -------------------------------------------------------------- */
-    /* 9) Timeline comment (per-theme, with file attachment)          */
-    /* -------------------------------------------------------------- */
-    let timeline: GenerateRouteResponse['timeline'] = { ok: false };
-    if (effectiveAddToTimeline) {
-      try {
-        // The file is attached via FILES, so the comment text itself
-        // should NOT include the download URL — the attachment block
-        // already gives the user a clickable link, and duplicating it
-        // in the body just adds noise.
-        const commentId = await client.callMethod<number>(
-          'crm.timeline.comment.add',
-          {
-            fields: {
-              ENTITY_ID: dealId as number,
-              ENTITY_TYPE: 'deal',
-              COMMENT: `Сгенерирован документ: ${template.name}`,
-              FILES: [[fileName, pdfBuffer.toString('base64')]],
-            },
-          },
-        );
-        timeline = { ok: true, commentId };
-      } catch (err) {
-        const msg = err instanceof Error ? err.message : String(err);
-        timeline = { ok: false, error: msg };
-        warnings.push(`crm.timeline.comment.add failed: ${msg}`);
-        request.log.warn({ err: msg }, 'crm.timeline.comment.add failed');
-      }
-    } else {
-      warnings.push('addToTimeline disabled for this theme');
-    }
-
-    /* -------------------------------------------------------------- */
-    /* 10) Reply                                                      */
-    /* -------------------------------------------------------------- */
-    const response: GenerateRouteResponse = {
-      fileId,
-      downloadUrl,
-      fileName,
-      timelineCommentId: timeline.commentId,
-      formulas: formulaResults,
-      binding,
-      timeline,
-      warnings,
-    };
-    return response;
   });
-}
-
-/* ------------------------------------------------------------------ */
-/* Product usage detection                                             */
-/* ------------------------------------------------------------------ */
-
-/** Regex patterns for product-related helpers in formula expressions. */
-const PRODUCT_HELPER_RE = /product(?:Sum|Count|Get|Image)\s*\(/i;
-const PRODUCT_IMAGE_HELPER_RE = /productImage\s*\(/i;
-
-/**
- * Scan the template HTML and formula expressions to determine whether
- * product data (and product images) need to be fetched from Bitrix24.
- *
- * Uses simple substring / regex checks — no full HTML parsing required.
- */
-function detectProductUsage(
-  contentHtml: string,
-  expressions: string[],
-): { fetchProducts: boolean; fetchProductImages: boolean } {
-  const hasProductTable = contentHtml.includes('data-product-table')
-    || contentHtml.includes('data-product-field');
-  const hasProductImageAttr = contentHtml.includes('data-product-image');
-
-  let hasProductHelper = false;
-  let hasProductImageHelper = false;
-
-  for (const expr of expressions) {
-    if (PRODUCT_HELPER_RE.test(expr)) hasProductHelper = true;
-    if (PRODUCT_IMAGE_HELPER_RE.test(expr)) hasProductImageHelper = true;
-    if (hasProductHelper && hasProductImageHelper) break;
-  }
-
-  const fetchProducts = hasProductTable || hasProductHelper;
-  const fetchProductImages =
-    fetchProducts && (hasProductImageAttr || hasProductImageHelper);
-
-  return { fetchProducts, fetchProductImages };
 }

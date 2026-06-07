@@ -41,6 +41,7 @@ import type {
   FormulaEvaluationResult,
   TemplateField,
   TemplateFieldType,
+  TemplatePreviewRequest,
   TemplatePreviewResponse,
 } from '@b24-doc-gen/shared';
 import { prisma } from '../prisma/client.js';
@@ -48,8 +49,12 @@ import { parseDocxToHtml, DocxParseError } from '../services/docxParser.js';
 import { evaluateExpression } from '../services/formulaEngine.js';
 import { B24Client } from '../services/b24Client.js';
 import { getDealContext, DealDataError } from '../services/dealData.js';
-import { expandProductTables } from '../services/docxBuilder.js';
-import { scanDocxPlaceholders } from '../services/docxTemplateEngine.js';
+import {
+  buildDocxFromTemplate,
+  scanDocxPlaceholders,
+  DocxTemplateError,
+} from '../services/docxTemplateEngine.js';
+import { resolveManualFieldValues } from '../services/generationPipeline.js';
 import { replaceBase64WithUrls, cacheImage } from '../services/imageCache.js';
 import { requireAdmin } from '../middleware/role.js';
 
@@ -78,6 +83,14 @@ export interface TemplateDTO {
   hasOriginalDocx: boolean;
   /** Base64 of the original .docx, only when explicitly requested. */
   originalDocxBase64?: string;
+  /**
+   * Placeholder tags scanned from the original `.docx` (via
+   * `scanDocxPlaceholders`). Populated only when `withDocx` is requested
+   * and an original `.docx` is stored. Used by the editor to list every
+   * template tag and highlight the ones without a formula/manual-field
+   * binding. Undefined when not requested or no `.docx` is available.
+   */
+  docxPlaceholders?: string[];
   createdAt: string;
   updatedAt: string;
 }
@@ -270,6 +283,17 @@ interface TemplateRow extends PrismaTemplate {
 }
 
 function toTemplateDto(row: TemplateRow, withDocx: boolean): TemplateDTO {
+  const hasOriginalDocx = row.originalDocx !== null && row.originalDocx !== undefined;
+  // When the caller asks for the .docx we also scan it for placeholder
+  // tags so the editor can drive its "Теги шаблона" panel off a single
+  // request (no deal context needed, unlike the preview endpoint).
+  let docxPlaceholders: string[] | undefined;
+  if (withDocx && hasOriginalDocx && row.originalDocx) {
+    const docxBuffer = Buffer.isBuffer(row.originalDocx)
+      ? row.originalDocx
+      : Buffer.from(row.originalDocx);
+    docxPlaceholders = scanDocxPlaceholders(docxBuffer);
+  }
   return {
     id: row.id,
     name: row.name,
@@ -280,11 +304,12 @@ function toTemplateDto(row: TemplateRow, withDocx: boolean): TemplateDTO {
       .slice()
       .sort((a, b) => a.order - b.order)
       .map(toTemplateFieldDto),
-    hasOriginalDocx: row.originalDocx !== null && row.originalDocx !== undefined,
+    hasOriginalDocx,
     originalDocxBase64:
       withDocx && row.originalDocx
         ? Buffer.from(row.originalDocx).toString('base64')
         : undefined,
+    docxPlaceholders,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   };
@@ -433,34 +458,39 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
   );
 
   /* ---------------------------------------------------------------- */
-  /* GET /api/templates/:id/preview?dealId=                             */
+  /* POST /api/templates/:id/preview                                   */
   /* ---------------------------------------------------------------- */
   /*
-   * Render a "ready for preview" version of a template:
+   * Build a fully-substituted `.docx` preview of a template:
    *
-   *   1) Load the template (with its formulas) from the DB.
-   *   2) Resolve the deal context via `getDealContext`.
-   *   3) For each formula row, evaluate its expression against the
-   *      same scope.
-   *   4) Rewrite the template HTML so every `<span data-formula-key>`
-   *      node carries a `data-computed-value` attribute AND its text
-   *      content is the computed value (or the original label on
-   *      error, so admins still see something in the editor).
-   *   5) Return both the rewritten HTML and a per-formula map keyed
-   *      by `tagKey` so the frontend can show tooltips.
+   *   1) Load the template (with its formulas + fields) from the DB.
+   *   2) Resolve the deal context via `getDealContext` (same single
+   *      source of truth as generation), fetching product rows/images
+   *      only when the template uses them.
+   *   3) Evaluate every formula against that scope.
+   *   4) Resolve manual `fieldValues` (caller-provided override the
+   *      configured defaults; absent keys fall back to defaults) using
+   *      the same `resolveManualFieldValues` helper as generation.
+   *   5) Substitute formulas + products + field values directly into the
+   *      admin-uploaded original `.docx` via `buildDocxFromTemplate`,
+   *      preserving all Word formatting (no HTML→PDF step).
+   *   6) Return the substituted `.docx` base64-encoded together with the
+   *      placeholder `tags` (from `scanDocxPlaceholders`), the per-formula
+   *      results and the template's manual fields.
    */
-  app.get<{ Params: GetTemplateParams; Querystring: PreviewTemplateQuery }>(
+  app.post<{ Params: GetTemplateParams; Body: TemplatePreviewRequest }>(
     '/api/templates/:id/preview',
     async (request, reply) => {
       const auth = request.b24Auth;
       if (!auth) return reply.unauthorized('B24 auth payload missing');
 
       const { id } = request.params;
-      const dealIdRaw = request.query.dealId;
-      const dealIdNum = dealIdRaw ? Number(dealIdRaw) : NaN;
+      const body = request.body ?? ({} as TemplatePreviewRequest);
+      const dealIdNum = Number(body.dealId);
       if (!Number.isFinite(dealIdNum) || dealIdNum <= 0) {
-        return reply.badRequest('dealId query param is required');
+        return reply.badRequest('dealId is required');
       }
+      const rawFieldValues = body.fieldValues;
 
       const row = await prisma.template.findUnique({
         where: { id },
@@ -471,6 +501,15 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
       if (!auth.accessToken) {
         return reply.unauthorized('Missing access token in B24 auth payload');
       }
+
+      // Guard: preview substitutes into the original .docx — without it
+      // there is nothing to render.
+      if (!row.originalDocx || row.originalDocx.length === 0) {
+        return reply.badRequest(`template ${id} has no originalDocx`);
+      }
+      const originalDocx = Buffer.isBuffer(row.originalDocx)
+        ? row.originalDocx
+        : Buffer.from(row.originalDocx);
 
       // Detect if the template uses product rows / images so we only
       // fetch them when needed (same logic as generate.ts).
@@ -523,38 +562,35 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
         };
       }
 
-      // Expand product tables — replace template rows with actual
-      // product data so the preview shows real values.
-      let processedHtml = row.contentHtml;
-      if (fetchProducts && context.PRODUCTS.length > 0) {
-        processedHtml = expandProductTables(processedHtml, context.PRODUCTS);
-      }
+      // Resolve manual field values — caller-provided values override
+      // each field's default; absent keys fall back to the default
+      // (e.g. date "today"). Same helper used by the generation pipeline.
+      const fieldValues = resolveManualFieldValues(row.fields, rawFieldValues);
 
-      // Rewrite the HTML so formula placeholders display their
-      // computed value. We use a tolerant regex on the <span> — the
-      // HTML is produced by TipTap so it's always well-formed and
-      // self-contained, and using cheerio would add a runtime
-      // dependency we don't otherwise need.
-      const rawHtml = substituteFormulaTagsForPreview(processedHtml, formulaResults);
-
-      // Replace base64 data URIs with cached image URLs so browsers
-      // that block data: URIs (CSP in Bitrix24 iframes) can still
-      // display images.
-      const html = replaceBase64WithUrls(rawHtml);
-
-      // Also replace base64 in formula values so the frontend can
-      // render image thumbnails without hitting CSP/size limits.
-      for (const [key, result] of Object.entries(formulaResults)) {
-        if (result.value?.startsWith('data:image/')) {
-          formulaResults[key] = {
-            ...result,
-            value: cacheImage(result.value),
-          };
+      // Substitute formulas, products and field values directly into the
+      // original .docx, preserving all Word formatting.
+      let docxBuffer: Buffer;
+      try {
+        docxBuffer = await buildDocxFromTemplate(originalDocx, {
+          formulas: formulaResults,
+          products: context.PRODUCTS ?? [],
+          fieldValues,
+          title: row.name,
+        });
+      } catch (err) {
+        if (err instanceof DocxTemplateError) {
+          return reply.badRequest(err.message);
         }
+        throw err;
       }
+
+      // Collect the placeholder tags from the original .docx so the
+      // editor can highlight/bind unresolved placeholders.
+      const tags = scanDocxPlaceholders(originalDocx);
 
       const response: TemplatePreviewResponse = {
-        html,
+        docxBase64: docxBuffer.toString('base64'),
+        tags,
         formulas: formulaResults,
         fields: row.fields
           .slice()
@@ -692,6 +728,104 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
       docxPlaceholders,
     });
   });
+
+  /* ---------------------------------------------------------------- */
+  /* PUT /api/templates/:id/docx — replace original .docx               */
+  /* ---------------------------------------------------------------- */
+  app.put<{ Params: GetTemplateParams }>(
+    '/api/templates/:id/docx',
+    { preHandler: requireAdmin },
+    async (request, reply) => {
+      const auth = request.b24Auth;
+      if (!auth) return reply.unauthorized('B24 auth payload missing');
+
+      const { id } = request.params;
+
+      // The template must already exist — this is an update, not a create.
+      const existing = await prisma.template.findUnique({ where: { id } });
+      if (!existing) return reply.notFound(`template ${id} not found`);
+
+      if (!request.isMultipart()) {
+        return reply.badRequest('Expected multipart/form-data');
+      }
+
+      let filePart: MultipartFile | undefined;
+      try {
+        filePart = await request.file({
+          limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+        });
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        return reply.badRequest(`upload failed: ${message}`);
+      }
+
+      if (!filePart) {
+        return reply.badRequest('file field is required');
+      }
+
+      // Validate mime / extension early.
+      const filename = filePart.filename ?? '';
+      const isDocx =
+        /\.docx$/i.test(filename) ||
+        filePart.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      if (!isDocx) {
+        return reply.badRequest('only .docx files are accepted');
+      }
+
+      // Buffer the file in memory. 20 MB max.
+      let buffer: Buffer;
+      try {
+        buffer = await filePart.toBuffer();
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        return reply.payloadTooLarge(`failed to read upload: ${message}`);
+      }
+
+      if (filePart.file.truncated) {
+        return reply.payloadTooLarge('file exceeds 20MB limit');
+      }
+
+      // Convert .docx → HTML (legacy/search fallback).
+      let html = '';
+      let messages: string[] = [];
+      try {
+        const parsed = await parseDocxToHtml(buffer);
+        html = parsed.html;
+        messages = parsed.messages;
+      } catch (err) {
+        if (err instanceof DocxParseError) {
+          return reply.badRequest(err.message);
+        }
+        throw err;
+      }
+
+      // Scan the new .docx for template placeholders.
+      let docxPlaceholders: string[] = [];
+      try {
+        docxPlaceholders = scanDocxPlaceholders(buffer);
+      } catch {
+        // Non-fatal — the template is still valid, just without placeholder info.
+        messages.push('Could not scan .docx for placeholders');
+      }
+
+      // Replace the stored original bytes and refresh the cached HTML.
+      const row = await prisma.template.update({
+        where: { id },
+        data: {
+          originalDocx: buffer,
+          contentHtml: html.length > 0 ? html : '<p></p>',
+        },
+        include: { formulas: true, fields: true },
+      });
+
+      // 200 — this is an update of an existing template, not a creation.
+      return reply.send({
+        template: toTemplateDto(row, false),
+        warnings: messages,
+        docxPlaceholders,
+      });
+    },
+  );
 
   /* ---------------------------------------------------------------- */
   /* PUT /api/templates/:id                                             */

@@ -1,0 +1,5 @@
+# apps/frontend/src/lib/api.ts#templatesApi.saveDocx
+
+templatesApi.saveDocx(id: string, docx: Blob, opts: UploadOptions = {}) in apps/frontend/src/lib/api.ts. Replaces the original .docx of an existing template with an edited version produced by the in-browser editor (DocxEditorRef.save()). Builds FormData with formData.append('file', docx, 'template.docx') and calls uploadRequest with { ...opts, method: 'PUT' } to PUT /api/templates/:id/docx. Returns { template: TemplateDTO; docxPlaceholders: string[]; warnings: string[] } — the backend re-scans the archive for placeholder tags. Consumed by TemplateEditorPage.handleSave step 1; the returned docxPlaceholders refresh the 'Теги шаблона' panel.
+
+Related infra change: UploadOptions gained an optional method?: 'POST'|'PUT' field, and uploadRequest now uses xhr.open(opts.method ?? 'POST', ...) instead of a hardcoded POST, so the same XHR multipart helper (with B24 auth headers + progress) serves both templatesApi.upload (POST /templates/upload) and saveDocx (PUT /templates/:id/docx).

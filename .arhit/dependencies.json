@@ -1,6 +1,1187 @@
 {
-  "generatedAt": "2026-06-07T15:16:16.897Z",
+  "generatedAt": "2026-06-07T20:57:30.373Z",
   "dependencies": [
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "node:fs/promises",
+      "type": "import",
+      "toElement": "readFile"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "node:fs/promises",
+      "type": "import",
+      "toElement": "writeFile"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "node:fs/promises",
+      "type": "import",
+      "toElement": "readdir"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "node:fs/promises",
+      "type": "import",
+      "toElement": "mkdir"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "node:path",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "node:url",
+      "type": "import",
+      "toElement": "fileURLToPath"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "puppeteer",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/src/services/docxParser.ts",
+      "type": "import",
+      "toElement": "parseDocxToHtml"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/src/services/pdfBuilder.ts",
+      "type": "import",
+      "toElement": "buildPdfFromHtml"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/src/services/pdfBuilder.ts",
+      "type": "import",
+      "toElement": "closePdfBrowser"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "toElement": "path.dirname"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "toElement": "fileURLToPath"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "toElement": "path.resolve"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "toElement": "path.join"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "toElement": "path.join"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "mkdir"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "readdir"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "f.toLowerCase"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "f.startsWith"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "puppeteer.launch"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "file.replace"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "base.replace"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "readFile"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "path.join"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "parseDocxToHtml"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "html.match"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "html.match"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "writeFile"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "path.join"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "buildPdfFromHtml"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "file.replace"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "writeFile"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "path.join"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "browser.newPage"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "pPrev.setViewport"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "pPrev.setContent"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "previewPage"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "pPrev.screenshot"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "path.join"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "pPrev.close"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "browser.newPage"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "pPdf.setViewport"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "pPdf.emulateMediaType"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "pPdf.setContent"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "pdfViewPage"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "pPdf.screenshot"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "path.join"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "pPdf.close"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "report.push"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "browser.close"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "closePdfBrowser"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "writeFile"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "path.join"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "JSON.stringify"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "fromElement": "main",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "toElement": "main"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "toElement": "console.error"
+    },
+    {
+      "from": "apps/backend/scripts/render-check.ts",
+      "to": "apps/backend/scripts/render-check.ts",
+      "type": "call",
+      "toElement": "process.exit"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "node:fs",
+      "type": "import",
+      "toElement": "readFileSync"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "node:fs",
+      "type": "import",
+      "toElement": "writeFileSync"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "node:path",
+      "type": "import",
+      "toElement": "resolve"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "pizzip",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "import",
+      "toElement": "buildDocxFromTemplate"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "import",
+      "toElement": "scanDocxPlaceholders"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "@b24-doc-gen/shared",
+      "type": "import",
+      "toElement": "FormulaEvaluationResult"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "toElement": "resolve"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "toElement": "resolve"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "toElement": "resolve"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "toElement": "resolve"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "insertNewTagIntoFormattedParagraph",
+      "toElement": "zip.file"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "insertNewTagIntoFormattedParagraph",
+      "toElement": "paraRegex.exec"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "insertNewTagIntoFormattedParagraph",
+      "toElement": "inner.match"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "insertNewTagIntoFormattedParagraph",
+      "toElement": "targetFull.lastIndexOf"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "insertNewTagIntoFormattedParagraph",
+      "toElement": "targetFull.slice"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "insertNewTagIntoFormattedParagraph",
+      "toElement": "targetFull.slice"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "insertNewTagIntoFormattedParagraph",
+      "toElement": "xml.replace"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "insertNewTagIntoFormattedParagraph",
+      "toElement": "zip.file"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "insertNewTagIntoFormattedParagraph",
+      "toElement": "zip.generate"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "countAll",
+      "toElement": "haystack.split"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "readFileSync"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "checks.push"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "origXml.includes"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "origXml.includes"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "insertNewTagIntoFormattedParagraph"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "writeFileSync"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "checks.push"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "editedXml.includes"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "editedXml.includes"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "checks.push"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "scanDocxPlaceholders"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "checks.push"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "scanned.includes"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "scanned.join"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "buildDocxFromTemplate"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "writeFileSync"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "checks.push"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "outXml.includes"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "outXml.includes"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "checks.push"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "outXml.includes"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "outXml.includes"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "countAll"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "countAll"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "checks.push"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "countAll"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "countAll"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "checks.push"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "checks.every"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "process.exit"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "toElement": "run"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "toElement": "console.error"
+    },
+    {
+      "from": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "to": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "type": "call",
+      "toElement": "process.exit"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "node:fs",
+      "type": "import",
+      "toElement": "readFileSync"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "node:fs",
+      "type": "import",
+      "toElement": "writeFileSync"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "node:path",
+      "type": "import",
+      "toElement": "resolve"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "pizzip",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "import",
+      "toElement": "buildDocxFromTemplate"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "@b24-doc-gen/shared",
+      "type": "import",
+      "toElement": "FormulaEvaluationResult"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "@b24-doc-gen/shared",
+      "type": "import",
+      "toElement": "ProductRow"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "toElement": "resolve"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "toElement": "resolve"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "toElement": "resolve"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "toElement": "resolve"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "buildMarkedDocx",
+      "toElement": "zip.file"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "buildMarkedDocx",
+      "toElement": "xml.includes"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "buildMarkedDocx",
+      "toElement": "JSON.stringify"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "buildMarkedDocx",
+      "toElement": "xml.split"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "buildMarkedDocx",
+      "toElement": "zip.file"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "buildMarkedDocx",
+      "toElement": "zip.generate"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "countAll",
+      "toElement": "haystack.split"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "readFileSync"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "buildMarkedDocx"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "writeFileSync"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "markedXml.includes"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "checks.push"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "placeholdersInMarked.join"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "buildDocxFromTemplate"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "writeFileSync"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "outXml.includes"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "checks.push"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "leftoverTags.join"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "Object.values"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "outXml.includes"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "checks.push"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "Object.keys"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "Object.keys"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "valuesPresent.join"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "countAll"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "countAll"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "checks.push"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "countAll"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "countAll"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "checks.push"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "checks.every"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "process.exit"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "console.error"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "fromElement": "run",
+      "toElement": "process.exit"
+    },
+    {
+      "from": "apps/backend/scripts/verify-pvu-template.ts",
+      "to": "apps/backend/scripts/verify-pvu-template.ts",
+      "type": "call",
+      "toElement": "run"
+    },
     {
       "from": "apps/backend/src/middleware/auth.ts",
       "to": "node:crypto",
@@ -1035,39 +2216,9 @@
     },
     {
       "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
       "type": "import",
-      "toElement": "B24Error"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/services/dealData.ts",
-      "type": "import",
-      "toElement": "getDealContext"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/services/dealData.ts",
-      "type": "import",
-      "toElement": "DealDataError"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/services/formulaEngine.ts",
-      "type": "import",
-      "toElement": "evaluateExpression"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/services/pdfBuilder.ts",
-      "type": "import",
-      "toElement": "buildPdfFromHtml"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/services/pdfBuilder.ts",
-      "type": "import",
-      "toElement": "PdfBuildError"
+      "toElement": "runGeneration"
     },
     {
       "from": "apps/backend/src/routes/generate.ts",
@@ -1077,9 +2228,9 @@
     },
     {
       "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/install.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
       "type": "import",
-      "toElement": "toAppSettings"
+      "toElement": "GenerationError"
     },
     {
       "from": "apps/backend/src/routes/generate.ts",
@@ -1176,35 +2327,7 @@
       "to": "apps/backend/src/routes/generate.ts",
       "type": "call",
       "fromElement": "registerGenerateRoutes",
-      "toElement": "prisma.appSettings.findUnique"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "toAppSettings"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "detectProductUsage"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "template.formulas.map"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "getDealContext"
+      "toElement": "runGeneration"
     },
     {
       "from": "apps/backend/src/routes/generate.ts",
@@ -1226,321 +2349,6 @@
       "type": "call",
       "fromElement": "registerGenerateRoutes",
       "toElement": "reply.badGateway"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "evaluateExpression"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "buildPdfFromHtml"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "reply.badRequest"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "client.callMethod"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "Number"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "Number.isFinite"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "reply.badGateway"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "reply.badGateway"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "template.name.replace"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "Date.now"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "client.uploadDiskFile"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "reply.badGateway"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "Number"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "String"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "client.getDealFields"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "dealFields.find"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "Boolean"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "request.log.warn"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "String"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "pdfBuffer.toString"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "client.callMethod"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "Array.isArray"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "Number"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "Number.isFinite"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "Number"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "Number.isFinite"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "existingRefs.push"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "request.log.warn"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "String"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "client.callMethod"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "String"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "warnings.push"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "request.log.warn"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "warnings.push"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "client.callMethod"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "pdfBuffer.toString"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "String"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "warnings.push"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "request.log.warn"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "registerGenerateRoutes",
-      "toElement": "warnings.push"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "detectProductUsage",
-      "toElement": "contentHtml.includes"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "detectProductUsage",
-      "toElement": "contentHtml.includes"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "detectProductUsage",
-      "toElement": "contentHtml.includes"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "detectProductUsage",
-      "toElement": "PRODUCT_HELPER_RE.test"
-    },
-    {
-      "from": "apps/backend/src/routes/generate.ts",
-      "to": "apps/backend/src/routes/generate.ts",
-      "type": "call",
-      "fromElement": "detectProductUsage",
-      "toElement": "PRODUCT_IMAGE_HELPER_RE.test"
     },
     {
       "from": "apps/backend/src/routes/health.ts",
@@ -2766,6 +3574,12 @@
       "from": "apps/backend/src/routes/templates.ts",
       "to": "@b24-doc-gen/shared",
       "type": "import",
+      "toElement": "TemplatePreviewRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "@b24-doc-gen/shared",
+      "type": "import",
       "toElement": "TemplatePreviewResponse"
     },
     {
@@ -2812,15 +3626,27 @@
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
-      "to": "apps/backend/src/services/docxBuilder.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
       "type": "import",
-      "toElement": "expandProductTables"
+      "toElement": "buildDocxFromTemplate"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
       "to": "apps/backend/src/services/docxTemplateEngine.ts",
       "type": "import",
       "toElement": "scanDocxPlaceholders"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "import",
+      "toElement": "DocxTemplateError"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "import",
+      "toElement": "resolveManualFieldValues"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
@@ -3041,6 +3867,27 @@
       "to": "apps/backend/src/routes/templates.ts",
       "type": "call",
       "fromElement": "toTemplateDto",
+      "toElement": "Buffer.isBuffer"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "toTemplateDto",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "toTemplateDto",
+      "toElement": "scanDocxPlaceholders"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "toTemplateDto",
       "toElement": "row.formulas.map"
     },
     {
@@ -3230,7 +4077,7 @@
       "to": "apps/backend/src/routes/templates.ts",
       "type": "call",
       "fromElement": "registerTemplateRoutes",
-      "toElement": "app.get"
+      "toElement": "app.post"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
@@ -3280,6 +4127,27 @@
       "type": "call",
       "fromElement": "registerTemplateRoutes",
       "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "Buffer.isBuffer"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "Buffer.from"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
@@ -3363,35 +4231,35 @@
       "to": "apps/backend/src/routes/templates.ts",
       "type": "call",
       "fromElement": "registerTemplateRoutes",
-      "toElement": "expandProductTables"
+      "toElement": "resolveManualFieldValues"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
       "to": "apps/backend/src/routes/templates.ts",
       "type": "call",
       "fromElement": "registerTemplateRoutes",
-      "toElement": "substituteFormulaTagsForPreview"
+      "toElement": "buildDocxFromTemplate"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
       "to": "apps/backend/src/routes/templates.ts",
       "type": "call",
       "fromElement": "registerTemplateRoutes",
-      "toElement": "replaceBase64WithUrls"
+      "toElement": "reply.badRequest"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
       "to": "apps/backend/src/routes/templates.ts",
       "type": "call",
       "fromElement": "registerTemplateRoutes",
-      "toElement": "Object.entries"
+      "toElement": "scanDocxPlaceholders"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
       "to": "apps/backend/src/routes/templates.ts",
       "type": "call",
       "fromElement": "registerTemplateRoutes",
-      "toElement": "cacheImage"
+      "toElement": "docxBuffer.toString"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
@@ -3644,6 +4512,160 @@
       "type": "call",
       "fromElement": "registerTemplateRoutes",
       "toElement": "reply.code"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "toTemplateDto"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "app.put"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "prisma.template.findUnique"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "reply.notFound"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "request.isMultipart"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "request.file"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "filePart.toBuffer"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "reply.payloadTooLarge"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "reply.payloadTooLarge"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "parseDocxToHtml"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "scanDocxPlaceholders"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "messages.push"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "prisma.template.update"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "reply.send"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
@@ -7667,6 +8689,337 @@
       "toElement": "String"
     },
     {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "node:test",
+      "type": "import",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "node:assert/strict",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "pizzip",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "import",
+      "toElement": "buildDocxFromTemplate"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "import",
+      "toElement": "DocxTemplateError"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "@b24-doc-gen/shared",
+      "type": "import",
+      "toElement": "FormulaEvaluationResult"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "@b24-doc-gen/shared",
+      "type": "import",
+      "toElement": "ProductRow"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "fromElement": "buildFixtureDocx",
+      "toElement": "zip.file"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "fromElement": "buildFixtureDocx",
+      "toElement": "zip.file"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "fromElement": "buildFixtureDocx",
+      "toElement": "zip.file"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "fromElement": "buildFixtureDocx",
+      "toElement": "zip.generate"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "fromElement": "readDocumentXml",
+      "toElement": "zip.file"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "fromElement": "readDocumentXml",
+      "toElement": "assert.ok"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "fromElement": "readDocumentXml",
+      "toElement": "file.asText"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "buildFixtureDocx"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "buildDocxFromTemplate"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "formula"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "product"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "product"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.ok"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "Buffer.isBuffer"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.ok"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "readDocumentXml"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.match"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.ok"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "xml.includes"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.ok"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "xml.includes"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.ok"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "xml.includes"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.ok"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "xml.includes"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.ok"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "xml.includes"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.ok"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "xml.includes"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.match"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.match"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "buildFixtureDocx"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "buildDocxFromTemplate"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "formula"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "readDocumentXml"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.ok"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "xml.includes"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.ok"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "xml.includes"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.rejects"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "buildDocxFromTemplate"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "Buffer.alloc"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.ok"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
       "from": "apps/backend/src/services/docxTemplateEngine.ts",
       "to": "node:module",
       "type": "import",
@@ -7755,6 +9108,13 @@
       "type": "call",
       "fromElement": "createImageModule",
       "toElement": "base64DataURLToArrayBuffer"
+    },
+    {
+      "from": "apps/backend/src/services/docxTemplateEngine.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
+      "type": "call",
+      "fromElement": "buildDataObject",
+      "toElement": "Object.entries"
     },
     {
       "from": "apps/backend/src/services/docxTemplateEngine.ts",
@@ -8537,15 +9897,15 @@
     },
     {
       "from": "apps/backend/src/services/generationPipeline.ts",
-      "to": "apps/backend/src/services/pdfBuilder.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
       "type": "import",
-      "toElement": "buildPdfFromHtml"
+      "toElement": "buildDocxFromTemplate"
     },
     {
       "from": "apps/backend/src/services/generationPipeline.ts",
-      "to": "apps/backend/src/services/pdfBuilder.ts",
+      "to": "apps/backend/src/services/docxTemplateEngine.ts",
       "type": "import",
-      "toElement": "PdfBuildError"
+      "toElement": "DocxTemplateError"
     },
     {
       "from": "apps/backend/src/services/generationPipeline.ts",
@@ -8648,7 +10008,21 @@
       "to": "apps/backend/src/services/generationPipeline.ts",
       "type": "call",
       "fromElement": "runGeneration",
-      "toElement": "buildPdfFromHtml"
+      "toElement": "Buffer.isBuffer"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "Buffer.from"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "buildDocxFromTemplate"
     },
     {
       "from": "apps/backend/src/services/generationPipeline.ts",
@@ -8746,7 +10120,7 @@
       "to": "apps/backend/src/services/generationPipeline.ts",
       "type": "call",
       "fromElement": "runGeneration",
-      "toElement": "pdfBuffer.toString"
+      "toElement": "docxBuffer.toString"
     },
     {
       "from": "apps/backend/src/services/generationPipeline.ts",
@@ -8858,7 +10232,7 @@
       "to": "apps/backend/src/services/generationPipeline.ts",
       "type": "call",
       "fromElement": "runGeneration",
-      "toElement": "pdfBuffer.toString"
+      "toElement": "docxBuffer.toString"
     },
     {
       "from": "apps/backend/src/services/generationPipeline.ts",
@@ -9859,822 +11233,6 @@
       "type": "call",
       "fromElement": "AdminOnly",
       "toElement": "useCurrentRole"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "to": "@tiptap/core",
-      "type": "import",
-      "toElement": "Node"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "to": "@tiptap/core",
-      "type": "import",
-      "toElement": "mergeAttributes"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "to": "@tiptap/core",
-      "type": "import",
-      "toElement": "RawCommands"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "type": "call",
-      "toElement": "Node.create"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "type": "call",
-      "toElement": "el.getAttribute"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "type": "call",
-      "toElement": "String"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "type": "call",
-      "toElement": "mergeAttributes"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "type": "call",
-      "toElement": "Node.create"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "type": "call",
-      "toElement": "mergeAttributes"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "type": "call",
-      "toElement": "Node.create"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "type": "call",
-      "toElement": "mergeAttributes"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "react",
-      "type": "import",
-      "toElement": "useEffect"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "@tiptap/react",
-      "type": "import",
-      "toElement": "useEditor"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "@tiptap/react",
-      "type": "import",
-      "toElement": "EditorContent"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "@tiptap/react",
-      "type": "import",
-      "toElement": "Editor"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "@tiptap/starter-kit",
-      "type": "import",
-      "toElement": "StarterKit"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "@tiptap/extension-image",
-      "type": "import",
-      "toElement": "Image"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "@tiptap/extension-table",
-      "type": "import",
-      "toElement": "Table"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "@tiptap/extension-table",
-      "type": "import",
-      "toElement": "TableRow"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "@tiptap/extension-table",
-      "type": "import",
-      "toElement": "TableHeader"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "@tiptap/extension-table",
-      "type": "import",
-      "toElement": "TableCell"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "@/components/FormulaTag",
-      "type": "import",
-      "toElement": "FormulaTag"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "@/components/ManualFieldTag",
-      "type": "import",
-      "toElement": "ManualFieldTag"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "type": "import",
-      "toElement": "ProductFieldSpan"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "type": "import",
-      "toElement": "ProductImageSpan"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "type": "import",
-      "toElement": "ProductIndexSpan"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "@/lib/utils",
-      "type": "import",
-      "toElement": "cn"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "toElement": "BaseTable.extend"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "toElement": "this.parent"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "toElement": "el.getAttribute"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "buildTiptapExtensions",
-      "toElement": "StarterKit.configure"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "buildTiptapExtensions",
-      "toElement": "Image.configure"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "buildTiptapExtensions",
-      "toElement": "Table.configure"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "TiptapEditor",
-      "toElement": "useEditor"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "TiptapEditor",
-      "toElement": "buildTiptapExtensions"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "TiptapEditor",
-      "toElement": "cn"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "TiptapEditor",
-      "toElement": "onChange"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "TiptapEditor",
-      "toElement": "ed.getHTML"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "TiptapEditor",
-      "toElement": "useEffect"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "TiptapEditor",
-      "toElement": "onReady"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "TiptapEditor",
-      "toElement": "useEffect"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "TiptapEditor",
-      "toElement": "editor.getHTML"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "TiptapEditor",
-      "toElement": "editor.commands.setContent"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "TiptapEditor",
-      "toElement": "useEffect"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "TiptapEditor",
-      "toElement": "editor.setEditable"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "to": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "type": "call",
-      "fromElement": "TiptapEditor",
-      "toElement": "cn"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "@tiptap/react",
-      "type": "import",
-      "toElement": "Editor"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "react",
-      "type": "import",
-      "toElement": "useState"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "react",
-      "type": "import",
-      "toElement": "useRef"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "react",
-      "type": "import",
-      "toElement": "useEffect"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "react",
-      "type": "import",
-      "toElement": "useCallback"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "Bold"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "Italic"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "Strikethrough"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "Heading1"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "Heading2"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "Pilcrow"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "List"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "ListOrdered"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "Table"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "Image"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "Undo2"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "Redo2"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "Sigma"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "Package"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "ChevronDown"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "FormInput"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "@/lib/utils",
-      "type": "import",
-      "toElement": "cn"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "buildProductTableHtml",
-      "toElement": "PRODUCT_COLUMNS.filter"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "buildProductTableHtml",
-      "toElement": "selectedIds.has"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ToolbarButton",
-      "toElement": "cn"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "cn"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "window.prompt"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.chain"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "cn"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.chain"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.isActive"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.chain"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.isActive"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.chain"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.isActive"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.chain"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.isActive"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.chain"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.isActive"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.chain"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.isActive"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.chain"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.isActive"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.chain"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.isActive"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.chain"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.can"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.chain"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "Toolbar",
-      "toElement": "editor.can"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "useState"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "useState"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "PRODUCT_COLUMNS.filter"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "useRef"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "useEffect"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "dropdownRef.current.contains"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "setOpen"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "document.addEventListener"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "document.removeEventListener"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "useCallback"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "setSelected"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "next.has"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "next.delete"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "next.add"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "useCallback"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "buildProductTableHtml"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "editor.chain"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "setOpen"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "useCallback"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "PRODUCT_COLUMNS.filter"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "buildProductTableHtml"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "editor.chain"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "cn"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "setOpen"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "cn"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "PRODUCT_COLUMNS.map"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "selected.has"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "toggle"
-    },
-    {
-      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "to": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "type": "call",
-      "fromElement": "ProductTableDropdown",
-      "toElement": "cn"
     },
     {
       "from": "apps/frontend/src/components/FieldPicker.tsx",
@@ -11683,85 +12241,6 @@
       "toElement": "items.map"
     },
     {
-      "from": "apps/frontend/src/components/FormulaTag.tsx",
-      "to": "@tiptap/core",
-      "type": "import",
-      "toElement": "Node"
-    },
-    {
-      "from": "apps/frontend/src/components/FormulaTag.tsx",
-      "to": "@tiptap/core",
-      "type": "import",
-      "toElement": "mergeAttributes"
-    },
-    {
-      "from": "apps/frontend/src/components/FormulaTag.tsx",
-      "to": "@tiptap/core",
-      "type": "import",
-      "toElement": "RawCommands"
-    },
-    {
-      "from": "apps/frontend/src/components/FormulaTag.tsx",
-      "to": "@tiptap/react",
-      "type": "import",
-      "toElement": "Editor"
-    },
-    {
-      "from": "apps/frontend/src/components/FormulaTag.tsx",
-      "to": "apps/frontend/src/components/FormulaTag.tsx",
-      "type": "call",
-      "toElement": "Node.create"
-    },
-    {
-      "from": "apps/frontend/src/components/FormulaTag.tsx",
-      "to": "apps/frontend/src/components/FormulaTag.tsx",
-      "type": "call",
-      "toElement": "el.getAttribute"
-    },
-    {
-      "from": "apps/frontend/src/components/FormulaTag.tsx",
-      "to": "apps/frontend/src/components/FormulaTag.tsx",
-      "type": "call",
-      "toElement": "el.getAttribute"
-    },
-    {
-      "from": "apps/frontend/src/components/FormulaTag.tsx",
-      "to": "apps/frontend/src/components/FormulaTag.tsx",
-      "type": "call",
-      "toElement": "el.getAttribute"
-    },
-    {
-      "from": "apps/frontend/src/components/FormulaTag.tsx",
-      "to": "apps/frontend/src/components/FormulaTag.tsx",
-      "type": "call",
-      "toElement": "String"
-    },
-    {
-      "from": "apps/frontend/src/components/FormulaTag.tsx",
-      "to": "apps/frontend/src/components/FormulaTag.tsx",
-      "type": "call",
-      "toElement": "String"
-    },
-    {
-      "from": "apps/frontend/src/components/FormulaTag.tsx",
-      "to": "apps/frontend/src/components/FormulaTag.tsx",
-      "type": "call",
-      "toElement": "mergeAttributes"
-    },
-    {
-      "from": "apps/frontend/src/components/FormulaTag.tsx",
-      "to": "apps/frontend/src/components/FormulaTag.tsx",
-      "type": "call",
-      "toElement": "chain"
-    },
-    {
-      "from": "apps/frontend/src/components/FormulaTag.tsx",
-      "to": "apps/frontend/src/components/FormulaTag.tsx",
-      "type": "call",
-      "fromElement": "insertFormula",
-      "toElement": "editor.chain"
-    },
-    {
       "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
       "to": "react",
       "type": "import",
@@ -12160,103 +12639,6 @@
       "type": "call",
       "fromElement": "ManualFieldBuilder",
       "toElement": "onOpenChange"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "@tiptap/core",
-      "type": "import",
-      "toElement": "Node"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "@tiptap/core",
-      "type": "import",
-      "toElement": "mergeAttributes"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "@tiptap/core",
-      "type": "import",
-      "toElement": "RawCommands"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "@tiptap/react",
-      "type": "import",
-      "toElement": "Editor"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "type": "call",
-      "toElement": "Node.create"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "type": "call",
-      "toElement": "el.getAttribute"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "type": "call",
-      "toElement": "el.getAttribute"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "type": "call",
-      "toElement": "el.getAttribute"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "type": "call",
-      "toElement": "el.getAttribute"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "type": "call",
-      "toElement": "el.getAttribute"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "type": "call",
-      "toElement": "el.getAttribute"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "type": "call",
-      "toElement": "String"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "type": "call",
-      "toElement": "Boolean"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "type": "call",
-      "toElement": "mergeAttributes"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "type": "call",
-      "toElement": "chain"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "type": "call",
-      "fromElement": "insertManualField",
-      "toElement": "editor.chain"
     },
     {
       "from": "apps/frontend/src/components/OAuthSync.tsx",
@@ -15651,18 +16033,6 @@
       "from": "apps/frontend/src/lib/api.ts",
       "to": "apps/frontend/src/lib/api.ts",
       "type": "call",
-      "toElement": "encodeURIComponent"
-    },
-    {
-      "from": "apps/frontend/src/lib/api.ts",
-      "to": "apps/frontend/src/lib/api.ts",
-      "type": "call",
-      "toElement": "String"
-    },
-    {
-      "from": "apps/frontend/src/lib/api.ts",
-      "to": "apps/frontend/src/lib/api.ts",
-      "type": "call",
       "toElement": "apiRequest"
     },
     {
@@ -15688,6 +16058,18 @@
       "to": "apps/frontend/src/lib/api.ts",
       "type": "call",
       "toElement": "formData.append"
+    },
+    {
+      "from": "apps/frontend/src/lib/api.ts",
+      "to": "apps/frontend/src/lib/api.ts",
+      "type": "call",
+      "toElement": "formData.append"
+    },
+    {
+      "from": "apps/frontend/src/lib/api.ts",
+      "to": "apps/frontend/src/lib/api.ts",
+      "type": "call",
+      "toElement": "uploadRequest"
     },
     {
       "from": "apps/frontend/src/lib/api.ts",
@@ -15975,6 +16357,41 @@
       "toElement": "out.replace"
     },
     {
+      "from": "apps/frontend/src/lib/templateTags.ts",
+      "to": "apps/frontend/src/lib/templateTags.ts",
+      "type": "call",
+      "fromElement": "isReservedTag",
+      "toElement": "RESERVED_PRODUCT_TAGS.has"
+    },
+    {
+      "from": "apps/frontend/src/lib/templateTags.ts",
+      "to": "apps/frontend/src/lib/templateTags.ts",
+      "type": "call",
+      "fromElement": "isReservedTag",
+      "toElement": "tag.trim"
+    },
+    {
+      "from": "apps/frontend/src/lib/templateTags.ts",
+      "to": "apps/frontend/src/lib/templateTags.ts",
+      "type": "call",
+      "fromElement": "computeTagStatus",
+      "toElement": "isReservedTag"
+    },
+    {
+      "from": "apps/frontend/src/lib/templateTags.ts",
+      "to": "apps/frontend/src/lib/templateTags.ts",
+      "type": "call",
+      "fromElement": "computeTagStatus",
+      "toElement": "formulaKeys.has"
+    },
+    {
+      "from": "apps/frontend/src/lib/templateTags.ts",
+      "to": "apps/frontend/src/lib/templateTags.ts",
+      "type": "call",
+      "fromElement": "computeTagStatus",
+      "toElement": "fieldKeys.has"
+    },
+    {
       "from": "apps/frontend/src/lib/useApiError.ts",
       "to": "react",
       "type": "import",
@@ -16240,6 +16657,12 @@
     },
     {
       "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "docx-preview",
+      "type": "import",
+      "toElement": "renderAsync"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
       "to": "lucide-react",
       "type": "import",
       "toElement": "FileText"
@@ -16356,6 +16779,55 @@
       "from": "apps/frontend/src/pages/GeneratePage.tsx",
       "to": "apps/frontend/src/pages/GeneratePage.tsx",
       "type": "call",
+      "fromElement": "useDebouncedValue",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "useDebouncedValue",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "useDebouncedValue",
+      "toElement": "window.setTimeout"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "useDebouncedValue",
+      "toElement": "setDebounced"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "useDebouncedValue",
+      "toElement": "window.clearTimeout"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "base64ToBytes",
+      "toElement": "atob"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "base64ToBytes",
+      "toElement": "binary.charCodeAt"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
       "fromElement": "todayISO",
       "toElement": "String"
     },
@@ -16435,6 +16907,13 @@
       "type": "call",
       "fromElement": "GeneratePage",
       "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "useRef"
     },
     {
       "from": "apps/frontend/src/pages/GeneratePage.tsx",
@@ -16532,6 +17011,13 @@
       "to": "apps/frontend/src/pages/GeneratePage.tsx",
       "type": "call",
       "fromElement": "GeneratePage",
+      "toElement": "useDebouncedValue"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
       "toElement": "useQuery"
     },
     {
@@ -16546,6 +17032,13 @@
       "to": "apps/frontend/src/pages/GeneratePage.tsx",
       "type": "call",
       "fromElement": "GeneratePage",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
       "toElement": "useEffect"
     },
     {
@@ -16553,35 +17046,77 @@
       "to": "apps/frontend/src/pages/GeneratePage.tsx",
       "type": "call",
       "fromElement": "GeneratePage",
-      "toElement": "root.querySelectorAll"
+      "toElement": "body.replaceChildren"
     },
     {
       "from": "apps/frontend/src/pages/GeneratePage.tsx",
       "to": "apps/frontend/src/pages/GeneratePage.tsx",
       "type": "call",
       "fromElement": "GeneratePage",
-      "toElement": "spans.forEach"
+      "toElement": "styles.replaceChildren"
     },
     {
       "from": "apps/frontend/src/pages/GeneratePage.tsx",
       "to": "apps/frontend/src/pages/GeneratePage.tsx",
       "type": "call",
       "fromElement": "GeneratePage",
-      "toElement": "span.getAttribute"
+      "toElement": "setRenderError"
     },
     {
       "from": "apps/frontend/src/pages/GeneratePage.tsx",
       "to": "apps/frontend/src/pages/GeneratePage.tsx",
       "type": "call",
       "fromElement": "GeneratePage",
-      "toElement": "span.setAttribute"
+      "toElement": "body.replaceChildren"
     },
     {
       "from": "apps/frontend/src/pages/GeneratePage.tsx",
       "to": "apps/frontend/src/pages/GeneratePage.tsx",
       "type": "call",
       "fromElement": "GeneratePage",
-      "toElement": "titleParts.join"
+      "toElement": "styles.replaceChildren"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "base64ToBytes"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "renderAsync"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "body.replaceChildren"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "body.replaceChildren"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "styles.replaceChildren"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "setRenderError"
     },
     {
       "from": "apps/frontend/src/pages/GeneratePage.tsx",
@@ -16603,69 +17138,6 @@
       "type": "call",
       "fromElement": "GeneratePage",
       "toElement": "initialFieldValue"
-    },
-    {
-      "from": "apps/frontend/src/pages/GeneratePage.tsx",
-      "to": "apps/frontend/src/pages/GeneratePage.tsx",
-      "type": "call",
-      "fromElement": "GeneratePage",
-      "toElement": "useEffect"
-    },
-    {
-      "from": "apps/frontend/src/pages/GeneratePage.tsx",
-      "to": "apps/frontend/src/pages/GeneratePage.tsx",
-      "type": "call",
-      "fromElement": "GeneratePage",
-      "toElement": "previewData.fields.map"
-    },
-    {
-      "from": "apps/frontend/src/pages/GeneratePage.tsx",
-      "to": "apps/frontend/src/pages/GeneratePage.tsx",
-      "type": "call",
-      "fromElement": "GeneratePage",
-      "toElement": "root.querySelectorAll"
-    },
-    {
-      "from": "apps/frontend/src/pages/GeneratePage.tsx",
-      "to": "apps/frontend/src/pages/GeneratePage.tsx",
-      "type": "call",
-      "fromElement": "GeneratePage",
-      "toElement": "spans.forEach"
-    },
-    {
-      "from": "apps/frontend/src/pages/GeneratePage.tsx",
-      "to": "apps/frontend/src/pages/GeneratePage.tsx",
-      "type": "call",
-      "fromElement": "GeneratePage",
-      "toElement": "span.getAttribute"
-    },
-    {
-      "from": "apps/frontend/src/pages/GeneratePage.tsx",
-      "to": "apps/frontend/src/pages/GeneratePage.tsx",
-      "type": "call",
-      "fromElement": "GeneratePage",
-      "toElement": "fieldsByKey.get"
-    },
-    {
-      "from": "apps/frontend/src/pages/GeneratePage.tsx",
-      "to": "apps/frontend/src/pages/GeneratePage.tsx",
-      "type": "call",
-      "fromElement": "GeneratePage",
-      "toElement": "formatFieldValue"
-    },
-    {
-      "from": "apps/frontend/src/pages/GeneratePage.tsx",
-      "to": "apps/frontend/src/pages/GeneratePage.tsx",
-      "type": "call",
-      "fromElement": "GeneratePage",
-      "toElement": "span.setAttribute"
-    },
-    {
-      "from": "apps/frontend/src/pages/GeneratePage.tsx",
-      "to": "apps/frontend/src/pages/GeneratePage.tsx",
-      "type": "call",
-      "fromElement": "GeneratePage",
-      "toElement": "span.setAttribute"
     },
     {
       "from": "apps/frontend/src/pages/GeneratePage.tsx",
@@ -16715,6 +17187,13 @@
       "type": "call",
       "fromElement": "GeneratePage",
       "toElement": "reloadParentWindow"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "useMemo"
     },
     {
       "from": "apps/frontend/src/pages/GeneratePage.tsx",
@@ -18156,12 +18635,6 @@
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "react",
       "type": "import",
-      "toElement": "useCallback"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "react",
-      "type": "import",
       "toElement": "useEffect"
     },
     {
@@ -18174,13 +18647,13 @@
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "react",
       "type": "import",
-      "toElement": "useState"
+      "toElement": "useRef"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "react-dom",
+      "to": "react",
       "type": "import",
-      "toElement": "createPortal"
+      "toElement": "useState"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -18214,6 +18687,18 @@
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "@eigenpal/docx-editor-react",
+      "type": "import",
+      "toElement": "DocxEditor"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "@eigenpal/docx-editor-react",
+      "type": "import",
+      "toElement": "DocxEditorRef"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "lucide-react",
       "type": "import",
       "toElement": "ArrowLeft"
@@ -18234,6 +18719,12 @@
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "lucide-react",
       "type": "import",
+      "toElement": "AlertTriangle"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "lucide-react",
+      "type": "import",
       "toElement": "CheckCircle2"
     },
     {
@@ -18244,21 +18735,45 @@
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "@/components/Editor",
+      "to": "lucide-react",
       "type": "import",
-      "toElement": "TiptapEditor"
+      "toElement": "Sigma"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "@/components/Editor",
+      "to": "lucide-react",
       "type": "import",
-      "toElement": "Toolbar"
+      "toElement": "PenLine"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "@tiptap/react",
+      "to": "lucide-react",
       "type": "import",
-      "toElement": "Editor"
+      "toElement": "Lock"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "lucide-react",
+      "type": "import",
+      "toElement": "Plus"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "lucide-react",
+      "type": "import",
+      "toElement": "Pencil"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "lucide-react",
+      "type": "import",
+      "toElement": "Trash2"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "lucide-react",
+      "type": "import",
+      "toElement": "FileText"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -18277,12 +18792,6 @@
       "to": "@/components/FormulaBuilder",
       "type": "import",
       "toElement": "FormulaBuilder"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "@/components/FormulaBuilder",
-      "type": "import",
-      "toElement": "HelperTooltipContent"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -18358,15 +18867,41 @@
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "@/lib/formulaHelp",
+      "to": "@/lib/templateTags",
       "type": "import",
-      "toElement": "extractUsedHelpers"
+      "toElement": "computeTagStatus"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "@/lib/templateTags",
+      "type": "import",
+      "toElement": "isReservedTag"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "@/lib/templateTags",
+      "type": "import",
+      "toElement": "TagBindingStatus"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "@/lib/utils",
       "type": "import",
       "toElement": "cn"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "base64ToBytes",
+      "toElement": "atob"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "base64ToBytes",
+      "toElement": "binary.charCodeAt"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -18478,6 +19013,27 @@
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
+      "toElement": "useRef"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
       "toElement": "useState"
     },
     {
@@ -18520,13 +19076,6 @@
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "setContentHtml"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
       "toElement": "setName"
     },
     {
@@ -18548,6 +19097,20 @@
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
+      "toElement": "setDocDirty"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setEditorError"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
       "toElement": "setSaveError"
     },
     {
@@ -18556,6 +19119,13 @@
       "type": "call",
       "fromElement": "TemplateEditorPage",
       "toElement": "setSavedAt"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setLocallyInsertedTags"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -18584,6 +19154,20 @@
       "type": "call",
       "fromElement": "TemplateEditorPage",
       "toElement": "setFieldsByKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "useMemo"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "base64ToBytes"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -18674,147 +19258,511 @@
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "useCallback"
+      "toElement": "useMemo"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "Object.values"
+      "toElement": "useMemo"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "editor.state.doc.descendants"
+      "toElement": "Object.keys"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "String"
+      "toElement": "useMemo"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "seenKeys.has"
+      "toElement": "Object.keys"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "seenKeys.add"
+      "toElement": "useMemo"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "result.push"
+      "toElement": "Array.from"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "String"
+      "toElement": "a.localeCompare"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "String"
+      "toElement": "Object.keys"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "useCallback"
+      "toElement": "Object.keys"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "Object.values"
+      "toElement": "Array.from"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "editor.state.doc.descendants"
+      "toElement": "a.localeCompare"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "String"
+      "toElement": "useMemo"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "seenKeys.has"
+      "toElement": "tags.map"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "seenKeys.add"
+      "toElement": "computeTagStatus"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "String"
+      "toElement": "useMemo"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "result.push"
+      "toElement": "tagStatuses.filter"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "String"
+      "toElement": "useMemo"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "Boolean"
+      "toElement": "Object.keys"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "String"
+      "toElement": "tagSet.has"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "String"
+      "toElement": "out.push"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "Object.keys"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "tagSet.has"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "out.push"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "out.sort"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "a.key.localeCompare"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setInsertMode"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setActiveTag"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setBuilderOpen"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setInsertMode"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setActiveTag"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFieldBuilderOpen"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setActiveTag"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setInsertMode"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setBuilderOpen"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setActiveTag"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setInsertMode"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFieldBuilderOpen"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "view.dispatch"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "view.state.tr.insertText"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "view.focus"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFormulasByKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setDirty"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFieldsByKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setDirty"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "result.tagKey.trim"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "insertPlaceholderAtCursor"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFieldsByKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFormulasByKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setLocallyInsertedTags"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "prev.includes"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setDocDirty"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setSaveError"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setDirty"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setInsertMode"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFieldsByKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFormulasByKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setDirty"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setActiveTag"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "result.fieldKey.trim"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "insertPlaceholderAtCursor"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFormulasByKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFieldsByKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setLocallyInsertedTags"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "prev.includes"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setDocDirty"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setSaveError"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setDirty"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setInsertMode"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFormulasByKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFieldsByKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setDirty"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setActiveTag"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -18843,6 +19791,125 @@
       "type": "call",
       "fromElement": "TemplateEditorPage",
       "toElement": "setSaveError"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setIsSavingDocx"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "templatesApi.saveDocx"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "queryClient.setQueryData"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "queryClient.invalidateQueries"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "queryClient.invalidateQueries"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "a.localeCompare"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setDocDirty"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setSaveError"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setIsSavingDocx"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "effectiveTags.filter"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "computeTagStatus"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "window.confirm"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "pendingUnbound.join"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "Object.values"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "effectiveTags.map"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "Object.values"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "tagOrder.get"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -18857,398 +19924,6 @@
       "type": "call",
       "fromElement": "TemplateEditorPage",
       "toElement": "name.trim"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "extractFormulasFromEditor"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "extractFieldsFromEditor"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "useMemo"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "Object.keys"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "editor.state.doc.descendants"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "String"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "keys.add"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "Array.from"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "useCallback"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "editor.state.doc.descendants"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "String"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "editor.state.tr.setNodeMarkup"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "editor.view.dispatch"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setFormulasByKey"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setEditingFormulaKey"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setDirty"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setFormulasByKey"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setDirty"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "useEffect"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "target.closest"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "dom.contains"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "pill.getAttribute"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "event.preventDefault"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "event.stopPropagation"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setEditingFormulaKey"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setBuilderOpen"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "dom.addEventListener"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "dom.removeEventListener"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "useMemo"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "Object.keys"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "editor.state.doc.descendants"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "String"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "keys.add"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "Array.from"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "useCallback"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "editor.state.doc.descendants"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "String"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "editor.state.tr.setNodeMarkup"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "editor.view.dispatch"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setFieldsByKey"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setEditingFieldKey"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setDirty"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setFieldsByKey"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setDirty"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "useEffect"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "target.closest"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "dom.contains"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "pill.getAttribute"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "event.preventDefault"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "event.stopPropagation"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setEditingFieldKey"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setFieldBuilderOpen"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "dom.addEventListener"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "dom.removeEventListener"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setContentHtml"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setDirty"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -19290,6 +19965,41 @@
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
+      "toElement": "useMemo"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "useMemo"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "Object.keys"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "useMemo"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "Object.keys"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
       "toElement": "navigate"
     },
     {
@@ -19325,6 +20035,13 @@
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
+      "toElement": "handleSave"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
       "toElement": "cn"
     },
     {
@@ -19332,7 +20049,112 @@
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
+      "toElement": "cn"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setDocDirty"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setEditorError"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "tagStatuses.map"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "openFormulaFor"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "openFieldFor"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "removeFormula"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "removeField"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "orphanBindings.map"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "openFormulaFor"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "openFieldFor"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "removeFormula"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "removeField"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
       "toElement": "setBuilderOpen"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setActiveTag"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setInsertMode"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -19346,224 +20168,28 @@
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "setBuilderOpen"
+      "toElement": "setActiveTag"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
-      "toElement": "setEditingFormulaKey"
+      "toElement": "setInsertMode"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "existingKeys.filter"
+      "fromElement": "TagRow",
+      "toElement": "isReservedTag"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setFieldBuilderOpen"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "setEditingFieldKey"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "TemplateEditorPage",
-      "toElement": "existingFieldKeys.filter"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "useState"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "useEffect"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "window.clearTimeout"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "target.closest"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "dom.contains"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "pill.getAttribute"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "clearShowTimer"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "window.setTimeout"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "setState"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "pill.getBoundingClientRect"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "pill.contains"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "clearShowTimer"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "setState"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "dom.addEventListener"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "dom.addEventListener"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "clearShowTimer"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "dom.removeEventListener"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "dom.removeEventListener"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "Math.max"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "Math.max"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "extractUsedHelpers"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "createPortal"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "meta.dependsOn.deal.map"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "meta.dependsOn.contact.map"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "meta.dependsOn.company.map"
-    },
-    {
-      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-      "type": "call",
-      "fromElement": "EditorFormulaTooltip",
-      "toElement": "usedHelpers.map"
+      "fromElement": "TagRow",
+      "toElement": "cn"
     },
     {
       "from": "apps/frontend/src/pages/TemplatesPage.tsx",

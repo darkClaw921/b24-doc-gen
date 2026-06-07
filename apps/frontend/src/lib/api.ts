@@ -129,6 +129,12 @@ export async function apiRequest<T>(path: string, opts: RequestOptions = {}): Pr
 export interface UploadOptions {
   onProgress?: (loaded: number, total: number) => void;
   signal?: AbortSignal;
+  /**
+   * HTTP method for the multipart request. Defaults to `POST` (used by
+   * `templatesApi.upload`). `PUT` is used by `templatesApi.saveDocx`, which
+   * replaces the original `.docx` on an existing template.
+   */
+  method?: 'POST' | 'PUT';
 }
 
 export function uploadRequest<T>(
@@ -139,7 +145,7 @@ export function uploadRequest<T>(
   return new Promise<T>((resolve, reject) => {
     const url = path.startsWith('/') ? `${BASE_URL}${path}` : `${BASE_URL}/${path}`;
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', url, true);
+    xhr.open(opts.method ?? 'POST', url, true);
 
     // Forward Bitrix24 auth headers (Content-Type is set by the browser).
     const authHeaders = getB24AuthHeaders();
@@ -521,6 +527,12 @@ export interface TemplateDTO {
   fields: TemplateFieldDTO[];
   hasOriginalDocx: boolean;
   originalDocxBase64?: string;
+  /**
+   * Placeholder tags scanned from the original `.docx`. Present only when
+   * the template was fetched with `{ withDocx: true }` and an original
+   * `.docx` is stored. Drives the editor's "Теги шаблона" panel.
+   */
+  docxPlaceholders?: string[];
   createdAt: string;
   updatedAt: string;
 }
@@ -554,13 +566,39 @@ export interface FormulaEvaluationResultDTO {
   error?: string;
 }
 
+/**
+ * POST /api/templates/:id/preview — response.
+ *
+ * The preview is a fully-substituted `.docx` (formulas + manual
+ * `fieldValues` + product rows rendered into the admin-uploaded original
+ * Word archive), returned base64-encoded so the frontend renders it
+ * client-side via `docx-preview`. The legacy server-rendered `html`
+ * field is gone.
+ */
 export interface TemplatePreviewResponseDTO {
-  /** HTML where formula spans carry data-computed-value. */
-  html: string;
+  /** The substituted preview `.docx`, base64-encoded. */
+  docxBase64: string;
+  /**
+   * Placeholder tags found in the original `.docx` (from
+   * `scanDocxPlaceholders`), used by the editor to highlight unresolved
+   * placeholders.
+   */
+  tags: string[];
   /** Per-formula evaluation results, indexed by tagKey. */
   formulas: Record<string, FormulaEvaluationResultDTO>;
   /** Manual fields the user must fill in before generating. */
   fields: TemplateFieldDTO[];
+}
+
+/** POST /api/templates/:id/preview — request body. */
+export interface TemplatePreviewRequestDTO {
+  /** Bitrix24 deal ID used to build the formula/product context. */
+  dealId: number;
+  /**
+   * Values for the template's manual fields, keyed by `fieldKey`.
+   * Missing keys fall back to each field's configured default.
+   */
+  fieldValues?: Record<string, string>;
 }
 
 export interface GenerateBindingDTO {
@@ -598,11 +636,24 @@ export const templatesApi = {
     return apiRequest<{ template: TemplateDTO }>(`/templates/${id}${suffix}`);
   },
 
-  preview: (id: string, dealId: number, signal?: AbortSignal) =>
-    apiRequest<TemplatePreviewResponseDTO>(
-      `/templates/${id}/preview?dealId=${encodeURIComponent(String(dealId))}`,
-      { signal },
-    ),
+  /**
+   * Build a fully-substituted `.docx` preview of the template for the
+   * given deal. Sends `{ dealId, fieldValues }` so the backend can
+   * substitute formula values, manual field values and product rows into
+   * the original Word archive. Pass an `AbortSignal` to cancel an
+   * in-flight request when the manual fields change (debounced re-fetch).
+   */
+  preview: (
+    id: string,
+    dealId: number,
+    fieldValues?: Record<string, string>,
+    signal?: AbortSignal,
+  ) =>
+    apiRequest<TemplatePreviewResponseDTO>(`/templates/${id}/preview`, {
+      method: 'POST',
+      body: { dealId, fieldValues } satisfies TemplatePreviewRequestDTO,
+      signal,
+    }),
 
   create: (body: { name: string; themeId: string; contentHtml?: string }) =>
     apiRequest<{ template: TemplateDTO }>('/templates', { method: 'POST', body }),
@@ -626,6 +677,24 @@ export const templatesApi = {
       formData,
       opts,
     );
+  },
+
+  /**
+   * Replace the original `.docx` of an existing template with an edited
+   * version produced by the in-browser editor (`DocxEditorRef.save()`).
+   * Sends the `.docx` bytes as multipart `file` to `PUT
+   * /api/templates/:id/docx`; the backend re-scans the archive for
+   * placeholder tags and returns the refreshed template plus the new
+   * `docxPlaceholders` set, which the "Теги шаблона" panel consumes.
+   */
+  saveDocx: (id: string, docx: Blob, opts: UploadOptions = {}) => {
+    const formData = new FormData();
+    formData.append('file', docx, 'template.docx');
+    return uploadRequest<{
+      template: TemplateDTO;
+      docxPlaceholders: string[];
+      warnings: string[];
+    }>(`/templates/${id}/docx`, formData, { ...opts, method: 'PUT' });
   },
 };
 

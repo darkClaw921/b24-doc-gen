@@ -1,0 +1,3 @@
+# registerGenerateRoutes
+
+Registers POST /api/generate in routes/generate.ts. Thin HTTP adapter: authenticates via request.b24Auth, validates templateId/dealId, performs strict up-front required-manual-field validation (returns 400 so the UI can prompt; the shared pipeline only warns), then delegates the ENTIRE pipeline to runGeneration (no duplicated inline build path). Maps GenerationError kinds to Fastify replies: template_not_found/deal_not_found->404, bad_deal_id/docx_build_failed->400, deal_gateway/disk_gateway/upload_failed->502. The generated artifact is a .docx produced by buildDocxFromTemplate.

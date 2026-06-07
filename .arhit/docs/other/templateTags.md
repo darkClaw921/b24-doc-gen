@@ -1,0 +1,3 @@
+# templateTags
+
+lib/templateTags.ts — хелперы для панели «Теги шаблона» в TemplateEditorPage. RESERVED_PRODUCT_TAGS: множество зарезервированных тегов товарного цикла (products, INDEX, PRODUCT_NAME, PRICE, QUANTITY, DISCOUNT_SUM, TAX_RATE, SUM, MEASURE_NAME, SORT, PRODUCT_ID, ID, PREVIEW_PICTURE_BASE64, DETAIL_PICTURE_BASE64, MORE_PHOTO_BASE64) — синхронизировано с docxTemplateEngine.ts (buildTemplateData). isReservedTag(tag) — проверка резерва. computeTagStatus(tag, formulaKeys, fieldKeys) → 'formula'|'field'|'reserved'|'unbound': reserved short-circuit, иначе formula/field при совпадении ключа, иначе unbound. TagBindingStatus — тип статуса.

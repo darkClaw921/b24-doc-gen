@@ -47,5 +47,9 @@ temp/
 CLAUDE.md
 
 TODO.md
+
+# Document templates (not tracked)
+шаблоны для первичного обращения/
+
 # Prisma generated client (optional — sometimes kept, sometimes ignored)
 # apps/backend/node_modules/.prisma

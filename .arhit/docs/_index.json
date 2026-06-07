@@ -155,33 +155,17 @@
     "element": "apps/backend/src/routes/templates.ts",
     "path": "apps/backend/src/routes/templates.ts",
     "type": "file",
-    "content": "# templates.ts — CRUD маршруты шаблонов документов\n\n## Назначение\nREST API для управления шаблонами документов: создание, чтение, обновление, удаление, загрузка .docx файлов, предпросмотр с данными сделки.\n\n## Эндпоинты\n- GET /api/templates?themeId=&search= — список шаблонов с фильтрацией\n- GET /api/templates/:id — полный шаблон с формулами (?withDocx=1 для base64 .docx)\n- GET /api/templates/:id/preview?dealId= — предпросмотр с подставленными данными сделки\n- POST /api/templates — создание пустого шаблона (requireAdmin)\n- POST /api/templates/upload — multipart загрузка .docx (requireAdmin)\n- PUT /api/templates/:id — обновление шаблона и формул (requireAdmin)\n- DELETE /api/templates/:id — удаление шаблона (requireAdmin)\n\n## Сканирование плейсхолдеров при загрузке (Phase 5)\nВ POST /api/templates/upload после конвертации .docx → HTML вызывается scanDocxPlaceholders(buffer) из docxTemplateEngine.ts. Результат возвращается клиенту в поле docxPlaceholders[] ответа. Ошибки сканирования non-fatal — добавляются в warnings.\n\n## Импорты из docxTemplateEngine\n- scanDocxPlaceholders — используется в POST /api/templates/upload\n\n## Ключевые типы\n- TemplateListItemDTO — для списка (id, name, themeId, themeName, formulasCount, hasOriginalDocx, dates)\n- TemplateDTO — полный шаблон (+ formulas[], originalDocxBase64?)\n- FormulaInput — входной формат формулы от клиента (tagKey, label, expression, dependsOn)\n\n## Особенности\n- Мутации (POST/PUT/DELETE) защищены requireAdmin middleware\n- PUT обновляет формулы атомарно через Prisma transaction (deleteMany + createMany)\n- Preview использует ту же detectProductUsage логику что и generate.ts\n- substituteFormulaTagsForPreview() подставляет вычисленные значения в span[data-formula-key] элементы HTML\n- hasOriginalDocx поле в DTO указывает наличие оригинального .docx буфера\n\n## Зависимости\n- docxTemplateEngine.ts (scanDocxPlaceholders)\n- docxParser.ts (parseDocxToHtml)\n- formulaEngine.ts (evaluateExpression)\n- docxBuilder.ts (expandProductTables)\n- dealData.ts (getDealContext)\n- b24Client.ts (B24Client)\n- middleware/role.ts (requireAdmin)",
+    "content": "# templates.ts — CRUD маршруты шаблонов документов\n\n## Назначение\nREST API для управления шаблонами документов: создание, чтение, обновление, удаление, загрузка/замена .docx файлов, предпросмотр с данными сделки. Регистрируется через registerTemplateRoutes(app).\n\n## Эндпоинты\n- GET /api/templates?themeId=&search= — список шаблонов с фильтрацией (themeName + _count.formulas)\n- GET /api/templates/:id?withDocx=1 — полный шаблон с формулами и ручными полями; при withDocx — base64 оригинала + docxPlaceholders (scanDocxPlaceholders) для панели тегов редактора\n- POST /api/templates/:id/preview — предпросмотр: тело TemplatePreviewRequest { dealId, fieldValues? }; подставляет формулы+продукты+поля прямо в оригинальный .docx через buildDocxFromTemplate, возвращает TemplatePreviewResponse { docxBase64, tags, formulas, fields }\n- POST /api/templates — создание пустого шаблона (requireAdmin)\n- POST /api/templates/upload — multipart загрузка нового .docx (requireAdmin, max 20MB, валидация расширения/mime, парсинг docxParser, сохранение originalDocx)\n- PUT /api/templates/:id/docx — multipart ЗАМЕНА оригинального .docx отредактированным из браузерного редактора (requireAdmin)\n- PUT /api/templates/:id — транзакционное обновление name/themeId/contentHtml + замена массивов formulas и fields (deleteMany+createMany) (requireAdmin)\n- DELETE /api/templates/:id — удаление formulas + fields + template (requireAdmin)\n\n## PUT /api/templates/:id/docx (Phase 1 — фича редактирования .docx в браузере)\nЗеркалит POST /api/templates/upload, но это ОБНОВЛЕНИЕ существующего шаблона (код 200, не 201):\n1. requireAdmin preHandler; гард b24Auth.\n2. prisma.template.findUnique({ where: { id } }) — если шаблона нет, reply.notFound (404).\n3. Гард request.isMultipart() → badRequest если нет.\n4. request.file({ limits: { fileSize: 20*1024*1024 } }); проверка наличия filePart.\n5. Валидация .docx: /\\.docx$/i.test(filename) || mimetype === application/vnd.openxmlformats-officedocument.wordprocessingml.document.\n6. filePart.toBuffer(); проверка filePart.file.truncated → payloadTooLarge.\n7. parseDocxToHtml(buffer) пересчитывает contentHtml (legacy/поиск; DocxParseError → badRequest).\n8. scanDocxPlaceholders(buffer) — пересканирование тегов (non-fatal try/catch, при ошибке push warning).\n9. prisma.template.update({ data: { originalDocx: buffer, contentHtml: html||'<p></p>' }, include: { formulas, fields } }).\n10. reply.send({ template: toTemplateDto(row, false), warnings: messages, docxPlaceholders }).\nПотребитель: frontend templatesApi.saveDocx (вызывается из TemplateEditorPage.handleSave после DocxEditorRef.save()).\n\n## Сканирование плейсхолдеров\nscanDocxPlaceholders(buffer) из docxTemplateEngine.ts вызывается в POST /upload, PUT /:id/docx и GET /:id?withDocx (через toTemplateDto). Возвращает имена тегов {placeholder} в .docx. Ошибки сканирования non-fatal → warnings.\n\n## Ключевые типы\n- TemplateListItemDTO — для списка (id, name, themeId, themeName, formulasCount, hasOriginalDocx, dates)\n- TemplateDTO — полный шаблон (+ formulas[], fields[], originalDocxBase64?, docxPlaceholders?)\n- FormulaInput, TemplateFieldInput — входные форматы от клиента\n\n## Хелперы\n- toTemplateDto(row, withDocx) — маппинг Prisma-строки в DTO; при withDocx добавляет originalDocxBase64 + docxPlaceholders\n- toTemplateFieldDto, normalizeFieldsInput (валидация типа по белому списку, dedup по fieldKey, order, defaultValue)\n\n## Особенности\n- Мутации (POST/PUT/DELETE) защищены requireAdmin middleware (Phase 6)\n- PUT /:id обновляет formulas/fields атомарно через Prisma transaction\n- Preview использует ту же detectProductUsage логику что и generate.ts\n- hasOriginalDocx поле в DTO указывает наличие оригинального .docx буфера\n\n## Зависимости\n- docxTemplateEngine.ts (scanDocxPlaceholders, buildDocxFromTemplate, DocxTemplateError)\n- docxParser.ts (parseDocxToHtml, DocxParseError)\n- formulaEngine.ts (evaluateExpression)\n- generationPipeline.ts (resolveManualFieldValues)\n- dealData.ts (getDealContext, DealDataError)\n- middleware/role.ts (requireAdmin)",
     "createdAt": "2026-04-07T17:06:18.655Z",
-    "updatedAt": "2026-04-10T18:28:34.968Z"
+    "updatedAt": "2026-06-07T20:38:55.256Z"
   },
   {
     "element": "apps/backend/src/services/docxParser.ts",
     "path": "apps/backend/src/services/docxParser.ts",
     "type": "file",
-    "content": "Сервис конвертации .docx → HTML через mammoth.js. Функция parseDocxToHtml(buffer: Buffer): Promise<{html, messages}> валидирует входной buffer (Buffer.isBuffer + length>0), вызывает mammoth.convertToHtml({buffer}, {styleMap, includeDefaultStyleMap: true, ignoreEmptyParagraphs: true}). Кастомный defaultStyleMap покрывает русские (Заголовок 1/2/3) и английские (Title, Subtitle) стили заголовков, Strong/Emphasis character styles, Quote/Intense Quote → blockquote. При ошибке бросает DocxParseError(message, cause). Экспортирует defaultStyleMap для тестов и DocxParseError для catch'а в роуте /api/templates/upload.",
+    "content": "@deprecated LEGACY-модель. parseDocxToHtml(buffer) конвертирует .docx в HTML через mammoth.js (кастомный defaultStyleMap; возвращает {html, messages}; бросает DocxParseError). Рендеринг/preview больше НЕ опираются на этот HTML — форматированием владеет оригинальный .docx (buildDocxFromTemplate). parseDocxToHtml вызывается только один раз при загрузке шаблона (templates.ts POST /upload) для заполнения колонки Template.contentHtml, по которой generationPipeline.detectProductUsage эвристически решает, грузить ли товары/картинки. Переходный helper, кандидат на замену плейсхолдер-детектором и удаление.",
     "createdAt": "2026-04-07T17:06:23.995Z",
-    "updatedAt": "2026-04-07T17:06:23.995Z"
-  },
-  {
-    "element": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-    "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-    "type": "file",
-    "content": "TipTap-обёртка для WYSIWYG-редактирования шаблонов. useEditor с расширениями: StarterKit ({heading: {levels: [1,2,3]}}), Image (allowBase64: true, inline: false, чтобы поддержать картинки из mammoth), Table (resizable: true), TableRow, TableHeader, TableCell. Контролируемые props: content (initial HTML), onChange (HTML), onReady (Editor instance), editable, placeholder, className. Re-sync через editor.commands.setContent({emitUpdate: false}) при смене content; setEditable при смене editable. Экспортирует buildTiptapExtensions() для повторного использования и TiptapEditorProps. immediatelyRender: false для совместимости с React StrictMode.",
-    "createdAt": "2026-04-07T17:06:32.862Z",
-    "updatedAt": "2026-04-07T17:06:32.862Z"
-  },
-  {
-    "element": "apps/frontend/src/components/Editor/Toolbar.tsx",
-    "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-    "type": "file",
-    "content": "Тулбар форматирования для TiptapEditor. Принимает editor: Editor | null. Кнопки (lucide-react иконки): Bold/Italic/Strike, Heading 1/2/Paragraph, BulletList/OrderedList, вставка таблицы 3x3 с header row (insertTable), вставка картинки через window.prompt URL, undo/redo (с editor.can().undo()/redo() для disabled). Состояние активного форматирования через editor.isActive('bold' | 'heading' { level: 1 } | ...). Внутренний ToolbarButton рендерит button с aria-label, hover-стилями и disabled. Стилизация Tailwind.",
-    "createdAt": "2026-04-07T17:06:37.893Z",
-    "updatedAt": "2026-04-07T17:06:37.893Z"
+    "updatedAt": "2026-06-07T19:34:35.363Z"
   },
   {
     "element": "apps/frontend/src/components/TemplateUploader.tsx",
@@ -211,9 +195,9 @@
     "element": "apps/frontend/src/pages/TemplateEditorPage.tsx",
     "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
     "type": "file",
-    "content": "Admin WYSIWYG editor at /templates/:id/edit. Loads template via templatesApi.get and themes via themesApi.list (TanStack Query). Local state: editor (TipTap), contentHtml, name, themeId, dirty, saveError, savedAt, formulasByKey (Record<tagKey, FormulaInputDTO>), builderOpen, editingFormulaKey. Click-to-edit: a delegated click listener installed on editor.view.dom catches clicks on span[data-formula-key] pills, sets editingFormulaKey and opens FormulaBuilder pre-filled via initialValues. handleInsertFormula has two modes: EDIT — locates the formulaTag node by old tagKey via doc.descendants, calls tr.setNodeMarkup with new attrs, updates formulasByKey (preserving id, dropping old key if renamed); INSERT — uses editor.chain().insertFormulaTag and merges into formulasByKey. Save serializes formulasByKey via PUT /api/templates/:id. Содержит вложенный компонент EditorFormulaTooltip — Google Sheets-style hover-подсказка для пилюль формул: слушает делегированные mouseover/mouseout на editor.view.dom, через 200ms показывает portal-окно с label + expression + chips зависимостей (DEAL/CONTACT/COMPANY с цветовой маркировкой) + автоматически собранным списком используемых функций через extractUsedHelpers + HelperTooltipContent. pointer-events: none, чтобы не мешать click-to-edit.",
+    "content": "Admin editor for a single template (route /templates/:id/edit). Left pane is an EDITABLE in-browser .docx editor via <DocxEditor> from @eigenpal/docx-editor-react (replaced the former read-only docx-preview/renderAsync). Right pane is the unchanged 'Теги шаблона' panel (FormulaBuilder/ManualFieldBuilder, lib/templateTags.ts computeTagStatus).\n\nEditor integration:\n- imports DocxEditor + DocxEditorRef from '@eigenpal/docx-editor-react' and the package's styles.css.\n- documentBuffer derived via useMemo from template.originalDocxBase64 -> base64ToBytes(b64).buffer (cast to ArrayBuffer to narrow ArrayBufferLike). null while base64 missing -> loading spinner.\n- props: ref=editorRef (useRef<DocxEditorRef>), mode='editing', showToolbar, showRuler, documentName=name, onChange=()=>setDocDirty(true), onError=setEditorError.\n- CSS isolation: editor wrapped in a container with class 'docx-editor-host' + Tailwind 'isolate [contain:layout_paint]' so Word-like styles stay scoped to the left pane.\n- 'no .docx' state shows a placeholder message instead of the editor.\n\nState: docDirty (document edited since load), editorError, isSavingDocx; isSaving = isSavingDocx || saveMutation.isPending drives the Save button. formulasByKey/fieldsByKey unchanged.\n\nhandleSave (async sequential flow, single button):\n 1. If docDirty: const buf = await editorRef.current.save() (Promise<ArrayBuffer|null>, null-guarded) -> new Blob([buf], {type: docx mime}) -> templatesApi.saveDocx(id, blob). On success: queryClient.setQueryData(['template',id,'withDocx'], merge response.template + preserved originalDocxBase64 + new docxPlaceholders) and invalidateQueries to reconcile; setDocDirty(false); effectiveTags = sorted new docxPlaceholders.\n 2. window.confirm for unbound tags computed from effectiveTags (AFTER re-scan, since tag set may have changed).\n 3. saveMutation.mutate({name, themeId, formulas, fields}) -> PUT /api/templates/:id; order derived from effectiveTags. Skipped if step 1 threw.\nsaveMutation.onSuccess merges the withDocx:false update DTO into the cache while preserving originalDocxBase64/docxPlaceholders/hasOriginalDocx so the editor and tags panel keep their data.\n\nDependencies: @eigenpal/docx-editor-react, lib/api.ts (templatesApi.get withDocx / saveDocx / update), lib/templateTags.ts, FormulaBuilder, ManualFieldBuilder, FieldPicker. docx-preview is NO LONGER used here (still used by GeneratePage).",
     "createdAt": "2026-04-07T17:07:02.739Z",
-    "updatedAt": "2026-04-08T00:21:19.545Z"
+    "updatedAt": "2026-06-07T20:32:27.104Z"
   },
   {
     "element": "formulaEngine",
@@ -230,14 +214,6 @@
     "content": "Fastify route registrar for POST /api/formulas/validate and /api/formulas/evaluate. Validate wraps formulaEngine.validateExpression and returns {valid, error?, dependencies}. Evaluate optionally fetches deal context via two-stage batch (crm.deal.get + crm.deal.contact.items.get → crm.contact.get + crm.company.get) mirroring the routes/deal.ts data endpoint, supports inline context override from the request body, and returns {ok, value, raw, error?, dependencies}. Auth-gated by the global B24 middleware.",
     "createdAt": "2026-04-07T17:28:58.825Z",
     "updatedAt": "2026-04-07T17:28:58.825Z"
-  },
-  {
-    "element": "FormulaTag",
-    "path": "apps/frontend/src/components/FormulaTag.tsx",
-    "type": "variable",
-    "content": "TipTap Node extension 'formulaTag' — inline atom node used to embed formula placeholders in templates. Attributes tagKey/label/expression round-trip through data-formula-key/label/expression HTML attributes. parseHTML matches any span[data-formula-key]; renderHTML returns a styled pill ('Σ label') with title=expression. Registers TipTap command insertFormulaTag(attrs) and exports helper insertFormula(editor, attrs). Atom + non-draggable so admins can place and remove but cannot accidentally step inside it.",
-    "createdAt": "2026-04-07T17:29:12.526Z",
-    "updatedAt": "2026-04-07T17:29:12.526Z"
   },
   {
     "element": "FieldPicker",
@@ -291,9 +267,9 @@
     "element": "apps/backend/src/services/docxBuilder.ts",
     "path": "apps/backend/src/services/docxBuilder.ts",
     "type": "file",
-    "content": "Сервис Фазы 5: buildDocxFromHtml(html, {formulas?, title?}): Promise<Buffer> через @turbodocx/html-to-docx. stripFormulaTags заменяет <span data-formula-key> на computed value (или label при ошибке) regex-replace. wrapAsHtmlDocument оборачивает в HTML5 shell с UTF-8 lang=ru. Параметры: portrait, Arial, fontSize 22, margins 1440 twips A4, table borders. Возвращает Node Buffer через coerceToBuffer (поддерживает Buffer/ArrayBuffer/Blob). DocxBuildError на пустой вход или сбой конвертера.",
+    "content": "@deprecated LEGACY (мёртвый код, помечен на удаление). Генерация .docx из HTML через @turbodocx/html-to-docx (buildDocxFromHtml) + expandProductTables. Активный пайплайн рендерит напрямую из оригинального .docx через buildDocxFromTemplate, поэтому buildDocxFromHtml/expandProductTables не вызываются из активного пути (импорт expandProductTables удалён из templates.ts; остаётся только self-import в pdfBuilder.ts, тоже deprecated). Не возвращать HTML→.docx путь.",
     "createdAt": "2026-04-07T17:50:34.765Z",
-    "updatedAt": "2026-04-07T17:50:34.765Z"
+    "updatedAt": "2026-06-07T19:34:35.114Z"
   },
   {
     "element": "apps/backend/src/routes/generate.ts",
@@ -350,14 +326,6 @@
     "content": "Bitrix24 REST client. Wraps fetch with auth, timeout (15s), JSON envelope unwrapping, B24Error. callMethod retries ONCE on transient network failures (400ms backoff). callBatch packs up to 50 calls. CRM helpers: getDeal, getDealFields, getContactFields, getCompanyFields, listDealUserFields(lang='ru') — passes filter.LANG (mandatory per Bitrix24 docs to receive EDIT_FORM_LABEL/LIST_COLUMN_LABEL/etc; without it labels are silently omitted), addDealUserField, updateDeal, getContact, getCompany, getDealContacts, addTimelineComment. User helpers: listUsers. Disk helpers: uploadDiskFile (base64). Throws B24Error{code, status, raw}.",
     "createdAt": "2026-04-07T23:05:53.728Z",
     "updatedAt": "2026-04-07T23:17:28.314Z"
-  },
-  {
-    "element": "apps/frontend/src/components/FormulaTag.tsx",
-    "path": "apps/frontend/src/components/FormulaTag.tsx",
-    "type": "file",
-    "content": "TipTap inline atom node for formula pills inside templates. Attributes: tagKey, label, expression — round-tripped via data-formula-key/label/expression attrs. Inline + atom + selectable; renders as span with bg-blue-100, ring, cursor-pointer + hover:bg-blue-200 to signal click-to-edit. Tooltip carries the expression. parseHTML accepts any span[data-formula-key]. Registers TipTap command insertFormulaTag(attrs) and exports insertFormula(editor, attrs) helper.",
-    "createdAt": "2026-04-07T23:22:10.928Z",
-    "updatedAt": "2026-04-07T23:22:10.928Z"
   },
   {
     "element": "fetchUserFieldLabels",
@@ -552,14 +520,6 @@
     "updatedAt": "2026-04-10T16:21:50.862Z"
   },
   {
-    "element": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-    "path": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-    "type": "file",
-    "content": "Кастомные TipTap inline atom ноды для product-таблиц. ProductFieldSpan парсит <span data-product-field> и рендерит emerald-пилюлю с именем поля. ProductImageSpan парсит <span data-product-image> и рендерит purple-пилюлю. ProductIndexSpan парсит <span data-product-index> и рендерит gray-пилюлю с символом #. Все три расширения регистрируются в buildTiptapExtensions() в TiptapEditor.tsx.",
-    "createdAt": "2026-04-10T16:31:35.981Z",
-    "updatedAt": "2026-04-10T16:31:35.981Z"
-  },
-  {
     "element": "apps/backend/src/routes/deal.ts::GET /api/crm/product-fields",
     "path": "",
     "type": "unknown",
@@ -632,14 +592,6 @@
     "updatedAt": "2026-06-07T12:34:50.099Z"
   },
   {
-    "element": "ManualFieldTag",
-    "path": "apps/frontend/src/components/ManualFieldTag.tsx",
-    "type": "variable",
-    "content": "TipTap inline atom-нода manualFieldTag для ручных полей шаблона. Атрибуты fieldKey/label/type/required/placeholder сериализуются в data-field-key/label/type/required/placeholder. parseHTML принимает span[data-field-key], renderHTML — янтарный pill '✎ {label}' (со * для обязательного). Команда insertManualFieldTag(attrs) и helper insertManualField(editor, attrs). Аналог FormulaTag, но значение заполняет пользователь при генерации, а не вычисляется.",
-    "createdAt": "2026-06-07T14:06:30.986Z",
-    "updatedAt": "2026-06-07T14:06:30.986Z"
-  },
-  {
     "element": "ManualFieldBuilder",
     "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
     "type": "function",
@@ -670,9 +622,9 @@
     "element": "buildPdfFromHtml",
     "path": "apps/backend/src/services/pdfBuilder.ts",
     "type": "function",
-    "content": "Генерация PDF из HTML через Puppeteer. Опции BuildPdfOptions: formulas?, title?, products?, fieldValues?. Pipeline: expandProductTables → stripFormulaTags → stripManualFieldTags → wrapAsStyledHtml → рендер в headless Chrome → page.pdf A4. Основной генератор (UI-роут и webhook-конвейер).",
+    "content": "Генерирует PDF из HTML через Puppeteer (headless Chrome). wrapAsStyledHtml оборачивает контент в print-ready HTML5 (Times New Roman, A4, поля 20/15mm). В body выставлен overflow-wrap: break-word — длинные неразрывные последовательности (например линии подписи из подчёркиваний '____', вставленные из КонсультантПлюс) переносятся вместо горизонтального overflow за край листа A4. Свойство наследуется потомками и безопасно для таблиц (не влияет на min-content). Pipeline: expandProductTables -> stripFormulaTags -> stripManualFieldTags -> wrapAsStyledHtml -> page.pdf.",
     "createdAt": "2026-06-07T14:06:39.467Z",
-    "updatedAt": "2026-06-07T14:06:39.467Z"
+    "updatedAt": "2026-06-07T15:54:23.967Z"
   },
   {
     "element": "resolveManualFieldValues",
@@ -681,5 +633,169 @@
     "content": "Хелпер generationPipeline.ts: строит финальную карту значений ручных полей. Если ключ есть в rawValues (даже пустая строка) — используется как есть; если ключ отсутствует — подставляется дефолт (resolveFieldDefault): для date+today → todayRu() (dd.MM.yyyy), для text/textarea/number → литеральное defaultValue. UI шлёт все ключи (может перебить дефолт очисткой), webhook без значений получает дефолты. Используется в routes/generate.ts и runGeneration.",
     "createdAt": "2026-06-07T15:05:22.365Z",
     "updatedAt": "2026-06-07T15:16:17.151Z"
+  },
+  {
+    "element": "GeneratePage",
+    "path": "apps/frontend/src/pages/GeneratePage.tsx",
+    "type": "function",
+    "content": "User-facing deal-scoped page (apps/frontend/src/pages/GeneratePage.tsx) loaded inside the Bitrix24 CRM_DEAL_DETAIL_TAB placement. Three-column layout: themes/templates picker (left), .docx preview (center), actions+fields+formulas (right). dealId comes from getCurrentDealId(); shows a stub when absent.\n\nPreview rendering: selecting a template (and any debounced change to manual-field values) calls templatesApi.preview(id, dealId, fieldValues, signal) which POSTs /templates/:id/preview and returns TemplatePreviewResponseDTO { docxBase64, tags, formulas, fields }. The base64 .docx is decoded to a Uint8Array (base64ToBytes) and rendered client-side via docx-preview renderAsync(bytes, bodyContainer, styleContainer, options). Options: className='gen-docx-preview', inWrapper, ignoreWidth/Height=false (1:1 with Word), breakPages, useBase64URL (inline images), renderHeaders/Footers/Footnotes. A separate hidden styleContainer ref keeps Word CSS isolated from the app UI. Container is cleared (replaceChildren) before each render; a cancelled flag guards against out-of-order debounced renders.\n\nLive field updates: fieldValues are debounced 500ms (useDebouncedValue) and fed into the React Query key, so a pause in typing re-requests the preview; React Query's queryFn AbortSignal cancels superseded requests. placeholderData keeps the previous preview visible during re-fetch to avoid flicker.\n\nManual fields: ManualFieldInput renders text/textarea/number/date inputs from previewData.fields; defaults applied via initialFieldValue (date 'today'); values formatted via formatFieldValue (date -> dd.MM.yyyy) before generation. missingRequired blocks the Generate button.\n\nError handling: when the template has no originalDocx the backend returns HTTP 400 -> previewErrorMessage shows a friendly 'load a .docx' message instead of crashing. renderError state surfaces docx-preview failures.\n\nGenerate: the 'Сгенерировать документ' button calls generateApi.generate({ templateId, dealId, fieldValues }) and on success shows file/binding/timeline/warnings, then reloadParentWindow() to refresh the CRM card.",
+    "createdAt": "2026-06-07T15:54:24.239Z",
+    "updatedAt": "2026-06-07T19:01:13.486Z"
+  },
+  {
+    "element": "buildDataObject",
+    "path": "apps/backend/src/services/docxTemplateEngine.ts",
+    "type": "function",
+    "content": "Internal helper in docxTemplateEngine.ts. Builds the data object passed to docxtemplater render(). Signature: buildDataObject(formulas, products, fieldValues={}). Order of precedence: manual field values are applied first (data[fieldKey]=value), then formula values (data[tagKey]=value) so formulas WIN on key collision. Products are mapped to data.products array (always set, even when empty) for {#products}...{/products} loops, including image base64 fields. Manual fields substitute via the same {fieldKey} delimiters as formulas.",
+    "createdAt": "2026-06-07T18:30:42.111Z",
+    "updatedAt": "2026-06-07T18:30:42.111Z"
+  },
+  {
+    "element": "buildDocxFromTemplate",
+    "path": "apps/backend/src/services/docxTemplateEngine.ts",
+    "type": "function",
+    "content": "Ядро активного пайплайна генерации и preview. buildDocxFromTemplate(originalDocx: Buffer, options: {formulas: Record<tagKey, FormulaEvaluationResult>, products?: ProductRow[], fieldValues?: Record<fieldKey,string>, title?}): Promise<Buffer> — подставляет значения прямо в оригинальный .docx через docxtemplater (PizZip + delimiters {start:'{',end:'}'} + docxtemplater-image-module-free для {%image}-тегов), сохраняя форматирование Word 1:1. buildDataObject: сначала раскладывает fieldValues (ручные поля), затем formulas — formula tagKey ПЕРЕЗАПИСЫВАЕТ совпадающий fieldKey (формула побеждает; ручные поля только закрывают незанятые ключи); на ошибке формулы подставляет label. products всегда мапятся в data.products (массив объектов с INDEX/PRODUCT_NAME/PRICE/QUANTITY/DISCOUNT_SUM/TAX_RATE/SUM/MEASURE_NAME/SORT/PRODUCT_ID/ID + image-поля PREVIEW_PICTURE_BASE64/DETAIL_PICTURE_BASE64/MORE_PHOTO_BASE64) для {#products}...{/products}. Бросает DocxTemplateError (EMPTY_DOCX / RENDER_FAILED). Вызывается из generationPipeline.runGeneration (финальная .docx) и из templates.ts POST /:id/preview (preview .docx). Заменил собой legacy HTML→PDF/DOCX путь (pdfBuilder/docxBuilder/mammoth). Источник истины по синтаксису плейсхолдеров — шапка docxTemplateEngine.ts; зарезервированные продуктовые теги дублируются в frontend lib/templateTags.ts.",
+    "createdAt": "2026-06-07T18:30:42.372Z",
+    "updatedAt": "2026-06-07T19:33:50.307Z"
+  },
+  {
+    "element": "runGeneration",
+    "path": "apps/backend/src/services/generationPipeline.ts",
+    "type": "function",
+    "content": "Shared generation pipeline core in generationPipeline.ts. Executes the full .docx generation flow for one (templateId, dealId) pair: 1) load template+formulas+theme+fields, 2) effective settings (theme overrides), 3) deal context via getDealContext, 4) evaluate formulas, 5) build the .docx via buildDocxFromTemplate(originalDocx, {formulas, products, fieldValues, title}) — guards missing/empty originalDocx with GenerationError('docx_build_failed') and coerces Bytes to Buffer, mapping DocxTemplateError->GenerationError('docx_build_failed'), 6) upload to B24 Disk (file name <name>_deal<id>_<ts>.docx), 7) optional UF_CRM_* binding (crm.item.update), 8) optional timeline comment, 9) return GenerationResult. Never throws for business errors — wraps them in GenerationError so HTTP/webhook/bizproc callers map them. fieldValues come from RunGenerationParams (resolved through resolveManualFieldValues).",
+    "createdAt": "2026-06-07T18:30:52.436Z",
+    "updatedAt": "2026-06-07T18:30:52.436Z"
+  },
+  {
+    "element": "registerGenerateRoutes",
+    "path": "apps/backend/src/routes/generate.ts",
+    "type": "function",
+    "content": "Registers POST /api/generate in routes/generate.ts. Thin HTTP adapter: authenticates via request.b24Auth, validates templateId/dealId, performs strict up-front required-manual-field validation (returns 400 so the UI can prompt; the shared pipeline only warns), then delegates the ENTIRE pipeline to runGeneration (no duplicated inline build path). Maps GenerationError kinds to Fastify replies: template_not_found/deal_not_found->404, bad_deal_id/docx_build_failed->400, deal_gateway/disk_gateway/upload_failed->502. The generated artifact is a .docx produced by buildDocxFromTemplate.",
+    "createdAt": "2026-06-07T18:30:52.688Z",
+    "updatedAt": "2026-06-07T18:30:52.688Z"
+  },
+  {
+    "element": "TemplatePreviewResponse",
+    "path": "packages/shared/src/types.ts",
+    "type": "interface",
+    "content": "Response body для POST /api/templates/:id/preview. Новый shape (Фаза 2): docxBase64: string — подставленный .docx предпросмотра, base64-кодированный (рендерится фронтом через docx-preview); tags: string[] — плейсхолдеры из scanDocxPlaceholders(originalDocx) для подсветки/привязки; formulas: Record<string, FormulaEvaluationResult> — результаты вычисления формул по tagKey; fields: TemplateField[] — ручные поля. Заменил прежнее поле html: string (server-rendered HTML preview удалён). Контракт между frontend (Фаза 3 GeneratePage/docx-preview) и backend preview-endpoint.",
+    "createdAt": "2026-06-07T18:47:56.728Z",
+    "updatedAt": "2026-06-07T18:47:56.728Z"
+  },
+  {
+    "element": "TemplatePreviewRequest",
+    "path": "",
+    "type": "unknown",
+    "content": "Request body для POST /api/templates/:id/preview (Фаза 2). dealId: number — Bitrix24 deal ID для построения формул/продуктового контекста; fieldValues?: Record<string,string> — значения ручных полей по fieldKey, отсутствующие ключи берут дефолт поля. Зеркалит входы генерации (GenerateRequest), т.к. preview переиспользует тот же движок buildDocxFromTemplate.",
+    "createdAt": "2026-06-07T18:47:56.988Z",
+    "updatedAt": "2026-06-07T18:47:56.988Z"
+  },
+  {
+    "element": "registerTemplateRoutes",
+    "path": "apps/backend/src/routes/templates.ts",
+    "type": "function",
+    "content": "registerTemplateRoutes(app) регистрирует CRUD-роуты шаблонов и multipart-работу с .docx в apps/backend/src/routes/templates.ts. Все mutation-роуты гейтятся preHandler requireAdmin.\n\nРоут PUT /api/templates/:id/docx (Phase 1) — multipart-замена оригинального .docx отредактированным файлом из браузерного редактора. Зеркалит POST /api/templates/upload, но является обновлением, а не созданием:\n- preHandler requireAdmin; гард request.b24Auth.\n- Сначала prisma.template.findUnique({ where: { id } }) — если шаблона нет, reply.notFound(404).\n- Гард request.isMultipart(); request.file({ limits: { fileSize: 20*1024*1024 } }) — лимит 20MB.\n- Валидация .docx: /\\.docx$/i.test(filename) || mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'.\n- filePart.toBuffer(); проверка filePart.file.truncated -> reply.payloadTooLarge.\n- contentHtml пересчитывается через parseDocxToHtml (legacy/поиск); DocxParseError -> reply.badRequest.\n- Теги сканируются через scanDocxPlaceholders(buffer) — non-fatal try/catch, при ошибке push warning.\n- prisma.template.update({ where: { id }, data: { originalDocx: buffer, contentHtml: html.length>0?html:'<p></p>' }, include: { formulas: true, fields: true } }).\n- Ответ reply.send({ template: toTemplateDto(row, false), warnings, docxPlaceholders }) с кодом 200 (обновление, не 201).\n- Сигнатура app.put<{ Params: GetTemplateParams }> для типобезопасного request.params.id.\nФундамент для Phase 2 (встройка DocxEditor во фронтенд).",
+    "createdAt": "2026-06-07T18:50:41.771Z",
+    "updatedAt": "2026-06-07T20:15:10.051Z",
+    "aliases": [
+      "PUT /api/templates/:id/docx",
+      "замена originalDocx"
+    ]
+  },
+  {
+    "element": "docx-preview",
+    "path": "",
+    "type": "unknown",
+    "content": "Frontend dependency (docx-preview@0.3.7) used to render fully-substituted preview .docx archives in the browser on GeneratePage. Renders DOCX to semantic HTML (not canvas), so text stays selectable and Word formatting is preserved. API: renderAsync(data: Blob|ArrayBuffer|Uint8Array, bodyContainer: HTMLElement, styleContainer?: HTMLElement, options?: Partial<Options>): Promise<WordDocument>. Ships its own TypeScript types (dist/docx-preview.d.ts) and depends only on jszip (>=3.0.0). Key options: inWrapper (wrapper around the page), ignoreWidth/ignoreHeight (drop fixed page dimensions to fit the pane), breakPages, useBase64URL (inline images as base64 instead of object URLs), className (CSS prefix), renderHeaders/renderFooters/renderFootnotes. Passing a separate styleContainer keeps Word CSS isolated from the app UI. The preview endpoint returns docxBase64; decode via Uint8Array.from(atob(b64), c => c.charCodeAt(0)) before calling renderAsync.",
+    "createdAt": "2026-06-07T18:57:04.781Z",
+    "updatedAt": "2026-06-07T18:57:04.781Z"
+  },
+  {
+    "element": "templatesApi.preview",
+    "path": "",
+    "type": "unknown",
+    "content": "Frontend API client method (apps/frontend/src/lib/api.ts, inside templatesApi). Signature: preview(id: string, dealId: number, fieldValues?: Record<string,string>, signal?: AbortSignal) => Promise<TemplatePreviewResponseDTO>. Issues POST /templates/:id/preview with JSON body { dealId, fieldValues } (typed via TemplatePreviewRequestDTO). Returns TemplatePreviewResponseDTO { docxBase64, tags, formulas, fields } (legacy { html } field removed). Supports AbortSignal so a debounced re-fetch (triggered when manual field values change on GeneratePage) can cancel an in-flight request. Errors surface as ApiError via the shared apiRequest helper (handles both wrapped and flat backend error envelopes); a 400 is returned when the template has no originalDocx.",
+    "createdAt": "2026-06-07T18:58:21.458Z",
+    "updatedAt": "2026-06-07T18:58:21.458Z"
+  },
+  {
+    "element": "TemplateEditorPage",
+    "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+    "type": "function",
+    "content": "Редактор шаблона /templates/:id/edit (модель тегов .docx). Слева — редактируемый <DocxEditor> (@eigenpal/docx-editor-react), справа — панель «Теги шаблона». Над редактором кнопки «Вставить формулу»/«Вставить поле» (insert-режим): открывают FormulaBuilder/ManualFieldBuilder с чистой формой, при подтверждении создают привязку и вставляют {tagKey} в позицию курсора через ProseMirror (editorRef.getEditorRef().getView() -> view.dispatch(state.tr.insertText)), хелпер insertPlaceholderAtCursor. Новый тег попадает в locallyInsertedTags и сразу виден в панели. Привязка к существующим тегам (bind-режим) — через действия в строке тега. Сохранение: docx (если менялся) -> пересканирование тегов -> formulas/fields.",
+    "createdAt": "2026-06-07T19:13:18.507Z",
+    "updatedAt": "2026-06-07T20:57:25.142Z"
+  },
+  {
+    "element": "templateTags",
+    "path": "",
+    "type": "unknown",
+    "content": "lib/templateTags.ts — хелперы для панели «Теги шаблона» в TemplateEditorPage. RESERVED_PRODUCT_TAGS: множество зарезервированных тегов товарного цикла (products, INDEX, PRODUCT_NAME, PRICE, QUANTITY, DISCOUNT_SUM, TAX_RATE, SUM, MEASURE_NAME, SORT, PRODUCT_ID, ID, PREVIEW_PICTURE_BASE64, DETAIL_PICTURE_BASE64, MORE_PHOTO_BASE64) — синхронизировано с docxTemplateEngine.ts (buildTemplateData). isReservedTag(tag) — проверка резерва. computeTagStatus(tag, formulaKeys, fieldKeys) → 'formula'|'field'|'reserved'|'unbound': reserved short-circuit, иначе formula/field при совпадении ключа, иначе unbound. TagBindingStatus — тип статуса.",
+    "createdAt": "2026-06-07T19:13:30.490Z",
+    "updatedAt": "2026-06-07T19:13:30.490Z"
+  },
+  {
+    "element": "TemplateDTO",
+    "path": "apps/backend/src/routes/templates.ts",
+    "type": "interface",
+    "content": "DTO шаблона. Поля: id, name, themeId, contentHtml, formulas[], fields[], hasOriginalDocx, originalDocxBase64? (base64 .docx, только при withDocx), docxPlaceholders? (теги из scanDocxPlaceholders, только при withDocx и наличии .docx — драйвит панель тегов в редакторе), createdAt, updatedAt. Определён в apps/frontend/src/lib/api.ts и apps/backend/src/routes/templates.ts; backend toTemplateDto() сканирует .docx при withDocx.",
+    "createdAt": "2026-06-07T19:13:30.743Z",
+    "updatedAt": "2026-06-07T19:13:30.743Z"
+  },
+  {
+    "element": "template-markup-guide",
+    "path": "",
+    "type": "page",
+    "content": "Руководство администратора по разметке .docx-шаблонов плейсхолдерами для генератора (docxTemplateEngine/buildDocxFromTemplate). Файл: docs/template-markup-guide.md. Содержит: (1) синтаксис одинарных фигурных скобок { } — формулы {tagKey}, ручные поля {fieldKey}, товарный цикл {#products}...{/products} с зарезервированными полями (INDEX, PRODUCT_NAME, PRICE, QUANTITY, MEASURE_NAME, DISCOUNT_SUM, TAX_RATE, SUM, SORT, PRODUCT_ID, ID) и картинки {%imageTag} / {%PREVIEW_PICTURE_BASE64} / {%DETAIL_PICTURE_BASE64}; (2) привязку формул/полей в UI-редакторе через панель Теги шаблона (статусы formula/field/reserved/unbound), FormulaBuilder и ManualFieldBuilder; (3) пошаговую миграцию 12 шаблонов из папки 'шаблоны для первичного обращения' — замена человекочитаемых заглушек (автомат из КК / ХХХ / тянется из справочника / _____) на теги с сохранением форматирования 1:1; (4) чек-лист приёмки (нет unbound, preview=Word, .docx 1:1). Источник истины по синтаксису — шапка docxTemplateEngine.ts; зарезервированные теги — templateTags.ts RESERVED_PRODUCT_TAGS.",
+    "createdAt": "2026-06-07T19:28:56.978Z",
+    "updatedAt": "2026-06-07T19:28:56.978Z"
+  },
+  {
+    "element": "scanDocxPlaceholders",
+    "path": "apps/backend/src/services/docxTemplateEngine.ts",
+    "type": "function",
+    "content": "scanDocxPlaceholders(originalDocx: Buffer): string[] — открывает .docx через PizZip и собирает уникальные имена плейсхолдеров { } из document.xml (через InspectModule docxtemplater). Используется: (1) при загрузке шаблона (templates.ts POST /upload → docxPlaceholders) и в toTemplateDto (?withDocx) для панели «Теги шаблона» редактора; (2) в preview-endpoint для поля tags. Возвращает плоский список тегов без контекста сделки; зарезервированные продуктовые теги фильтрует уже фронтенд (isReservedTag).",
+    "createdAt": "2026-06-07T19:33:50.554Z",
+    "updatedAt": "2026-06-07T19:33:50.554Z"
+  },
+  {
+    "element": "generation-from-docx-decision",
+    "path": "",
+    "type": "page",
+    "content": "Архитектурное решение: генерация и preview документов идут ПРЯМО из оригинального .docx, без HTML-промежутка.\n\nПРОБЛЕМА (что было): старый пайплайн конвертировал .docx → HTML (mammoth, docxParser.ts), редактировался в TipTap-WYSIWYG, затем рендерился обратно в PDF (Puppeteer, pdfBuilder.ts) или .docx (@turbodocx/html-to-docx, docxBuilder.ts). На каждом переходе терялось форматирование Word: выравнивание (w:jc), отступы (w:ind), красная строка, интервалы, табуляции, шрифты. Документы юристов (заявления в страховые) требуют форматирования 1:1.\n\nРЕШЕНИЕ: docxTemplateEngine.buildDocxFromTemplate подставляет значения прямо в исходный .docx через docxtemplater (PizZip разбирает архив, подстановка в document.xml на месте). Word-форматирование полностью сохраняется, потому что мы не пересобираем документ — только заменяем плейсхолдеры { } внутри существующего XML.\n\nМОДЕЛЬ РАЗМЕТКИ: админ расставляет плейсхолдеры в Word ({tagKey} формулы, {fieldKey} ручные поля, {#products}...{/products} цикл товаров, {%image} картинки), затем в редакторе (TemplateEditorPage, панель «Теги шаблона») привязывает к каждому тегу формулу или ручное поле. Размещение тегов — в .docx, привязки — в БД (formulas[]/fields[]).\n\nPREVIEW: backend POST /api/templates/:id/preview возвращает подставленный .docx (docxBase64); фронтенд рендерит его в браузере через docx-preview renderAsync (и в GeneratePage, и read-only оригинал в TemplateEditorPage).\n\nDEPRECATED (мёртвый код, помечен @deprecated, удаление отдельной задачей): pdfBuilder.ts (Puppeteer), docxBuilder.ts (html-to-docx, buildDocxFromHtml/expandProductTables), весь TipTap-фронтенд (удалён физически: components/Editor/*, FormulaTag.tsx, ManualFieldTag.tsx + @tiptap/* зависимости). docxParser.ts (mammoth) сохранён только для заполнения Template.contentHtml при загрузке (по нему generationPipeline эвристически решает, грузить ли товары/картинки).",
+    "createdAt": "2026-06-07T19:34:11.098Z",
+    "updatedAt": "2026-06-07T19:34:11.098Z"
+  },
+  {
+    "element": "apps/backend/src/services/pdfBuilder.ts",
+    "path": "apps/backend/src/services/pdfBuilder.ts",
+    "type": "file",
+    "content": "@deprecated LEGACY (мёртвый код, помечен на удаление). Генерация PDF из HTML через Puppeteer. Активный пайплайн (генерация + preview) переключён на docxTemplateEngine.buildDocxFromTemplate (.docx без HTML-шага), поэтому этот модуль НЕ импортируется ни одним файлом активного пути. buildPdfFromHtml(html, {formulas?, title?, products?, fieldValues?}) сохранён только для справки и legacy-диагностики (scripts/render-check.ts). Не возвращать в routes/generate.ts или generationPipeline.",
+    "createdAt": "2026-06-07T19:34:34.861Z",
+    "updatedAt": "2026-06-07T19:34:34.861Z"
+  },
+  {
+    "element": "apps/backend/scripts/verify-pvu-template.ts",
+    "path": "apps/backend/scripts/verify-pvu-template.ts",
+    "type": "file",
+    "content": "E2E-скрипт верификации Фазы 5 (w9z.4) без живого Bitrix24. Запуск: pnpm -F backend exec tsx scripts/verify-pvu-template.ts. Шаги: (1) читает реальный шаблон 'шаблоны для первичного обращения/первичное заявление в СК ПВУ.docx'; (2) через PizZip делает размеченную копию — REPLACEMENTS заменяют 3 заглушки (в абзацах right/both, один с w:ind) на плейсхолдеры {insurer_name}/{insurer_self}/{policy_number}/{incident_datetime}; (3) вызывает боевой buildDocxFromTemplate с моковыми formulas (FormulaEvaluationResult), fieldValues и products (ProductRow); (4) распаковывает document.xml результата и ассертит: (а) нет остаточных {tag}, все 4 значения присутствуют; (б) счётчики w:jc right/center/both и w:ind в результате >= оригинала. Печатает PASS/FAIL-отчёт, process.exit(1) при провале. Промежуточные _pvu-marked.docx/_pvu-rendered.docx — временные артефакты. Доказывает сохранение Word-форматирования 1:1 при подстановке.",
+    "createdAt": "2026-06-07T19:41:23.476Z",
+    "updatedAt": "2026-06-07T19:41:23.476Z"
+  },
+  {
+    "element": "apps/frontend/src/lib/api.ts#templatesApi.saveDocx",
+    "path": "",
+    "type": "unknown",
+    "content": "templatesApi.saveDocx(id: string, docx: Blob, opts: UploadOptions = {}) in apps/frontend/src/lib/api.ts. Replaces the original .docx of an existing template with an edited version produced by the in-browser editor (DocxEditorRef.save()). Builds FormData with formData.append('file', docx, 'template.docx') and calls uploadRequest with { ...opts, method: 'PUT' } to PUT /api/templates/:id/docx. Returns { template: TemplateDTO; docxPlaceholders: string[]; warnings: string[] } — the backend re-scans the archive for placeholder tags. Consumed by TemplateEditorPage.handleSave step 1; the returned docxPlaceholders refresh the 'Теги шаблона' panel.\n\nRelated infra change: UploadOptions gained an optional method?: 'POST'|'PUT' field, and uploadRequest now uses xhr.open(opts.method ?? 'POST', ...) instead of a hardcoded POST, so the same XHR multipart helper (with B24 auth headers + progress) serves both templatesApi.upload (POST /templates/upload) and saveDocx (PUT /templates/:id/docx).",
+    "createdAt": "2026-06-07T20:32:35.905Z",
+    "updatedAt": "2026-06-07T20:32:35.905Z"
+  },
+  {
+    "element": "apps/frontend/src/lib/api.ts#templatesApi",
+    "path": "",
+    "type": "unknown",
+    "content": "Клиентский API-клиент шаблонов. Группа методов в объекте templatesApi в lib/api.ts.\n\n## Методы\n- list(params?): GET /api/templates — список шаблонов (фильтр themeId/search).\n- get(id, { withDocx? }): GET /api/templates/:id — полный шаблон; при withDocx возвращает originalDocxBase64 + docxPlaceholders (теги из scanDocxPlaceholders) для редактора тегов.\n- preview(id, dealId, fieldValues?, signal?): POST /api/templates/:id/preview — тело { dealId, fieldValues }, поддержка AbortSignal для debounce-отмены; возвращает TemplatePreviewResponseDTO ({ docxBase64, tags, formulas, fields }).\n- create(body): POST /api/templates — создать пустой шаблон.\n- update(id, body): PUT /api/templates/:id — обновить name/themeId + массивы formulas[]/fields[].\n- delete(id): DELETE /api/templates/:id.\n- upload({name, themeId, file}, opts?): POST /api/templates/upload через uploadRequest (multipart, XHR с прогрессом) — создание шаблона из нового .docx.\n- saveDocx(id, docx: Blob, opts?): PUT /api/templates/:id/docx через uploadRequest с method: 'PUT' (multipart file='template.docx'). ЗАМЕНЯЕТ оригинальный .docx отредактированным из браузерного редактора @eigenpal/docx-editor-react (DocxEditorRef.save()). Backend пересканирует архив на плейсхолдеры и возвращает { template: TemplateDTO, docxPlaceholders: string[], warnings: string[] } с пересканированными тегами. Потребитель: TemplateEditorPage.handleSave (шаг 1 потока сохранения).\n\n## uploadRequest хелпер\nuploadRequest<T>(path, formData, opts) — XHR-upload с прогрессом для multipart. HTTP-метод берётся из opts.method ('POST' | 'PUT', по умолчанию 'POST'); UploadOptions расширен полем method чтобы один хелпер обслуживал и POST /templates/upload, и PUT /templates/:id/docx.\n\n## Зависимости\n- apiRequest<T>() / uploadRequest<T>() — низкоуровневые fetch/XHR wrappers с X-B24-* заголовками\n- @b24-doc-gen/shared → Template-типы\n\n## Потребители\n- pages/TemplateEditorPage.tsx (get withDocx, saveDocx, update)\n- pages/GeneratePage.tsx (preview)\n- components/TemplateUploadDropzone.tsx (upload)",
+    "createdAt": "2026-06-07T20:39:11.988Z",
+    "updatedAt": "2026-06-07T20:39:11.988Z"
   }
 ]

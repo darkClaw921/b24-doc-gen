@@ -1,6 +1,16 @@
 /**
- * docxParser — converts an uploaded `.docx` Buffer to TipTap-friendly
- * HTML using the mammoth.js library.
+ * docxParser — converts an uploaded `.docx` Buffer to HTML using the
+ * mammoth.js library.
+ *
+ * @deprecated LEGACY model — the editor and the generation/preview path
+ * no longer rely on this HTML. Placement and formatting are now owned by
+ * the original `.docx` (rendered 1:1 via {@link buildDocxFromTemplate}).
+ * `parseDocxToHtml` is still invoked once at upload time only to populate
+ * the `Template.contentHtml` column, which `generationPipeline` inspects
+ * heuristically to decide whether product data / images must be fetched
+ * from Bitrix24. Treat this as a transitional helper, not a rendering
+ * path; it is slated for replacement by a placeholder-based product
+ * detector and eventual removal.
  *
  * Why mammoth?
  *  - Pure JavaScript, no Office/LibreOffice install required.

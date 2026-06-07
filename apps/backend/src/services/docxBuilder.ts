@@ -2,6 +2,14 @@
  * docxBuilder — convert a TipTap-rendered HTML string into a real
  * `.docx` Buffer for download or attachment to a Bitrix24 disk folder.
  *
+ * @deprecated LEGACY — not used by the active pipeline. Generation and
+ * preview now render directly from the admin-uploaded original `.docx`
+ * via {@link buildDocxFromTemplate} (docxTemplateEngine), which keeps
+ * the source formatting 1:1 instead of round-tripping through HTML.
+ * Both `buildDocxFromHtml` and `expandProductTables` are dead code kept
+ * only for reference and are scheduled for removal in a follow-up
+ * cleanup. Do not reintroduce the HTML→.docx path.
+ *
  * Why we use `@turbodocx/html-to-docx`:
  *  - Pure JavaScript with no native dependencies, so the backend can
  *    keep running on a vanilla Node 18+ image.

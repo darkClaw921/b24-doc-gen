@@ -1,55 +1,48 @@
 /**
  * GeneratePage — deal-scoped preview and document generation.
  *
- * This page is the user-facing entry point on Phase 5. It is loaded
- * inside the `CRM_DEAL_DETAIL_TAB` placement so we can pull the
- * current `dealId` from the Bitrix24 SDK via `getCurrentDealId()`.
+ * This page is the user-facing entry point loaded inside the
+ * `CRM_DEAL_DETAIL_TAB` placement so we can pull the current `dealId`
+ * from the Bitrix24 SDK via `getCurrentDealId()`.
  *
  * Layout (three columns at md+):
  *
  *  ┌────────────┬───────────────────────────────┬──────────────┐
  *  │ Themes     │ Preview pane                  │ Action sidebar│
- *  │ (sidebar)  │ (HTML rendered with computed  │  • Generate   │
- *  │            │  formula values + tooltips)   │  • Result     │
- *  │ Templates  │                                │  • Warnings   │
- *  │ (sub-list) │                                │               │
+ *  │ (sidebar)  │ (rendered .docx via            │  • Fields     │
+ *  │            │  docx-preview, 1:1 with Word)  │  • Generate   │
+ *  │ Templates  │                                │  • Result     │
+ *  │ (sub-list) │                                │  • Formulas   │
  *  └────────────┴───────────────────────────────┴──────────────┘
  *
  * Data flow:
  *
- *  1. `themesApi.list()` (TanStack Query) — populates the left
- *     column. Selecting a theme expands its templates via a second
- *     query against `templatesApi.list({ themeId })`.
- *  2. Selecting a template fires `templatesApi.preview(id, dealId)`
- *     which calls our new backend endpoint. The response includes
- *     the rewritten HTML (formula spans now carry
- *     `data-computed-value`) and a per-formula evaluation map.
- *  3. The HTML is rendered with `dangerouslySetInnerHTML`. The
- *     formula spans are styled via a small CSS injection that turns
- *     them into yellow pills with a `cursor: help`. Hovering shows
- *     the formula expression and the computed value via the native
- *     `title` attribute (we set it on the spans inside a layout
- *     effect after each render).
- *  4. The "Сгенерировать документ" button calls
- *     `generateApi.generate({ templateId, dealId })`. The response
- *     contains the file id, download URL, binding/timeline status
- *     and a `warnings[]` array. We show a sticky toast-like alert
- *     with the link.
+ *  1. `themesApi.list()` (TanStack Query) populates the left column.
+ *     Selecting a theme expands its templates via a second query.
+ *  2. Selecting a template (and any change to the manual-field values)
+ *     fires `templatesApi.preview(id, dealId, fieldValues, signal)`,
+ *     which POSTs to the backend. The response contains the fully
+ *     substituted preview `.docx` (base64-encoded in `docxBase64`),
+ *     the placeholder `tags`, the per-formula evaluation map and the
+ *     template's manual `fields`.
+ *  3. The `.docx` is rendered client-side with `docx-preview`
+ *     (`renderAsync`) into a dedicated container ref so the preview
+ *     visually matches Word. Word styles are rendered into a separate,
+ *     hidden style container so they never leak into the app UI.
+ *  4. Manual-field edits are debounced (~500 ms) and re-request the
+ *     preview with the new `fieldValues`; React Query passes an
+ *     `AbortSignal` to the request so superseded fetches are cancelled.
+ *  5. The "Сгенерировать документ" button calls
+ *     `generateApi.generate({ templateId, dealId, fieldValues })`.
  *
- * The page degrades gracefully when no `dealId` is available
- * (the `?view=generate` query path may be reached outside of the
- * deal placement during testing): it shows a friendly stub
- * instead of trying to call preview/generate with a missing id.
- *
- * No sanitization library is used because the HTML is produced by
- * our own backend route from a TipTap-controlled editor and then
- * server-side substituted with escaped values. Adding DOMPurify is a
- * reasonable hardening step but would require a new dependency; the
- * Phase 6 hardening epic (bz3.2) will revisit this.
+ * When the selected template has no original `.docx` the backend
+ * responds with HTTP 400; we surface a friendly message instead of
+ * crashing the preview pane.
  */
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
+import { renderAsync } from 'docx-preview';
 import {
   FileText,
   Loader2,
@@ -74,66 +67,50 @@ import {
 import { getCurrentDealId, reloadParentWindow } from '@/lib/b24';
 
 /* ------------------------------------------------------------------ */
-/* Inline styling for formula tags inside the preview                 */
+/* Style isolation for the docx-preview output                        */
 /* ------------------------------------------------------------------ */
 
 /**
- * Single CSS block injected once per page mount. Targets every
- * `<span data-formula-key>` produced by the backend preview endpoint.
- * The selector relies on the `data-computed-value` attribute that the
- * backend now emits, so admin-mode pills (which lack the attribute)
- * are not affected.
+ * docx-preview renders the document's own CSS (page size, fonts,
+ * numbering) into a separate "style container". We keep that container
+ * hidden so those Word-derived rules — which are scoped by the
+ * `className` prefix below — are present for the body container but do
+ * not visually bleed into the rest of the app. The body container holds
+ * the rendered page(s) and uses the same prefix.
  */
-const PREVIEW_STYLES = `
-  .gen-preview-html span[data-formula-key] {
-    background: #fef9c3;
-    border-radius: 0.25rem;
-    padding: 0 0.25rem;
-    cursor: help;
-    box-shadow: inset 0 0 0 1px rgba(202, 138, 4, 0.4);
-    color: #713f12;
+const DOCX_CLASS_NAME = 'gen-docx-preview';
+
+/* ------------------------------------------------------------------ */
+/* Debounce                                                            */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Tiny custom debounce — returns a value that lags `value` by `delay`
+ * ms. Used to coalesce rapid manual-field edits into a single preview
+ * re-request. Mirrors the helper used on the other pages.
+ */
+function useDebouncedValue<T>(value: T, delay = 500): T {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const handle = window.setTimeout(() => setDebounced(value), delay);
+    return () => window.clearTimeout(handle);
+  }, [value, delay]);
+  return debounced;
+}
+
+/* ------------------------------------------------------------------ */
+/* base64 → bytes                                                      */
+/* ------------------------------------------------------------------ */
+
+/** Decode a base64 string into a `Uint8Array` docx-preview can read. */
+function base64ToBytes(b64: string): Uint8Array {
+  const binary = atob(b64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
   }
-  .gen-preview-html span[data-formula-key][data-formula-error] {
-    background: #fee2e2;
-    color: #7f1d1d;
-    box-shadow: inset 0 0 0 1px rgba(220, 38, 38, 0.5);
-  }
-  .gen-preview-html span[data-field-key] {
-    background: #fef3c7;
-    border-radius: 0.25rem;
-    padding: 0 0.25rem;
-    box-shadow: inset 0 0 0 1px rgba(217, 119, 6, 0.4);
-    color: #78350f;
-    /* Override the editor pill's text-xs / font-medium so the value
-       matches the surrounding document font and size. */
-    font-size: inherit;
-    font-weight: inherit;
-    font-family: inherit;
-    line-height: inherit;
-    /* Preserve newlines from multi-line (textarea) values — otherwise
-       the browser collapses them into single spaces. Matches the PDF,
-       where \\n is turned into <br>. */
-    white-space: pre-wrap;
-  }
-  .gen-preview-html span[data-field-key][data-field-filled="true"] {
-    background: transparent;
-    box-shadow: none;
-    color: inherit;
-    padding: 0;
-  }
-  .gen-preview-html h1 { font-size: 1.5rem; font-weight: 600; margin: 1rem 0; }
-  .gen-preview-html h2 { font-size: 1.25rem; font-weight: 600; margin: 0.75rem 0; }
-  .gen-preview-html h3 { font-size: 1.125rem; font-weight: 600; margin: 0.5rem 0; }
-  .gen-preview-html p { margin: 0.5rem 0; line-height: 1.6; }
-  .gen-preview-html ul, .gen-preview-html ol { margin: 0.5rem 0 0.5rem 1.5rem; }
-  .gen-preview-html { font-family: Arial, sans-serif; font-size: 11pt; line-height: 1.5; color: #1a1a1a; }
-  .gen-preview-html table { border-collapse: collapse; margin: 0.5rem 0; width: 100%; }
-  .gen-preview-html table colgroup { display: none; }
-  .gen-preview-html th, .gen-preview-html td { border: 1px solid #999; padding: 4px 8px; vertical-align: middle; font-size: 11pt; }
-  .gen-preview-html th { background: #f0f0f0; font-weight: 600; text-align: left; }
-  .gen-preview-html td p, .gen-preview-html th p { margin: 0; }
-  .gen-preview-html td img { max-width: 80px; max-height: 80px; object-fit: contain; border: 1px solid #ddd; border-radius: 2px; display: block; }
-`;
+  return bytes;
+}
 
 /* ------------------------------------------------------------------ */
 /* Manual field helpers                                                */
@@ -185,7 +162,11 @@ export function GeneratePage() {
   const [generateResult, setGenerateResult] = useState<GenerateResponseDTO | null>(null);
   /** Raw input values for manual fields, keyed by fieldKey. */
   const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
-  const previewRef = useRef<HTMLDivElement | null>(null);
+
+  /** Container the rendered `.docx` page(s) go into. */
+  const previewBodyRef = useRef<HTMLDivElement | null>(null);
+  /** Hidden container for the document's own (Word) CSS. */
+  const previewStyleRef = useRef<HTMLDivElement | null>(null);
 
   /* -------------------------------------------------------------- */
   /* Themes list                                                    */
@@ -237,41 +218,97 @@ export function GeneratePage() {
   }, [selectedTemplateId]);
 
   /* -------------------------------------------------------------- */
+  /* Debounced field values → preview payload                       */
+  /* -------------------------------------------------------------- */
+  // Debounce the raw field values so rapid typing coalesces into a
+  // single preview re-request. The debounced object is what feeds the
+  // query key (so the request only re-fires once the user pauses).
+  const debouncedFieldValues = useDebouncedValue(fieldValues, 500);
+
+  /* -------------------------------------------------------------- */
   /* Preview of the selected template                               */
   /* -------------------------------------------------------------- */
+  // React Query passes an AbortSignal into queryFn; when the query key
+  // changes (template switch or debounced field edit) the previous
+  // request is aborted automatically, so stale previews never win.
   const {
     data: previewData,
-    isLoading: previewLoading,
+    isFetching: previewLoading,
     isError: previewError,
     error: previewErrorObj,
   } = useQuery<TemplatePreviewResponseDTO>({
-    queryKey: ['preview', { templateId: selectedTemplateId, dealId }],
-    queryFn: () => templatesApi.preview(selectedTemplateId!, dealId!),
+    queryKey: ['preview', { templateId: selectedTemplateId, dealId, fieldValues: debouncedFieldValues }],
+    queryFn: ({ signal }) =>
+      templatesApi.preview(selectedTemplateId!, dealId!, debouncedFieldValues, signal),
     enabled: selectedTemplateId !== null && dealId !== null,
+    // The preview .docx can be sizeable; keep the previous frame visible
+    // while a debounced re-request is in flight to avoid flicker.
+    placeholderData: (prev) => prev,
+    retry: false,
   });
 
-  // After each render of the preview HTML, walk the spans and set
-  // a friendly `title` attribute carrying expression + value.
+  /* -------------------------------------------------------------- */
+  /* Render the preview .docx via docx-preview                      */
+  /* -------------------------------------------------------------- */
+  const [renderError, setRenderError] = useState<string | null>(null);
+
   useEffect(() => {
-    const root = previewRef.current;
-    if (!root || !previewData) return;
-    const spans = root.querySelectorAll<HTMLSpanElement>('span[data-formula-key]');
-    spans.forEach((span) => {
-      const key = span.getAttribute('data-formula-key') ?? '';
-      const meta = previewData.formulas[key];
-      if (!meta) return;
-      const valueDisplay = meta.error
-        ? `Ошибка: ${meta.error}`
-        : (meta.value?.startsWith('data:image/') || meta.value?.startsWith('/api/images/'))
-          ? 'Значение: [изображение]'
-          : `Значение: ${meta.value || '∅'}`;
-      const titleParts = [
-        `${meta.label || key}`,
-        `Формула: ${meta.expression}`,
-        valueDisplay,
-      ];
-      span.setAttribute('title', titleParts.join('\n'));
-    });
+    const body = previewBodyRef.current;
+    const styles = previewStyleRef.current;
+    if (!body || !styles) return;
+    if (!previewData?.docxBase64) {
+      body.replaceChildren();
+      styles.replaceChildren();
+      return;
+    }
+
+    // Guard against races: a fast debounced re-render can resolve out of
+    // order. Only the latest effect run is allowed to commit its result.
+    let cancelled = false;
+    setRenderError(null);
+
+    // Clear previous nodes before re-rendering (docx-preview appends).
+    body.replaceChildren();
+    styles.replaceChildren();
+
+    const bytes = base64ToBytes(previewData.docxBase64);
+
+    void renderAsync(bytes, body, styles, {
+      // Keep the document's CSS prefixed and isolated to our containers.
+      className: DOCX_CLASS_NAME,
+      // Render the wrapper (page chrome) so the preview looks like Word.
+      inWrapper: true,
+      // Respect the original page width/height for a 1:1 representation.
+      ignoreWidth: false,
+      ignoreHeight: false,
+      // Break across pages on explicit page breaks.
+      breakPages: true,
+      // Inline images as base64 data URLs so they survive container
+      // clears / re-renders without dangling object URLs.
+      useBase64URL: true,
+      // Render headers/footers/footnotes for fidelity with Word.
+      renderHeaders: true,
+      renderFooters: true,
+      renderFootnotes: true,
+    })
+      .then(() => {
+        if (cancelled) {
+          // A newer render superseded us — drop whatever we produced.
+          body.replaceChildren();
+        }
+      })
+      .catch((err: unknown) => {
+        if (cancelled) return;
+        body.replaceChildren();
+        styles.replaceChildren();
+        setRenderError(
+          err instanceof Error ? err.message : 'Не удалось отобразить .docx',
+        );
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [previewData]);
 
   // Pre-fill fields that declare a default (e.g. date "today") once the
@@ -293,30 +330,6 @@ export function GeneratePage() {
       return changed ? next : prev;
     });
   }, [previewData]);
-
-  // Live-fill manual-field pills in the preview as the user types. Empty
-  // fields show their placeholder/label so the user sees what is missing;
-  // filled fields show the formatted value and drop the highlight.
-  useEffect(() => {
-    const root = previewRef.current;
-    if (!root || !previewData) return;
-    const fieldsByKey = new Map(previewData.fields.map((f) => [f.fieldKey, f]));
-    const spans = root.querySelectorAll<HTMLSpanElement>('span[data-field-key]');
-    spans.forEach((span) => {
-      const key = span.getAttribute('data-field-key') ?? '';
-      const field = fieldsByKey.get(key);
-      if (!field) return;
-      const formatted = formatFieldValue(field, fieldValues[key] ?? '');
-      if (formatted) {
-        span.textContent = formatted;
-        span.setAttribute('data-field-filled', 'true');
-      } else {
-        const hint = field.placeholder || field.label || 'поле';
-        span.textContent = `✎ ${hint}${field.required ? ' *' : ''}`;
-        span.setAttribute('data-field-filled', 'false');
-      }
-    });
-  }, [previewData, fieldValues]);
 
   /* -------------------------------------------------------------- */
   /* Generate mutation                                              */
@@ -350,14 +363,33 @@ export function GeneratePage() {
       setGenerateResult(data);
       // Ask Bitrix24 to reload the parent CRM card so the user sees
       // the freshly bound file in the UF_CRM_* field without having
-      // to F5 manually. Fire-and-forget — the result panel stays
-      // visible because Bitrix re-mounts the iframe with the same URL.
+      // to F5 manually. Fire-and-forget.
       void reloadParentWindow();
     },
   });
 
   const generateError = generateMutation.error;
   const generating = generateMutation.isPending;
+
+  /* -------------------------------------------------------------- */
+  /* Friendly preview-error message                                 */
+  /* -------------------------------------------------------------- */
+  // The backend returns HTTP 400 when the template has no original
+  // `.docx` to substitute into. Show an explanatory message instead of
+  // the raw error so the user knows the template must be re-uploaded.
+  const previewErrorMessage = useMemo(() => {
+    if (!previewError) return null;
+    if (previewErrorObj instanceof ApiError) {
+      if (previewErrorObj.status === 400) {
+        return (
+          'У этого шаблона нет исходного .docx для предпросмотра. ' +
+          'Загрузите .docx-файл шаблона в редакторе и попробуйте снова.'
+        );
+      }
+      return previewErrorObj.message;
+    }
+    return 'Не удалось загрузить предпросмотр';
+  }, [previewError, previewErrorObj]);
 
   /* -------------------------------------------------------------- */
   /* No-deal stub                                                   */
@@ -379,7 +411,9 @@ export function GeneratePage() {
 
   return (
     <div className="flex h-screen w-full">
-      <style>{PREVIEW_STYLES}</style>
+      {/* Hidden style container for the document's own (Word) CSS. Kept
+          out of the visual flow so Word styles do not leak into the UI. */}
+      <div ref={previewStyleRef} className="hidden" aria-hidden="true" />
 
       {/* ------------------------------------------------------- */}
       {/* Left column — themes + templates                        */}
@@ -476,6 +510,12 @@ export function GeneratePage() {
               Сделка #{dealId} · выберите шаблон слева
             </p>
           </div>
+          {selectedTemplateId && previewLoading && (
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              Обновляем предпросмотр…
+            </div>
+          )}
         </header>
 
         <section className="flex-1 overflow-y-auto bg-muted/10 p-6">
@@ -486,46 +526,39 @@ export function GeneratePage() {
             </div>
           )}
 
-          {selectedTemplateId && previewLoading && (
+          {selectedTemplateId && previewLoading && !previewData && (
             <div className="flex items-center justify-center gap-2 py-10 text-sm text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
               Готовим предпросмотр…
             </div>
           )}
 
-          {selectedTemplateId && previewError && (
+          {selectedTemplateId && previewErrorMessage && (
             <div className="flex items-start gap-2 rounded-md border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive">
               <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-              <span>
-                {previewErrorObj instanceof ApiError
-                  ? previewErrorObj.message
-                  : 'Не удалось загрузить предпросмотр'}
-              </span>
+              <span>{previewErrorMessage}</span>
             </div>
           )}
 
-          {selectedTemplateId && previewData && (
-            <div className="overflow-auto">
-              <div
-                ref={previewRef}
-                className="gen-preview-html mx-auto rounded-md border border-border bg-white shadow-sm"
-                style={{
-                  // A4 page: 210mm wide, with 25mm margins on each side
-                  // = 160mm content area. We render the full 210mm page
-                  // so the user sees a 1:1 representation. The outer
-                  // container scrolls if the viewport is narrower.
-                  width: '210mm',
-                  minHeight: '297mm',
-                  padding: '25mm',
-                  boxSizing: 'border-box',
-                }}
-                // The HTML is server-rendered + escaped in our backend
-                // route, so direct injection here is safe enough for the
-                // Phase 5 milestone. Phase 6 (bz3.2) revisits hardening.
-                dangerouslySetInnerHTML={{ __html: previewData.html }}
-              />
+          {selectedTemplateId && !previewError && renderError && (
+            <div className="flex items-start gap-2 rounded-md border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+              <span>Ошибка отображения .docx: {renderError}</span>
             </div>
           )}
+
+          {/* The rendered .docx is committed here by docx-preview. We keep
+              the container mounted (hidden while empty/erroring) so the ref
+              is always available to the render effect. */}
+          <div
+            className={`mx-auto flex justify-center ${
+              selectedTemplateId && previewData && !previewError && !renderError
+                ? ''
+                : 'hidden'
+            }`}
+          >
+            <div ref={previewBodyRef} className="docx-preview-host" />
+          </div>
         </section>
       </main>
 
@@ -564,6 +597,7 @@ export function GeneratePage() {
               !selectedTemplateId ||
               generating ||
               previewLoading ||
+              !!previewError ||
               missingRequired.length > 0
             }
             onClick={() => generateMutation.mutate()}
@@ -618,7 +652,7 @@ export function GeneratePage() {
                     className="inline-flex items-center gap-1 text-emerald-700 underline hover:text-emerald-900"
                   >
                     <Download className="h-3 w-3 shrink-0" />
-                    Скачать .pdf
+                    Скачать .docx
                   </a>
                 )}
                 <div className="break-words">

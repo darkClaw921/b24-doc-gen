@@ -1,7 +1,311 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-06-07T15:16:16.284Z",
+  "generatedAt": "2026-06-07T20:57:29.787Z",
   "nodes": [
+    {
+      "id": "apps/backend/scripts/render-check.ts",
+      "name": "render-check.ts",
+      "type": "file",
+      "path": "apps/backend/scripts/render-check.ts",
+      "exports": [],
+      "children": [
+        {
+          "id": "apps/backend/scripts/render-check.ts:previewPage",
+          "name": "previewPage",
+          "type": "function",
+          "path": "apps/backend/scripts/render-check.ts",
+          "line": 67,
+          "signature": "previewPage(bodyHtml: string): string",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/render-check.ts:pdfViewPage",
+          "name": "pdfViewPage",
+          "type": "function",
+          "path": "apps/backend/scripts/render-check.ts",
+          "line": 79,
+          "signature": "pdfViewPage(bodyHtml: string): string",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/render-check.ts:main",
+          "name": "main",
+          "type": "function",
+          "path": "apps/backend/scripts/render-check.ts",
+          "line": 91,
+          "signature": "main()",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/render-check.ts:__dirname",
+          "name": "__dirname",
+          "type": "variable",
+          "path": "apps/backend/scripts/render-check.ts",
+          "line": 23,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/render-check.ts:REPO_ROOT",
+          "name": "REPO_ROOT",
+          "type": "variable",
+          "path": "apps/backend/scripts/render-check.ts",
+          "line": 25,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/render-check.ts:SRC_DIR",
+          "name": "SRC_DIR",
+          "type": "variable",
+          "path": "apps/backend/scripts/render-check.ts",
+          "line": 26,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/render-check.ts:OUT_DIR",
+          "name": "OUT_DIR",
+          "type": "variable",
+          "path": "apps/backend/scripts/render-check.ts",
+          "line": 27,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/render-check.ts:PREVIEW_STYLES",
+          "name": "PREVIEW_STYLES",
+          "type": "variable",
+          "path": "apps/backend/scripts/render-check.ts",
+          "line": 32,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/render-check.ts:PDF_STYLES",
+          "name": "PDF_STYLES",
+          "type": "variable",
+          "path": "apps/backend/scripts/render-check.ts",
+          "line": 48,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "name": "verify-docx-editor-flow.ts",
+      "type": "file",
+      "path": "apps/backend/scripts/verify-docx-editor-flow.ts",
+      "exports": [],
+      "children": [
+        {
+          "id": "apps/backend/scripts/verify-docx-editor-flow.ts:insertNewTagIntoFormattedParagraph",
+          "name": "insertNewTagIntoFormattedParagraph",
+          "type": "function",
+          "path": "apps/backend/scripts/verify-docx-editor-flow.ts",
+          "line": 78,
+          "signature": "insertNewTagIntoFormattedParagraph(originalBuf: Buffer): {\n  buffer: Buffer;\n  pPr: string;\n  hasJc: boolean;\n  hasInd: boolean;\n}",
+          "docComment": "Insert ` {new_tag}` at the end of the text of the FIRST paragraph that\ncarries explicit formatting (a `<w:jc .../>` justification or a\n`<w:ind .../>` indent in its `<w:pPr>`). Returns the edited buffer plus\nthe formatting tokens captured from that paragraph so the test can assert\nthey survive substitution.\n\nThe insertion appends a new `<w:r><w:t xml:space=\"preserve\"> {new_tag}</w:t></w:r>`\nrun just before the paragraph's closing `</w:p>`, mirroring how a WYSIWYG\neditor appends typed text as its own run without disturbing existing runs\nor the paragraph properties.",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-docx-editor-flow.ts:countAll",
+          "name": "countAll",
+          "type": "function",
+          "path": "apps/backend/scripts/verify-docx-editor-flow.ts",
+          "line": 154,
+          "signature": "countAll(haystack: string, needle: string): number",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-docx-editor-flow.ts:run",
+          "name": "run",
+          "type": "function",
+          "path": "apps/backend/scripts/verify-docx-editor-flow.ts",
+          "line": 164,
+          "signature": "run(): Promise<void>",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-docx-editor-flow.ts:Check",
+          "name": "Check",
+          "type": "interface",
+          "path": "apps/backend/scripts/verify-docx-editor-flow.ts",
+          "line": 158,
+          "signature": "interface Check",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-docx-editor-flow.ts:REPO_ROOT",
+          "name": "REPO_ROOT",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-docx-editor-flow.ts",
+          "line": 50,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-docx-editor-flow.ts:SRC_DOCX",
+          "name": "SRC_DOCX",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-docx-editor-flow.ts",
+          "line": 51,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-docx-editor-flow.ts:OUT_EDITED",
+          "name": "OUT_EDITED",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-docx-editor-flow.ts",
+          "line": 55,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-docx-editor-flow.ts:OUT_RENDERED",
+          "name": "OUT_RENDERED",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-docx-editor-flow.ts",
+          "line": 56,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-docx-editor-flow.ts:NEW_TAG",
+          "name": "NEW_TAG",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-docx-editor-flow.ts",
+          "line": 58,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-docx-editor-flow.ts:NEW_TAG_VALUE",
+          "name": "NEW_TAG_VALUE",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-docx-editor-flow.ts",
+          "line": 59,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-docx-editor-flow.ts:formulas",
+          "name": "formulas",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-docx-editor-flow.ts",
+          "line": 140,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/scripts/verify-pvu-template.ts",
+      "name": "verify-pvu-template.ts",
+      "type": "file",
+      "path": "apps/backend/scripts/verify-pvu-template.ts",
+      "exports": [],
+      "children": [
+        {
+          "id": "apps/backend/scripts/verify-pvu-template.ts:buildMarkedDocx",
+          "name": "buildMarkedDocx",
+          "type": "function",
+          "path": "apps/backend/scripts/verify-pvu-template.ts",
+          "line": 79,
+          "signature": "buildMarkedDocx(originalBuf: Buffer): Buffer",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-pvu-template.ts:countAll",
+          "name": "countAll",
+          "type": "function",
+          "path": "apps/backend/scripts/verify-pvu-template.ts",
+          "line": 126,
+          "signature": "countAll(haystack: string, needle: string): number",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-pvu-template.ts:run",
+          "name": "run",
+          "type": "function",
+          "path": "apps/backend/scripts/verify-pvu-template.ts",
+          "line": 132,
+          "signature": "run(): void",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-pvu-template.ts:Check",
+          "name": "Check",
+          "type": "interface",
+          "path": "apps/backend/scripts/verify-pvu-template.ts",
+          "line": 130,
+          "signature": "interface Check",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-pvu-template.ts:REPO_ROOT",
+          "name": "REPO_ROOT",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-pvu-template.ts",
+          "line": 38,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-pvu-template.ts:SRC_DOCX",
+          "name": "SRC_DOCX",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-pvu-template.ts",
+          "line": 39,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-pvu-template.ts:OUT_MARKED",
+          "name": "OUT_MARKED",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-pvu-template.ts",
+          "line": 43,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-pvu-template.ts:OUT_RENDERED",
+          "name": "OUT_RENDERED",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-pvu-template.ts",
+          "line": 44,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-pvu-template.ts:REPLACEMENTS",
+          "name": "REPLACEMENTS",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-pvu-template.ts",
+          "line": 58,
+          "docComment": "Stub→placeholder replacements. Each `stub` is a contiguous run of text\nthat exists verbatim in a single <w:t> in the source document, so the\nreplacement does not split the docxtemplater delimiter across runs.\n\nAlignment column documents which paragraph the stub lives in, so the\ntest can assert formatting survives substitution at that exact spot.",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-pvu-template.ts:VALUES",
+          "name": "VALUES",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-pvu-template.ts",
+          "line": 98,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-pvu-template.ts:formulas",
+          "name": "formulas",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-pvu-template.ts",
+          "line": 105,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-pvu-template.ts:fieldValues",
+          "name": "fieldValues",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-pvu-template.ts",
+          "line": 111,
+          "exports": []
+        },
+        {
+          "id": "apps/backend/scripts/verify-pvu-template.ts:products",
+          "name": "products",
+          "type": "variable",
+          "path": "apps/backend/scripts/verify-pvu-template.ts",
+          "line": 115,
+          "exports": []
+        }
+      ]
+    },
     {
       "id": "apps/backend/src/middleware/auth.ts",
       "name": "auth.ts",
@@ -405,28 +709,18 @@
           "name": "registerGenerateRoutes",
           "type": "function",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 86,
+          "line": 77,
           "signature": "registerGenerateRoutes(app: FastifyInstance): Promise<void>",
           "exports": [
             "registerGenerateRoutes"
           ]
         },
         {
-          "id": "apps/backend/src/routes/generate.ts:detectProductUsage",
-          "name": "detectProductUsage",
-          "type": "function",
-          "path": "apps/backend/src/routes/generate.ts",
-          "line": 425,
-          "signature": "detectProductUsage(contentHtml: string, expressions: string[]): { fetchProducts: boolean; fetchProductImages: boolean }",
-          "docComment": "Scan the template HTML and formula expressions to determine whether\nproduct data (and product images) need to be fetched from Bitrix24.\n\nUses simple substring / regex checks — no full HTML parsing required.",
-          "exports": []
-        },
-        {
           "id": "apps/backend/src/routes/generate.ts:GenerateBody",
           "name": "GenerateBody",
           "type": "interface",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 51,
+          "line": 42,
           "signature": "interface GenerateBody",
           "exports": []
         },
@@ -435,7 +729,7 @@
           "name": "BindingResult",
           "type": "interface",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 63,
+          "line": 54,
           "signature": "interface BindingResult",
           "docComment": "Result of the deal-binding step. Reported in the response so the\nfrontend can show a yellow warning when the binding step failed\nbut the file still uploaded successfully.",
           "exports": []
@@ -445,25 +739,8 @@
           "name": "GenerateRouteResponse",
           "type": "interface",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 69,
+          "line": 60,
           "signature": "interface GenerateRouteResponse",
-          "exports": []
-        },
-        {
-          "id": "apps/backend/src/routes/generate.ts:PRODUCT_HELPER_RE",
-          "name": "PRODUCT_HELPER_RE",
-          "type": "variable",
-          "path": "apps/backend/src/routes/generate.ts",
-          "line": 416,
-          "docComment": "Regex patterns for product-related helpers in formula expressions.",
-          "exports": []
-        },
-        {
-          "id": "apps/backend/src/routes/generate.ts:PRODUCT_IMAGE_HELPER_RE",
-          "name": "PRODUCT_IMAGE_HELPER_RE",
-          "type": "variable",
-          "path": "apps/backend/src/routes/generate.ts",
-          "line": 417,
           "exports": []
         }
       ]
@@ -719,7 +996,7 @@
           "name": "safeName",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 142,
+          "line": 155,
           "signature": "safeName(value: unknown): string | null",
           "exports": []
         },
@@ -728,7 +1005,7 @@
           "name": "safeContentHtml",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 149,
+          "line": 162,
           "signature": "safeContentHtml(value: unknown): string",
           "exports": []
         },
@@ -737,7 +1014,7 @@
           "name": "parseDependsOn",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 158,
+          "line": 171,
           "signature": "parseDependsOn(raw: string): FormulaDependencies",
           "exports": []
         },
@@ -746,7 +1023,7 @@
           "name": "serializeDependsOn",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 171,
+          "line": 184,
           "signature": "serializeDependsOn(deps: FormulaDependencies | undefined): string",
           "exports": []
         },
@@ -755,7 +1032,7 @@
           "name": "toFormulaDto",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 179,
+          "line": 192,
           "signature": "toFormulaDto(row: PrismaFormula): Formula",
           "exports": []
         },
@@ -764,7 +1041,7 @@
           "name": "normalizeFieldType",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 193,
+          "line": 206,
           "signature": "normalizeFieldType(value: unknown): TemplateFieldType",
           "exports": []
         },
@@ -773,7 +1050,7 @@
           "name": "toTemplateFieldDto",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 199,
+          "line": 212,
           "signature": "toTemplateFieldDto(row: PrismaTemplateField): TemplateField",
           "exports": []
         },
@@ -782,7 +1059,7 @@
           "name": "normalizeFieldsInput",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 222,
+          "line": 235,
           "signature": "normalizeFieldsInput(fields: TemplateFieldInput[]): Array<{\n  fieldKey: string;\n  label: string;\n  type: TemplateFieldType;\n  required: boolean;\n  placeholder: string | null;\n  defaultValue: string | null;\n  order: number;\n}>",
           "docComment": "Validate and normalize the manual-field array sent by the client.\nDrops entries with an empty fieldKey and de-duplicates by fieldKey\n(last write wins). `order` is derived from array position so the\ngenerate form reflects the order in which the admin authored them.",
           "exports": []
@@ -792,7 +1069,7 @@
           "name": "toTemplateDto",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 272,
+          "line": 285,
           "signature": "toTemplateDto(row: TemplateRow, withDocx: boolean): TemplateDTO",
           "exports": []
         },
@@ -801,7 +1078,7 @@
           "name": "substituteFormulaTagsForPreview",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 313,
+          "line": 338,
           "signature": "substituteFormulaTagsForPreview(html: string, formulas: Record<string, FormulaEvaluationResult>): string",
           "docComment": "Rewrite every `<span data-formula-key=\"…\">` node inside `html` so it\ncarries `data-computed-value` and its inner text is the computed\nvalue (or the original label on error). The TipTap-rendered span has\na stable shape — `<span ... data-formula-key=\"X\" ...>...</span>` —\nso a tolerant regex is safe and avoids pulling in cheerio.\n\nThe two flags it preserves:\n  - data-formula-key, -label, -expression  → still needed by the\n    frontend to render the FormulaTag pill in preview mode.\n  - data-computed-value=\"…\"                → new attribute that\n    carries the evaluated value for the frontend tooltip.\n  - data-formula-error=\"…\" (optional)      → set if evaluation\n    failed; the frontend renders an error badge.",
           "exports": []
@@ -811,7 +1088,7 @@
           "name": "escapeAttr",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 351,
+          "line": 376,
           "signature": "escapeAttr(value: string): string",
           "docComment": "Minimal HTML attribute escaper.",
           "exports": []
@@ -821,7 +1098,7 @@
           "name": "escapeHtml",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 360,
+          "line": 385,
           "signature": "escapeHtml(value: string): string",
           "docComment": "Minimal HTML text escaper (preserves spaces).",
           "exports": []
@@ -831,7 +1108,7 @@
           "name": "toTemplateListDto",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 367,
+          "line": 392,
           "signature": "toTemplateListDto(row: TemplateListRow): TemplateListItemDTO",
           "exports": []
         },
@@ -840,7 +1117,7 @@
           "name": "registerTemplateRoutes",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 384,
+          "line": 409,
           "signature": "registerTemplateRoutes(app: FastifyInstance): Promise<void>",
           "exports": [
             "registerTemplateRoutes"
@@ -851,7 +1128,7 @@
           "name": "TemplateListItemDTO",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 60,
+          "line": 65,
           "signature": "interface TemplateListItemDTO",
           "exports": [
             "TemplateListItemDTO"
@@ -862,7 +1139,7 @@
           "name": "TemplateDTO",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 71,
+          "line": 76,
           "signature": "interface TemplateDTO",
           "exports": [
             "TemplateDTO"
@@ -873,7 +1150,7 @@
           "name": "ListTemplatesQuery",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 85,
+          "line": 98,
           "signature": "interface ListTemplatesQuery",
           "exports": []
         },
@@ -882,7 +1159,7 @@
           "name": "GetTemplateParams",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 90,
+          "line": 103,
           "signature": "interface GetTemplateParams",
           "exports": []
         },
@@ -891,7 +1168,7 @@
           "name": "GetTemplateQuery",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 94,
+          "line": 107,
           "signature": "interface GetTemplateQuery",
           "exports": []
         },
@@ -900,7 +1177,7 @@
           "name": "PreviewTemplateQuery",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 98,
+          "line": 111,
           "signature": "interface PreviewTemplateQuery",
           "exports": []
         },
@@ -909,7 +1186,7 @@
           "name": "CreateTemplateBody",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 102,
+          "line": 115,
           "signature": "interface CreateTemplateBody",
           "exports": []
         },
@@ -918,7 +1195,7 @@
           "name": "UpdateTemplateBody",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 108,
+          "line": 121,
           "signature": "interface UpdateTemplateBody",
           "exports": []
         },
@@ -927,7 +1204,7 @@
           "name": "FormulaInput",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 117,
+          "line": 130,
           "signature": "interface FormulaInput",
           "docComment": "Shape of a formula sent by the client when saving a template.",
           "exports": [
@@ -939,7 +1216,7 @@
           "name": "TemplateFieldInput",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 127,
+          "line": 140,
           "signature": "interface TemplateFieldInput",
           "docComment": "Shape of a manual field sent by the client when saving a template.",
           "exports": [
@@ -951,7 +1228,7 @@
           "name": "TemplateRow",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 267,
+          "line": 280,
           "signature": "interface TemplateRow",
           "exports": []
         },
@@ -960,7 +1237,7 @@
           "name": "TemplateListRow",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 293,
+          "line": 318,
           "signature": "interface TemplateListRow",
           "exports": []
         },
@@ -969,7 +1246,7 @@
           "name": "FIELD_TYPES",
           "type": "variable",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 191,
+          "line": 204,
           "docComment": "Allowed manual-field types; anything else falls back to \"text\".",
           "exports": []
         },
@@ -978,7 +1255,7 @@
           "name": "FIELD_DEFAULTS",
           "type": "variable",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 214,
+          "line": 227,
           "docComment": "Allowed default-value tokens. Anything else is dropped (no default).",
           "exports": []
         }
@@ -1747,7 +2024,7 @@
           "name": "buildDocxFromHtml",
           "type": "function",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 95,
+          "line": 103,
           "signature": "buildDocxFromHtml(html: string, options: BuildDocxOptions = {}): Promise<Buffer>",
           "docComment": "Convert an HTML string into a Word `.docx` Buffer.\n\nIf a `formulas` map is provided, every formula-tag span is replaced\nby its computed value (or by the label on error). The output is a\nNode `Buffer` ready to be uploaded via `B24Client.uploadDiskFile`.\n\nThrows `DocxBuildError` on empty/blank input or html-to-docx failure.",
           "exports": [
@@ -1759,7 +2036,7 @@
           "name": "expandProductTables",
           "type": "function",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 192,
+          "line": 200,
           "signature": "expandProductTables(html: string, products: ProductRow[]): string",
           "docComment": "Expand every `<table data-product-table=\"true\">` block in the HTML.\n\nThe convention is:\n - The **last** `<tr>` inside `<tbody>` is the *template row*. It\n   contains placeholder spans (`data-product-field`, `data-product-image`,\n   `data-product-index`) that are substituted per product.\n - The template row is cloned N times (once per product), placeholders\n   are filled, and the original template row is removed.\n - If `products` is empty the template row is simply deleted, leaving\n   the table header intact but the body empty.\n\nTables without `data-product-table` are not touched.",
           "exports": [
@@ -1771,7 +2048,7 @@
           "name": "fillProductRow",
           "type": "function",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 283,
+          "line": 291,
           "signature": "fillProductRow(rowHtml: string, product: ProductRow, index: number): string",
           "docComment": "Substitute product placeholders inside a single template `<tr>`.\n\nRecognised placeholder patterns:\n - `<span data-product-field=\"FIELD\">…</span>` → escaped field value\n - `<span data-product-image=\"true\">…</span>`  → `<img>` with base64 src\n - `<span data-product-index>…</span>`          → 1-based row number",
           "exports": []
@@ -1781,7 +2058,7 @@
           "name": "stripFormulaTags",
           "type": "function",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 338,
+          "line": 346,
           "signature": "stripFormulaTags(html: string, formulas: Record<string, FormulaEvaluationResult>): string",
           "docComment": "Replace every `<span data-formula-key=\"…\">…</span>` with the\nevaluated value (or the original label on error). Mirrors the\nregex used by `routes/templates.ts::substituteFormulaTagsForPreview`\nbut emits plain text instead of an annotated span — html-to-docx\ndoesn't need our preview metadata.",
           "exports": []
@@ -1791,7 +2068,7 @@
           "name": "wrapAsHtmlDocument",
           "type": "function",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 365,
+          "line": 373,
           "signature": "wrapAsHtmlDocument(body: string, title: string): string",
           "docComment": "Wrap a body fragment in a minimal HTML5 document.",
           "exports": []
@@ -1801,7 +2078,7 @@
           "name": "escapeHtmlText",
           "type": "function",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 381,
+          "line": 389,
           "signature": "escapeHtmlText(value: string): string",
           "docComment": "Minimal HTML text escaper used inside text nodes.",
           "exports": []
@@ -1811,7 +2088,7 @@
           "name": "mergeWithOriginalDocx",
           "type": "function",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 416,
+          "line": 424,
           "signature": "mergeWithOriginalDocx(originalDocx: Buffer, generatedDocx: Buffer): Buffer",
           "docComment": "Copy formatting assets from the original .docx into the generated\n.docx. The generated document already has valid content (body with\nformula values and product tables); we just upgrade its formatting\nby overwriting the style/theme/font files with the originals.\n\nAdditionally, the `<w:sectPr>` (section properties) from the\noriginal document.xml is transplanted into the generated\ndocument.xml so page size, margins, orientation, and\nheader/footer references are preserved.",
           "exports": []
@@ -1821,7 +2098,7 @@
           "name": "coerceToBuffer",
           "type": "function",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 558,
+          "line": 566,
           "signature": "coerceToBuffer(raw: ArrayBuffer | Blob | Buffer): Promise<Buffer>",
           "docComment": "Normalize the html-to-docx output to a Node Buffer regardless of\nwhich underlying type it returned. In Node, html-to-docx already\nyields a Buffer; we still handle ArrayBuffer/Blob to satisfy the\ntype union exposed by the package.",
           "exports": []
@@ -1831,7 +2108,7 @@
           "name": "DocxBuildError",
           "type": "class",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 46,
+          "line": 54,
           "signature": "class DocxBuildError extends Error",
           "docComment": "Thrown when the .docx generation pipeline fails.",
           "exports": [
@@ -1843,7 +2120,7 @@
           "name": "BuildDocxOptions",
           "type": "interface",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 60,
+          "line": 68,
           "signature": "interface BuildDocxOptions",
           "exports": [
             "BuildDocxOptions"
@@ -1854,7 +2131,7 @@
           "name": "FORMATTING_FILES",
           "type": "variable",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 396,
+          "line": 404,
           "docComment": "Files to copy from the original .docx into the generated .docx.\nThese carry the visual formatting that mammoth/html-to-docx strips.",
           "exports": []
         },
@@ -1863,7 +2140,7 @@
           "name": "__internal",
           "type": "variable",
           "path": "apps/backend/src/services/docxBuilder.ts",
-          "line": 578,
+          "line": 586,
           "exports": [
             "__internal"
           ]
@@ -1887,7 +2164,7 @@
           "name": "parseDocxToHtml",
           "type": "function",
           "path": "apps/backend/src/services/docxParser.ts",
-          "line": 112,
+          "line": 122,
           "signature": "parseDocxToHtml(buffer: Buffer): Promise<ParseDocxResult>",
           "docComment": "Convert a `.docx` Buffer to HTML.",
           "exports": [
@@ -1899,7 +2176,7 @@
           "name": "DocxParseError",
           "type": "class",
           "path": "apps/backend/src/services/docxParser.ts",
-          "line": 95,
+          "line": 105,
           "signature": "class DocxParseError extends Error",
           "docComment": "Thrown when mammoth fails to read the .docx file. The route layer\ncatches this and returns a 400 with the original message.",
           "exports": [
@@ -1911,7 +2188,7 @@
           "name": "MammothMessage",
           "type": "interface",
           "path": "apps/backend/src/services/docxParser.ts",
-          "line": 30,
+          "line": 40,
           "signature": "interface MammothMessage",
           "exports": []
         },
@@ -1920,7 +2197,7 @@
           "name": "MammothResult",
           "type": "interface",
           "path": "apps/backend/src/services/docxParser.ts",
-          "line": 35,
+          "line": 45,
           "signature": "interface MammothResult",
           "exports": []
         },
@@ -1929,7 +2206,7 @@
           "name": "MammothInput",
           "type": "interface",
           "path": "apps/backend/src/services/docxParser.ts",
-          "line": 40,
+          "line": 50,
           "signature": "interface MammothInput",
           "exports": []
         },
@@ -1938,7 +2215,7 @@
           "name": "MammothOptions",
           "type": "interface",
           "path": "apps/backend/src/services/docxParser.ts",
-          "line": 46,
+          "line": 56,
           "signature": "interface MammothOptions",
           "exports": []
         },
@@ -1947,7 +2224,7 @@
           "name": "MammothModule",
           "type": "interface",
           "path": "apps/backend/src/services/docxParser.ts",
-          "line": 53,
+          "line": 63,
           "signature": "interface MammothModule",
           "exports": []
         },
@@ -1956,7 +2233,7 @@
           "name": "ParseDocxResult",
           "type": "interface",
           "path": "apps/backend/src/services/docxParser.ts",
-          "line": 84,
+          "line": 94,
           "signature": "interface ParseDocxResult",
           "docComment": "Result returned by `parseDocxToHtml`.",
           "exports": [
@@ -1968,7 +2245,7 @@
           "name": "mammothLib",
           "type": "variable",
           "path": "apps/backend/src/services/docxParser.ts",
-          "line": 57,
+          "line": 67,
           "exports": []
         },
         {
@@ -1976,11 +2253,87 @@
           "name": "defaultStyleMap",
           "type": "variable",
           "path": "apps/backend/src/services/docxParser.ts",
-          "line": 67,
+          "line": 77,
           "docComment": "Style map applied on top of mammoth's defaults. The list maps\nMicrosoft Word style names to HTML tags using mammoth's mini-DSL\n(see https://github.com/mwilliamson/mammoth.js#writing-style-maps).\n\nThe defaults already cover Heading 1..6, Normal, lists and tables;\nwe add common Russian / English style names that some templates use.",
           "exports": [
             "defaultStyleMap"
           ]
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "name": "docxTemplateEngine.test.ts",
+      "type": "file",
+      "path": "apps/backend/src/services/docxTemplateEngine.test.ts",
+      "exports": [],
+      "children": [
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.test.ts:buildFixtureDocx",
+          "name": "buildFixtureDocx",
+          "type": "function",
+          "path": "apps/backend/src/services/docxTemplateEngine.test.ts",
+          "line": 79,
+          "signature": "buildFixtureDocx(): Buffer",
+          "docComment": "Assemble a valid in-memory .docx (OOXML ZIP) from the parts above and\nreturn it as a Node Buffer suitable for `buildDocxFromTemplate`.",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.test.ts:readDocumentXml",
+          "name": "readDocumentXml",
+          "type": "function",
+          "path": "apps/backend/src/services/docxTemplateEngine.test.ts",
+          "line": 88,
+          "signature": "readDocumentXml(docx: Buffer): string",
+          "docComment": "Read `word/document.xml` out of a rendered .docx buffer.",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.test.ts:formula",
+          "name": "formula",
+          "type": "function",
+          "path": "apps/backend/src/services/docxTemplateEngine.test.ts",
+          "line": 96,
+          "signature": "formula(tagKey: string, value: string): FormulaEvaluationResult",
+          "docComment": "Build a FormulaEvaluationResult with a successful value.",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.test.ts:product",
+          "name": "product",
+          "type": "function",
+          "path": "apps/backend/src/services/docxTemplateEngine.test.ts",
+          "line": 110,
+          "signature": "product(name: string, sum: number): ProductRow",
+          "docComment": "Build a minimal ProductRow with the fields the loop references.",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.test.ts:CONTENT_TYPES_XML",
+          "name": "CONTENT_TYPES_XML",
+          "type": "variable",
+          "path": "apps/backend/src/services/docxTemplateEngine.test.ts",
+          "line": 35,
+          "docComment": "Minimal `[Content_Types].xml` declaring the main document part.",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.test.ts:ROOT_RELS_XML",
+          "name": "ROOT_RELS_XML",
+          "type": "variable",
+          "path": "apps/backend/src/services/docxTemplateEngine.test.ts",
+          "line": 43,
+          "docComment": "Root relationships pointing at the main document part.",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/docxTemplateEngine.test.ts:DOCUMENT_XML",
+          "name": "DOCUMENT_XML",
+          "type": "variable",
+          "path": "apps/backend/src/services/docxTemplateEngine.test.ts",
+          "line": 58,
+          "docComment": "The body of `word/document.xml`. Contains:\n - a paragraph with `w:jc` (centered) and `w:ind` (indented) holding\n   the {formulaTag} and {manualField} placeholders — used to verify\n   both substitution and formatting preservation;\n - a product loop paragraph `{#products}{PRODUCT_NAME} — {SUM}{/products}`.\n\nNB: each Word run (`<w:r><w:t>…</w:t></w:r>`) wraps a single contiguous\nplaceholder so docxtemplater can substitute it cleanly.",
+          "exports": []
         }
       ]
     },
@@ -2001,7 +2354,7 @@
           "name": "base64DataURLToArrayBuffer",
           "type": "function",
           "path": "apps/backend/src/services/docxTemplateEngine.ts",
-          "line": 76,
+          "line": 85,
           "signature": "base64DataURLToArrayBuffer(dataURL: string): ArrayBuffer | false",
           "docComment": "Convert a `data:image/...;base64,...` URI into an ArrayBuffer that\ndocxtemplater-image-module-free can embed into the archive.",
           "exports": []
@@ -2011,7 +2364,7 @@
           "name": "createImageModule",
           "type": "function",
           "path": "apps/backend/src/services/docxTemplateEngine.ts",
-          "line": 99,
+          "line": 108,
           "signature": "createImageModule(): unknown",
           "docComment": "Create an ImageModule instance configured to handle base64 data URI\nimages. Tags prefixed with `%` in the template (e.g. `{%logo}`) are\ntreated as image placeholders by docxtemplater-image-module-free.",
           "exports": []
@@ -2021,9 +2374,9 @@
           "name": "buildDataObject",
           "type": "function",
           "path": "apps/backend/src/services/docxTemplateEngine.ts",
-          "line": 125,
-          "signature": "buildDataObject(formulas: Record<string, FormulaEvaluationResult>, products: ProductRow[]): Record<string, unknown>",
-          "docComment": "Build the data object that docxtemplater receives for `render()`.\n\n- Each formula result is mapped as `data[tagKey] = evaluatedValue`.\n  On error, the label is used so the document reads naturally.\n- Product rows are mapped into `data.products` — an array of plain\n  objects with the fields that `{#products}` loops reference.",
+          "line": 138,
+          "signature": "buildDataObject(formulas: Record<string, FormulaEvaluationResult>, products: ProductRow[], fieldValues: Record<string, string> = {}): Record<string, unknown>",
+          "docComment": "Build the data object that docxtemplater receives for `render()`.\n\n- Each formula result is mapped as `data[tagKey] = evaluatedValue`.\n  On error, the label is used so the document reads naturally.\n- Each manual field is mapped as `data[fieldKey] = value`, using the\n  same `{fieldKey}` delimiters as formulas. Formula values win on key\n  collisions — manual fields only fill keys not already produced by a\n  formula.\n- Product rows are mapped into `data.products` — an array of plain\n  objects with the fields that `{#products}` loops reference.",
           "exports": []
         },
         {
@@ -2031,7 +2384,7 @@
           "name": "buildDocxFromTemplate",
           "type": "function",
           "path": "apps/backend/src/services/docxTemplateEngine.ts",
-          "line": 185,
+          "line": 206,
           "signature": "buildDocxFromTemplate(originalDocx: Buffer, options: BuildFromTemplateOptions): Promise<Buffer>",
           "docComment": "Render a .docx template by substituting placeholders with evaluated\nformula values and product data.",
           "exports": [
@@ -2043,7 +2396,7 @@
           "name": "scanDocxPlaceholders",
           "type": "function",
           "path": "apps/backend/src/services/docxTemplateEngine.ts",
-          "line": 275,
+          "line": 297,
           "signature": "scanDocxPlaceholders(originalDocx: Buffer): string[]",
           "docComment": "Extract all placeholder tag names from a .docx template.\n\nUses docxtemplater's `InspectModule` to parse the template and\ncollect every tag reference. Returns a unique, sorted array of\ntag names (including loop section names and their nested fields).",
           "exports": [
@@ -2055,7 +2408,7 @@
           "name": "collectTagNames",
           "type": "function",
           "path": "apps/backend/src/services/docxTemplateEngine.ts",
-          "line": 319,
+          "line": 341,
           "signature": "collectTagNames(tags: Record<string, unknown>, out: Set<string>, prefix = ''): void",
           "docComment": "Recursively collect tag names from the nested object returned by\n`InspectModule.getAllTags()`.\n\nThe shape is `{ tagName: {} }` for simple tags, and\n`{ sectionName: { nestedTag: {} } }` for loop sections.",
           "exports": []
@@ -2096,7 +2449,7 @@
           "name": "DEFAULT_IMAGE_SIZE",
           "type": "variable",
           "path": "apps/backend/src/services/docxTemplateEngine.ts",
-          "line": 92,
+          "line": 101,
           "docComment": "Default image dimensions (width × height in pixels).",
           "exports": []
         },
@@ -2105,7 +2458,7 @@
           "name": "inspectModule",
           "type": "variable",
           "path": "apps/backend/src/services/docxTemplateEngine.ts",
-          "line": 262,
+          "line": 284,
           "exports": []
         }
       ]
@@ -2340,7 +2693,7 @@
           "name": "runGeneration",
           "type": "function",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 131,
+          "line": 133,
           "signature": "runGeneration(params: RunGenerationParams): Promise<GenerationResult>",
           "docComment": "Execute the full generation pipeline for a single (templateId, dealId)\npair. See the file header for the step list.\n\nThrows `GenerationError` on any deterministic failure; lets genuinely\nunexpected errors propagate so they surface as 500s upstream.",
           "exports": [
@@ -2352,7 +2705,7 @@
           "name": "todayRu",
           "type": "function",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 428,
+          "line": 443,
           "signature": "todayRu(): string",
           "docComment": "Current date as `dd.MM.yyyy` (server local time).",
           "exports": []
@@ -2362,7 +2715,7 @@
           "name": "resolveFieldDefault",
           "type": "function",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 436,
+          "line": 451,
           "signature": "resolveFieldDefault(field: FieldForResolve): string",
           "docComment": "Resolve a field's default into a concrete string for substitution.",
           "exports": []
@@ -2372,7 +2725,7 @@
           "name": "resolveManualFieldValues",
           "type": "function",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 453,
+          "line": 468,
           "signature": "resolveManualFieldValues(fields: FieldForResolve[], rawValues: Record<string, string> | undefined): Record<string, string>",
           "docComment": "Build the final manual-field value map. A value provided by the\ncaller (even an empty string) is respected as-is; only when the key\nis ABSENT do we fall back to the field's default. This lets the UI\n(which always sends every key) override a default by clearing it,\nwhile server-to-server callers (webhooks, which send nothing) still\nget defaults like \"today\".",
           "exports": [
@@ -2384,7 +2737,7 @@
           "name": "detectProductUsage",
           "type": "function",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 483,
+          "line": 498,
           "signature": "detectProductUsage(contentHtml: string, expressions: string[]): { fetchProducts: boolean; fetchProductImages: boolean }",
           "docComment": "Scan the template HTML and formula expressions to determine whether\nproduct data (and product images) need to be fetched from Bitrix24.",
           "exports": []
@@ -2394,7 +2747,7 @@
           "name": "GenerationError",
           "type": "class",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 89,
+          "line": 91,
           "signature": "class GenerationError extends Error",
           "exports": [
             "GenerationError"
@@ -2405,7 +2758,7 @@
           "name": "BindingResult",
           "type": "interface",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 55,
+          "line": 57,
           "signature": "interface BindingResult",
           "docComment": "Sub-result for the optional \"attach to UF_CRM_* field\" step. Mirrors\nthe shape that `routes/generate.ts` has always returned so the\nexisting UI keeps rendering the yellow-warning state correctly.",
           "exports": [
@@ -2417,7 +2770,7 @@
           "name": "GenerationResult",
           "type": "interface",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 61,
+          "line": 63,
           "signature": "interface GenerationResult",
           "exports": [
             "GenerationResult"
@@ -2428,7 +2781,7 @@
           "name": "RunGenerationParams",
           "type": "interface",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 103,
+          "line": 105,
           "signature": "interface RunGenerationParams",
           "exports": [
             "RunGenerationParams"
@@ -2439,7 +2792,7 @@
           "name": "FieldForResolve",
           "type": "interface",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 421,
+          "line": 436,
           "signature": "interface FieldForResolve",
           "docComment": "Minimal shape of a TemplateField needed to resolve its value.",
           "exports": [
@@ -2451,7 +2804,7 @@
           "name": "GenerationErrorKind",
           "type": "type",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 79,
+          "line": 81,
           "docComment": "Error kinds distinguishable by the caller. The HTTP layer maps these\nto status codes; the webhook runner records them in the per-template\nresults array without aborting the whole call.",
           "exports": [
             "GenerationErrorKind"
@@ -2462,7 +2815,7 @@
           "name": "PRODUCT_HELPER_RE",
           "type": "variable",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 476,
+          "line": 491,
           "docComment": "Regex patterns for product-related helpers in formula expressions.",
           "exports": []
         },
@@ -2471,7 +2824,7 @@
           "name": "PRODUCT_IMAGE_HELPER_RE",
           "type": "variable",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 477,
+          "line": 492,
           "exports": []
         }
       ]
@@ -2584,7 +2937,7 @@
           "name": "getBrowser",
           "type": "function",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 59,
+          "line": 66,
           "signature": "getBrowser(): Promise<Browser>",
           "exports": []
         },
@@ -2593,7 +2946,7 @@
           "name": "closePdfBrowser",
           "type": "function",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 79,
+          "line": 86,
           "signature": "closePdfBrowser(): Promise<void>",
           "docComment": "Shut down the shared browser (call on server close).",
           "exports": [
@@ -2605,7 +2958,7 @@
           "name": "buildPdfFromHtml",
           "type": "function",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 90,
+          "line": 97,
           "signature": "buildPdfFromHtml(html: string, options: BuildPdfOptions = {}): Promise<Buffer>",
           "exports": [
             "buildPdfFromHtml"
@@ -2616,7 +2969,7 @@
           "name": "stripFormulaTags",
           "type": "function",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 161,
+          "line": 168,
           "signature": "stripFormulaTags(html: string, formulas: Record<string, FormulaEvaluationResult>): string",
           "exports": []
         },
@@ -2625,7 +2978,7 @@
           "name": "stripManualFieldTags",
           "type": "function",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 189,
+          "line": 196,
           "signature": "stripManualFieldTags(html: string, fieldValues: Record<string, string>): string",
           "docComment": "Replace every `<span data-field-key=\"K\">…</span>` manual-field\nplaceholder with the user-provided value for K (escaped). Missing\nkeys become an empty string so the placeholder pill never leaks into\nthe final document. Newlines in textarea values are converted to\n`<br>` so multi-line input is preserved in the PDF.",
           "exports": []
@@ -2635,7 +2988,7 @@
           "name": "escapeHtml",
           "type": "function",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 205,
+          "line": 212,
           "signature": "escapeHtml(value: string): string",
           "exports": []
         },
@@ -2644,7 +2997,7 @@
           "name": "wrapAsStyledHtml",
           "type": "function",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 212,
+          "line": 219,
           "signature": "wrapAsStyledHtml(body: string, title: string): string",
           "exports": []
         },
@@ -2653,7 +3006,7 @@
           "name": "PdfBuildError",
           "type": "class",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 27,
+          "line": 34,
           "signature": "class PdfBuildError extends Error",
           "exports": [
             "PdfBuildError"
@@ -2664,7 +3017,7 @@
           "name": "BuildPdfOptions",
           "type": "interface",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 41,
+          "line": 48,
           "signature": "interface BuildPdfOptions",
           "exports": [
             "BuildPdfOptions"
@@ -2675,7 +3028,7 @@
           "name": "browserInstance",
           "type": "variable",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 57,
+          "line": 64,
           "exports": []
         }
       ]
@@ -2933,212 +3286,6 @@
       ]
     },
     {
-      "id": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "name": "ProductTableNode.ts",
-      "type": "file",
-      "path": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-      "exports": [
-        "ProductFieldSpan",
-        "ProductImageSpan",
-        "ProductIndexSpan"
-      ],
-      "children": [
-        {
-          "id": "apps/frontend/src/components/Editor/ProductTableNode.ts:ProductFieldSpan",
-          "name": "ProductFieldSpan",
-          "type": "variable",
-          "path": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-          "line": 36,
-          "exports": [
-            "ProductFieldSpan"
-          ]
-        },
-        {
-          "id": "apps/frontend/src/components/Editor/ProductTableNode.ts:ProductImageSpan",
-          "name": "ProductImageSpan",
-          "type": "variable",
-          "path": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-          "line": 78,
-          "exports": [
-            "ProductImageSpan"
-          ]
-        },
-        {
-          "id": "apps/frontend/src/components/Editor/ProductTableNode.ts:ProductIndexSpan",
-          "name": "ProductIndexSpan",
-          "type": "variable",
-          "path": "apps/frontend/src/components/Editor/ProductTableNode.ts",
-          "line": 117,
-          "exports": [
-            "ProductIndexSpan"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "name": "TiptapEditor.tsx",
-      "type": "file",
-      "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-      "exports": [
-        "buildTiptapExtensions",
-        "TiptapEditor",
-        "TiptapEditorProps"
-      ],
-      "children": [
-        {
-          "id": "apps/frontend/src/components/Editor/TiptapEditor.tsx:buildTiptapExtensions",
-          "name": "buildTiptapExtensions",
-          "type": "function",
-          "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-          "line": 85,
-          "signature": "buildTiptapExtensions()",
-          "docComment": "Build the canonical TipTap extensions list. Exported so other\neditors (e.g. a future preview/read-only view) can reuse the\nexact same configuration.",
-          "exports": [
-            "buildTiptapExtensions"
-          ]
-        },
-        {
-          "id": "apps/frontend/src/components/Editor/TiptapEditor.tsx:TiptapEditor",
-          "name": "TiptapEditor",
-          "type": "function",
-          "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-          "line": 123,
-          "signature": "TiptapEditor({\n  content,\n  onChange,\n  onReady,\n  editable = true,\n  className,\n  placeholder,\n}: TiptapEditorProps)",
-          "exports": [
-            "TiptapEditor"
-          ]
-        },
-        {
-          "id": "apps/frontend/src/components/Editor/TiptapEditor.tsx:TiptapEditorProps",
-          "name": "TiptapEditorProps",
-          "type": "interface",
-          "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-          "line": 65,
-          "signature": "interface TiptapEditorProps",
-          "exports": [
-            "TiptapEditorProps"
-          ]
-        },
-        {
-          "id": "apps/frontend/src/components/Editor/TiptapEditor.tsx:Table",
-          "name": "Table",
-          "type": "variable",
-          "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-          "line": 49,
-          "docComment": "Extended Table node that persists `data-product-table` as an attribute.\nThe base TipTap Table node drops unknown HTML attributes on parse/render,\nso we explicitly register `productTable` as a custom attribute.",
-          "exports": []
-        }
-      ]
-    },
-    {
-      "id": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "name": "Toolbar.tsx",
-      "type": "file",
-      "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-      "exports": [
-        "Toolbar",
-        "ToolbarProps"
-      ],
-      "children": [
-        {
-          "id": "apps/frontend/src/components/Editor/Toolbar.tsx:buildProductTableHtml",
-          "name": "buildProductTableHtml",
-          "type": "function",
-          "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 67,
-          "signature": "buildProductTableHtml(selectedIds: Set<string>): string",
-          "docComment": "Build product table HTML from the selected column set.",
-          "exports": []
-        },
-        {
-          "id": "apps/frontend/src/components/Editor/Toolbar.tsx:ToolbarButton",
-          "name": "ToolbarButton",
-          "type": "function",
-          "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 123,
-          "signature": "ToolbarButton({ onClick, isActive, disabled, title, children }: ButtonProps)",
-          "exports": []
-        },
-        {
-          "id": "apps/frontend/src/components/Editor/Toolbar.tsx:Divider",
-          "name": "Divider",
-          "type": "function",
-          "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 142,
-          "signature": "Divider()",
-          "exports": []
-        },
-        {
-          "id": "apps/frontend/src/components/Editor/Toolbar.tsx:Toolbar",
-          "name": "Toolbar",
-          "type": "function",
-          "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 146,
-          "signature": "Toolbar({ editor, className, onInsertFormula, onInsertField }: ToolbarProps)",
-          "exports": [
-            "Toolbar"
-          ]
-        },
-        {
-          "id": "apps/frontend/src/components/Editor/Toolbar.tsx:ProductTableDropdown",
-          "name": "ProductTableDropdown",
-          "type": "function",
-          "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 302,
-          "signature": "ProductTableDropdown({ editor }: { editor: Editor })",
-          "exports": []
-        },
-        {
-          "id": "apps/frontend/src/components/Editor/Toolbar.tsx:ProductColumnOption",
-          "name": "ProductColumnOption",
-          "type": "interface",
-          "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 43,
-          "signature": "interface ProductColumnOption",
-          "docComment": "Column descriptors for the product table builder.",
-          "exports": []
-        },
-        {
-          "id": "apps/frontend/src/components/Editor/Toolbar.tsx:ToolbarProps",
-          "name": "ToolbarProps",
-          "type": "interface",
-          "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 96,
-          "signature": "interface ToolbarProps",
-          "docComment": "Props for the toolbar. The `editor` may be null while loading.",
-          "exports": [
-            "ToolbarProps"
-          ]
-        },
-        {
-          "id": "apps/frontend/src/components/Editor/Toolbar.tsx:ButtonProps",
-          "name": "ButtonProps",
-          "type": "interface",
-          "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 115,
-          "signature": "interface ButtonProps",
-          "exports": []
-        },
-        {
-          "id": "apps/frontend/src/components/Editor/Toolbar.tsx:PRODUCT_COLUMNS",
-          "name": "PRODUCT_COLUMNS",
-          "type": "variable",
-          "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 52,
-          "exports": []
-        }
-      ]
-    },
-    {
-      "id": "apps/frontend/src/components/Editor/index.ts",
-      "name": "index.ts",
-      "type": "file",
-      "path": "apps/frontend/src/components/Editor/index.ts",
-      "exports": [],
-      "children": []
-    },
-    {
       "id": "apps/frontend/src/components/FieldPicker.tsx",
       "name": "FieldPicker.tsx",
       "type": "file",
@@ -3245,7 +3392,7 @@
           "name": "HelperTooltipContent",
           "type": "function",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 150,
+          "line": 152,
           "signature": "HelperTooltipContent({ doc }: { doc: HelperDoc })",
           "docComment": "Содержимое всплывающей подсказки для функции — рендерится один раз\nна каждую кнопку палитры. Для пилюль формул в редакторе используется\nта же разметка, поэтому компонент экспортируется ниже.",
           "exports": [
@@ -3257,7 +3404,7 @@
           "name": "FormulaBuilder",
           "type": "function",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 197,
+          "line": 199,
           "signature": "FormulaBuilder({\n  open,\n  onOpenChange,\n  onInsert,\n  existingKeys,\n  initialValues,\n  testDealId,\n}: FormulaBuilderProps)",
           "exports": [
             "FormulaBuilder"
@@ -3268,7 +3415,7 @@
           "name": "DepList",
           "type": "function",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 605,
+          "line": 607,
           "signature": "DepList({ title, items }: { title: string; items: ReadonlyArray<string> })",
           "exports": []
         },
@@ -3277,7 +3424,7 @@
           "name": "FormulaBuilderResult",
           "type": "interface",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 70,
+          "line": 72,
           "signature": "interface FormulaBuilderResult",
           "exports": [
             "FormulaBuilderResult"
@@ -3288,7 +3435,7 @@
           "name": "FormulaBuilderProps",
           "type": "interface",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 77,
+          "line": 79,
           "signature": "interface FormulaBuilderProps",
           "exports": [
             "FormulaBuilderProps"
@@ -3299,7 +3446,7 @@
           "name": "HelperDescriptor",
           "type": "interface",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 113,
+          "line": 115,
           "signature": "interface HelperDescriptor",
           "exports": []
         },
@@ -3308,7 +3455,7 @@
           "name": "OPERATORS",
           "type": "variable",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 97,
+          "line": 99,
           "exports": []
         },
         {
@@ -3316,7 +3463,7 @@
           "name": "HELPERS",
           "type": "variable",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 125,
+          "line": 127,
           "docComment": "Snippet-карта функций. Описания/сигнатуры/примеры берутся из общего\nсправочника `HELPER_DOCS` (lib/formulaHelp.ts), здесь хранится только\nшаблон вставки и смещение каретки.",
           "exports": []
         },
@@ -3325,66 +3472,9 @@
           "name": "PRODUCT_HELPERS",
           "type": "variable",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 138,
+          "line": 140,
           "docComment": "Product-specific helpers — shown in a separate palette section so\nadmins can quickly build product-related formulas.",
           "exports": []
-        }
-      ]
-    },
-    {
-      "id": "apps/frontend/src/components/FormulaTag.tsx",
-      "name": "FormulaTag.tsx",
-      "type": "file",
-      "path": "apps/frontend/src/components/FormulaTag.tsx",
-      "exports": [
-        "insertFormula",
-        "FormulaTagAttributes",
-        "FormulaTag"
-      ],
-      "children": [
-        {
-          "id": "apps/frontend/src/components/FormulaTag.tsx:insertFormula",
-          "name": "insertFormula",
-          "type": "function",
-          "path": "apps/frontend/src/components/FormulaTag.tsx",
-          "line": 168,
-          "signature": "insertFormula(editor: Editor | null, attrs: FormulaTagAttributes): boolean",
-          "docComment": "Imperative helper for callers that prefer not to touch the chain\nAPI directly. Inserts a FormulaTag at the current caret and returns\nthe result of the command (boolean). No-op when the editor is null.",
-          "exports": [
-            "insertFormula"
-          ]
-        },
-        {
-          "id": "apps/frontend/src/components/FormulaTag.tsx:FormulaTagAttributes",
-          "name": "FormulaTagAttributes",
-          "type": "interface",
-          "path": "apps/frontend/src/components/FormulaTag.tsx",
-          "line": 43,
-          "signature": "interface FormulaTagAttributes",
-          "docComment": "Attributes stored on a FormulaTag node and mirrored to the DOM.",
-          "exports": [
-            "FormulaTagAttributes"
-          ]
-        },
-        {
-          "id": "apps/frontend/src/components/FormulaTag.tsx:DEFAULTS",
-          "name": "DEFAULTS",
-          "type": "variable",
-          "path": "apps/frontend/src/components/FormulaTag.tsx",
-          "line": 65,
-          "docComment": "Default attributes for safety fall-backs.",
-          "exports": []
-        },
-        {
-          "id": "apps/frontend/src/components/FormulaTag.tsx:FormulaTag",
-          "name": "FormulaTag",
-          "type": "variable",
-          "path": "apps/frontend/src/components/FormulaTag.tsx",
-          "line": 75,
-          "docComment": "The TipTap Node extension. Register it in the editor's `extensions`\narray right after `StarterKit`.",
-          "exports": [
-            "FormulaTag"
-          ]
         }
       ]
     },
@@ -3404,7 +3494,7 @@
           "name": "ManualFieldBuilder",
           "type": "function",
           "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
-          "line": 68,
+          "line": 71,
           "signature": "ManualFieldBuilder({\n  open,\n  onOpenChange,\n  onInsert,\n  existingKeys,\n  initialValues,\n}: ManualFieldBuilderProps)",
           "exports": [
             "ManualFieldBuilder"
@@ -3415,7 +3505,7 @@
           "name": "ManualFieldBuilderResult",
           "type": "interface",
           "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
-          "line": 40,
+          "line": 43,
           "signature": "interface ManualFieldBuilderResult",
           "exports": [
             "ManualFieldBuilderResult"
@@ -3426,7 +3516,7 @@
           "name": "ManualFieldBuilderProps",
           "type": "interface",
           "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
-          "line": 50,
+          "line": 53,
           "signature": "interface ManualFieldBuilderProps",
           "exports": [
             "ManualFieldBuilderProps"
@@ -3437,63 +3527,8 @@
           "name": "TYPE_OPTIONS",
           "type": "variable",
           "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
-          "line": 61,
+          "line": 64,
           "exports": []
-        }
-      ]
-    },
-    {
-      "id": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "name": "ManualFieldTag.tsx",
-      "type": "file",
-      "path": "apps/frontend/src/components/ManualFieldTag.tsx",
-      "exports": [
-        "insertManualField",
-        "ManualFieldTagAttributes",
-        "ManualFieldTag"
-      ],
-      "children": [
-        {
-          "id": "apps/frontend/src/components/ManualFieldTag.tsx:insertManualField",
-          "name": "insertManualField",
-          "type": "function",
-          "path": "apps/frontend/src/components/ManualFieldTag.tsx",
-          "line": 171,
-          "signature": "insertManualField(editor: Editor | null, attrs: ManualFieldTagAttributes): boolean",
-          "docComment": "Imperative helper that inserts a ManualFieldTag at the caret. No-op\nwhen the editor is null.",
-          "exports": [
-            "insertManualField"
-          ]
-        },
-        {
-          "id": "apps/frontend/src/components/ManualFieldTag.tsx:ManualFieldTagAttributes",
-          "name": "ManualFieldTagAttributes",
-          "type": "interface",
-          "path": "apps/frontend/src/components/ManualFieldTag.tsx",
-          "line": 28,
-          "signature": "interface ManualFieldTagAttributes",
-          "docComment": "Attributes stored on a ManualFieldTag node and mirrored to the DOM.",
-          "exports": [
-            "ManualFieldTagAttributes"
-          ]
-        },
-        {
-          "id": "apps/frontend/src/components/ManualFieldTag.tsx:DEFAULTS",
-          "name": "DEFAULTS",
-          "type": "variable",
-          "path": "apps/frontend/src/components/ManualFieldTag.tsx",
-          "line": 52,
-          "exports": []
-        },
-        {
-          "id": "apps/frontend/src/components/ManualFieldTag.tsx:ManualFieldTag",
-          "name": "ManualFieldTag",
-          "type": "variable",
-          "path": "apps/frontend/src/components/ManualFieldTag.tsx",
-          "line": 61,
-          "exports": [
-            "ManualFieldTag"
-          ]
         }
       ]
     },
@@ -4555,6 +4590,7 @@
         "UpdateTemplateBody",
         "FormulaEvaluationResultDTO",
         "TemplatePreviewResponseDTO",
+        "TemplatePreviewRequestDTO",
         "GenerateBindingDTO",
         "GenerateResponseDTO",
         "SettingsDTO",
@@ -4619,7 +4655,7 @@
           "name": "uploadRequest",
           "type": "function",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 134,
+          "line": 140,
           "signature": "uploadRequest(path: string, formData: FormData, opts: UploadOptions = {}): Promise<T>",
           "exports": [
             "uploadRequest"
@@ -4686,7 +4722,7 @@
           "name": "PortalUserDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 201,
+          "line": 207,
           "signature": "interface PortalUserDTO",
           "exports": [
             "PortalUserDTO"
@@ -4697,7 +4733,7 @@
           "name": "InstallStatusDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 210,
+          "line": 216,
           "signature": "interface InstallStatusDTO",
           "exports": [
             "InstallStatusDTO"
@@ -4708,7 +4744,7 @@
           "name": "InstallSettingsDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 218,
+          "line": 224,
           "signature": "interface InstallSettingsDTO",
           "exports": [
             "InstallSettingsDTO"
@@ -4719,7 +4755,7 @@
           "name": "MeDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 232,
+          "line": 238,
           "signature": "interface MeDTO",
           "exports": [
             "MeDTO"
@@ -4730,7 +4766,7 @@
           "name": "PlacementDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 300,
+          "line": 306,
           "signature": "interface PlacementDTO",
           "exports": [
             "PlacementDTO"
@@ -4741,7 +4777,7 @@
           "name": "PlacementCatalogItemDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 312,
+          "line": 318,
           "signature": "interface PlacementCatalogItemDTO",
           "docComment": "One embedding location the app offers in Settings (\"куда встроить\").\nReturned by `GET /api/placements/catalog`. `placement` is the Bitrix24\ncode; `title`/`description` are the suggested defaults shown in the UI.",
           "exports": [
@@ -4753,7 +4789,7 @@
           "name": "CrmFieldDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 351,
+          "line": 357,
           "signature": "interface CrmFieldDTO",
           "exports": [
             "CrmFieldDTO"
@@ -4764,7 +4800,7 @@
           "name": "FormulaValidateResponse",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 391,
+          "line": 397,
           "signature": "interface FormulaValidateResponse",
           "exports": [
             "FormulaValidateResponse"
@@ -4775,7 +4811,7 @@
           "name": "FormulaEvaluateResponse",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 397,
+          "line": 403,
           "signature": "interface FormulaEvaluateResponse",
           "exports": [
             "FormulaEvaluateResponse"
@@ -4786,7 +4822,7 @@
           "name": "ThemeDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 422,
+          "line": 428,
           "signature": "interface ThemeDTO",
           "exports": [
             "ThemeDTO"
@@ -4797,7 +4833,7 @@
           "name": "UpdateThemeBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 435,
+          "line": 441,
           "signature": "interface UpdateThemeBody",
           "exports": [
             "UpdateThemeBody"
@@ -4808,7 +4844,7 @@
           "name": "TemplateListItemDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 464,
+          "line": 470,
           "signature": "interface TemplateListItemDTO",
           "exports": [
             "TemplateListItemDTO"
@@ -4819,7 +4855,7 @@
           "name": "FormulaDependenciesDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 475,
+          "line": 481,
           "signature": "interface FormulaDependenciesDTO",
           "exports": [
             "FormulaDependenciesDTO"
@@ -4830,7 +4866,7 @@
           "name": "FormulaDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 481,
+          "line": 487,
           "signature": "interface FormulaDTO",
           "exports": [
             "FormulaDTO"
@@ -4841,7 +4877,7 @@
           "name": "TemplateFieldDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 492,
+          "line": 498,
           "signature": "interface TemplateFieldDTO",
           "exports": [
             "TemplateFieldDTO"
@@ -4852,7 +4888,7 @@
           "name": "TemplateFieldInputDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 504,
+          "line": 510,
           "signature": "interface TemplateFieldInputDTO",
           "exports": [
             "TemplateFieldInputDTO"
@@ -4863,7 +4899,7 @@
           "name": "TemplateDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 515,
+          "line": 521,
           "signature": "interface TemplateDTO",
           "exports": [
             "TemplateDTO"
@@ -4874,7 +4910,7 @@
           "name": "FormulaInputDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 528,
+          "line": 540,
           "signature": "interface FormulaInputDTO",
           "exports": [
             "FormulaInputDTO"
@@ -4885,7 +4921,7 @@
           "name": "UpdateTemplateBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 536,
+          "line": 548,
           "signature": "interface UpdateTemplateBody",
           "exports": [
             "UpdateTemplateBody"
@@ -4896,7 +4932,7 @@
           "name": "FormulaEvaluationResultDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 548,
+          "line": 560,
           "signature": "interface FormulaEvaluationResultDTO",
           "exports": [
             "FormulaEvaluationResultDTO"
@@ -4907,10 +4943,23 @@
           "name": "TemplatePreviewResponseDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 557,
+          "line": 578,
           "signature": "interface TemplatePreviewResponseDTO",
+          "docComment": "POST /api/templates/:id/preview — response.\n\nThe preview is a fully-substituted `.docx` (formulas + manual\n`fieldValues` + product rows rendered into the admin-uploaded original\nWord archive), returned base64-encoded so the frontend renders it\nclient-side via `docx-preview`. The legacy server-rendered `html`\nfield is gone.",
           "exports": [
             "TemplatePreviewResponseDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:TemplatePreviewRequestDTO",
+          "name": "TemplatePreviewRequestDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 594,
+          "signature": "interface TemplatePreviewRequestDTO",
+          "docComment": "POST /api/templates/:id/preview — request body.",
+          "exports": [
+            "TemplatePreviewRequestDTO"
           ]
         },
         {
@@ -4918,7 +4967,7 @@
           "name": "GenerateBindingDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 566,
+          "line": 604,
           "signature": "interface GenerateBindingDTO",
           "exports": [
             "GenerateBindingDTO"
@@ -4929,7 +4978,7 @@
           "name": "GenerateResponseDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 572,
+          "line": 610,
           "signature": "interface GenerateResponseDTO",
           "exports": [
             "GenerateResponseDTO"
@@ -4940,7 +4989,7 @@
           "name": "SettingsDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 644,
+          "line": 713,
           "signature": "interface SettingsDTO",
           "exports": [
             "SettingsDTO"
@@ -4951,7 +5000,7 @@
           "name": "DealFileFieldDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 652,
+          "line": 721,
           "signature": "interface DealFileFieldDTO",
           "exports": [
             "DealFileFieldDTO"
@@ -4962,7 +5011,7 @@
           "name": "WebhookListItemDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 695,
+          "line": 764,
           "signature": "interface WebhookListItemDTO",
           "docComment": "Webhook list item. The backend's `GET /api/webhooks` returns each\n`WebhookSummary` with two extra joined fields so the UI can render a\nhuman-readable target name without a second round-trip:\n\n  - `themeName`    — present when `scope === 'theme'`.\n  - `templateName` — present when `scope === 'template'`.\n\nBoth fields are nullable in case the referenced row was deleted.\nMutations (`create`, `patch`) return the plain `WebhookSummary`\n(without the join fields), so callers should refetch the list after\na mutation to pick up a fresh `themeName`/`templateName`.",
           "exports": [
@@ -4974,7 +5023,7 @@
           "name": "CreateWebhookBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 700,
+          "line": 769,
           "signature": "interface CreateWebhookBody",
           "exports": [
             "CreateWebhookBody"
@@ -4985,7 +5034,7 @@
           "name": "UpdateWebhookBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 707,
+          "line": 776,
           "signature": "interface UpdateWebhookBody",
           "exports": [
             "UpdateWebhookBody"
@@ -4996,7 +5045,7 @@
           "name": "AppRoleDTO",
           "type": "type",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 230,
+          "line": 236,
           "exports": [
             "AppRoleDTO"
           ]
@@ -5006,7 +5055,7 @@
           "name": "TemplateFieldTypeDTO",
           "type": "type",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 490,
+          "line": 496,
           "exports": [
             "TemplateFieldTypeDTO"
           ]
@@ -5024,7 +5073,7 @@
           "name": "meApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 237,
+          "line": 243,
           "exports": [
             "meApi"
           ]
@@ -5034,7 +5083,7 @@
           "name": "installApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 242,
+          "line": 248,
           "exports": [
             "installApi"
           ]
@@ -5044,7 +5093,7 @@
           "name": "placementsApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 318,
+          "line": 324,
           "exports": [
             "placementsApi"
           ]
@@ -5054,7 +5103,7 @@
           "name": "usersApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 340,
+          "line": 346,
           "exports": [
             "usersApi"
           ]
@@ -5064,7 +5113,7 @@
           "name": "dealApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 361,
+          "line": 367,
           "exports": [
             "dealApi"
           ]
@@ -5074,7 +5123,7 @@
           "name": "crmApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 372,
+          "line": 378,
           "exports": [
             "crmApi"
           ]
@@ -5084,7 +5133,7 @@
           "name": "formulasApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 405,
+          "line": 411,
           "exports": [
             "formulasApi"
           ]
@@ -5094,7 +5143,7 @@
           "name": "themesApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 442,
+          "line": 448,
           "exports": [
             "themesApi"
           ]
@@ -5104,7 +5153,7 @@
           "name": "templatesApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 583,
+          "line": 621,
           "exports": [
             "templatesApi"
           ]
@@ -5114,7 +5163,7 @@
           "name": "generateApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 632,
+          "line": 701,
           "exports": [
             "generateApi"
           ]
@@ -5124,7 +5173,7 @@
           "name": "settingsApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 661,
+          "line": 730,
           "exports": [
             "settingsApi"
           ]
@@ -5134,7 +5183,7 @@
           "name": "webhooksApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 712,
+          "line": 781,
           "exports": [
             "webhooksApi"
           ]
@@ -5529,6 +5578,66 @@
       ]
     },
     {
+      "id": "apps/frontend/src/lib/templateTags.ts",
+      "name": "templateTags.ts",
+      "type": "file",
+      "path": "apps/frontend/src/lib/templateTags.ts",
+      "exports": [
+        "isReservedTag",
+        "computeTagStatus",
+        "TagBindingStatus",
+        "RESERVED_PRODUCT_TAGS"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/lib/templateTags.ts:isReservedTag",
+          "name": "isReservedTag",
+          "type": "function",
+          "path": "apps/frontend/src/lib/templateTags.ts",
+          "line": 52,
+          "signature": "isReservedTag(tag: string): boolean",
+          "docComment": "Returns true when `tag` is a reserved product-loop / image tag that the\ngeneration engine fills automatically and therefore must not be treated\nas an unbound placeholder in the editor.",
+          "exports": [
+            "isReservedTag"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/templateTags.ts:computeTagStatus",
+          "name": "computeTagStatus",
+          "type": "function",
+          "path": "apps/frontend/src/lib/templateTags.ts",
+          "line": 65,
+          "signature": "computeTagStatus(tag: string, formulaKeys: ReadonlySet<string>, fieldKeys: ReadonlySet<string>): TagBindingStatus",
+          "docComment": "Compute the binding status of a single tag against the current\nformula/field maps. Reserved product tags short-circuit to `reserved`;\notherwise a tag is `formula` / `field` when a matching `tagKey` /\n`fieldKey` exists, and `unbound` when neither does.",
+          "exports": [
+            "computeTagStatus"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/templateTags.ts:TagBindingStatus",
+          "name": "TagBindingStatus",
+          "type": "type",
+          "path": "apps/frontend/src/lib/templateTags.ts",
+          "line": 57,
+          "docComment": "Binding kind for a template tag.",
+          "exports": [
+            "TagBindingStatus"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/templateTags.ts:RESERVED_PRODUCT_TAGS",
+          "name": "RESERVED_PRODUCT_TAGS",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/templateTags.ts",
+          "line": 26,
+          "docComment": "Tags reserved by the product-loop / image machinery. These are filled\nautomatically by `buildDocxFromTemplate` when it renders the\n`{#products}…{/products}` loop, so they require no admin binding.\n\nMirrors the `products` row object built in `docxTemplateEngine.ts`\n(`buildTemplateData`) plus the loop section name itself.",
+          "exports": [
+            "RESERVED_PRODUCT_TAGS"
+          ]
+        }
+      ]
+    },
+    {
       "id": "apps/frontend/src/lib/useApiError.ts",
       "name": "useApiError.ts",
       "type": "file",
@@ -5716,11 +5825,31 @@
       ],
       "children": [
         {
+          "id": "apps/frontend/src/pages/GeneratePage.tsx:useDebouncedValue",
+          "name": "useDebouncedValue",
+          "type": "function",
+          "path": "apps/frontend/src/pages/GeneratePage.tsx",
+          "line": 92,
+          "signature": "useDebouncedValue(value: T, delay = 500): T",
+          "docComment": "Tiny custom debounce — returns a value that lags `value` by `delay`\nms. Used to coalesce rapid manual-field edits into a single preview\nre-request. Mirrors the helper used on the other pages.",
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/pages/GeneratePage.tsx:base64ToBytes",
+          "name": "base64ToBytes",
+          "type": "function",
+          "path": "apps/frontend/src/pages/GeneratePage.tsx",
+          "line": 106,
+          "signature": "base64ToBytes(b64: string): Uint8Array",
+          "docComment": "Decode a base64 string into a `Uint8Array` docx-preview can read.",
+          "exports": []
+        },
+        {
           "id": "apps/frontend/src/pages/GeneratePage.tsx:formatFieldValue",
           "name": "formatFieldValue",
           "type": "function",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 143,
+          "line": 124,
           "signature": "formatFieldValue(field: TemplateFieldDTO, raw: string): string",
           "docComment": "Convert a raw input value into the string that goes into the\ndocument. Date inputs yield ISO `yyyy-mm-dd`; we render them as the\nRussian `dd.MM.yyyy`. Everything else passes through unchanged.",
           "exports": []
@@ -5730,7 +5859,7 @@
           "name": "todayISO",
           "type": "function",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 154,
+          "line": 135,
           "signature": "todayISO(): string",
           "docComment": "Today's date as the `yyyy-mm-dd` string a `<input type=\"date\">` expects.",
           "exports": []
@@ -5740,7 +5869,7 @@
           "name": "initialFieldValue",
           "type": "function",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 166,
+          "line": 147,
           "signature": "initialFieldValue(field: TemplateFieldDTO): string",
           "docComment": "Initial value for a field — applies its default. Date defaults are\ntokens (`today` → ISO date for the `<input type=\"date\">`); text /\ntextarea / number defaults are literal values the user can edit.",
           "exports": []
@@ -5750,7 +5879,7 @@
           "name": "GeneratePage",
           "type": "function",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 177,
+          "line": 158,
           "signature": "GeneratePage()",
           "exports": [
             "GeneratePage"
@@ -5761,18 +5890,18 @@
           "name": "ManualFieldInput",
           "type": "function",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 703,
+          "line": 741,
           "signature": "ManualFieldInput({\n  field,\n  value,\n  onChange,\n}: {\n  field: TemplateFieldDTO;\n  value: string;\n  onChange: (value: string) => void;\n})",
           "docComment": "Single control for a manual field on the generate form. Renders the\nright input type (textarea / number / date / text), shows the label\nwith a required marker and the placeholder hint.",
           "exports": []
         },
         {
-          "id": "apps/frontend/src/pages/GeneratePage.tsx:PREVIEW_STYLES",
-          "name": "PREVIEW_STYLES",
+          "id": "apps/frontend/src/pages/GeneratePage.tsx:DOCX_CLASS_NAME",
+          "name": "DOCX_CLASS_NAME",
           "type": "variable",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 87,
-          "docComment": "Single CSS block injected once per page mount. Targets every\n`<span data-formula-key>` produced by the backend preview endpoint.\nThe selector relies on the `data-computed-value` attribute that the\nbackend now emits, so admin-mode pills (which lack the attribute)\nare not affected.",
+          "line": 81,
+          "docComment": "docx-preview renders the document's own CSS (page size, fonts,\nnumbering) into a separate \"style container\". We keep that container\nhidden so those Word-derived rules — which are scoped by the\n`className` prefix below — are present for the body container but do\nnot visually bleed into the rest of the app. The body container holds\nthe rendered page(s) and uses the same prefix.",
           "exports": []
         }
       ]
@@ -5849,24 +5978,54 @@
       ],
       "children": [
         {
+          "id": "apps/frontend/src/pages/TemplateEditorPage.tsx:base64ToBytes",
+          "name": "base64ToBytes",
+          "type": "function",
+          "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+          "line": 99,
+          "signature": "base64ToBytes(b64: string): Uint8Array",
+          "docComment": "Decode a base64 string into a `Uint8Array`.",
+          "exports": []
+        },
+        {
           "id": "apps/frontend/src/pages/TemplateEditorPage.tsx:TemplateEditorPage",
           "name": "TemplateEditorPage",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 64,
+          "line": 108,
           "signature": "TemplateEditorPage()",
           "exports": [
             "TemplateEditorPage"
           ]
         },
         {
+          "id": "apps/frontend/src/pages/TemplateEditorPage.tsx:TagRow",
+          "name": "TagRow",
+          "type": "function",
+          "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+          "line": 1022,
+          "signature": "TagRow({\n  tag,\n  status,\n  orphan = false,\n  formula,\n  field,\n  onBindFormula,\n  onBindField,\n  onRemoveFormula,\n  onRemoveField,\n}: {\n  tag: string;\n  status: TagBindingStatus;\n  orphan?: boolean;\n  formula?: FormulaInputDTO;\n  field?: TemplateFieldInputDTO;\n  onBindFormula: () => void;\n  onBindField: () => void;\n  onRemoveFormula: () => void;\n  onRemoveField: () => void;\n})",
+          "docComment": "A single row in the \"Теги шаблона\" panel. Shows the tag name, its\nbinding status badge and the relevant actions (bind/edit a formula,\ndeclare/edit a manual field, or remove an existing binding). Unbound\nnon-reserved tags are highlighted with an amber border so the admin\nnotices them; reserved product-loop tags are shown muted with no\nactions because the engine fills them automatically.",
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/pages/TemplateEditorPage.tsx:StatusBadge",
+          "name": "StatusBadge",
+          "type": "function",
+          "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+          "line": 1144,
+          "signature": "StatusBadge({ status }: { status: TagBindingStatus })",
+          "docComment": "Small coloured badge describing a tag's binding status.",
+          "exports": []
+        },
+        {
           "id": "apps/frontend/src/pages/TemplateEditorPage.tsx:formulaDtoToInput",
           "name": "formulaDtoToInput",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 699,
+          "line": 1182,
           "signature": "formulaDtoToInput(f: FormulaDTO): FormulaInputDTO",
-          "docComment": "Translate the TemplateDTO's Formula shape into the FormulaInputDTO\nwe will send back on save. We preserve the id so the backend can\nreuse rows on update.",
+          "docComment": "Translate a FormulaDTO into the FormulaInputDTO sent back on save.",
           "exports": []
         },
         {
@@ -5874,19 +6033,18 @@
           "name": "fieldDtoToInput",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 710,
+          "line": 1193,
           "signature": "fieldDtoToInput(f: TemplateFieldDTO): TemplateFieldInputDTO",
           "docComment": "Translate a TemplateFieldDTO into the input shape sent on save.",
           "exports": []
         },
         {
-          "id": "apps/frontend/src/pages/TemplateEditorPage.tsx:EditorFormulaTooltip",
-          "name": "EditorFormulaTooltip",
-          "type": "function",
+          "id": "apps/frontend/src/pages/TemplateEditorPage.tsx:EDITOR_CLASS_NAME",
+          "name": "EDITOR_CLASS_NAME",
+          "type": "variable",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 744,
-          "signature": "EditorFormulaTooltip({\n  editor,\n  formulasByKey,\n}: {\n  editor: TiptapEditorInstance | null;\n  formulasByKey: Record<string, FormulaInputDTO>;\n})",
-          "docComment": "Hover-подсказка для пилюль формул внутри TipTap.\n\nПодсказка работает в стиле Google Sheets:\n - Слушает делегированные mouseover/mouseout на `editor.view.dom`\n   и реагирует на любые `<span data-formula-key>`.\n - При наведении задержка 200 мс, после чего показывается всплывающее\n   окно поверх viewport через portal в document.body. Это необходимо,\n   потому что TipTap рендерит пилюли как обычный HTML, а не как React,\n   поэтому RichTooltip-обёртку поверх них поставить нельзя.\n - Содержимое: метка формулы, выражение, зависимости от полей CRM и\n   автоматически собранный список встретившихся в выражении функций\n   (через extractUsedHelpers + HelperTooltipContent).\n\nПодсказка не интерактивная (pointer-events: none), поэтому не мешает\nклику по пилюле, который уже открывает FormulaBuilder в режиме EDIT.",
+          "line": 96,
+          "docComment": "The DocxEditor ships its own (Word-like) styles via `styles.css`. We mount\nthe editor inside a container carrying this class and a CSS `isolation`\ncontext so its layout/paint stays scoped to the left pane and does not\nbleed into the surrounding app chrome or the right-hand tags panel.",
           "exports": []
         }
       ]
@@ -5984,6 +6142,7 @@
         "B24AuthPayload",
         "InstallRequest",
         "InstallResponse",
+        "TemplatePreviewRequest",
         "TemplatePreviewResponse",
         "GenerateRequest",
         "GenerateResponse",
@@ -6037,7 +6196,7 @@
           "name": "TemplateField",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 103,
+          "line": 110,
           "signature": "interface TemplateField",
           "docComment": "A manual field attached to a template. Unlike a {@link Formula} (whose\nvalue is computed from CRM data), a manual field is filled in by the\nuser at generation time. It is referenced from the template HTML by\nits `fieldKey` (a `<span data-field-key=\"…\">` placeholder pill).",
           "exports": [
@@ -6049,7 +6208,7 @@
           "name": "Formula",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 141,
+          "line": 148,
           "signature": "interface Formula",
           "docComment": "A formula attached to a template. It is referenced from inside\nthe template HTML by its `tagKey`.\n\nExpression language: mathjs-compatible with a small number of\nhelpers registered on the server side (if/concat/format/upper/lower/\ndateFormat). Identifiers such as DEAL.OPPORTUNITY, CONTACT.NAME,\nCOMPANY.TITLE, COMPANY.UF_CRM_INN refer to values injected by\nthe backend from Bitrix24 REST responses.",
           "exports": [
@@ -6061,7 +6220,7 @@
           "name": "FormulaDependencies",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 159,
+          "line": 166,
           "signature": "interface FormulaDependencies",
           "docComment": "Fields a formula reads from. Used to decide which REST calls\nto make when computing a preview.",
           "exports": [
@@ -6073,7 +6232,7 @@
           "name": "DealField",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 176,
+          "line": 183,
           "signature": "interface DealField",
           "docComment": "Simplified field descriptor matching the shape returned by\n`crm.deal.fields`. Used by FieldPicker to let the admin pick\na field while building a formula.",
           "exports": [
@@ -6085,7 +6244,7 @@
           "name": "ProductRow",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 208,
+          "line": 215,
           "signature": "interface ProductRow",
           "docComment": "A single product row attached to a CRM deal. Mirrors the shape\nreturned by `crm.deal.productrows.get` with two optional fields\n(`IMAGE_BASE64`, `IMAGE_URL`) that are populated only when the\ncaller requests product images via `fetchProductImages`.",
           "exports": [
@@ -6097,7 +6256,7 @@
           "name": "FormulaContext",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 273,
+          "line": 280,
           "signature": "interface FormulaContext",
           "docComment": "The runtime context passed to a formula evaluator.\nAll three entities may be partially populated depending on what\nthe deal linked to at the moment of generation.",
           "exports": [
@@ -6109,7 +6268,7 @@
           "name": "FormulaEvaluationResult",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 286,
+          "line": 293,
           "signature": "interface FormulaEvaluationResult",
           "docComment": "Result of evaluating a single formula. Sent back to the frontend\nso the preview can display both the value and the original\nexpression in a tooltip.",
           "exports": [
@@ -6121,7 +6280,7 @@
           "name": "B24AuthPayload",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 306,
+          "line": 313,
           "signature": "interface B24AuthPayload",
           "docComment": "Payload extracted from a verified Bitrix24 auth token.\nThe backend auth middleware populates this object on the request.",
           "exports": [
@@ -6133,7 +6292,7 @@
           "name": "InstallRequest",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 326,
+          "line": 333,
           "signature": "interface InstallRequest",
           "docComment": "POST /api/install — request body.",
           "exports": [
@@ -6145,7 +6304,7 @@
           "name": "InstallResponse",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 332,
+          "line": 339,
           "signature": "interface InstallResponse",
           "docComment": "POST /api/install — response.",
           "exports": [
@@ -6153,13 +6312,25 @@
           ]
         },
         {
+          "id": "packages/shared/src/types.ts:TemplatePreviewRequest",
+          "name": "TemplatePreviewRequest",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 352,
+          "signature": "interface TemplatePreviewRequest",
+          "docComment": "POST /api/templates/:id/preview — request body.\n\nThe preview endpoint substitutes formula values, manual `fieldValues`\nand product rows directly into the admin-uploaded original `.docx`\n(via `buildDocxFromTemplate`), so it needs the same inputs as\ngeneration: a deal to pull CRM data from and the user's manual field\nvalues.",
+          "exports": [
+            "TemplatePreviewRequest"
+          ]
+        },
+        {
           "id": "packages/shared/src/types.ts:TemplatePreviewResponse",
           "name": "TemplatePreviewResponse",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 337,
+          "line": 371,
           "signature": "interface TemplatePreviewResponse",
-          "docComment": "GET /api/templates/:id/preview?dealId=... response.",
+          "docComment": "POST /api/templates/:id/preview — response body.\n\nThe preview is a fully-substituted `.docx` (formulas + manual\n`fieldValues` + product rows rendered into the original Word archive\nvia `buildDocxFromTemplate`), returned base64-encoded so the frontend\ncan render it client-side (e.g. via `docx-preview`). The legacy\nserver-rendered HTML preview is gone.",
           "exports": [
             "TemplatePreviewResponse"
           ]
@@ -6169,7 +6340,7 @@
           "name": "GenerateRequest",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 347,
+          "line": 387,
           "signature": "interface GenerateRequest",
           "docComment": "POST /api/generate — request body.",
           "exports": [
@@ -6181,9 +6352,9 @@
           "name": "GenerateResponse",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 359,
+          "line": 407,
           "signature": "interface GenerateResponse",
-          "docComment": "POST /api/generate — response body.",
+          "docComment": "POST /api/generate — response body.\n\nThe generated document is a `.docx` file: the pipeline renders the\nadmin-uploaded original `.docx` template via `buildDocxFromTemplate`\n(substituting formula values, manual `fieldValues`, and product rows\ndirectly into the Word archive), so the uploaded Bitrix24 Disk file and\nits download URL point to a `.docx` (the legacy HTML→PDF path is gone).",
           "exports": [
             "GenerateResponse"
           ]
@@ -6193,7 +6364,7 @@
           "name": "ApiErrorBody",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 373,
+          "line": 424,
           "signature": "interface ApiErrorBody",
           "docComment": "Generic error envelope returned by the backend.\n\nPhase 6 introduced the centralized error handler which always wraps\nerrors in `{ error: { code, message, details? } }`. The legacy flat\nshape (`{ error, message }`) is still produced by some plugins, so\nthe frontend client tolerates both — see `apps/frontend/src/lib/api.ts`.",
           "exports": [
@@ -6205,7 +6376,7 @@
           "name": "ApiErrorEnvelope",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 383,
+          "line": 434,
           "signature": "interface ApiErrorEnvelope",
           "docComment": "Top-level envelope wrapping an `ApiErrorBody`.",
           "exports": [
@@ -6217,7 +6388,7 @@
           "name": "ApiError",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 391,
+          "line": 442,
           "signature": "interface ApiError",
           "docComment": "Legacy / fastify-sensible flat shape. Kept for compatibility with\nolder clients and the plugins that bypass the central error handler.",
           "exports": [
@@ -6229,7 +6400,7 @@
           "name": "WebhookSummary",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 411,
+          "line": 462,
           "signature": "interface WebhookSummary",
           "docComment": "A webhook trigger that admins can attach to a Theme or a single\nTemplate. When Bitrix24 \"Outgoing webhook\" robot POSTs to the\nbackend URL, the same generation pipeline used by the manual UI\nbutton runs for every Template in scope.\n\nDates are serialized as ISO strings (not `Date`) so the shape is\nsafe to transport over JSON between the backend and the frontend.",
           "exports": [
@@ -6241,7 +6412,7 @@
           "name": "TemplateFieldType",
           "type": "type",
           "path": "packages/shared/src/types.ts",
-          "line": 95,
+          "line": 102,
           "docComment": "Input type of a manual field. Decides which control the generate\nform renders and what client-side validation applies.",
           "exports": [
             "TemplateFieldType"
@@ -6252,7 +6423,7 @@
           "name": "EntityValues",
           "type": "type",
           "path": "packages/shared/src/types.ts",
-          "line": 266,
+          "line": 273,
           "docComment": "Raw entity values injected by the server before formula evaluation.\nKeys are the Bitrix24 field codes, values are whatever the REST\nAPI returned (numbers, strings, arrays, etc.).",
           "exports": [
             "EntityValues"
@@ -6263,7 +6434,7 @@
           "name": "AppRole",
           "type": "type",
           "path": "packages/shared/src/types.ts",
-          "line": 452,
+          "line": 503,
           "docComment": "Role of the current user inside the app. Derived from\nAppSettings.adminUserIds.",
           "exports": [
             "AppRole"

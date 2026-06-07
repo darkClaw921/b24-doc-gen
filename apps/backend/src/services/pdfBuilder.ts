@@ -2,6 +2,13 @@
  * pdfBuilder — convert TipTap-rendered HTML into a PDF Buffer using
  * Puppeteer (headless Chrome).
  *
+ * @deprecated LEGACY — not used by the active pipeline. Generation and
+ * preview now render directly from the admin-uploaded original `.docx`
+ * via {@link buildDocxFromTemplate} (docxTemplateEngine), preserving the
+ * source formatting 1:1. This HTML→PDF engine remains only as dead code
+ * for reference and is scheduled for removal in a follow-up cleanup. Do
+ * not wire it back into routes/generate.ts or the generation pipeline.
+ *
  * Pipeline:
  *  1. Expand product-table placeholders.
  *  2. Substitute formula-tag spans with computed values.
@@ -224,6 +231,11 @@ function wrapAsStyledHtml(body: string, title: string): string {
     font-size: 12pt;
     line-height: 1.5;
     color: #000;
+    /* Break overly long unbreakable runs (e.g. ___ signature lines
+       pasted from КонсультантПлюс) so they wrap instead of forcing
+       horizontal overflow past the A4 page edge. Inherited by all
+       descendants; safe for tables (does not affect min-content size). */
+    overflow-wrap: break-word;
   }
 
   /* Headings */

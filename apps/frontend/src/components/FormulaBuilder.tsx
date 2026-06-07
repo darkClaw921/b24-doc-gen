@@ -27,9 +27,11 @@
  *
  * Submission:
  *  - On "Вставить" the component calls `onInsert({ tagKey, label,
- *    expression, dependsOn })` and the caller is responsible for
- *    inserting a `FormulaTag` node + adding the formula to the
- *    template's formulas array.
+ *    expression, dependsOn })` and the caller adds the formula to the
+ *    template's `formulas[]` array. Placement is owned by the original
+ *    `.docx`: the admin types the `{tagKey}` placeholder into Word and
+ *    `buildDocxFromTemplate` substitutes the computed value at
+ *    generation time (no in-editor node is inserted).
  *  - "Отмена" simply closes the dialog without calling onInsert.
  *
  * Prop shape:

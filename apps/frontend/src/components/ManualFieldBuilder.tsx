@@ -19,7 +19,10 @@
  *     generation time.
  *
  * On "Вставить" the component calls `onInsert(result)` and the caller
- * inserts/updates a ManualFieldTag node plus the field metadata.
+ * adds/updates the field in the template's `fields[]` array. Placement
+ * is owned by the original `.docx`: the admin types the `{fieldKey}`
+ * placeholder into Word and `buildDocxFromTemplate` substitutes the
+ * value entered at generation time (no in-editor node is inserted).
  */
 
 import { useEffect, useState } from 'react';

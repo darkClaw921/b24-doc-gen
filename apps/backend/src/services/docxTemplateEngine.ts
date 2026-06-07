@@ -61,6 +61,15 @@ export interface BuildFromTemplateOptions {
    * into the `products` array for `{#products}...{/products}` loops.
    */
   products?: ProductRow[];
+  /**
+   * Manual field values entered by the user at generation time, indexed
+   * by `fieldKey`. They are substituted by the same `{fieldKey}` delimiters
+   * as formulas. Formula values take precedence: if a `fieldKey` collides
+   * with a formula `tagKey`, the formula value is kept and the manual field
+   * value is ignored (manual fields fill gaps, they do not overwrite
+   * computed values).
+   */
+  fieldValues?: Record<string, string>;
   /** Optional document title (informational, not used in rendering). */
   title?: string;
 }
@@ -119,14 +128,26 @@ function createImageModule(): unknown {
  *
  * - Each formula result is mapped as `data[tagKey] = evaluatedValue`.
  *   On error, the label is used so the document reads naturally.
+ * - Each manual field is mapped as `data[fieldKey] = value`, using the
+ *   same `{fieldKey}` delimiters as formulas. Formula values win on key
+ *   collisions — manual fields only fill keys not already produced by a
+ *   formula.
  * - Product rows are mapped into `data.products` — an array of plain
  *   objects with the fields that `{#products}` loops reference.
  */
 function buildDataObject(
   formulas: Record<string, FormulaEvaluationResult>,
   products: ProductRow[],
+  fieldValues: Record<string, string> = {},
 ): Record<string, unknown> {
   const data: Record<string, unknown> = {};
+
+  // --- Manual field values ---
+  // Filled first so that formulas (set below) take precedence on any
+  // key collision: a formula `tagKey` overwrites a manual `fieldKey`.
+  for (const [fieldKey, value] of Object.entries(fieldValues)) {
+    data[fieldKey] = value ?? '';
+  }
 
   // --- Formula values ---
   for (const [tagKey, result] of Object.entries(formulas)) {
@@ -199,10 +220,11 @@ export async function buildDocxFromTemplate(
     throw new DocxTemplateError(`Failed to open .docx archive: ${msg}`, 'ZIP_FAILED');
   }
 
-  // 2. Build the data object from formula results + products.
+  // 2. Build the data object from formula results + manual fields + products.
   const data = buildDataObject(
     options.formulas,
     options.products ?? [],
+    options.fieldValues ?? {},
   );
 
   // 3. Always attach the image module so that {%TAG} placeholders in
