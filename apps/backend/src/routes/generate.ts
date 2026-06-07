@@ -50,6 +50,8 @@ import type { FormulaEvaluationResult } from '@b24-doc-gen/shared';
 interface GenerateBody {
   templateId?: string;
   dealId?: number | string;
+  /** Values for the template's manual fields, keyed by fieldKey. */
+  fieldValues?: Record<string, string>;
 }
 
 /**
@@ -105,9 +107,30 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
     /* -------------------------------------------------------------- */
     const template = await prisma.template.findUnique({
       where: { id: templateId },
-      include: { formulas: true, theme: true },
+      include: { formulas: true, theme: true, fields: true },
     });
     if (!template) return reply.notFound(`template ${templateId} not found`);
+
+    /* -------------------------------------------------------------- */
+    /* Manual field values + required validation                      */
+    /* -------------------------------------------------------------- */
+    const rawFieldValues =
+      body.fieldValues && typeof body.fieldValues === 'object'
+        ? body.fieldValues
+        : {};
+    const fieldValues: Record<string, string> = {};
+    for (const f of template.fields) {
+      const v = rawFieldValues[f.fieldKey];
+      fieldValues[f.fieldKey] = typeof v === 'string' ? v : v != null ? String(v) : '';
+    }
+    const missingRequired = template.fields
+      .filter((f) => f.required && fieldValues[f.fieldKey].trim() === '')
+      .map((f) => f.label || f.fieldKey);
+    if (missingRequired.length > 0) {
+      return reply.badRequest(
+        `Заполните обязательные поля: ${missingRequired.join(', ')}`,
+      );
+    }
 
     const settingsRow = await prisma.appSettings.findUnique({ where: { id: 1 } });
     const settings = settingsRow ? toAppSettings(settingsRow) : null;
@@ -177,6 +200,7 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
         formulas: formulaResults,
         title: template.name,
         products: context.PRODUCTS ?? [],
+        fieldValues,
       });
     } catch (err) {
       if (err instanceof PdfBuildError) {

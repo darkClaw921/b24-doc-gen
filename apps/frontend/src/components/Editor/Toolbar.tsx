@@ -35,6 +35,7 @@ import {
   Sigma,
   Package,
   ChevronDown,
+  FormInput,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -102,6 +103,13 @@ export interface ToolbarProps {
    * When omitted the button is hidden.
    */
   onInsertFormula?: () => void;
+  /**
+   * Called when the admin clicks the manual-field button. The caller is
+   * expected to open a ManualFieldBuilder dialog and, on submit, invoke
+   * `editor.chain().focus().insertManualFieldTag(attrs).run()`. When
+   * omitted the button is hidden.
+   */
+  onInsertField?: () => void;
 }
 
 interface ButtonProps {
@@ -135,7 +143,7 @@ function Divider() {
   return <span className="mx-1 h-6 w-px bg-border" aria-hidden />;
 }
 
-export function Toolbar({ editor, className, onInsertFormula }: ToolbarProps) {
+export function Toolbar({ editor, className, onInsertFormula, onInsertField }: ToolbarProps) {
   if (!editor) {
     return (
       <div
@@ -252,6 +260,15 @@ export function Toolbar({ editor, className, onInsertFormula }: ToolbarProps) {
             <Sigma className="h-4 w-4" />
           </ToolbarButton>
         </>
+      )}
+
+      {onInsertField && (
+        <ToolbarButton
+          title="Вставить поле для ручного заполнения"
+          onClick={onInsertField}
+        >
+          <FormInput className="h-4 w-4" />
+        </ToolbarButton>
       )}
 
       <Divider />

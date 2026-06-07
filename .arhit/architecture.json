@@ -1,6 +1,6 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-06-07T13:16:25.868Z",
+  "generatedAt": "2026-06-07T14:06:20.341Z",
   "nodes": [
     {
       "id": "apps/backend/src/middleware/auth.ts",
@@ -405,7 +405,7 @@
           "name": "registerGenerateRoutes",
           "type": "function",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 83,
+          "line": 85,
           "signature": "registerGenerateRoutes(app: FastifyInstance): Promise<void>",
           "exports": [
             "registerGenerateRoutes"
@@ -416,7 +416,7 @@
           "name": "detectProductUsage",
           "type": "function",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 404,
+          "line": 428,
           "signature": "detectProductUsage(contentHtml: string, expressions: string[]): { fetchProducts: boolean; fetchProductImages: boolean }",
           "docComment": "Scan the template HTML and formula expressions to determine whether\nproduct data (and product images) need to be fetched from Bitrix24.\n\nUses simple substring / regex checks — no full HTML parsing required.",
           "exports": []
@@ -435,7 +435,7 @@
           "name": "BindingResult",
           "type": "interface",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 60,
+          "line": 62,
           "signature": "interface BindingResult",
           "docComment": "Result of the deal-binding step. Reported in the response so the\nfrontend can show a yellow warning when the binding step failed\nbut the file still uploaded successfully.",
           "exports": []
@@ -445,7 +445,7 @@
           "name": "GenerateRouteResponse",
           "type": "interface",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 66,
+          "line": 68,
           "signature": "interface GenerateRouteResponse",
           "exports": []
         },
@@ -454,7 +454,7 @@
           "name": "PRODUCT_HELPER_RE",
           "type": "variable",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 395,
+          "line": 419,
           "docComment": "Regex patterns for product-related helpers in formula expressions.",
           "exports": []
         },
@@ -463,7 +463,7 @@
           "name": "PRODUCT_IMAGE_HELPER_RE",
           "type": "variable",
           "path": "apps/backend/src/routes/generate.ts",
-          "line": 396,
+          "line": 420,
           "exports": []
         }
       ]
@@ -710,7 +710,8 @@
         "registerTemplateRoutes",
         "TemplateListItemDTO",
         "TemplateDTO",
-        "FormulaInput"
+        "FormulaInput",
+        "TemplateFieldInput"
       ],
       "children": [
         {
@@ -718,7 +719,7 @@
           "name": "safeName",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 121,
+          "line": 141,
           "signature": "safeName(value: unknown): string | null",
           "exports": []
         },
@@ -727,7 +728,7 @@
           "name": "safeContentHtml",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 128,
+          "line": 148,
           "signature": "safeContentHtml(value: unknown): string",
           "exports": []
         },
@@ -736,7 +737,7 @@
           "name": "parseDependsOn",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 137,
+          "line": 157,
           "signature": "parseDependsOn(raw: string): FormulaDependencies",
           "exports": []
         },
@@ -745,7 +746,7 @@
           "name": "serializeDependsOn",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 150,
+          "line": 170,
           "signature": "serializeDependsOn(deps: FormulaDependencies | undefined): string",
           "exports": []
         },
@@ -754,8 +755,36 @@
           "name": "toFormulaDto",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 158,
+          "line": 178,
           "signature": "toFormulaDto(row: PrismaFormula): Formula",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:normalizeFieldType",
+          "name": "normalizeFieldType",
+          "type": "function",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 192,
+          "signature": "normalizeFieldType(value: unknown): TemplateFieldType",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:toTemplateFieldDto",
+          "name": "toTemplateFieldDto",
+          "type": "function",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 198,
+          "signature": "toTemplateFieldDto(row: PrismaTemplateField): TemplateField",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:normalizeFieldsInput",
+          "name": "normalizeFieldsInput",
+          "type": "function",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 217,
+          "signature": "normalizeFieldsInput(fields: TemplateFieldInput[]): Array<{\n  fieldKey: string;\n  label: string;\n  type: TemplateFieldType;\n  required: boolean;\n  placeholder: string | null;\n  order: number;\n}>",
+          "docComment": "Validate and normalize the manual-field array sent by the client.\nDrops entries with an empty fieldKey and de-duplicates by fieldKey\n(last write wins). `order` is derived from array position so the\ngenerate form reflects the order in which the admin authored them.",
           "exports": []
         },
         {
@@ -763,7 +792,7 @@
           "name": "toTemplateDto",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 173,
+          "line": 252,
           "signature": "toTemplateDto(row: TemplateRow, withDocx: boolean): TemplateDTO",
           "exports": []
         },
@@ -772,7 +801,7 @@
           "name": "substituteFormulaTagsForPreview",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 210,
+          "line": 293,
           "signature": "substituteFormulaTagsForPreview(html: string, formulas: Record<string, FormulaEvaluationResult>): string",
           "docComment": "Rewrite every `<span data-formula-key=\"…\">` node inside `html` so it\ncarries `data-computed-value` and its inner text is the computed\nvalue (or the original label on error). The TipTap-rendered span has\na stable shape — `<span ... data-formula-key=\"X\" ...>...</span>` —\nso a tolerant regex is safe and avoids pulling in cheerio.\n\nThe two flags it preserves:\n  - data-formula-key, -label, -expression  → still needed by the\n    frontend to render the FormulaTag pill in preview mode.\n  - data-computed-value=\"…\"                → new attribute that\n    carries the evaluated value for the frontend tooltip.\n  - data-formula-error=\"…\" (optional)      → set if evaluation\n    failed; the frontend renders an error badge.",
           "exports": []
@@ -782,7 +811,7 @@
           "name": "escapeAttr",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 248,
+          "line": 331,
           "signature": "escapeAttr(value: string): string",
           "docComment": "Minimal HTML attribute escaper.",
           "exports": []
@@ -792,7 +821,7 @@
           "name": "escapeHtml",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 257,
+          "line": 340,
           "signature": "escapeHtml(value: string): string",
           "docComment": "Minimal HTML text escaper (preserves spaces).",
           "exports": []
@@ -802,7 +831,7 @@
           "name": "toTemplateListDto",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 264,
+          "line": 347,
           "signature": "toTemplateListDto(row: TemplateListRow): TemplateListItemDTO",
           "exports": []
         },
@@ -811,7 +840,7 @@
           "name": "registerTemplateRoutes",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 281,
+          "line": 364,
           "signature": "registerTemplateRoutes(app: FastifyInstance): Promise<void>",
           "exports": [
             "registerTemplateRoutes"
@@ -822,7 +851,7 @@
           "name": "TemplateListItemDTO",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 53,
+          "line": 60,
           "signature": "interface TemplateListItemDTO",
           "exports": [
             "TemplateListItemDTO"
@@ -833,7 +862,7 @@
           "name": "TemplateDTO",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 64,
+          "line": 71,
           "signature": "interface TemplateDTO",
           "exports": [
             "TemplateDTO"
@@ -844,7 +873,7 @@
           "name": "ListTemplatesQuery",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 77,
+          "line": 85,
           "signature": "interface ListTemplatesQuery",
           "exports": []
         },
@@ -853,7 +882,7 @@
           "name": "GetTemplateParams",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 82,
+          "line": 90,
           "signature": "interface GetTemplateParams",
           "exports": []
         },
@@ -862,7 +891,7 @@
           "name": "GetTemplateQuery",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 86,
+          "line": 94,
           "signature": "interface GetTemplateQuery",
           "exports": []
         },
@@ -871,7 +900,7 @@
           "name": "PreviewTemplateQuery",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 90,
+          "line": 98,
           "signature": "interface PreviewTemplateQuery",
           "exports": []
         },
@@ -880,7 +909,7 @@
           "name": "CreateTemplateBody",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 94,
+          "line": 102,
           "signature": "interface CreateTemplateBody",
           "exports": []
         },
@@ -889,7 +918,7 @@
           "name": "UpdateTemplateBody",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 100,
+          "line": 108,
           "signature": "interface UpdateTemplateBody",
           "exports": []
         },
@@ -898,7 +927,7 @@
           "name": "FormulaInput",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 108,
+          "line": 117,
           "signature": "interface FormulaInput",
           "docComment": "Shape of a formula sent by the client when saving a template.",
           "exports": [
@@ -906,11 +935,23 @@
           ]
         },
         {
+          "id": "apps/backend/src/routes/templates.ts:TemplateFieldInput",
+          "name": "TemplateFieldInput",
+          "type": "interface",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 127,
+          "signature": "interface TemplateFieldInput",
+          "docComment": "Shape of a manual field sent by the client when saving a template.",
+          "exports": [
+            "TemplateFieldInput"
+          ]
+        },
+        {
           "id": "apps/backend/src/routes/templates.ts:TemplateRow",
           "name": "TemplateRow",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 169,
+          "line": 247,
           "signature": "interface TemplateRow",
           "exports": []
         },
@@ -919,8 +960,17 @@
           "name": "TemplateListRow",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 190,
+          "line": 273,
           "signature": "interface TemplateListRow",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/routes/templates.ts:FIELD_TYPES",
+          "name": "FIELD_TYPES",
+          "type": "variable",
+          "path": "apps/backend/src/routes/templates.ts",
+          "line": 190,
+          "docComment": "Allowed manual-field types; anything else falls back to \"text\".",
           "exports": []
         }
       ]
@@ -2279,7 +2329,7 @@
           "name": "runGeneration",
           "type": "function",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 125,
+          "line": 131,
           "signature": "runGeneration(params: RunGenerationParams): Promise<GenerationResult>",
           "docComment": "Execute the full generation pipeline for a single (templateId, dealId)\npair. See the file header for the step list.\n\nThrows `GenerationError` on any deterministic failure; lets genuinely\nunexpected errors propagate so they surface as 500s upstream.",
           "exports": [
@@ -2291,7 +2341,7 @@
           "name": "detectProductUsage",
           "type": "function",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 405,
+          "line": 432,
           "signature": "detectProductUsage(contentHtml: string, expressions: string[]): { fetchProducts: boolean; fetchProductImages: boolean }",
           "docComment": "Scan the template HTML and formula expressions to determine whether\nproduct data (and product images) need to be fetched from Bitrix24.",
           "exports": []
@@ -2357,7 +2407,7 @@
           "name": "PRODUCT_HELPER_RE",
           "type": "variable",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 398,
+          "line": 425,
           "docComment": "Regex patterns for product-related helpers in formula expressions.",
           "exports": []
         },
@@ -2366,7 +2416,7 @@
           "name": "PRODUCT_IMAGE_HELPER_RE",
           "type": "variable",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 399,
+          "line": 426,
           "exports": []
         }
       ]
@@ -2479,7 +2529,7 @@
           "name": "getBrowser",
           "type": "function",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 53,
+          "line": 59,
           "signature": "getBrowser(): Promise<Browser>",
           "exports": []
         },
@@ -2488,7 +2538,7 @@
           "name": "closePdfBrowser",
           "type": "function",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 73,
+          "line": 79,
           "signature": "closePdfBrowser(): Promise<void>",
           "docComment": "Shut down the shared browser (call on server close).",
           "exports": [
@@ -2500,7 +2550,7 @@
           "name": "buildPdfFromHtml",
           "type": "function",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 84,
+          "line": 90,
           "signature": "buildPdfFromHtml(html: string, options: BuildPdfOptions = {}): Promise<Buffer>",
           "exports": [
             "buildPdfFromHtml"
@@ -2511,8 +2561,18 @@
           "name": "stripFormulaTags",
           "type": "function",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 152,
+          "line": 161,
           "signature": "stripFormulaTags(html: string, formulas: Record<string, FormulaEvaluationResult>): string",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/pdfBuilder.ts:stripManualFieldTags",
+          "name": "stripManualFieldTags",
+          "type": "function",
+          "path": "apps/backend/src/services/pdfBuilder.ts",
+          "line": 189,
+          "signature": "stripManualFieldTags(html: string, fieldValues: Record<string, string>): string",
+          "docComment": "Replace every `<span data-field-key=\"K\">…</span>` manual-field\nplaceholder with the user-provided value for K (escaped). Missing\nkeys become an empty string so the placeholder pill never leaks into\nthe final document. Newlines in textarea values are converted to\n`<br>` so multi-line input is preserved in the PDF.",
           "exports": []
         },
         {
@@ -2520,7 +2580,7 @@
           "name": "escapeHtml",
           "type": "function",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 173,
+          "line": 201,
           "signature": "escapeHtml(value: string): string",
           "exports": []
         },
@@ -2529,7 +2589,7 @@
           "name": "wrapAsStyledHtml",
           "type": "function",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 180,
+          "line": 208,
           "signature": "wrapAsStyledHtml(body: string, title: string): string",
           "exports": []
         },
@@ -2560,7 +2620,7 @@
           "name": "browserInstance",
           "type": "variable",
           "path": "apps/backend/src/services/pdfBuilder.ts",
-          "line": 51,
+          "line": 57,
           "exports": []
         }
       ]
@@ -2876,7 +2936,7 @@
           "name": "buildTiptapExtensions",
           "type": "function",
           "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-          "line": 84,
+          "line": 85,
           "signature": "buildTiptapExtensions()",
           "docComment": "Build the canonical TipTap extensions list. Exported so other\neditors (e.g. a future preview/read-only view) can reuse the\nexact same configuration.",
           "exports": [
@@ -2888,7 +2948,7 @@
           "name": "TiptapEditor",
           "type": "function",
           "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-          "line": 119,
+          "line": 123,
           "signature": "TiptapEditor({\n  content,\n  onChange,\n  onReady,\n  editable = true,\n  className,\n  placeholder,\n}: TiptapEditorProps)",
           "exports": [
             "TiptapEditor"
@@ -2899,7 +2959,7 @@
           "name": "TiptapEditorProps",
           "type": "interface",
           "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-          "line": 64,
+          "line": 65,
           "signature": "interface TiptapEditorProps",
           "exports": [
             "TiptapEditorProps"
@@ -2910,7 +2970,7 @@
           "name": "Table",
           "type": "variable",
           "path": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
-          "line": 48,
+          "line": 49,
           "docComment": "Extended Table node that persists `data-product-table` as an attribute.\nThe base TipTap Table node drops unknown HTML attributes on parse/render,\nso we explicitly register `productTable` as a custom attribute.",
           "exports": []
         }
@@ -2931,7 +2991,7 @@
           "name": "buildProductTableHtml",
           "type": "function",
           "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 66,
+          "line": 67,
           "signature": "buildProductTableHtml(selectedIds: Set<string>): string",
           "docComment": "Build product table HTML from the selected column set.",
           "exports": []
@@ -2941,7 +3001,7 @@
           "name": "ToolbarButton",
           "type": "function",
           "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 115,
+          "line": 123,
           "signature": "ToolbarButton({ onClick, isActive, disabled, title, children }: ButtonProps)",
           "exports": []
         },
@@ -2950,7 +3010,7 @@
           "name": "Divider",
           "type": "function",
           "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 134,
+          "line": 142,
           "signature": "Divider()",
           "exports": []
         },
@@ -2959,8 +3019,8 @@
           "name": "Toolbar",
           "type": "function",
           "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 138,
-          "signature": "Toolbar({ editor, className, onInsertFormula }: ToolbarProps)",
+          "line": 146,
+          "signature": "Toolbar({ editor, className, onInsertFormula, onInsertField }: ToolbarProps)",
           "exports": [
             "Toolbar"
           ]
@@ -2970,7 +3030,7 @@
           "name": "ProductTableDropdown",
           "type": "function",
           "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 285,
+          "line": 302,
           "signature": "ProductTableDropdown({ editor }: { editor: Editor })",
           "exports": []
         },
@@ -2979,7 +3039,7 @@
           "name": "ProductColumnOption",
           "type": "interface",
           "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 42,
+          "line": 43,
           "signature": "interface ProductColumnOption",
           "docComment": "Column descriptors for the product table builder.",
           "exports": []
@@ -2989,7 +3049,7 @@
           "name": "ToolbarProps",
           "type": "interface",
           "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 95,
+          "line": 96,
           "signature": "interface ToolbarProps",
           "docComment": "Props for the toolbar. The `editor` may be null while loading.",
           "exports": [
@@ -3001,7 +3061,7 @@
           "name": "ButtonProps",
           "type": "interface",
           "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 107,
+          "line": 115,
           "signature": "interface ButtonProps",
           "exports": []
         },
@@ -3010,7 +3070,7 @@
           "name": "PRODUCT_COLUMNS",
           "type": "variable",
           "path": "apps/frontend/src/components/Editor/Toolbar.tsx",
-          "line": 51,
+          "line": 52,
           "exports": []
         }
       ]
@@ -3269,6 +3329,115 @@
           "docComment": "The TipTap Node extension. Register it in the editor's `extensions`\narray right after `StarterKit`.",
           "exports": [
             "FormulaTag"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "name": "ManualFieldBuilder.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "exports": [
+        "ManualFieldBuilder",
+        "ManualFieldBuilderResult",
+        "ManualFieldBuilderProps"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/ManualFieldBuilder.tsx:ManualFieldBuilder",
+          "name": "ManualFieldBuilder",
+          "type": "function",
+          "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+          "line": 66,
+          "signature": "ManualFieldBuilder({\n  open,\n  onOpenChange,\n  onInsert,\n  existingKeys,\n  initialValues,\n}: ManualFieldBuilderProps)",
+          "exports": [
+            "ManualFieldBuilder"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ManualFieldBuilder.tsx:ManualFieldBuilderResult",
+          "name": "ManualFieldBuilderResult",
+          "type": "interface",
+          "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+          "line": 40,
+          "signature": "interface ManualFieldBuilderResult",
+          "exports": [
+            "ManualFieldBuilderResult"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ManualFieldBuilder.tsx:ManualFieldBuilderProps",
+          "name": "ManualFieldBuilderProps",
+          "type": "interface",
+          "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+          "line": 48,
+          "signature": "interface ManualFieldBuilderProps",
+          "exports": [
+            "ManualFieldBuilderProps"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ManualFieldBuilder.tsx:TYPE_OPTIONS",
+          "name": "TYPE_OPTIONS",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+          "line": 59,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "name": "ManualFieldTag.tsx",
+      "type": "file",
+      "path": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "exports": [
+        "insertManualField",
+        "ManualFieldTagAttributes",
+        "ManualFieldTag"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/components/ManualFieldTag.tsx:insertManualField",
+          "name": "insertManualField",
+          "type": "function",
+          "path": "apps/frontend/src/components/ManualFieldTag.tsx",
+          "line": 160,
+          "signature": "insertManualField(editor: Editor | null, attrs: ManualFieldTagAttributes): boolean",
+          "docComment": "Imperative helper that inserts a ManualFieldTag at the caret. No-op\nwhen the editor is null.",
+          "exports": [
+            "insertManualField"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ManualFieldTag.tsx:ManualFieldTagAttributes",
+          "name": "ManualFieldTagAttributes",
+          "type": "interface",
+          "path": "apps/frontend/src/components/ManualFieldTag.tsx",
+          "line": 28,
+          "signature": "interface ManualFieldTagAttributes",
+          "docComment": "Attributes stored on a ManualFieldTag node and mirrored to the DOM.",
+          "exports": [
+            "ManualFieldTagAttributes"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/components/ManualFieldTag.tsx:DEFAULTS",
+          "name": "DEFAULTS",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ManualFieldTag.tsx",
+          "line": 50,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/ManualFieldTag.tsx:ManualFieldTag",
+          "name": "ManualFieldTag",
+          "type": "variable",
+          "path": "apps/frontend/src/components/ManualFieldTag.tsx",
+          "line": 58,
+          "exports": [
+            "ManualFieldTag"
           ]
         }
       ]
@@ -4324,6 +4493,8 @@
         "TemplateListItemDTO",
         "FormulaDependenciesDTO",
         "FormulaDTO",
+        "TemplateFieldDTO",
+        "TemplateFieldInputDTO",
         "TemplateDTO",
         "FormulaInputDTO",
         "UpdateTemplateBody",
@@ -4337,6 +4508,7 @@
         "CreateWebhookBody",
         "UpdateWebhookBody",
         "AppRoleDTO",
+        "TemplateFieldTypeDTO",
         "meApi",
         "installApi",
         "placementsApi",
@@ -4610,11 +4782,33 @@
           ]
         },
         {
+          "id": "apps/frontend/src/lib/api.ts:TemplateFieldDTO",
+          "name": "TemplateFieldDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 492,
+          "signature": "interface TemplateFieldDTO",
+          "exports": [
+            "TemplateFieldDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:TemplateFieldInputDTO",
+          "name": "TemplateFieldInputDTO",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 503,
+          "signature": "interface TemplateFieldInputDTO",
+          "exports": [
+            "TemplateFieldInputDTO"
+          ]
+        },
+        {
           "id": "apps/frontend/src/lib/api.ts:TemplateDTO",
           "name": "TemplateDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 490,
+          "line": 513,
           "signature": "interface TemplateDTO",
           "exports": [
             "TemplateDTO"
@@ -4625,7 +4819,7 @@
           "name": "FormulaInputDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 502,
+          "line": 526,
           "signature": "interface FormulaInputDTO",
           "exports": [
             "FormulaInputDTO"
@@ -4636,7 +4830,7 @@
           "name": "UpdateTemplateBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 510,
+          "line": 534,
           "signature": "interface UpdateTemplateBody",
           "exports": [
             "UpdateTemplateBody"
@@ -4647,7 +4841,7 @@
           "name": "FormulaEvaluationResultDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 521,
+          "line": 546,
           "signature": "interface FormulaEvaluationResultDTO",
           "exports": [
             "FormulaEvaluationResultDTO"
@@ -4658,7 +4852,7 @@
           "name": "TemplatePreviewResponseDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 530,
+          "line": 555,
           "signature": "interface TemplatePreviewResponseDTO",
           "exports": [
             "TemplatePreviewResponseDTO"
@@ -4669,7 +4863,7 @@
           "name": "GenerateBindingDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 537,
+          "line": 564,
           "signature": "interface GenerateBindingDTO",
           "exports": [
             "GenerateBindingDTO"
@@ -4680,7 +4874,7 @@
           "name": "GenerateResponseDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 543,
+          "line": 570,
           "signature": "interface GenerateResponseDTO",
           "exports": [
             "GenerateResponseDTO"
@@ -4691,7 +4885,7 @@
           "name": "SettingsDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 612,
+          "line": 642,
           "signature": "interface SettingsDTO",
           "exports": [
             "SettingsDTO"
@@ -4702,7 +4896,7 @@
           "name": "DealFileFieldDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 620,
+          "line": 650,
           "signature": "interface DealFileFieldDTO",
           "exports": [
             "DealFileFieldDTO"
@@ -4713,7 +4907,7 @@
           "name": "WebhookListItemDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 663,
+          "line": 693,
           "signature": "interface WebhookListItemDTO",
           "docComment": "Webhook list item. The backend's `GET /api/webhooks` returns each\n`WebhookSummary` with two extra joined fields so the UI can render a\nhuman-readable target name without a second round-trip:\n\n  - `themeName`    — present when `scope === 'theme'`.\n  - `templateName` — present when `scope === 'template'`.\n\nBoth fields are nullable in case the referenced row was deleted.\nMutations (`create`, `patch`) return the plain `WebhookSummary`\n(without the join fields), so callers should refetch the list after\na mutation to pick up a fresh `themeName`/`templateName`.",
           "exports": [
@@ -4725,7 +4919,7 @@
           "name": "CreateWebhookBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 668,
+          "line": 698,
           "signature": "interface CreateWebhookBody",
           "exports": [
             "CreateWebhookBody"
@@ -4736,7 +4930,7 @@
           "name": "UpdateWebhookBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 675,
+          "line": 705,
           "signature": "interface UpdateWebhookBody",
           "exports": [
             "UpdateWebhookBody"
@@ -4750,6 +4944,16 @@
           "line": 230,
           "exports": [
             "AppRoleDTO"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/api.ts:TemplateFieldTypeDTO",
+          "name": "TemplateFieldTypeDTO",
+          "type": "type",
+          "path": "apps/frontend/src/lib/api.ts",
+          "line": 490,
+          "exports": [
+            "TemplateFieldTypeDTO"
           ]
         },
         {
@@ -4845,7 +5049,7 @@
           "name": "templatesApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 554,
+          "line": 581,
           "exports": [
             "templatesApi"
           ]
@@ -4855,7 +5059,7 @@
           "name": "generateApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 603,
+          "line": 630,
           "exports": [
             "generateApi"
           ]
@@ -4865,7 +5069,7 @@
           "name": "settingsApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 629,
+          "line": 659,
           "exports": [
             "settingsApi"
           ]
@@ -4875,7 +5079,7 @@
           "name": "webhooksApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 680,
+          "line": 710,
           "exports": [
             "webhooksApi"
           ]
@@ -5457,22 +5661,42 @@
       ],
       "children": [
         {
+          "id": "apps/frontend/src/pages/GeneratePage.tsx:formatFieldValue",
+          "name": "formatFieldValue",
+          "type": "function",
+          "path": "apps/frontend/src/pages/GeneratePage.tsx",
+          "line": 136,
+          "signature": "formatFieldValue(field: TemplateFieldDTO, raw: string): string",
+          "docComment": "Convert a raw input value into the string that goes into the\ndocument. Date inputs yield ISO `yyyy-mm-dd`; we render them as the\nRussian `dd.MM.yyyy`. Everything else passes through unchanged.",
+          "exports": []
+        },
+        {
           "id": "apps/frontend/src/pages/GeneratePage.tsx:GeneratePage",
           "name": "GeneratePage",
           "type": "function",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 118,
+          "line": 150,
           "signature": "GeneratePage()",
           "exports": [
             "GeneratePage"
           ]
         },
         {
+          "id": "apps/frontend/src/pages/GeneratePage.tsx:ManualFieldInput",
+          "name": "ManualFieldInput",
+          "type": "function",
+          "path": "apps/frontend/src/pages/GeneratePage.tsx",
+          "line": 656,
+          "signature": "ManualFieldInput({\n  field,\n  value,\n  onChange,\n}: {\n  field: TemplateFieldDTO;\n  value: string;\n  onChange: (value: string) => void;\n})",
+          "docComment": "Single control for a manual field on the generate form. Renders the\nright input type (textarea / number / date / text), shows the label\nwith a required marker and the placeholder hint.",
+          "exports": []
+        },
+        {
           "id": "apps/frontend/src/pages/GeneratePage.tsx:PREVIEW_STYLES",
           "name": "PREVIEW_STYLES",
           "type": "variable",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 86,
+          "line": 87,
           "docComment": "Single CSS block injected once per page mount. Targets every\n`<span data-formula-key>` produced by the backend preview endpoint.\nThe selector relies on the `data-computed-value` attribute that the\nbackend now emits, so admin-mode pills (which lack the attribute)\nare not affected.",
           "exports": []
         }
@@ -5554,7 +5778,7 @@
           "name": "TemplateEditorPage",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 58,
+          "line": 64,
           "signature": "TemplateEditorPage()",
           "exports": [
             "TemplateEditorPage"
@@ -5565,9 +5789,19 @@
           "name": "formulaDtoToInput",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 478,
+          "line": 692,
           "signature": "formulaDtoToInput(f: FormulaDTO): FormulaInputDTO",
           "docComment": "Translate the TemplateDTO's Formula shape into the FormulaInputDTO\nwe will send back on save. We preserve the id so the backend can\nreuse rows on update.",
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/pages/TemplateEditorPage.tsx:fieldDtoToInput",
+          "name": "fieldDtoToInput",
+          "type": "function",
+          "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+          "line": 703,
+          "signature": "fieldDtoToInput(f: TemplateFieldDTO): TemplateFieldInputDTO",
+          "docComment": "Translate a TemplateFieldDTO into the input shape sent on save.",
           "exports": []
         },
         {
@@ -5575,7 +5809,7 @@
           "name": "EditorFormulaTooltip",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 509,
+          "line": 736,
           "signature": "EditorFormulaTooltip({\n  editor,\n  formulasByKey,\n}: {\n  editor: TiptapEditorInstance | null;\n  formulasByKey: Record<string, FormulaInputDTO>;\n})",
           "docComment": "Hover-подсказка для пилюль формул внутри TipTap.\n\nПодсказка работает в стиле Google Sheets:\n - Слушает делегированные mouseover/mouseout на `editor.view.dom`\n   и реагирует на любые `<span data-formula-key>`.\n - При наведении задержка 200 мс, после чего показывается всплывающее\n   окно поверх viewport через portal в document.body. Это необходимо,\n   потому что TipTap рендерит пилюли как обычный HTML, а не как React,\n   поэтому RichTooltip-обёртку поверх них поставить нельзя.\n - Содержимое: метка формулы, выражение, зависимости от полей CRM и\n   автоматически собранный список встретившихся в выражении функций\n   (через extractUsedHelpers + HelperTooltipContent).\n\nПодсказка не интерактивная (pointer-events: none), поэтому не мешает\nклику по пилюле, который уже открывает FormulaBuilder в режиме EDIT.",
           "exports": []
@@ -5665,6 +5899,7 @@
         "AppSettings",
         "Theme",
         "Template",
+        "TemplateField",
         "Formula",
         "FormulaDependencies",
         "DealField",
@@ -5681,6 +5916,7 @@
         "ApiErrorEnvelope",
         "ApiError",
         "WebhookSummary",
+        "TemplateFieldType",
         "EntityValues",
         "AppRole"
       ],
@@ -5722,11 +5958,23 @@
           ]
         },
         {
+          "id": "packages/shared/src/types.ts:TemplateField",
+          "name": "TemplateField",
+          "type": "interface",
+          "path": "packages/shared/src/types.ts",
+          "line": 103,
+          "signature": "interface TemplateField",
+          "docComment": "A manual field attached to a template. Unlike a {@link Formula} (whose\nvalue is computed from CRM data), a manual field is filled in by the\nuser at generation time. It is referenced from the template HTML by\nits `fieldKey` (a `<span data-field-key=\"…\">` placeholder pill).",
+          "exports": [
+            "TemplateField"
+          ]
+        },
+        {
           "id": "packages/shared/src/types.ts:Formula",
           "name": "Formula",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 99,
+          "line": 135,
           "signature": "interface Formula",
           "docComment": "A formula attached to a template. It is referenced from inside\nthe template HTML by its `tagKey`.\n\nExpression language: mathjs-compatible with a small number of\nhelpers registered on the server side (if/concat/format/upper/lower/\ndateFormat). Identifiers such as DEAL.OPPORTUNITY, CONTACT.NAME,\nCOMPANY.TITLE, COMPANY.UF_CRM_INN refer to values injected by\nthe backend from Bitrix24 REST responses.",
           "exports": [
@@ -5738,7 +5986,7 @@
           "name": "FormulaDependencies",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 117,
+          "line": 153,
           "signature": "interface FormulaDependencies",
           "docComment": "Fields a formula reads from. Used to decide which REST calls\nto make when computing a preview.",
           "exports": [
@@ -5750,7 +5998,7 @@
           "name": "DealField",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 134,
+          "line": 170,
           "signature": "interface DealField",
           "docComment": "Simplified field descriptor matching the shape returned by\n`crm.deal.fields`. Used by FieldPicker to let the admin pick\na field while building a formula.",
           "exports": [
@@ -5762,7 +6010,7 @@
           "name": "ProductRow",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 166,
+          "line": 202,
           "signature": "interface ProductRow",
           "docComment": "A single product row attached to a CRM deal. Mirrors the shape\nreturned by `crm.deal.productrows.get` with two optional fields\n(`IMAGE_BASE64`, `IMAGE_URL`) that are populated only when the\ncaller requests product images via `fetchProductImages`.",
           "exports": [
@@ -5774,7 +6022,7 @@
           "name": "FormulaContext",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 231,
+          "line": 267,
           "signature": "interface FormulaContext",
           "docComment": "The runtime context passed to a formula evaluator.\nAll three entities may be partially populated depending on what\nthe deal linked to at the moment of generation.",
           "exports": [
@@ -5786,7 +6034,7 @@
           "name": "FormulaEvaluationResult",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 244,
+          "line": 280,
           "signature": "interface FormulaEvaluationResult",
           "docComment": "Result of evaluating a single formula. Sent back to the frontend\nso the preview can display both the value and the original\nexpression in a tooltip.",
           "exports": [
@@ -5798,7 +6046,7 @@
           "name": "B24AuthPayload",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 264,
+          "line": 300,
           "signature": "interface B24AuthPayload",
           "docComment": "Payload extracted from a verified Bitrix24 auth token.\nThe backend auth middleware populates this object on the request.",
           "exports": [
@@ -5810,7 +6058,7 @@
           "name": "InstallRequest",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 284,
+          "line": 320,
           "signature": "interface InstallRequest",
           "docComment": "POST /api/install — request body.",
           "exports": [
@@ -5822,7 +6070,7 @@
           "name": "InstallResponse",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 290,
+          "line": 326,
           "signature": "interface InstallResponse",
           "docComment": "POST /api/install — response.",
           "exports": [
@@ -5834,7 +6082,7 @@
           "name": "TemplatePreviewResponse",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 295,
+          "line": 331,
           "signature": "interface TemplatePreviewResponse",
           "docComment": "GET /api/templates/:id/preview?dealId=... response.",
           "exports": [
@@ -5846,7 +6094,7 @@
           "name": "GenerateRequest",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 303,
+          "line": 341,
           "signature": "interface GenerateRequest",
           "docComment": "POST /api/generate — request body.",
           "exports": [
@@ -5858,7 +6106,7 @@
           "name": "GenerateResponse",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 309,
+          "line": 353,
           "signature": "interface GenerateResponse",
           "docComment": "POST /api/generate — response body.",
           "exports": [
@@ -5870,7 +6118,7 @@
           "name": "ApiErrorBody",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 323,
+          "line": 367,
           "signature": "interface ApiErrorBody",
           "docComment": "Generic error envelope returned by the backend.\n\nPhase 6 introduced the centralized error handler which always wraps\nerrors in `{ error: { code, message, details? } }`. The legacy flat\nshape (`{ error, message }`) is still produced by some plugins, so\nthe frontend client tolerates both — see `apps/frontend/src/lib/api.ts`.",
           "exports": [
@@ -5882,7 +6130,7 @@
           "name": "ApiErrorEnvelope",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 333,
+          "line": 377,
           "signature": "interface ApiErrorEnvelope",
           "docComment": "Top-level envelope wrapping an `ApiErrorBody`.",
           "exports": [
@@ -5894,7 +6142,7 @@
           "name": "ApiError",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 341,
+          "line": 385,
           "signature": "interface ApiError",
           "docComment": "Legacy / fastify-sensible flat shape. Kept for compatibility with\nolder clients and the plugins that bypass the central error handler.",
           "exports": [
@@ -5906,7 +6154,7 @@
           "name": "WebhookSummary",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 361,
+          "line": 405,
           "signature": "interface WebhookSummary",
           "docComment": "A webhook trigger that admins can attach to a Theme or a single\nTemplate. When Bitrix24 \"Outgoing webhook\" robot POSTs to the\nbackend URL, the same generation pipeline used by the manual UI\nbutton runs for every Template in scope.\n\nDates are serialized as ISO strings (not `Date`) so the shape is\nsafe to transport over JSON between the backend and the frontend.",
           "exports": [
@@ -5914,11 +6162,22 @@
           ]
         },
         {
+          "id": "packages/shared/src/types.ts:TemplateFieldType",
+          "name": "TemplateFieldType",
+          "type": "type",
+          "path": "packages/shared/src/types.ts",
+          "line": 95,
+          "docComment": "Input type of a manual field. Decides which control the generate\nform renders and what client-side validation applies.",
+          "exports": [
+            "TemplateFieldType"
+          ]
+        },
+        {
           "id": "packages/shared/src/types.ts:EntityValues",
           "name": "EntityValues",
           "type": "type",
           "path": "packages/shared/src/types.ts",
-          "line": 224,
+          "line": 260,
           "docComment": "Raw entity values injected by the server before formula evaluation.\nKeys are the Bitrix24 field codes, values are whatever the REST\nAPI returned (numbers, strings, arrays, etc.).",
           "exports": [
             "EntityValues"
@@ -5929,7 +6188,7 @@
           "name": "AppRole",
           "type": "type",
           "path": "packages/shared/src/types.ts",
-          "line": 402,
+          "line": 446,
           "docComment": "Role of the current user inside the app. Derived from\nAppSettings.adminUserIds.",
           "exports": [
             "AppRole"

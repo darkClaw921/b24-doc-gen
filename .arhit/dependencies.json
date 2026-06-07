@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-07T13:16:26.436Z",
+  "generatedAt": "2026-06-07T14:06:20.931Z",
   "dependencies": [
     {
       "from": "apps/backend/src/middleware/auth.ts",
@@ -1143,6 +1143,27 @@
       "type": "call",
       "fromElement": "registerGenerateRoutes",
       "toElement": "reply.notFound"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
+      "toElement": "missingRequired.join"
     },
     {
       "from": "apps/backend/src/routes/generate.ts",
@@ -2701,6 +2722,12 @@
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
+      "to": "@prisma/client",
+      "type": "import",
+      "toElement": "TemplateField"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
       "to": "@b24-doc-gen/shared",
       "type": "import",
       "toElement": "Formula"
@@ -2716,6 +2743,18 @@
       "to": "@b24-doc-gen/shared",
       "type": "import",
       "toElement": "FormulaEvaluationResult"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "@b24-doc-gen/shared",
+      "type": "import",
+      "toElement": "TemplateField"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "@b24-doc-gen/shared",
+      "type": "import",
+      "toElement": "TemplateFieldType"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
@@ -2885,6 +2924,90 @@
       "type": "call",
       "fromElement": "toFormulaDto",
       "toElement": "parseDependsOn"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "normalizeFieldType",
+      "toElement": "FIELD_TYPES.includes"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "toTemplateFieldDto",
+      "toElement": "normalizeFieldType"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "normalizeFieldsInput",
+      "toElement": "fields.forEach"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "normalizeFieldsInput",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "normalizeFieldsInput",
+      "toElement": "f.placeholder.trim"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "normalizeFieldsInput",
+      "toElement": "f.placeholder.trim"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "normalizeFieldsInput",
+      "toElement": "byKey.set"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "normalizeFieldsInput",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "normalizeFieldsInput",
+      "toElement": "normalizeFieldType"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "normalizeFieldsInput",
+      "toElement": "Boolean"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "normalizeFieldsInput",
+      "toElement": "Array.from"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "normalizeFieldsInput",
+      "toElement": "byKey.values"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
@@ -3577,6 +3700,20 @@
       "to": "apps/backend/src/routes/templates.ts",
       "type": "call",
       "fromElement": "registerTemplateRoutes",
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "normalizeFieldsInput"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
       "toElement": "tx.template.findUnique"
     },
     {
@@ -3640,6 +3777,27 @@
       "to": "apps/backend/src/routes/templates.ts",
       "type": "call",
       "fromElement": "registerTemplateRoutes",
+      "toElement": "tx.templateField.deleteMany"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "tx.templateField.createMany"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "fieldsInput.map"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
       "toElement": "tx.template.findUnique"
     },
     {
@@ -3683,6 +3841,13 @@
       "type": "call",
       "fromElement": "registerTemplateRoutes",
       "toElement": "prisma.formula.deleteMany"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "registerTemplateRoutes",
+      "toElement": "prisma.templateField.deleteMany"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
@@ -8435,6 +8600,27 @@
       "to": "apps/backend/src/services/generationPipeline.ts",
       "type": "call",
       "fromElement": "runGeneration",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "warnings.push"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
+      "toElement": "missingRequired.join"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "runGeneration",
       "toElement": "buildPdfFromHtml"
     },
     {
@@ -8952,6 +9138,13 @@
       "to": "apps/backend/src/services/pdfBuilder.ts",
       "type": "call",
       "fromElement": "buildPdfFromHtml",
+      "toElement": "stripManualFieldTags"
+    },
+    {
+      "from": "apps/backend/src/services/pdfBuilder.ts",
+      "to": "apps/backend/src/services/pdfBuilder.ts",
+      "type": "call",
+      "fromElement": "buildPdfFromHtml",
       "toElement": "wrapAsStyledHtml"
     },
     {
@@ -9057,6 +9250,20 @@
       "to": "apps/backend/src/services/pdfBuilder.ts",
       "type": "call",
       "fromElement": "stripFormulaTags",
+      "toElement": "escapeHtml"
+    },
+    {
+      "from": "apps/backend/src/services/pdfBuilder.ts",
+      "to": "apps/backend/src/services/pdfBuilder.ts",
+      "type": "call",
+      "fromElement": "stripManualFieldTags",
+      "toElement": "html.replace"
+    },
+    {
+      "from": "apps/backend/src/services/pdfBuilder.ts",
+      "to": "apps/backend/src/services/pdfBuilder.ts",
+      "type": "call",
+      "fromElement": "stripManualFieldTags",
       "toElement": "escapeHtml"
     },
     {
@@ -9697,6 +9904,12 @@
     },
     {
       "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
+      "to": "@/components/ManualFieldTag",
+      "type": "import",
+      "toElement": "ManualFieldTag"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/TiptapEditor.tsx",
       "to": "apps/frontend/src/components/Editor/ProductTableNode.ts",
       "type": "import",
       "toElement": "ProductFieldSpan"
@@ -9968,6 +10181,12 @@
       "to": "lucide-react",
       "type": "import",
       "toElement": "ChevronDown"
+    },
+    {
+      "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
+      "to": "lucide-react",
+      "type": "import",
+      "toElement": "FormInput"
     },
     {
       "from": "apps/frontend/src/components/Editor/Toolbar.tsx",
@@ -11450,6 +11669,448 @@
       "to": "apps/frontend/src/components/FormulaTag.tsx",
       "type": "call",
       "fromElement": "insertFormula",
+      "toElement": "editor.chain"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "react",
+      "type": "import",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "react",
+      "type": "import",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "lucide-react",
+      "type": "import",
+      "toElement": "AlertCircle"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "Dialog"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "DialogContent"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "DialogDescription"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "DialogFooter"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "DialogHeader"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "DialogTitle"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "@/components/ui/button",
+      "type": "import",
+      "toElement": "Button"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "@/components/ui/input",
+      "type": "import",
+      "toElement": "Input"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "@/lib/formulas",
+      "type": "import",
+      "toElement": "generateTagKey"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "TemplateFieldTypeDTO"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "Boolean"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setLabel"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setFieldKey"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setType"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setRequired"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setPlaceholder"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setKeyDirty"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "Boolean"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setLabel"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setFieldKey"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "generateTagKey"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setKeyDirty"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setFieldKey"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "value.replace"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "label.trim"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "fieldKey.trim"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "existingKeys.includes"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "onInsert"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "placeholder.trim"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "onOpenChange"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "handleLabelChange"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "handleKeyChange"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setType"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "TYPE_OPTIONS.map"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setPlaceholder"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setRequired"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "onOpenChange"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "@tiptap/core",
+      "type": "import",
+      "toElement": "Node"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "@tiptap/core",
+      "type": "import",
+      "toElement": "mergeAttributes"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "@tiptap/core",
+      "type": "import",
+      "toElement": "RawCommands"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "@tiptap/react",
+      "type": "import",
+      "toElement": "Editor"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "type": "call",
+      "toElement": "Node.create"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "type": "call",
+      "toElement": "el.getAttribute"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "type": "call",
+      "toElement": "el.getAttribute"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "type": "call",
+      "toElement": "el.getAttribute"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "type": "call",
+      "toElement": "el.getAttribute"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "type": "call",
+      "toElement": "el.getAttribute"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "type": "call",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "type": "call",
+      "toElement": "Boolean"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "type": "call",
+      "toElement": "mergeAttributes"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "type": "call",
+      "toElement": "chain"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "type": "call",
+      "fromElement": "insertManualField",
       "toElement": "editor.chain"
     },
     {
@@ -15530,6 +16191,12 @@
     },
     {
       "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "TemplateFieldDTO"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
       "to": "@/lib/b24",
       "type": "import",
       "toElement": "getCurrentDealId"
@@ -15553,6 +16220,13 @@
       "type": "call",
       "fromElement": "GeneratePage",
       "toElement": "getCurrentDealId"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "useState"
     },
     {
       "from": "apps/frontend/src/pages/GeneratePage.tsx",
@@ -15643,6 +16317,34 @@
       "to": "apps/frontend/src/pages/GeneratePage.tsx",
       "type": "call",
       "fromElement": "GeneratePage",
+      "toElement": "setFieldValues"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "setFieldValues"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "setGenerateResult"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
       "toElement": "useQuery"
     },
     {
@@ -15699,6 +16401,90 @@
       "to": "apps/frontend/src/pages/GeneratePage.tsx",
       "type": "call",
       "fromElement": "GeneratePage",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "previewData.fields.map"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "root.querySelectorAll"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "spans.forEach"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "span.getAttribute"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "fieldsByKey.get"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "formatFieldValue"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "span.setAttribute"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "span.setAttribute"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "useMemo"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "formatFieldValue"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "useMemo"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
       "toElement": "useMutation"
     },
     {
@@ -15741,7 +16527,28 @@
       "to": "apps/frontend/src/pages/GeneratePage.tsx",
       "type": "call",
       "fromElement": "GeneratePage",
+      "toElement": "previewData.fields.map"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "setFieldValues"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
       "toElement": "generateMutation.mutate"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "missingRequired.map"
     },
     {
       "from": "apps/frontend/src/pages/GeneratePage.tsx",
@@ -15763,6 +16570,20 @@
       "type": "call",
       "fromElement": "GeneratePage",
       "toElement": "Object.keys"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldInput",
+      "toElement": "onChange"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldInput",
+      "toElement": "onChange"
     },
     {
       "from": "apps/frontend/src/pages/InstallPage.tsx",
@@ -17263,6 +18084,18 @@
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "@/components/ManualFieldBuilder",
+      "type": "import",
+      "toElement": "ManualFieldBuilder"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "@/components/ManualFieldBuilder",
+      "type": "import",
+      "toElement": "ManualFieldBuilderResult"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "@/lib/api",
       "type": "import",
       "toElement": "ApiError"
@@ -17296,6 +18129,18 @@
       "to": "@/lib/api",
       "type": "import",
       "toElement": "TemplateDTO"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "TemplateFieldDTO"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "TemplateFieldInputDTO"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -17335,6 +18180,27 @@
       "type": "call",
       "fromElement": "TemplateEditorPage",
       "toElement": "useQueryClient"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "useState"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -17502,6 +18368,20 @@
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
+      "toElement": "fieldDtoToInput"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFieldsByKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
       "toElement": "useMutation"
     },
     {
@@ -17559,6 +18439,20 @@
       "type": "call",
       "fromElement": "TemplateEditorPage",
       "toElement": "setFormulasByKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "fieldDtoToInput"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFieldsByKey"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -17635,6 +18529,83 @@
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
+      "toElement": "useCallback"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "Object.values"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "editor.state.doc.descendants"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "seenKeys.has"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "seenKeys.add"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "result.push"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "Boolean"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
       "toElement": "name.trim"
     },
     {
@@ -17678,6 +18649,13 @@
       "type": "call",
       "fromElement": "TemplateEditorPage",
       "toElement": "extractFormulasFromEditor"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "extractFieldsFromEditor"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -17866,6 +18844,188 @@
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
+      "toElement": "useMemo"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "Object.keys"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "editor.state.doc.descendants"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "keys.add"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "Array.from"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "useCallback"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "editor.state.doc.descendants"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "editor.state.tr.setNodeMarkup"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "editor.view.dispatch"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFieldsByKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setEditingFieldKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setDirty"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFieldsByKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setDirty"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "target.closest"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "dom.contains"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "pill.getAttribute"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "event.preventDefault"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "event.stopPropagation"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setEditingFieldKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFieldBuilderOpen"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "dom.addEventListener"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "dom.removeEventListener"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
       "toElement": "setContentHtml"
     },
     {
@@ -17964,6 +19124,13 @@
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
+      "toElement": "setFieldBuilderOpen"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
       "toElement": "setBuilderOpen"
     },
     {
@@ -17979,6 +19146,27 @@
       "type": "call",
       "fromElement": "TemplateEditorPage",
       "toElement": "existingKeys.filter"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setFieldBuilderOpen"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setEditingFieldKey"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "existingFieldKeys.filter"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",

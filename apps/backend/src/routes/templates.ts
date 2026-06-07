@@ -29,11 +29,18 @@
 
 import type { FastifyInstance } from 'fastify';
 import type { MultipartFile } from '@fastify/multipart';
-import { Prisma, type Template as PrismaTemplate, type Formula as PrismaFormula } from '@prisma/client';
+import {
+  Prisma,
+  type Template as PrismaTemplate,
+  type Formula as PrismaFormula,
+  type TemplateField as PrismaTemplateField,
+} from '@prisma/client';
 import type {
   Formula,
   FormulaDependencies,
   FormulaEvaluationResult,
+  TemplateField,
+  TemplateFieldType,
   TemplatePreviewResponse,
 } from '@b24-doc-gen/shared';
 import { prisma } from '../prisma/client.js';
@@ -67,6 +74,7 @@ export interface TemplateDTO {
   themeId: string;
   contentHtml: string;
   formulas: Formula[];
+  fields: TemplateField[];
   hasOriginalDocx: boolean;
   /** Base64 of the original .docx, only when explicitly requested. */
   originalDocxBase64?: string;
@@ -102,6 +110,7 @@ interface UpdateTemplateBody {
   themeId?: string;
   contentHtml?: string;
   formulas?: FormulaInput[];
+  fields?: TemplateFieldInput[];
 }
 
 /** Shape of a formula sent by the client when saving a template. */
@@ -112,6 +121,17 @@ export interface FormulaInput {
   label: string;
   expression: string;
   dependsOn: FormulaDependencies;
+}
+
+/** Shape of a manual field sent by the client when saving a template. */
+export interface TemplateFieldInput {
+  id?: string;
+  fieldKey: string;
+  label: string;
+  type?: string;
+  required?: boolean;
+  placeholder?: string;
+  order?: number;
 }
 
 /* ------------------------------------------------------------------ */
@@ -166,8 +186,67 @@ function toFormulaDto(row: PrismaFormula): Formula {
   };
 }
 
+/** Allowed manual-field types; anything else falls back to "text". */
+const FIELD_TYPES: TemplateFieldType[] = ['text', 'textarea', 'number', 'date'];
+
+function normalizeFieldType(value: unknown): TemplateFieldType {
+  return FIELD_TYPES.includes(value as TemplateFieldType)
+    ? (value as TemplateFieldType)
+    : 'text';
+}
+
+function toTemplateFieldDto(row: PrismaTemplateField): TemplateField {
+  return {
+    id: row.id,
+    templateId: row.templateId,
+    fieldKey: row.fieldKey,
+    label: row.label,
+    type: normalizeFieldType(row.type),
+    required: row.required,
+    placeholder: row.placeholder ?? undefined,
+    order: row.order,
+  };
+}
+
+/**
+ * Validate and normalize the manual-field array sent by the client.
+ * Drops entries with an empty fieldKey and de-duplicates by fieldKey
+ * (last write wins). `order` is derived from array position so the
+ * generate form reflects the order in which the admin authored them.
+ */
+function normalizeFieldsInput(
+  fields: TemplateFieldInput[],
+): Array<{
+  fieldKey: string;
+  label: string;
+  type: TemplateFieldType;
+  required: boolean;
+  placeholder: string | null;
+  order: number;
+}> {
+  const byKey = new Map<string, ReturnType<typeof normalizeFieldsInput>[number]>();
+  fields.forEach((f, index) => {
+    const fieldKey = String(f.fieldKey ?? '').trim();
+    if (!fieldKey) return;
+    const placeholder =
+      typeof f.placeholder === 'string' && f.placeholder.trim().length > 0
+        ? f.placeholder.trim()
+        : null;
+    byKey.set(fieldKey, {
+      fieldKey,
+      label: String(f.label ?? '').trim() || fieldKey,
+      type: normalizeFieldType(f.type),
+      required: Boolean(f.required),
+      placeholder,
+      order: typeof f.order === 'number' ? f.order : index,
+    });
+  });
+  return Array.from(byKey.values());
+}
+
 interface TemplateRow extends PrismaTemplate {
   formulas: PrismaFormula[];
+  fields: PrismaTemplateField[];
 }
 
 function toTemplateDto(row: TemplateRow, withDocx: boolean): TemplateDTO {
@@ -177,6 +256,10 @@ function toTemplateDto(row: TemplateRow, withDocx: boolean): TemplateDTO {
     themeId: row.themeId,
     contentHtml: row.contentHtml,
     formulas: row.formulas.map(toFormulaDto),
+    fields: row.fields
+      .slice()
+      .sort((a, b) => a.order - b.order)
+      .map(toTemplateFieldDto),
     hasOriginalDocx: row.originalDocx !== null && row.originalDocx !== undefined,
     originalDocxBase64:
       withDocx && row.originalDocx
@@ -321,7 +404,7 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
 
       const row = await prisma.template.findUnique({
         where: { id },
-        include: { formulas: true },
+        include: { formulas: true, fields: true },
       });
       if (!row) return reply.notFound(`template ${id} not found`);
 
@@ -361,7 +444,7 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
 
       const row = await prisma.template.findUnique({
         where: { id },
-        include: { formulas: true },
+        include: { formulas: true, fields: true },
       });
       if (!row) return reply.notFound(`template ${id} not found`);
 
@@ -453,6 +536,10 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
       const response: TemplatePreviewResponse = {
         html,
         formulas: formulaResults,
+        fields: row.fields
+          .slice()
+          .sort((a, b) => a.order - b.order)
+          .map(toTemplateFieldDto),
       };
       return response;
     },
@@ -479,7 +566,7 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
         themeId: body.themeId,
         contentHtml: typeof body.contentHtml === 'string' ? body.contentHtml : '<p></p>',
       },
-      include: { formulas: true },
+      include: { formulas: true, fields: true },
     });
 
     return reply.code(201).send({ template: toTemplateDto(row, false) });
@@ -576,7 +663,7 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
         contentHtml: html.length > 0 ? html : '<p></p>',
         originalDocx: buffer,
       },
-      include: { formulas: true },
+      include: { formulas: true, fields: true },
     });
 
     return reply.code(201).send({
@@ -620,6 +707,9 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
       }
 
       const formulasInput = Array.isArray(body.formulas) ? body.formulas : null;
+      const fieldsInput = Array.isArray(body.fields)
+        ? normalizeFieldsInput(body.fields)
+        : null;
 
       try {
         const updated = await prisma.$transaction(async (tx) => {
@@ -650,9 +740,28 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
             }
           }
 
+          // Replace the manual-field set if the client provided one.
+          // Empty array = "remove all fields".
+          if (fieldsInput !== null) {
+            await tx.templateField.deleteMany({ where: { templateId: id } });
+            if (fieldsInput.length > 0) {
+              await tx.templateField.createMany({
+                data: fieldsInput.map((f) => ({
+                  templateId: id,
+                  fieldKey: f.fieldKey,
+                  label: f.label,
+                  type: f.type,
+                  required: f.required,
+                  placeholder: f.placeholder,
+                  order: f.order,
+                })),
+              });
+            }
+          }
+
           return tx.template.findUnique({
             where: { id },
-            include: { formulas: true },
+            include: { formulas: true, fields: true },
           });
         });
 
@@ -679,8 +788,10 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
 
     const { id } = request.params;
     try {
-      // Cascade-delete formulas first to satisfy the foreign key.
+      // Cascade-delete formulas and manual fields first to satisfy the
+      // foreign keys.
       await prisma.formula.deleteMany({ where: { templateId: id } });
+      await prisma.templateField.deleteMany({ where: { templateId: id } });
       await prisma.template.delete({ where: { id } });
       return reply.code(204).send();
     } catch (err) {

@@ -630,5 +630,51 @@
     "content": "Fastify preHandler auth middleware (apps/backend/src/middleware/auth.ts). Gates all /api/* except PUBLIC_PATHS (/health, /api/health, /api/webhook/run, /api/images). Reads X-B24-Access-Token/X-B24-Member-Id/X-B24-Domain headers (or body.auth for server-to-server/install), verifies via verifyB24Payload (presence + plausible bitrix domain + optional HMAC over memberId:domain when B24_APP_SECRET set), then populates request.b24Auth {userId, domain, accessToken, memberId}. userId resolution: taken from optional x-b24-user-id/body if present, otherwise resolved via resolveUserIdFromB24(domain, accessToken) -> B24 user.current REST call. CRITICAL: resolveUserIdFromB24 caches userId keyed by the per-user ACCESS TOKEN (not memberId) with 5-min TTL — memberId is portal-wide and shared by every user, so keying by it would resolve all users to whoever opened the app first (e.g. the admin) and mis-grant the admin role. The cache key fix ensures correct per-user role detection (consumed by GET /api/me -> loadCurrentRole). Helpers: verifyB24Payload, isPlausibleBitrixDomain (accepts *.bitrix24.*, *.bitrix.* and B24_ALLOWED_DOMAINS), isPublicPath, readAuthCandidates, readHeader.",
     "createdAt": "2026-06-07T12:34:50.099Z",
     "updatedAt": "2026-06-07T12:34:50.099Z"
+  },
+  {
+    "element": "ManualFieldTag",
+    "path": "apps/frontend/src/components/ManualFieldTag.tsx",
+    "type": "variable",
+    "content": "TipTap inline atom-нода manualFieldTag для ручных полей шаблона. Атрибуты fieldKey/label/type/required/placeholder сериализуются в data-field-key/label/type/required/placeholder. parseHTML принимает span[data-field-key], renderHTML — янтарный pill '✎ {label}' (со * для обязательного). Команда insertManualFieldTag(attrs) и helper insertManualField(editor, attrs). Аналог FormulaTag, но значение заполняет пользователь при генерации, а не вычисляется.",
+    "createdAt": "2026-06-07T14:06:30.986Z",
+    "updatedAt": "2026-06-07T14:06:30.986Z"
+  },
+  {
+    "element": "ManualFieldBuilder",
+    "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+    "type": "function",
+    "content": "Модалка конструктора ручного поля (shadcn Dialog). Inputs: label, fieldKey (авто-slug через generateTagKey с флагом keyDirty), select типа (text/textarea/number/date), чекбокс Обязательное, input placeholder. Поддержка EDIT-режима (initialValues) и проверки уникальности (existingKeys). На submit вызывает onInsert({fieldKey, label, type, required, placeholder}). Экспортирует ManualFieldBuilderResult.",
+    "createdAt": "2026-06-07T14:06:31.244Z",
+    "updatedAt": "2026-06-07T14:06:39.982Z",
+    "aliases": [
+      "поле для заполнения вручную"
+    ]
+  },
+  {
+    "element": "TemplateField",
+    "path": "packages/shared/src/types.ts",
+    "type": "interface",
+    "content": "Общий тип ручного поля шаблона (packages/shared) и модель Prisma. Поля: fieldKey, label, type (text/textarea/number/date), required, placeholder?, order. Заполняется пользователем при генерации, ссылается из contentHtml нодой manualFieldTag. Хранится в таблице TemplateField (unique templateId+fieldKey, onDelete Cascade).",
+    "createdAt": "2026-06-07T14:06:31.499Z",
+    "updatedAt": "2026-06-07T14:06:39.729Z",
+    "aliases": [
+      "ручное поле"
+    ]
+  },
+  {
+    "element": "stripManualFieldTags",
+    "path": "apps/backend/src/services/pdfBuilder.ts",
+    "type": "function",
+    "content": "Приватная функция pdfBuilder.ts: заменяет каждый <span data-field-key='K'>…</span> на значение fieldValues[K] (escapeHtml, переносы строк → <br>), пустая строка если значения нет. Вызывается в buildPdfFromHtml после stripFormulaTags.",
+    "createdAt": "2026-06-07T14:06:39.211Z",
+    "updatedAt": "2026-06-07T14:06:39.211Z"
+  },
+  {
+    "element": "buildPdfFromHtml",
+    "path": "apps/backend/src/services/pdfBuilder.ts",
+    "type": "function",
+    "content": "Генерация PDF из HTML через Puppeteer. Опции BuildPdfOptions: formulas?, title?, products?, fieldValues?. Pipeline: expandProductTables → stripFormulaTags → stripManualFieldTags → wrapAsStyledHtml → рендер в headless Chrome → page.pdf A4. Основной генератор (UI-роут и webhook-конвейер).",
+    "createdAt": "2026-06-07T14:06:39.467Z",
+    "updatedAt": "2026-06-07T14:06:39.467Z"
   }
 ]

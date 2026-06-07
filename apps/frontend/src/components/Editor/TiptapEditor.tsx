@@ -33,6 +33,7 @@ import {
   TableCell,
 } from '@tiptap/extension-table';
 import { FormulaTag } from '@/components/FormulaTag';
+import { ManualFieldTag } from '@/components/ManualFieldTag';
 import {
   ProductFieldSpan,
   ProductImageSpan,
@@ -108,6 +109,9 @@ export function buildTiptapExtensions() {
     // as styled `<span data-formula-key>` pills and picked up by the
     // server-side preview/generation pipeline.
     FormulaTag,
+    // Inline atom node for manual fields the user fills in at generation
+    // time. Rendered as amber `<span data-field-key>` pills.
+    ManualFieldTag,
     // Product table atom nodes — render as styled pills inside product
     // tables so admins can see which fields/images/indices are used.
     ProductFieldSpan,

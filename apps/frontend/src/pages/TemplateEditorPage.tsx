@@ -44,12 +44,18 @@ import {
   type FormulaBuilderResult,
 } from '@/components/FormulaBuilder';
 import {
+  ManualFieldBuilder,
+  type ManualFieldBuilderResult,
+} from '@/components/ManualFieldBuilder';
+import {
   ApiError,
   templatesApi,
   themesApi,
   type FormulaDTO,
   type FormulaInputDTO,
   type TemplateDTO,
+  type TemplateFieldDTO,
+  type TemplateFieldInputDTO,
   type ThemeDTO,
 } from '@/lib/api';
 import { extractUsedHelpers } from '@/lib/formulaHelp';
@@ -85,6 +91,17 @@ export function TemplateEditorPage() {
    */
   const [editingFormulaKey, setEditingFormulaKey] = useState<string | null>(null);
 
+  /**
+   * Manual-field metadata by fieldKey. Mirrors `formulasByKey`: the
+   * TipTap document owns the placement of each `manualFieldTag` node,
+   * this map owns the metadata (type/required/placeholder) we round-trip
+   * through the backend.
+   */
+  const [fieldsByKey, setFieldsByKey] = useState<Record<string, TemplateFieldInputDTO>>({});
+  const [fieldBuilderOpen, setFieldBuilderOpen] = useState(false);
+  /** When set, the ManualFieldBuilder is opened in EDIT mode. */
+  const [editingFieldKey, setEditingFieldKey] = useState<string | null>(null);
+
   const templateQuery = useQuery({
     queryKey: ['template', id],
     queryFn: () => templatesApi.get(id!).then((r) => r.template),
@@ -112,6 +129,12 @@ export function TemplateEditorPage() {
       seed[f.tagKey] = formulaDtoToInput(f);
     }
     setFormulasByKey(seed);
+    // Seed manual-field map from the backend payload.
+    const fieldSeed: Record<string, TemplateFieldInputDTO> = {};
+    for (const f of tpl.fields ?? []) {
+      fieldSeed[f.fieldKey] = fieldDtoToInput(f);
+    }
+    setFieldsByKey(fieldSeed);
   }, [templateQuery.data?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const saveMutation = useMutation({
@@ -120,6 +143,7 @@ export function TemplateEditorPage() {
       themeId: string;
       contentHtml: string;
       formulas: FormulaInputDTO[];
+      fields: TemplateFieldInputDTO[];
     }) => templatesApi.update(id!, body),
     onSuccess: ({ template }) => {
       setSavedAt(Date.now());
@@ -134,6 +158,12 @@ export function TemplateEditorPage() {
         seed[f.tagKey] = formulaDtoToInput(f);
       }
       setFormulasByKey(seed);
+      // Re-seed fieldsByKey too.
+      const fieldSeed: Record<string, TemplateFieldInputDTO> = {};
+      for (const f of template.fields ?? []) {
+        fieldSeed[f.fieldKey] = fieldDtoToInput(f);
+      }
+      setFieldsByKey(fieldSeed);
     },
     onError: (err) => {
       const message =
@@ -183,6 +213,49 @@ export function TemplateEditorPage() {
     return result;
   }, [editor, formulasByKey]);
 
+  /**
+   * Walk the editor document and collect every `manualFieldTag` node
+   * into the array we PUT to the backend. Metadata (type/required/
+   * placeholder) is sourced from `fieldsByKey`; the node attrs are the
+   * fallback so fields survive even if the map drifts. `order` is the
+   * document order so the generate form matches the layout.
+   */
+  const extractFieldsFromEditor = useCallback((): TemplateFieldInputDTO[] => {
+    if (!editor) {
+      return Object.values(fieldsByKey);
+    }
+    const seenKeys = new Set<string>();
+    const result: TemplateFieldInputDTO[] = [];
+    editor.state.doc.descendants((node) => {
+      if (node.type.name !== 'manualFieldTag') return;
+      const attrs = node.attrs as {
+        fieldKey?: string;
+        label?: string;
+        type?: string;
+        required?: boolean;
+        placeholder?: string;
+      };
+      const key = String(attrs.fieldKey ?? '').trim();
+      if (!key || seenKeys.has(key)) return;
+      seenKeys.add(key);
+      const meta = fieldsByKey[key];
+      const rawType = String(attrs.type ?? meta?.type ?? 'text');
+      const type = (['text', 'textarea', 'number', 'date'].includes(rawType)
+        ? rawType
+        : 'text') as TemplateFieldInputDTO['type'];
+      result.push({
+        id: meta?.id,
+        fieldKey: key,
+        label: String(attrs.label ?? meta?.label ?? ''),
+        type,
+        required: Boolean(attrs.required ?? meta?.required ?? false),
+        placeholder: String(attrs.placeholder ?? meta?.placeholder ?? ''),
+        order: result.length,
+      });
+    });
+    return result;
+  }, [editor, fieldsByKey]);
+
   const handleSave = () => {
     if (!id) return;
     if (!name.trim()) {
@@ -199,6 +272,7 @@ export function TemplateEditorPage() {
       themeId,
       contentHtml: contentHtml,
       formulas: extractFormulasFromEditor(),
+      fields: extractFieldsFromEditor(),
     });
   };
 
@@ -306,6 +380,115 @@ export function TemplateEditorPage() {
       event.stopPropagation();
       setEditingFormulaKey(key);
       setBuilderOpen(true);
+    };
+    dom.addEventListener('click', handler);
+    return () => dom.removeEventListener('click', handler);
+  }, [editor]);
+
+  /* -------------------- Manual field wiring ---------------------- */
+
+  /** Field keys currently present inside the editor + in the local map. */
+  const existingFieldKeys = useMemo(() => {
+    const keys = new Set<string>(Object.keys(fieldsByKey));
+    if (editor) {
+      editor.state.doc.descendants((node) => {
+        if (node.type.name === 'manualFieldTag') {
+          const k = String(node.attrs.fieldKey ?? '').trim();
+          if (k) keys.add(k);
+        }
+      });
+    }
+    return Array.from(keys);
+  }, [editor, fieldsByKey]);
+
+  const handleInsertField = useCallback(
+    (result: ManualFieldBuilderResult) => {
+      if (!editor) return;
+
+      // EDIT mode: patch the existing manualFieldTag node in place.
+      if (editingFieldKey) {
+        const oldKey = editingFieldKey;
+        let pos: number | null = null;
+        editor.state.doc.descendants((node, p) => {
+          if (
+            node.type.name === 'manualFieldTag' &&
+            String(node.attrs.fieldKey) === oldKey
+          ) {
+            pos = p;
+            return false;
+          }
+          return true;
+        });
+        if (pos !== null) {
+          const tr = editor.state.tr.setNodeMarkup(pos, undefined, {
+            fieldKey: result.fieldKey,
+            label: result.label,
+            type: result.type,
+            required: result.required,
+            placeholder: result.placeholder,
+          });
+          editor.view.dispatch(tr);
+        }
+        setFieldsByKey((prev) => {
+          const next = { ...prev };
+          if (oldKey !== result.fieldKey) delete next[oldKey];
+          next[result.fieldKey] = {
+            id: prev[oldKey]?.id,
+            fieldKey: result.fieldKey,
+            label: result.label,
+            type: result.type,
+            required: result.required,
+            placeholder: result.placeholder,
+          };
+          return next;
+        });
+        setEditingFieldKey(null);
+        setDirty(true);
+        return;
+      }
+
+      // INSERT mode (new field at caret).
+      editor
+        .chain()
+        .focus()
+        .insertManualFieldTag({
+          fieldKey: result.fieldKey,
+          label: result.label,
+          type: result.type,
+          required: result.required,
+          placeholder: result.placeholder,
+        })
+        .run();
+      setFieldsByKey((prev) => ({
+        ...prev,
+        [result.fieldKey]: {
+          fieldKey: result.fieldKey,
+          label: result.label,
+          type: result.type,
+          required: result.required,
+          placeholder: result.placeholder,
+        },
+      }));
+      setDirty(true);
+    },
+    [editor, editingFieldKey],
+  );
+
+  /** Click-to-edit for manual-field pills (mirrors the formula one). */
+  useEffect(() => {
+    if (!editor) return;
+    const dom = editor.view.dom;
+    const handler = (event: Event) => {
+      const target = event.target as HTMLElement | null;
+      if (!target) return;
+      const pill = target.closest('span[data-field-key]') as HTMLElement | null;
+      if (!pill || !dom.contains(pill)) return;
+      const key = pill.getAttribute('data-field-key') ?? '';
+      if (!key) return;
+      event.preventDefault();
+      event.stopPropagation();
+      setEditingFieldKey(key);
+      setFieldBuilderOpen(true);
     };
     dom.addEventListener('click', handler);
     return () => dom.removeEventListener('click', handler);
@@ -433,6 +616,7 @@ export function TemplateEditorPage() {
         <Toolbar
           editor={editor}
           onInsertFormula={() => setBuilderOpen(true)}
+          onInsertField={() => setFieldBuilderOpen(true)}
         />
       </div>
 
@@ -466,6 +650,36 @@ export function TemplateEditorPage() {
           editingFormulaKey ? formulasByKey[editingFormulaKey] : undefined
         }
       />
+
+      <ManualFieldBuilder
+        open={fieldBuilderOpen}
+        onOpenChange={(open) => {
+          setFieldBuilderOpen(open);
+          if (!open) setEditingFieldKey(null);
+        }}
+        onInsert={handleInsertField}
+        existingKeys={
+          editingFieldKey
+            ? existingFieldKeys.filter((k) => k !== editingFieldKey)
+            : existingFieldKeys
+        }
+        initialValues={
+          editingFieldKey
+            ? (() => {
+                const meta = fieldsByKey[editingFieldKey];
+                return meta
+                  ? {
+                      fieldKey: meta.fieldKey,
+                      label: meta.label,
+                      type: meta.type,
+                      required: meta.required,
+                      placeholder: meta.placeholder ?? '',
+                    }
+                  : undefined;
+              })()
+            : undefined
+        }
+      />
     </div>
   );
 }
@@ -482,6 +696,19 @@ function formulaDtoToInput(f: FormulaDTO): FormulaInputDTO {
     label: f.label,
     expression: f.expression,
     dependsOn: f.dependsOn,
+  };
+}
+
+/** Translate a TemplateFieldDTO into the input shape sent on save. */
+function fieldDtoToInput(f: TemplateFieldDTO): TemplateFieldInputDTO {
+  return {
+    id: f.id,
+    fieldKey: f.fieldKey,
+    label: f.label,
+    type: f.type,
+    required: f.required,
+    placeholder: f.placeholder ?? '',
+    order: f.order,
   };
 }
 

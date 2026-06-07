@@ -78,8 +78,44 @@ export interface Template {
   originalDocxBase64?: string;
   /** Formulas attached to this template. */
   formulas: Formula[];
+  /** Manual fields the user fills in at generation time. */
+  fields: TemplateField[];
   createdAt: string;
   updatedAt: string;
+}
+
+/* ------------------------------------------------------------------ */
+/* Manual fields                                                       */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Input type of a manual field. Decides which control the generate
+ * form renders and what client-side validation applies.
+ */
+export type TemplateFieldType = 'text' | 'textarea' | 'number' | 'date';
+
+/**
+ * A manual field attached to a template. Unlike a {@link Formula} (whose
+ * value is computed from CRM data), a manual field is filled in by the
+ * user at generation time. It is referenced from the template HTML by
+ * its `fieldKey` (a `<span data-field-key="…">` placeholder pill).
+ */
+export interface TemplateField {
+  id: string;
+  /** Template the field belongs to. */
+  templateId: string;
+  /** Unique key inside a template, referenced from HTML. */
+  fieldKey: string;
+  /** Human-readable label shown in the generate form and the editor pill. */
+  label: string;
+  /** Control type rendered in the generate form. */
+  type: TemplateFieldType;
+  /** When true, the user must fill this field before generating. */
+  required: boolean;
+  /** Optional hint shown inside the empty input. */
+  placeholder?: string;
+  /** Sort order inside the generate form (ascending). */
+  order: number;
 }
 
 /* ------------------------------------------------------------------ */
@@ -297,12 +333,20 @@ export interface TemplatePreviewResponse {
   html: string;
   /** Per-formula evaluation results, indexed by tagKey. */
   formulas: Record<string, FormulaEvaluationResult>;
+  /** Manual fields the user must fill in before generating. */
+  fields: TemplateField[];
 }
 
 /** POST /api/generate — request body. */
 export interface GenerateRequest {
   templateId: string;
   dealId: number;
+  /**
+   * Values for the template's manual fields, keyed by `fieldKey`.
+   * Substituted into the document at generation time. Missing keys are
+   * treated as empty strings.
+   */
+  fieldValues?: Record<string, string>;
 }
 
 /** POST /api/generate — response body. */

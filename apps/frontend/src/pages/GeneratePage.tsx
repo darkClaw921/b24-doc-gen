@@ -69,6 +69,7 @@ import {
   type TemplateListItemDTO,
   type GenerateResponseDTO,
   type TemplatePreviewResponseDTO,
+  type TemplateFieldDTO,
 } from '@/lib/api';
 import { getCurrentDealId, reloadParentWindow } from '@/lib/b24';
 
@@ -97,6 +98,25 @@ const PREVIEW_STYLES = `
     color: #7f1d1d;
     box-shadow: inset 0 0 0 1px rgba(220, 38, 38, 0.5);
   }
+  .gen-preview-html span[data-field-key] {
+    background: #fef3c7;
+    border-radius: 0.25rem;
+    padding: 0 0.25rem;
+    box-shadow: inset 0 0 0 1px rgba(217, 119, 6, 0.4);
+    color: #78350f;
+    /* Override the editor pill's text-xs / font-medium so the value
+       matches the surrounding document font and size. */
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+    line-height: inherit;
+  }
+  .gen-preview-html span[data-field-key][data-field-filled="true"] {
+    background: transparent;
+    box-shadow: none;
+    color: inherit;
+    padding: 0;
+  }
   .gen-preview-html h1 { font-size: 1.5rem; font-weight: 600; margin: 1rem 0; }
   .gen-preview-html h2 { font-size: 1.25rem; font-weight: 600; margin: 0.75rem 0; }
   .gen-preview-html h3 { font-size: 1.125rem; font-weight: 600; margin: 0.5rem 0; }
@@ -112,6 +132,25 @@ const PREVIEW_STYLES = `
 `;
 
 /* ------------------------------------------------------------------ */
+/* Manual field helpers                                                */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Convert a raw input value into the string that goes into the
+ * document. Date inputs yield ISO `yyyy-mm-dd`; we render them as the
+ * Russian `dd.MM.yyyy`. Everything else passes through unchanged.
+ */
+function formatFieldValue(field: TemplateFieldDTO, raw: string): string {
+  const value = (raw ?? '').trim();
+  if (!value) return '';
+  if (field.type === 'date') {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+    if (m) return `${m[3]}.${m[2]}.${m[1]}`;
+  }
+  return value;
+}
+
+/* ------------------------------------------------------------------ */
 /* Component                                                           */
 /* ------------------------------------------------------------------ */
 
@@ -120,6 +159,8 @@ export function GeneratePage() {
   const [selectedThemeId, setSelectedThemeId] = useState<string | null>(null);
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
   const [generateResult, setGenerateResult] = useState<GenerateResponseDTO | null>(null);
+  /** Raw input values for manual fields, keyed by fieldKey. */
+  const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
   const previewRef = useRef<HTMLDivElement | null>(null);
 
   /* -------------------------------------------------------------- */
@@ -162,7 +203,14 @@ export function GeneratePage() {
   useEffect(() => {
     setSelectedTemplateId(null);
     setGenerateResult(null);
+    setFieldValues({});
   }, [selectedThemeId]);
+
+  // Reset manual-field values whenever the template changes.
+  useEffect(() => {
+    setFieldValues({});
+    setGenerateResult(null);
+  }, [selectedTemplateId]);
 
   /* -------------------------------------------------------------- */
   /* Preview of the selected template                               */
@@ -202,12 +250,58 @@ export function GeneratePage() {
     });
   }, [previewData]);
 
+  // Live-fill manual-field pills in the preview as the user types. Empty
+  // fields show their placeholder/label so the user sees what is missing;
+  // filled fields show the formatted value and drop the highlight.
+  useEffect(() => {
+    const root = previewRef.current;
+    if (!root || !previewData) return;
+    const fieldsByKey = new Map(previewData.fields.map((f) => [f.fieldKey, f]));
+    const spans = root.querySelectorAll<HTMLSpanElement>('span[data-field-key]');
+    spans.forEach((span) => {
+      const key = span.getAttribute('data-field-key') ?? '';
+      const field = fieldsByKey.get(key);
+      if (!field) return;
+      const formatted = formatFieldValue(field, fieldValues[key] ?? '');
+      if (formatted) {
+        span.textContent = formatted;
+        span.setAttribute('data-field-filled', 'true');
+      } else {
+        const hint = field.placeholder || field.label || 'поле';
+        span.textContent = `✎ ${hint}${field.required ? ' *' : ''}`;
+        span.setAttribute('data-field-filled', 'false');
+      }
+    });
+  }, [previewData, fieldValues]);
+
   /* -------------------------------------------------------------- */
   /* Generate mutation                                              */
   /* -------------------------------------------------------------- */
+  // Build the payload of formatted manual-field values to send.
+  const formattedFieldValues = useMemo(() => {
+    const out: Record<string, string> = {};
+    for (const f of previewData?.fields ?? []) {
+      out[f.fieldKey] = formatFieldValue(f, fieldValues[f.fieldKey] ?? '');
+    }
+    return out;
+  }, [previewData, fieldValues]);
+
+  // Required manual fields the user has not filled in yet.
+  const missingRequired = useMemo(
+    () =>
+      (previewData?.fields ?? []).filter(
+        (f) => f.required && (fieldValues[f.fieldKey] ?? '').trim() === '',
+      ),
+    [previewData, fieldValues],
+  );
+
   const generateMutation = useMutation({
     mutationFn: () =>
-      generateApi.generate({ templateId: selectedTemplateId!, dealId: dealId! }),
+      generateApi.generate({
+        templateId: selectedTemplateId!,
+        dealId: dealId!,
+        fieldValues: formattedFieldValues,
+      }),
     onSuccess: (data) => {
       setGenerateResult(data);
       // Ask Bitrix24 to reload the parent CRM card so the user sees
@@ -400,9 +494,34 @@ export function GeneratePage() {
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">
+          {previewData && previewData.fields.length > 0 && (
+            <div className="mb-4 rounded-md border border-amber-200 bg-amber-50/60 p-3">
+              <h3 className="mb-2 text-xs font-semibold uppercase text-amber-800">
+                Поля для заполнения
+              </h3>
+              <div className="space-y-3">
+                {previewData.fields.map((field) => (
+                  <ManualFieldInput
+                    key={field.fieldKey}
+                    field={field}
+                    value={fieldValues[field.fieldKey] ?? ''}
+                    onChange={(v) =>
+                      setFieldValues((prev) => ({ ...prev, [field.fieldKey]: v }))
+                    }
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           <Button
             type="button"
-            disabled={!selectedTemplateId || generating || previewLoading}
+            disabled={
+              !selectedTemplateId ||
+              generating ||
+              previewLoading ||
+              missingRequired.length > 0
+            }
             onClick={() => generateMutation.mutate()}
             className="w-full"
           >
@@ -418,6 +537,13 @@ export function GeneratePage() {
               </>
             )}
           </Button>
+
+          {missingRequired.length > 0 && (
+            <p className="mt-2 text-xs text-amber-700">
+              Заполните обязательные поля:{' '}
+              {missingRequired.map((f) => f.label || f.fieldKey).join(', ')}
+            </p>
+          )}
 
           {generateError && (
             <div className="mt-3 flex items-start gap-2 rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs text-destructive">
@@ -521,6 +647,55 @@ export function GeneratePage() {
           )}
         </div>
       </aside>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* ManualFieldInput                                                    */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Single control for a manual field on the generate form. Renders the
+ * right input type (textarea / number / date / text), shows the label
+ * with a required marker and the placeholder hint.
+ */
+function ManualFieldInput({
+  field,
+  value,
+  onChange,
+}: {
+  field: TemplateFieldDTO;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  const baseClass =
+    'w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm ' +
+    'focus:outline-none focus:ring-2 focus:ring-ring';
+
+  return (
+    <div>
+      <label className="mb-1 block text-xs font-medium text-foreground">
+        {field.label || field.fieldKey}
+        {field.required && <span className="ml-0.5 text-destructive">*</span>}
+      </label>
+      {field.type === 'textarea' ? (
+        <textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={field.placeholder || undefined}
+          rows={3}
+          className={baseClass}
+        />
+      ) : (
+        <input
+          type={field.type === 'number' ? 'number' : field.type === 'date' ? 'date' : 'text'}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={field.placeholder || undefined}
+          className={baseClass}
+        />
+      )}
     </div>
   );
 }

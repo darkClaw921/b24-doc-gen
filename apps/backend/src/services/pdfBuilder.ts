@@ -42,6 +42,12 @@ export interface BuildPdfOptions {
   formulas?: Record<string, FormulaEvaluationResult>;
   title?: string;
   products?: ProductRow[];
+  /**
+   * Values for manual fields, keyed by `fieldKey`. Each
+   * `<span data-field-key="…">` placeholder is replaced by its value
+   * (or an empty string when not provided).
+   */
+  fieldValues?: Record<string, string>;
 }
 
 /* ------------------------------------------------------------------ */
@@ -95,8 +101,11 @@ export async function buildPdfFromHtml(
   // 2) Replace formula-tag spans with evaluated values.
   const stripped = stripFormulaTags(expanded, options.formulas ?? {});
 
+  // 2b) Replace manual-field spans with user-provided values.
+  const filled = stripManualFieldTags(stripped, options.fieldValues ?? {});
+
   // 3) Wrap in a styled HTML document.
-  const wrapped = wrapAsStyledHtml(stripped, options.title ?? 'Документ');
+  const wrapped = wrapAsStyledHtml(filled, options.title ?? 'Документ');
 
   // 4) Render to PDF via Puppeteer.
   let browser: Browser;
@@ -167,6 +176,29 @@ function stripFormulaTags(
       return `<img src="${val}" style="max-width:200px;max-height:200px;" />`;
     }
     return escapeHtml(val);
+  });
+}
+
+/**
+ * Replace every `<span data-field-key="K">…</span>` manual-field
+ * placeholder with the user-provided value for K (escaped). Missing
+ * keys become an empty string so the placeholder pill never leaks into
+ * the final document. Newlines in textarea values are converted to
+ * `<br>` so multi-line input is preserved in the PDF.
+ */
+function stripManualFieldTags(
+  html: string,
+  fieldValues: Record<string, string>,
+): string {
+  const re = /<span\b[^>]*?data-field-key=["']([^"']+)["'][^>]*>([\s\S]*?)<\/span>/gi;
+  return html.replace(re, (_match, fieldKey: string) => {
+    const raw = fieldValues[fieldKey];
+    if (raw == null) return '';
+    // Trim leading/trailing whitespace from the user's input; internal
+    // newlines (textarea) are preserved and turned into <br>.
+    const trimmed = raw.trim();
+    if (trimmed === '') return '';
+    return escapeHtml(trimmed).replace(/\r?\n/g, '<br>');
   });
 }
 

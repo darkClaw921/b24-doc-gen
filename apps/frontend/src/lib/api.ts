@@ -487,12 +487,36 @@ export interface FormulaDTO {
   dependsOn: FormulaDependenciesDTO;
 }
 
+export type TemplateFieldTypeDTO = 'text' | 'textarea' | 'number' | 'date';
+
+export interface TemplateFieldDTO {
+  id: string;
+  templateId: string;
+  fieldKey: string;
+  label: string;
+  type: TemplateFieldTypeDTO;
+  required: boolean;
+  placeholder?: string;
+  order: number;
+}
+
+export interface TemplateFieldInputDTO {
+  id?: string;
+  fieldKey: string;
+  label: string;
+  type: TemplateFieldTypeDTO;
+  required: boolean;
+  placeholder?: string;
+  order?: number;
+}
+
 export interface TemplateDTO {
   id: string;
   name: string;
   themeId: string;
   contentHtml: string;
   formulas: FormulaDTO[];
+  fields: TemplateFieldDTO[];
   hasOriginalDocx: boolean;
   originalDocxBase64?: string;
   createdAt: string;
@@ -512,6 +536,7 @@ export interface UpdateTemplateBody {
   themeId?: string;
   contentHtml?: string;
   formulas?: FormulaInputDTO[];
+  fields?: TemplateFieldInputDTO[];
 }
 
 /* ------------------------------------------------------------------ */
@@ -532,6 +557,8 @@ export interface TemplatePreviewResponseDTO {
   html: string;
   /** Per-formula evaluation results, indexed by tagKey. */
   formulas: Record<string, FormulaEvaluationResultDTO>;
+  /** Manual fields the user must fill in before generating. */
+  fields: TemplateFieldDTO[];
 }
 
 export interface GenerateBindingDTO {
@@ -601,8 +628,11 @@ export const templatesApi = {
 };
 
 export const generateApi = {
-  generate: (body: { templateId: string; dealId: number }) =>
-    apiRequest<GenerateResponseDTO>('/generate', { method: 'POST', body }),
+  generate: (body: {
+    templateId: string;
+    dealId: number;
+    fieldValues?: Record<string, string>;
+  }) => apiRequest<GenerateResponseDTO>('/generate', { method: 'POST', body }),
 };
 
 /* ------------------------------------------------------------------ */

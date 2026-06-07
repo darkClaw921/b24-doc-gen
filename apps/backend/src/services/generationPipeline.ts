@@ -109,6 +109,12 @@ export interface RunGenerationParams {
   client: B24Client;
   /** Logger — Fastify child logger, or any pino-compatible instance. */
   logger: FastifyBaseLogger;
+  /**
+   * Values for the template's manual fields, keyed by fieldKey. Optional
+   * because server-to-server callers (e.g. the webhook runner) have no
+   * user to fill them in — in that case the fields render empty.
+   */
+  fieldValues?: Record<string, string>;
 }
 
 /* ------------------------------------------------------------------ */
@@ -125,14 +131,14 @@ export interface RunGenerationParams {
 export async function runGeneration(
   params: RunGenerationParams,
 ): Promise<GenerationResult> {
-  const { templateId, dealId, client, logger } = params;
+  const { templateId, dealId, client, logger, fieldValues: rawFieldValues } = params;
 
   /* -------------------------------------------------------------- */
-  /* 1) Load the template + formulas                                */
+  /* 1) Load the template + formulas + fields                       */
   /* -------------------------------------------------------------- */
   const template = await prisma.template.findUnique({
     where: { id: templateId },
-    include: { formulas: true, theme: true },
+    include: { formulas: true, theme: true, fields: true },
   });
   if (!template) {
     throw new GenerationError('template_not_found', `template ${templateId} not found`);
@@ -201,6 +207,26 @@ export async function runGeneration(
   const warnings: string[] = [];
 
   /* -------------------------------------------------------------- */
+  /* 3b) Resolve manual field values                                */
+  /* -------------------------------------------------------------- */
+  // Server-to-server callers (webhook runner) pass no values, so manual
+  // fields render empty. Warn when required fields cannot be satisfied
+  // rather than failing the whole run.
+  const fieldValues: Record<string, string> = {};
+  for (const f of template.fields) {
+    const v = rawFieldValues?.[f.fieldKey];
+    fieldValues[f.fieldKey] = typeof v === 'string' ? v : v != null ? String(v) : '';
+  }
+  const missingRequired = template.fields
+    .filter((f) => f.required && fieldValues[f.fieldKey].trim() === '')
+    .map((f) => f.label || f.fieldKey);
+  if (missingRequired.length > 0) {
+    warnings.push(
+      `Обязательные поля не заполнены (генерация без значений): ${missingRequired.join(', ')}`,
+    );
+  }
+
+  /* -------------------------------------------------------------- */
   /* 4) Build the PDF Buffer                                        */
   /* -------------------------------------------------------------- */
   let pdfBuffer: Buffer;
@@ -209,6 +235,7 @@ export async function runGeneration(
       formulas: formulaResults,
       title: template.name,
       products: context.PRODUCTS ?? [],
+      fieldValues,
     });
   } catch (err) {
     if (err instanceof PdfBuildError) {
