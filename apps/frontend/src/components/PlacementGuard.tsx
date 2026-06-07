@@ -21,7 +21,7 @@
 import { useEffect, type ReactNode } from 'react';
 import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { isB24Available, getCurrentPlacement } from '@/lib/b24';
+import { isB24Available, getCurrentPlacement, getCurrentDealId } from '@/lib/b24';
 import { installApi } from '@/lib/api';
 import { useCurrentRole } from '@/lib/useCurrentRole';
 
@@ -35,14 +35,32 @@ const VIEW_TO_PATH: Record<string, string> = {
 
 /** Maps a Bitrix24 placement code to a default landing path. */
 function defaultPathForPlacement(placement: string): string {
+  // Any deal-card embedding (tab, toolbar button, timeline action) is a
+  // user-facing context — always land on the document generation page,
+  // never the admin management UI (/templates). This also covers the
+  // CRM_DEAL_DETAIL_TOOLBAR / CRM_DEAL_DETAIL_ACTIVITY placements that
+  // can be bound from Settings.
+  if (placement.startsWith('CRM_DEAL_DETAIL')) {
+    return '/generate';
+  }
   switch (placement) {
-    case 'CRM_DEAL_DETAIL_TAB':
-      return '/generate';
     case 'DEFAULT':
       return '/templates';
     default:
       return '/templates';
   }
+}
+
+/**
+ * True when the app is opened inside a deal card (any CRM_DEAL_DETAIL_*
+ * placement, or whenever a deal id is present in the placement options).
+ * In this context the app is ALWAYS the user-facing document generator —
+ * the admin management UI (/templates, /settings) must never appear here,
+ * regardless of the caller's role. Those are reached from the portal's
+ * top-menu (DEFAULT placement) instead.
+ */
+function isDealCardContext(): boolean {
+  return getCurrentPlacement().startsWith('CRM_DEAL_DETAIL') || getCurrentDealId() !== null;
 }
 
 interface PlacementGuardProps {
@@ -75,6 +93,19 @@ export function PlacementGuard({ children }: PlacementGuardProps): JSX.Element {
    */
   useEffect(() => {
     if (!isB24Available()) return;
+
+    // Hard rule: inside a deal card the app is the user-facing generator
+    // and nothing else. Force /generate and ignore any ?view= or stale
+    // placement binding that would otherwise open the admin UI for an
+    // admin opening the tab. (The install wizard is the only exception —
+    // it must be reachable so a fresh portal can finish setup.)
+    if (isDealCardContext() && location.pathname !== '/install') {
+      if (location.pathname !== '/generate') {
+        navigate('/generate', { replace: true });
+      }
+      return;
+    }
+
     const params = new URLSearchParams(location.search);
     const view = params.get('view');
     if (view && VIEW_TO_PATH[view] && location.pathname !== VIEW_TO_PATH[view]) {

@@ -1,0 +1,3 @@
+# placementsApi
+
+Frontend API client for placement management (apps/frontend/src/lib/api.ts). placementsApi.list(signal) -> GET /placements {placements: PlacementDTO[]} (bound handlers). placementsApi.catalog(signal) -> GET /placements/catalog {catalog: PlacementCatalogItemDTO[]} (CRM deal embedding locations available to bind). placementsApi.bind(placement, {title?, description?}) -> POST /placements, embeds/re-embeds a chosen placement (idempotent on backend) -> {ok, placement, alreadyBound?}. placementsApi.unbind(placement, handler) -> DELETE /placements {placement, handler} -> {ok}. DTOs: PlacementDTO {placement, handler, title, description}; PlacementCatalogItemDTO {placement, title, description}. Consumed by SettingsPage 'Места встройки' section.

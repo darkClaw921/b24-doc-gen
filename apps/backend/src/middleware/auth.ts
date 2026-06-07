@@ -33,20 +33,25 @@ import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { B24Client } from '../services/b24Client.js';
 
 /**
- * In-memory cache: memberId → userId. The B24 user.current REST call
- * is the only way for us to know which portal user opened the iframe
- * (the SDK doesn't expose it via the auth payload). Cached for 5
+ * In-memory cache: accessToken → userId. The B24 `user.current` REST
+ * call is the only way for us to know which portal user opened the
+ * iframe (the SDK doesn't expose it via the auth payload). Cached for 5
  * minutes to avoid hitting the REST API on every request.
+ *
+ * IMPORTANT: the key MUST be the per-user access token, NOT the
+ * `member_id`. `member_id` identifies the *portal* and is shared by
+ * every user on it — keying the cache by it would resolve every user to
+ * whoever opened the app first (typically the admin), so all users
+ * would be mis-detected as that user and see the admin UI. The access
+ * token is unique per user (and `user.current` is called with it, so
+ * the resolved id always belongs to the token's owner). Access tokens
+ * are stable for ~1h; a refreshed token simply re-resolves once.
  */
 const userIdCache = new Map<string, { userId: number; loadedAt: number }>();
 const USER_ID_CACHE_TTL_MS = 5 * 60 * 1000;
 
-async function resolveUserIdFromB24(
-  memberId: string,
-  domain: string,
-  accessToken: string,
-): Promise<number> {
-  const cached = userIdCache.get(memberId);
+async function resolveUserIdFromB24(domain: string, accessToken: string): Promise<number> {
+  const cached = userIdCache.get(accessToken);
   const now = Date.now();
   if (cached && now - cached.loadedAt < USER_ID_CACHE_TTL_MS) {
     return cached.userId;
@@ -60,7 +65,7 @@ async function resolveUserIdFromB24(
     const raw = result?.ID ?? result?.id ?? 0;
     const userId = Number(raw) || 0;
     if (userId > 0) {
-      userIdCache.set(memberId, { userId, loadedAt: now });
+      userIdCache.set(accessToken, { userId, loadedAt: now });
     }
     return userId;
   } catch {
@@ -283,11 +288,7 @@ export function registerAuthMiddleware(app: FastifyInstance): void {
     // doesn't expose it), resolve it via Bitrix24 REST `user.current`.
     // The result is cached for 5 minutes per memberId.
     if (userId <= 0) {
-      userId = await resolveUserIdFromB24(
-        verification.memberId,
-        verification.domain,
-        verification.accessToken,
-      );
+      userId = await resolveUserIdFromB24(verification.domain, verification.accessToken);
     }
 
     request.b24Auth = {

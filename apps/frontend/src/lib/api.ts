@@ -304,9 +304,31 @@ export interface PlacementDTO {
   description: string;
 }
 
+/**
+ * One embedding location the app offers in Settings ("куда встроить").
+ * Returned by `GET /api/placements/catalog`. `placement` is the Bitrix24
+ * code; `title`/`description` are the suggested defaults shown in the UI.
+ */
+export interface PlacementCatalogItemDTO {
+  placement: string;
+  title: string;
+  description: string;
+}
+
 export const placementsApi = {
   list: (signal?: AbortSignal) =>
     apiRequest<{ placements: PlacementDTO[] }>('/placements', { signal }),
+
+  /** Catalog of CRM deal embedding locations available to bind. */
+  catalog: (signal?: AbortSignal) =>
+    apiRequest<{ catalog: PlacementCatalogItemDTO[] }>('/placements/catalog', { signal }),
+
+  /** Embed (or re-embed) a chosen placement; idempotent on the backend. */
+  bind: (placement: string, opts: { title?: string; description?: string } = {}) =>
+    apiRequest<{ ok: boolean; placement: string; alreadyBound?: boolean }>('/placements', {
+      method: 'POST',
+      body: { placement, ...opts },
+    }),
 
   unbind: (placement: string, handler: string) =>
     apiRequest<{ ok: boolean }>('/placements', {

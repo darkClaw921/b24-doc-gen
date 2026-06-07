@@ -15,7 +15,7 @@
  * we marshal/unmarshal here.
  */
 
-import type { FastifyInstance } from 'fastify';
+import type { FastifyInstance, FastifyReply } from 'fastify';
 import type { AppSettings as PrismaAppSettings } from '@prisma/client';
 import type { AppSettings } from '@b24-doc-gen/shared';
 import { prisma } from '../prisma/client.js';
@@ -79,6 +79,72 @@ export function toAppSettings(row: PrismaAppSettings): AppSettings {
     dealFieldBinding: row.dealFieldBinding,
     installedAt: row.installedAt.toISOString(),
   };
+}
+
+/**
+ * Catalog of CRM deal embedding locations the app exposes in the
+ * Settings UI ("Места встройки"). Each entry maps a Bitrix24 placement
+ * code to a friendly title/description and the `?view=` the iframe is
+ * opened in. This is the single source of truth for which placements an
+ * admin may bind via `POST /api/placements`.
+ *
+ * IMPORTANT: a code can only be bound if it's also declared in the local
+ * app manifest on the portal — otherwise `placement.bind` returns an
+ * error, which we surface back to the user.
+ */
+const DEAL_PLACEMENT_CATALOG = [
+  {
+    placement: 'CRM_DEAL_DETAIL_TAB',
+    title: 'Документы',
+    description: 'Отдельная вкладка в карточке сделки',
+    view: 'generate',
+  },
+  {
+    placement: 'CRM_DEAL_DETAIL_TOOLBAR',
+    title: 'Документы',
+    description: 'Кнопка на панели инструментов карточки сделки',
+    view: 'generate',
+  },
+  {
+    placement: 'CRM_DEAL_DETAIL_ACTIVITY',
+    title: 'Документы',
+    description: 'Действие в таймлайне сделки',
+    view: 'generate',
+  },
+] as const;
+
+/**
+ * Resolve and validate the public HTTPS handler base URL used as the
+ * iframe src for placement handlers. Priority: explicit value (from the
+ * request body) > FRONTEND_PUBLIC_URL > PUBLIC_URL > FRONTEND_URL.
+ *
+ * Returns the cleaned base URL (no trailing slash) on success. On
+ * failure it sends a 400 reply itself and returns `null`, so callers
+ * must `return` early when the result is null. We deliberately reject
+ * non-HTTPS URLs because Bitrix24 answers `ERROR_WRONG_HANDLER_URL`.
+ */
+function resolveHandlerBaseUrl(explicit: string | undefined, reply: FastifyReply): string | null {
+  const raw =
+    explicit ??
+    process.env.FRONTEND_PUBLIC_URL ??
+    process.env.PUBLIC_URL ??
+    process.env.FRONTEND_URL ??
+    '';
+
+  if (!raw) {
+    reply.badRequest(
+      'No public handler URL configured. Set PUBLIC_URL (or FRONTEND_PUBLIC_URL) in apps/backend/.env to your HTTPS tunnel URL.',
+    );
+    return null;
+  }
+  if (!/^https:\/\//i.test(raw)) {
+    reply.badRequest(
+      `Handler URL must be HTTPS (Bitrix24 rejects http://). Got: ${raw}. Update PUBLIC_URL in apps/backend/.env.`,
+    );
+    return null;
+  }
+  // Strip trailing slash so we always build clean URLs.
+  return raw.replace(/\/+$/, '');
 }
 
 export async function registerInstallRoutes(app: FastifyInstance): Promise<void> {
@@ -258,30 +324,8 @@ export async function registerInstallRoutes(app: FastifyInstance): Promise<void>
       if (!auth) return reply.unauthorized('B24 auth payload missing');
 
       const body = request.body ?? ({} as RegisterPlacementsBody);
-      // Priority: explicit body.handlerUrl > FRONTEND_PUBLIC_URL > PUBLIC_URL
-      // (the ngrok/cloudflared tunnel that backs the local app on the
-      // portal) > FRONTEND_URL. We deliberately do NOT fall back to
-      // http://localhost:* because Bitrix24 rejects non-HTTPS handlers
-      // with ERROR_WRONG_HANDLER_URL.
-      const rawHandlerUrl =
-        body.handlerUrl ??
-        process.env.FRONTEND_PUBLIC_URL ??
-        process.env.PUBLIC_URL ??
-        process.env.FRONTEND_URL ??
-        '';
-
-      if (!rawHandlerUrl) {
-        return reply.badRequest(
-          'No public handler URL configured. Set PUBLIC_URL (or FRONTEND_PUBLIC_URL) in apps/backend/.env to your HTTPS tunnel URL.',
-        );
-      }
-      if (!/^https:\/\//i.test(rawHandlerUrl)) {
-        return reply.badRequest(
-          `Handler URL must be HTTPS (Bitrix24 rejects http://). Got: ${rawHandlerUrl}. Update PUBLIC_URL in apps/backend/.env.`,
-        );
-      }
-      // Strip trailing slash so we always build clean URLs.
-      const handlerUrl = rawHandlerUrl.replace(/\/+$/, '');
+      const handlerUrl = resolveHandlerBaseUrl(body.handlerUrl, reply);
+      if (handlerUrl === null) return; // resolveHandlerBaseUrl already replied 400
 
       const client = new B24Client({
         portal: auth.domain,
@@ -382,6 +426,102 @@ export async function registerInstallRoutes(app: FastifyInstance): Promise<void>
     } catch (err) {
       if (err instanceof B24Error) {
         return reply.badGateway(`placement.get failed: ${err.message}`);
+      }
+      throw err;
+    }
+  });
+
+  /* ---------------------------------------------------------------- */
+  /* GET /api/placements/catalog — embedding locations the app offers   */
+  /*                                                                    */
+  /* Drives the "выбрать куда встроить" dropdown in the Settings UI.    */
+  /* Returns the static catalog of supported CRM deal placements (code  */
+  /* + friendly title/description). Binding state is computed on the    */
+  /* client by intersecting this with `GET /api/placements`.            */
+  /* ---------------------------------------------------------------- */
+  app.get('/api/placements/catalog', async (request, reply) => {
+    const auth = request.b24Auth;
+    if (!auth) return reply.unauthorized('B24 auth payload missing');
+    return {
+      catalog: DEAL_PLACEMENT_CATALOG.map((e) => ({
+        placement: e.placement,
+        title: e.title,
+        description: e.description,
+      })),
+    };
+  });
+
+  /* ---------------------------------------------------------------- */
+  /* POST /api/placements — bind a chosen embedding location            */
+  /*                                                                    */
+  /* Admin picks a placement from the catalog and embeds it (or         */
+  /* re-embeds one previously removed). The placement code is validated */
+  /* against DEAL_PLACEMENT_CATALOG so we never bind arbitrary codes,   */
+  /* and the HANDLER URL is derived from the configured HTTPS base +    */
+  /* the catalog entry's `?view=`. ERROR_PLACEMENT_ALREADY_BOUND is     */
+  /* treated as success (idempotent re-embed).                          */
+  /* ---------------------------------------------------------------- */
+  app.post<{
+    Body: { placement?: string; title?: string; description?: string; handlerUrl?: string };
+  }>('/api/placements', async (request, reply) => {
+    const auth = request.b24Auth;
+    if (!auth) return reply.unauthorized('B24 auth payload missing');
+
+    const body = request.body ?? {};
+    const code = typeof body.placement === 'string' ? body.placement.trim() : '';
+    const entry = DEAL_PLACEMENT_CATALOG.find((e) => e.placement === code);
+    if (!entry) {
+      return reply.badRequest(
+        `Unsupported placement "${code}". Allowed: ${DEAL_PLACEMENT_CATALOG.map(
+          (e) => e.placement,
+        ).join(', ')}`,
+      );
+    }
+
+    const base = resolveHandlerBaseUrl(body.handlerUrl, reply);
+    if (base === null) return; // resolveHandlerBaseUrl already replied 400
+
+    const title =
+      typeof body.title === 'string' && body.title.trim().length > 0
+        ? body.title.trim()
+        : entry.title;
+    const description =
+      typeof body.description === 'string' && body.description.trim().length > 0
+        ? body.description.trim()
+        : entry.description;
+
+    const client = new B24Client({
+      portal: auth.domain,
+      accessToken: auth.accessToken,
+    });
+
+    const params = {
+      PLACEMENT: entry.placement,
+      HANDLER: `${base}/?view=${entry.view}`,
+      TITLE: title,
+      DESCRIPTION: description,
+    };
+
+    try {
+      await client.callMethod('placement.bind', params);
+      request.log.info({ placement: entry.placement }, 'placement.bind ok (settings)');
+      return { ok: true, placement: entry.placement };
+    } catch (err) {
+      const errCode = err instanceof B24Error ? err.code : 'UNKNOWN';
+      if (
+        errCode === 'ERROR_PLACEMENT_ALREADY_BOUND' ||
+        (err instanceof B24Error && /already/i.test(err.message))
+      ) {
+        request.log.info({ placement: entry.placement }, 'placement.bind already bound (ok)');
+        return { ok: true, placement: entry.placement, alreadyBound: true };
+      }
+      const msg = err instanceof Error ? err.message : String(err);
+      request.log.warn(
+        { placement: entry.placement, code: errCode, err: msg, params },
+        'placement.bind failed (settings)',
+      );
+      if (err instanceof B24Error) {
+        return reply.badGateway(`placement.bind failed: ${msg}`);
       }
       throw err;
     }

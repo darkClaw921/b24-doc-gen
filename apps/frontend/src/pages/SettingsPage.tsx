@@ -56,6 +56,7 @@ import {
   placementsApi,
   type DealFileFieldDTO,
   type PlacementDTO,
+  type PlacementCatalogItemDTO,
   type PortalUserDTO,
   type SettingsDTO,
 } from '@/lib/api';
@@ -156,6 +157,15 @@ export function SettingsPage() {
     queryFn: ({ signal }) => placementsApi.list(signal).then((r) => r.placements),
   });
 
+  // Catalog of embedding locations the admin may bind ("куда встроить").
+  const placementCatalogQuery = useQuery({
+    queryKey: ['placements', 'catalog'],
+    queryFn: ({ signal }) => placementsApi.catalog(signal).then((r) => r.catalog),
+  });
+
+  // Which placement code the admin selected in the "add embedding" picker.
+  const [selectedPlacement, setSelectedPlacement] = useState<string>('');
+
   const unbindMutation = useMutation({
     mutationFn: (p: PlacementDTO) => placementsApi.unbind(p.placement, p.handler),
     onSuccess: async () => {
@@ -164,6 +174,27 @@ export function SettingsPage() {
     },
     onError: (err) => {
       const msg = err instanceof ApiError ? err.message : 'Не удалось удалить';
+      setSaveMessage({ kind: 'error', text: msg });
+    },
+  });
+
+  const bindMutation = useMutation({
+    mutationFn: (item: PlacementCatalogItemDTO) =>
+      placementsApi.bind(item.placement, {
+        title: item.title,
+        description: item.description,
+      }),
+    onSuccess: async (res) => {
+      await queryClient.invalidateQueries({ queryKey: ['placements'] });
+      setSaveMessage({
+        kind: 'ok',
+        text: res.alreadyBound
+          ? 'Это место встройки уже было добавлено'
+          : 'Место встройки добавлено',
+      });
+    },
+    onError: (err) => {
+      const msg = err instanceof ApiError ? err.message : 'Не удалось встроить';
       setSaveMessage({ kind: 'error', text: msg });
     },
   });
@@ -224,6 +255,27 @@ export function SettingsPage() {
     () => fields.find((f) => f.fieldName === selectedFieldName) ?? null,
     [fields, selectedFieldName],
   );
+
+  // Codes already bound on the portal — used to flag catalog entries as
+  // "уже встроено" (re-binding is still allowed and idempotent).
+  const boundPlacementCodes = useMemo(
+    () => new Set((placementsQuery.data ?? []).map((p) => p.placement)),
+    [placementsQuery.data],
+  );
+
+  const placementCatalog = placementCatalogQuery.data ?? [];
+  const selectedCatalogItem = useMemo(
+    () => placementCatalog.find((c) => c.placement === selectedPlacement) ?? null,
+    [placementCatalog, selectedPlacement],
+  );
+
+  // Default the picker to the first not-yet-bound location once the
+  // catalog and current bindings have loaded.
+  useEffect(() => {
+    if (selectedPlacement || placementCatalog.length === 0) return;
+    const firstFree = placementCatalog.find((c) => !boundPlacementCodes.has(c.placement));
+    setSelectedPlacement((firstFree ?? placementCatalog[0]).placement);
+  }, [placementCatalog, boundPlacementCodes, selectedPlacement]);
 
   const toggleAdmin = (user: PortalUserDTO) => {
     setAdminMap((prev) => {
@@ -519,6 +571,79 @@ export function SettingsPage() {
             ))}
           </ul>
         )}
+
+        {/* ----------------------------------------------------- */}
+        {/* Add / re-embed picker — choose where to embed         */}
+        {/* ----------------------------------------------------- */}
+        <div className="space-y-2 rounded-md border border-dashed border-border p-4">
+          <div className="text-sm font-medium">Добавить место встройки</div>
+          <p className="text-xs text-muted-foreground">
+            Выберите, куда встроить приложение в сделку, и нажмите «Встроить».
+            Если место было удалено — его можно встроить заново.
+          </p>
+
+          {placementCatalogQuery.isLoading && (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Загружаем доступные места…
+            </div>
+          )}
+
+          {placementCatalogQuery.isError && (
+            <div className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              {placementCatalogQuery.error instanceof ApiError
+                ? placementCatalogQuery.error.message
+                : 'Не удалось загрузить список мест встройки'}
+            </div>
+          )}
+
+          {placementCatalog.length > 0 && (
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
+              <div className="flex-1 space-y-1">
+                <label className="text-xs font-medium" htmlFor="placement-select">
+                  Место встройки
+                </label>
+                <select
+                  id="placement-select"
+                  value={selectedPlacement}
+                  onChange={(e) => setSelectedPlacement(e.target.value)}
+                  className="block w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                >
+                  {placementCatalog.map((c: PlacementCatalogItemDTO) => (
+                    <option key={c.placement} value={c.placement}>
+                      {c.description} ({c.placement})
+                      {boundPlacementCodes.has(c.placement) ? ' — уже встроено' : ''}
+                    </option>
+                  ))}
+                </select>
+                {selectedCatalogItem && (
+                  <div className="text-xs text-muted-foreground">
+                    Код: <code>{selectedCatalogItem.placement}</code>
+                  </div>
+                )}
+              </div>
+              <Button
+                type="button"
+                onClick={() => {
+                  if (selectedCatalogItem) bindMutation.mutate(selectedCatalogItem);
+                }}
+                disabled={bindMutation.isPending || !selectedCatalogItem}
+              >
+                {bindMutation.isPending ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Встраиваем…
+                  </>
+                ) : (
+                  <>
+                    <Plus className="mr-2 h-4 w-4" />
+                    Встроить
+                  </>
+                )}
+              </Button>
+            </div>
+          )}
+        </div>
       </section>
 
       {/* ------------------------------------------------------- */}
