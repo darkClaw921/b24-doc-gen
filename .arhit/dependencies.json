@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-07T14:06:20.931Z",
+  "generatedAt": "2026-06-07T15:16:16.897Z",
   "dependencies": [
     {
       "from": "apps/backend/src/middleware/auth.ts",
@@ -1071,6 +1071,12 @@
     },
     {
       "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "import",
+      "toElement": "resolveManualFieldValues"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
       "to": "apps/backend/src/routes/install.ts",
       "type": "import",
       "toElement": "toAppSettings"
@@ -1149,7 +1155,7 @@
       "to": "apps/backend/src/routes/generate.ts",
       "type": "call",
       "fromElement": "registerGenerateRoutes",
-      "toElement": "String"
+      "toElement": "resolveManualFieldValues"
     },
     {
       "from": "apps/backend/src/routes/generate.ts",
@@ -2972,6 +2978,34 @@
       "to": "apps/backend/src/routes/templates.ts",
       "type": "call",
       "fromElement": "normalizeFieldsInput",
+      "toElement": "normalizeFieldType"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "normalizeFieldsInput",
+      "toElement": "FIELD_DEFAULTS.has"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "normalizeFieldsInput",
+      "toElement": "f.defaultValue.trim"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "normalizeFieldsInput",
+      "toElement": "trimmed.slice"
+    },
+    {
+      "from": "apps/backend/src/routes/templates.ts",
+      "to": "apps/backend/src/routes/templates.ts",
+      "type": "call",
+      "fromElement": "normalizeFieldsInput",
       "toElement": "byKey.set"
     },
     {
@@ -2980,13 +3014,6 @@
       "type": "call",
       "fromElement": "normalizeFieldsInput",
       "toElement": "String"
-    },
-    {
-      "from": "apps/backend/src/routes/templates.ts",
-      "to": "apps/backend/src/routes/templates.ts",
-      "type": "call",
-      "fromElement": "normalizeFieldsInput",
-      "toElement": "normalizeFieldType"
     },
     {
       "from": "apps/backend/src/routes/templates.ts",
@@ -8600,7 +8627,7 @@
       "to": "apps/backend/src/services/generationPipeline.ts",
       "type": "call",
       "fromElement": "runGeneration",
-      "toElement": "String"
+      "toElement": "resolveManualFieldValues"
     },
     {
       "from": "apps/backend/src/services/generationPipeline.ts",
@@ -8860,6 +8887,62 @@
       "type": "call",
       "fromElement": "runGeneration",
       "toElement": "warnings.push"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "todayRu",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "todayRu",
+      "toElement": "d.getDate"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "todayRu",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "todayRu",
+      "toElement": "d.getMonth"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "todayRu",
+      "toElement": "d.getFullYear"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "resolveFieldDefault",
+      "toElement": "todayRu"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "resolveManualFieldValues",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "resolveManualFieldValues",
+      "toElement": "resolveFieldDefault"
     },
     {
       "from": "apps/backend/src/services/generationPipeline.ts",
@@ -9258,6 +9341,13 @@
       "type": "call",
       "fromElement": "stripManualFieldTags",
       "toElement": "html.replace"
+    },
+    {
+      "from": "apps/backend/src/services/pdfBuilder.ts",
+      "to": "apps/backend/src/services/pdfBuilder.ts",
+      "type": "call",
+      "fromElement": "stripManualFieldTags",
+      "toElement": "raw.trim"
     },
     {
       "from": "apps/backend/src/services/pdfBuilder.ts",
@@ -11803,6 +11893,13 @@
       "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
       "type": "call",
       "fromElement": "ManualFieldBuilder",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
       "toElement": "Boolean"
     },
     {
@@ -11846,6 +11943,13 @@
       "type": "call",
       "fromElement": "ManualFieldBuilder",
       "toElement": "setPlaceholder"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setDefaultValue"
     },
     {
       "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
@@ -11971,6 +12075,13 @@
       "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
       "type": "call",
       "fromElement": "ManualFieldBuilder",
+      "toElement": "defaultValue.trim"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
       "toElement": "onOpenChange"
     },
     {
@@ -11999,7 +12110,35 @@
       "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
       "type": "call",
       "fromElement": "ManualFieldBuilder",
+      "toElement": "setDefaultValue"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
       "toElement": "TYPE_OPTIONS.map"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setDefaultValue"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setDefaultValue"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setDefaultValue"
     },
     {
       "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
@@ -12051,6 +12190,12 @@
       "to": "apps/frontend/src/components/ManualFieldTag.tsx",
       "type": "call",
       "toElement": "Node.create"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "to": "apps/frontend/src/components/ManualFieldTag.tsx",
+      "type": "call",
+      "toElement": "el.getAttribute"
     },
     {
       "from": "apps/frontend/src/components/ManualFieldTag.tsx",
@@ -16211,6 +16356,48 @@
       "from": "apps/frontend/src/pages/GeneratePage.tsx",
       "to": "apps/frontend/src/pages/GeneratePage.tsx",
       "type": "call",
+      "fromElement": "todayISO",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "todayISO",
+      "toElement": "d.getMonth"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "todayISO",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "todayISO",
+      "toElement": "d.getDate"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "todayISO",
+      "toElement": "d.getFullYear"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "initialFieldValue",
+      "toElement": "todayISO"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
       "fromElement": "GeneratePage",
       "toElement": "useMemo"
     },
@@ -16395,6 +16582,27 @@
       "type": "call",
       "fromElement": "GeneratePage",
       "toElement": "titleParts.join"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "setFieldValues"
+    },
+    {
+      "from": "apps/frontend/src/pages/GeneratePage.tsx",
+      "to": "apps/frontend/src/pages/GeneratePage.tsx",
+      "type": "call",
+      "fromElement": "GeneratePage",
+      "toElement": "initialFieldValue"
     },
     {
       "from": "apps/frontend/src/pages/GeneratePage.tsx",
@@ -18593,6 +18801,13 @@
       "type": "call",
       "fromElement": "TemplateEditorPage",
       "toElement": "Boolean"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "String"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",

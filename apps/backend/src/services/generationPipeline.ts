@@ -210,13 +210,9 @@ export async function runGeneration(
   /* 3b) Resolve manual field values                                */
   /* -------------------------------------------------------------- */
   // Server-to-server callers (webhook runner) pass no values, so manual
-  // fields render empty. Warn when required fields cannot be satisfied
-  // rather than failing the whole run.
-  const fieldValues: Record<string, string> = {};
-  for (const f of template.fields) {
-    const v = rawFieldValues?.[f.fieldKey];
-    fieldValues[f.fieldKey] = typeof v === 'string' ? v : v != null ? String(v) : '';
-  }
+  // fields render empty — except those with a default (e.g. date "today").
+  // Warn when required fields cannot be satisfied rather than failing.
+  const fieldValues = resolveManualFieldValues(template.fields, rawFieldValues);
   const missingRequired = template.fields
     .filter((f) => f.required && fieldValues[f.fieldKey].trim() === '')
     .map((f) => f.label || f.fieldKey);
@@ -415,6 +411,61 @@ export async function runGeneration(
     timeline,
     warnings,
   };
+}
+
+/* ------------------------------------------------------------------ */
+/* Manual field value resolution                                       */
+/* ------------------------------------------------------------------ */
+
+/** Minimal shape of a TemplateField needed to resolve its value. */
+export interface FieldForResolve {
+  fieldKey: string;
+  type: string;
+  defaultValue: string | null;
+}
+
+/** Current date as `dd.MM.yyyy` (server local time). */
+function todayRu(): string {
+  const d = new Date();
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  return `${dd}.${mm}.${d.getFullYear()}`;
+}
+
+/** Resolve a field's default into a concrete string for substitution. */
+function resolveFieldDefault(field: FieldForResolve): string {
+  // Date defaults are tokens; the only one supported is "today".
+  if (field.type === 'date') {
+    return field.defaultValue === 'today' ? todayRu() : '';
+  }
+  // text/textarea/number defaults are literal values.
+  return field.defaultValue ?? '';
+}
+
+/**
+ * Build the final manual-field value map. A value provided by the
+ * caller (even an empty string) is respected as-is; only when the key
+ * is ABSENT do we fall back to the field's default. This lets the UI
+ * (which always sends every key) override a default by clearing it,
+ * while server-to-server callers (webhooks, which send nothing) still
+ * get defaults like "today".
+ */
+export function resolveManualFieldValues(
+  fields: FieldForResolve[],
+  rawValues: Record<string, string> | undefined,
+): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const f of fields) {
+    const provided = rawValues?.[f.fieldKey];
+    if (typeof provided === 'string') {
+      out[f.fieldKey] = provided;
+    } else if (provided != null) {
+      out[f.fieldKey] = String(provided);
+    } else {
+      out[f.fieldKey] = resolveFieldDefault(f);
+    }
+  }
+  return out;
 }
 
 /* ------------------------------------------------------------------ */

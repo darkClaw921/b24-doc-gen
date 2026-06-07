@@ -105,7 +105,10 @@ model TemplateField {
   type        String   @default("text")
   required    Boolean  @default(false)
   placeholder String?
-  order       Int      @default(0)
+  /// Default-value token applied at generation when no value is given.
+  /// Currently used by `date` fields: "today" pre-fills the current date.
+  defaultValue String?
+  order        Int      @default(0)
 
   @@unique([templateId, fieldKey])
   @@index([templateId])

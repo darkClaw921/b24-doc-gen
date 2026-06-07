@@ -234,6 +234,7 @@ export function TemplateEditorPage() {
         type?: string;
         required?: boolean;
         placeholder?: string;
+        defaultValue?: string;
       };
       const key = String(attrs.fieldKey ?? '').trim();
       if (!key || seenKeys.has(key)) return;
@@ -250,6 +251,7 @@ export function TemplateEditorPage() {
         type,
         required: Boolean(attrs.required ?? meta?.required ?? false),
         placeholder: String(attrs.placeholder ?? meta?.placeholder ?? ''),
+        defaultValue: String(attrs.defaultValue ?? meta?.defaultValue ?? ''),
         order: result.length,
       });
     });
@@ -426,6 +428,7 @@ export function TemplateEditorPage() {
             type: result.type,
             required: result.required,
             placeholder: result.placeholder,
+            defaultValue: result.defaultValue,
           });
           editor.view.dispatch(tr);
         }
@@ -439,6 +442,7 @@ export function TemplateEditorPage() {
             type: result.type,
             required: result.required,
             placeholder: result.placeholder,
+            defaultValue: result.defaultValue,
           };
           return next;
         });
@@ -457,6 +461,7 @@ export function TemplateEditorPage() {
           type: result.type,
           required: result.required,
           placeholder: result.placeholder,
+          defaultValue: result.defaultValue,
         })
         .run();
       setFieldsByKey((prev) => ({
@@ -467,6 +472,7 @@ export function TemplateEditorPage() {
           type: result.type,
           required: result.required,
           placeholder: result.placeholder,
+          defaultValue: result.defaultValue,
         },
       }));
       setDirty(true);
@@ -674,6 +680,7 @@ export function TemplateEditorPage() {
                       type: meta.type,
                       required: meta.required,
                       placeholder: meta.placeholder ?? '',
+                      defaultValue: meta.defaultValue ?? '',
                     }
                   : undefined;
               })()
@@ -708,6 +715,7 @@ function fieldDtoToInput(f: TemplateFieldDTO): TemplateFieldInputDTO {
     type: f.type,
     required: f.required,
     placeholder: f.placeholder ?? '',
+    defaultValue: f.defaultValue ?? '',
     order: f.order,
   };
 }

@@ -110,6 +110,10 @@ const PREVIEW_STYLES = `
     font-weight: inherit;
     font-family: inherit;
     line-height: inherit;
+    /* Preserve newlines from multi-line (textarea) values — otherwise
+       the browser collapses them into single spaces. Matches the PDF,
+       where \\n is turned into <br>. */
+    white-space: pre-wrap;
   }
   .gen-preview-html span[data-field-key][data-field-filled="true"] {
     background: transparent;
@@ -148,6 +152,26 @@ function formatFieldValue(field: TemplateFieldDTO, raw: string): string {
     if (m) return `${m[3]}.${m[2]}.${m[1]}`;
   }
   return value;
+}
+
+/** Today's date as the `yyyy-mm-dd` string a `<input type="date">` expects. */
+function todayISO(): string {
+  const d = new Date();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${d.getFullYear()}-${mm}-${dd}`;
+}
+
+/**
+ * Initial value for a field — applies its default. Date defaults are
+ * tokens (`today` → ISO date for the `<input type="date">`); text /
+ * textarea / number defaults are literal values the user can edit.
+ */
+function initialFieldValue(field: TemplateFieldDTO): string {
+  if (field.type === 'date') {
+    return field.defaultValue === 'today' ? todayISO() : '';
+  }
+  return field.defaultValue ?? '';
 }
 
 /* ------------------------------------------------------------------ */
@@ -247,6 +271,26 @@ export function GeneratePage() {
         valueDisplay,
       ];
       span.setAttribute('title', titleParts.join('\n'));
+    });
+  }, [previewData]);
+
+  // Pre-fill fields that declare a default (e.g. date "today") once the
+  // template's field list loads. Only fills keys the user hasn't touched.
+  useEffect(() => {
+    if (!previewData) return;
+    setFieldValues((prev) => {
+      let changed = false;
+      const next = { ...prev };
+      for (const f of previewData.fields) {
+        if (next[f.fieldKey] == null || next[f.fieldKey] === '') {
+          const init = initialFieldValue(f);
+          if (init) {
+            next[f.fieldKey] = init;
+            changed = true;
+          }
+        }
+      }
+      return changed ? next : prev;
     });
   }, [previewData]);
 

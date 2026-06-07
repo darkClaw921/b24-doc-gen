@@ -43,6 +43,8 @@ export interface ManualFieldBuilderResult {
   type: TemplateFieldTypeDTO;
   required: boolean;
   placeholder: string;
+  /** Default-value token (e.g. "today" for date fields), or "" for none. */
+  defaultValue: string;
 }
 
 export interface ManualFieldBuilderProps {
@@ -75,6 +77,7 @@ export function ManualFieldBuilder({
   const [type, setType] = useState<TemplateFieldTypeDTO>('text');
   const [required, setRequired] = useState(false);
   const [placeholder, setPlaceholder] = useState('');
+  const [defaultValue, setDefaultValue] = useState('');
   // Once the admin edits the key by hand we stop auto-suggesting it.
   const [keyDirty, setKeyDirty] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -89,6 +92,7 @@ export function ManualFieldBuilder({
     setType(initialValues?.type ?? 'text');
     setRequired(initialValues?.required ?? false);
     setPlaceholder(initialValues?.placeholder ?? '');
+    setDefaultValue(initialValues?.defaultValue ?? '');
     setKeyDirty(Boolean(initialValues?.fieldKey));
     setError(null);
   }, [open, initialValues]);
@@ -127,6 +131,9 @@ export function ManualFieldBuilder({
       type,
       required,
       placeholder: placeholder.trim(),
+      // For date this is a token ("today"); for other types it is a
+      // literal value the user can edit at generation time.
+      defaultValue: defaultValue.trim(),
     });
     onOpenChange(false);
   };
@@ -171,7 +178,12 @@ export function ManualFieldBuilder({
             <label className="mb-1 block text-sm font-medium">Тип</label>
             <select
               value={type}
-              onChange={(e) => setType(e.target.value as TemplateFieldTypeDTO)}
+              onChange={(e) => {
+                setType(e.target.value as TemplateFieldTypeDTO);
+                // The meaning of defaultValue differs per type (token vs
+                // literal), so reset it when the type changes.
+                setDefaultValue('');
+              }}
               className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             >
               {TYPE_OPTIONS.map((opt) => (
@@ -180,6 +192,40 @@ export function ManualFieldBuilder({
                 </option>
               ))}
             </select>
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium">
+              Значение по умолчанию
+            </label>
+            {type === 'date' ? (
+              <select
+                value={defaultValue}
+                onChange={(e) => setDefaultValue(e.target.value)}
+                className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              >
+                <option value="">Не задано</option>
+                <option value="today">Сегодня (текущая дата)</option>
+              </select>
+            ) : type === 'textarea' ? (
+              <textarea
+                value={defaultValue}
+                onChange={(e) => setDefaultValue(e.target.value)}
+                rows={2}
+                placeholder="Необязательно"
+                className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              />
+            ) : (
+              <Input
+                type={type === 'number' ? 'number' : 'text'}
+                value={defaultValue}
+                onChange={(e) => setDefaultValue(e.target.value)}
+                placeholder="Необязательно"
+              />
+            )}
+            <p className="mt-1 text-xs text-muted-foreground">
+              Подставится при генерации; пользователь сможет изменить.
+            </p>
           </div>
 
           <div>

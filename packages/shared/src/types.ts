@@ -114,6 +114,12 @@ export interface TemplateField {
   required: boolean;
   /** Optional hint shown inside the empty input. */
   placeholder?: string;
+  /**
+   * Default-value token applied at generation when no value is provided.
+   * Currently used by `date` fields: `"today"` pre-fills the current date.
+   * Empty/undefined means no default.
+   */
+  defaultValue?: string;
   /** Sort order inside the generate form (ascending). */
   order: number;
 }

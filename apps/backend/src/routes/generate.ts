@@ -40,6 +40,7 @@ import { B24Client, B24Error } from '../services/b24Client.js';
 import { getDealContext, DealDataError } from '../services/dealData.js';
 import { evaluateExpression } from '../services/formulaEngine.js';
 import { buildPdfFromHtml, PdfBuildError } from '../services/pdfBuilder.js';
+import { resolveManualFieldValues } from '../services/generationPipeline.js';
 import { toAppSettings } from './install.js';
 import type { FormulaEvaluationResult } from '@b24-doc-gen/shared';
 
@@ -117,12 +118,8 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
     const rawFieldValues =
       body.fieldValues && typeof body.fieldValues === 'object'
         ? body.fieldValues
-        : {};
-    const fieldValues: Record<string, string> = {};
-    for (const f of template.fields) {
-      const v = rawFieldValues[f.fieldKey];
-      fieldValues[f.fieldKey] = typeof v === 'string' ? v : v != null ? String(v) : '';
-    }
+        : undefined;
+    const fieldValues = resolveManualFieldValues(template.fields, rawFieldValues);
     const missingRequired = template.fields
       .filter((f) => f.required && fieldValues[f.fieldKey].trim() === '')
       .map((f) => f.label || f.fieldKey);

@@ -36,6 +36,8 @@ export interface ManualFieldTagAttributes {
   required: boolean;
   /** Optional hint shown inside the empty input. */
   placeholder: string;
+  /** Default-value token (e.g. "today" for date fields). */
+  defaultValue: string;
 }
 
 declare module '@tiptap/core' {
@@ -53,6 +55,7 @@ const DEFAULTS: ManualFieldTagAttributes = {
   type: 'text',
   required: false,
   placeholder: '',
+  defaultValue: '',
 };
 
 export const ManualFieldTag = Node.create({
@@ -101,6 +104,13 @@ export const ManualFieldTag = Node.create({
           'data-field-placeholder': attrs.placeholder ?? '',
         }),
       },
+      defaultValue: {
+        default: DEFAULTS.defaultValue,
+        parseHTML: (el) => el.getAttribute('data-field-default') ?? '',
+        renderHTML: (attrs: { defaultValue?: string }) => ({
+          'data-field-default': attrs.defaultValue ?? '',
+        }),
+      },
     };
   },
 
@@ -145,6 +155,7 @@ export const ManualFieldTag = Node.create({
                 type: attrs.type,
                 required: attrs.required,
                 placeholder: attrs.placeholder,
+                defaultValue: attrs.defaultValue,
               },
             })
             .run();

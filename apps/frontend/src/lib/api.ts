@@ -497,6 +497,7 @@ export interface TemplateFieldDTO {
   type: TemplateFieldTypeDTO;
   required: boolean;
   placeholder?: string;
+  defaultValue?: string;
   order: number;
 }
 
@@ -507,6 +508,7 @@ export interface TemplateFieldInputDTO {
   type: TemplateFieldTypeDTO;
   required: boolean;
   placeholder?: string;
+  defaultValue?: string;
   order?: number;
 }
 

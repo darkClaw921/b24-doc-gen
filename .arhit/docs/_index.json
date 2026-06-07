@@ -654,12 +654,9 @@
     "element": "TemplateField",
     "path": "packages/shared/src/types.ts",
     "type": "interface",
-    "content": "Общий тип ручного поля шаблона (packages/shared) и модель Prisma. Поля: fieldKey, label, type (text/textarea/number/date), required, placeholder?, order. Заполняется пользователем при генерации, ссылается из contentHtml нодой manualFieldTag. Хранится в таблице TemplateField (unique templateId+fieldKey, onDelete Cascade).",
+    "content": "Общий тип ручного поля шаблона (packages/shared) и модель Prisma. Поля: fieldKey, label, type (text/textarea/number/date), required, placeholder?, defaultValue? (токен значения по умолчанию; для date поддерживается 'today' — текущая дата), order. Заполняется пользователем при генерации, ссылается из contentHtml нодой manualFieldTag. Хранится в таблице TemplateField (unique templateId+fieldKey, onDelete Cascade).",
     "createdAt": "2026-06-07T14:06:31.499Z",
-    "updatedAt": "2026-06-07T14:06:39.729Z",
-    "aliases": [
-      "ручное поле"
-    ]
+    "updatedAt": "2026-06-07T15:05:22.622Z"
   },
   {
     "element": "stripManualFieldTags",
@@ -676,5 +673,13 @@
     "content": "Генерация PDF из HTML через Puppeteer. Опции BuildPdfOptions: formulas?, title?, products?, fieldValues?. Pipeline: expandProductTables → stripFormulaTags → stripManualFieldTags → wrapAsStyledHtml → рендер в headless Chrome → page.pdf A4. Основной генератор (UI-роут и webhook-конвейер).",
     "createdAt": "2026-06-07T14:06:39.467Z",
     "updatedAt": "2026-06-07T14:06:39.467Z"
+  },
+  {
+    "element": "resolveManualFieldValues",
+    "path": "apps/backend/src/services/generationPipeline.ts",
+    "type": "function",
+    "content": "Хелпер generationPipeline.ts: строит финальную карту значений ручных полей. Если ключ есть в rawValues (даже пустая строка) — используется как есть; если ключ отсутствует — подставляется дефолт (resolveFieldDefault): для date+today → todayRu() (dd.MM.yyyy), для text/textarea/number → литеральное defaultValue. UI шлёт все ключи (может перебить дефолт очисткой), webhook без значений получает дефолты. Используется в routes/generate.ts и runGeneration.",
+    "createdAt": "2026-06-07T15:05:22.365Z",
+    "updatedAt": "2026-06-07T15:16:17.151Z"
   }
 ]

@@ -131,6 +131,7 @@ export interface TemplateFieldInput {
   type?: string;
   required?: boolean;
   placeholder?: string;
+  defaultValue?: string;
   order?: number;
 }
 
@@ -204,9 +205,13 @@ function toTemplateFieldDto(row: PrismaTemplateField): TemplateField {
     type: normalizeFieldType(row.type),
     required: row.required,
     placeholder: row.placeholder ?? undefined,
+    defaultValue: row.defaultValue ?? undefined,
     order: row.order,
   };
 }
+
+/** Allowed default-value tokens. Anything else is dropped (no default). */
+const FIELD_DEFAULTS = new Set(['today']);
 
 /**
  * Validate and normalize the manual-field array sent by the client.
@@ -222,6 +227,7 @@ function normalizeFieldsInput(
   type: TemplateFieldType;
   required: boolean;
   placeholder: string | null;
+  defaultValue: string | null;
   order: number;
 }> {
   const byKey = new Map<string, ReturnType<typeof normalizeFieldsInput>[number]>();
@@ -232,12 +238,26 @@ function normalizeFieldsInput(
       typeof f.placeholder === 'string' && f.placeholder.trim().length > 0
         ? f.placeholder.trim()
         : null;
+    const type = normalizeFieldType(f.type);
+    // Default value: for `date` it must be a known token (e.g. "today");
+    // for text/textarea/number it is an arbitrary literal the user can
+    // edit at generation time (trimmed, length-capped).
+    let defaultValue: string | null = null;
+    if (typeof f.defaultValue === 'string') {
+      if (type === 'date') {
+        defaultValue = FIELD_DEFAULTS.has(f.defaultValue) ? f.defaultValue : null;
+      } else {
+        const trimmed = f.defaultValue.trim();
+        defaultValue = trimmed.length > 0 ? trimmed.slice(0, 2000) : null;
+      }
+    }
     byKey.set(fieldKey, {
       fieldKey,
       label: String(f.label ?? '').trim() || fieldKey,
-      type: normalizeFieldType(f.type),
+      type,
       required: Boolean(f.required),
       placeholder,
+      defaultValue,
       order: typeof f.order === 'number' ? f.order : index,
     });
   });
@@ -753,6 +773,7 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
                   type: f.type,
                   required: f.required,
                   placeholder: f.placeholder,
+                  defaultValue: f.defaultValue,
                   order: f.order,
                 })),
               });
