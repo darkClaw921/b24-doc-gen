@@ -1,6 +1,6 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-06-08T10:42:31.920Z",
+  "generatedAt": "2026-06-08T11:28:14.654Z",
   "nodes": [
     {
       "id": "apps/backend/scripts/render-check.ts",
@@ -3579,17 +3579,30 @@
       "type": "file",
       "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
       "exports": [
+        "parseBulkOptions",
         "ManualFieldBuilder",
         "ManualFieldBuilderResult",
         "ManualFieldBuilderProps"
       ],
       "children": [
         {
+          "id": "apps/frontend/src/components/ManualFieldBuilder.tsx:parseBulkOptions",
+          "name": "parseBulkOptions",
+          "type": "function",
+          "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+          "line": 92,
+          "signature": "parseBulkOptions(text: string, splitValue: boolean): SelectOptionDTO[]",
+          "docComment": "Parse a pasted block of text into `select` options — one per non-empty\nline.\n\nWhen `splitValue` is true (`mapped` mode) each line is split into a label\nand a value by the FIRST tab or run of 2+ spaces: the part before is the\nlabel (shown to the user), the part after is the value (substituted into\nthe document). A line with no such separator becomes a label-only option.\n\nWhen `splitValue` is false (`direct` mode) the whole line is the option —\nno splitting, so values that contain double spaces stay intact.\n\nExample (mapped): `ПАО СК «Росгосстрах»\\t600020 г.Владимир, ул.Михайловская`\n→ { label: 'ПАО СК «Росгосстрах»', value: '600020 г.Владимир, ул.Михайловская' }",
+          "exports": [
+            "parseBulkOptions"
+          ]
+        },
+        {
           "id": "apps/frontend/src/components/ManualFieldBuilder.tsx:ManualFieldBuilder",
           "name": "ManualFieldBuilder",
           "type": "function",
           "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
-          "line": 77,
+          "line": 107,
           "signature": "ManualFieldBuilder({\n  open,\n  onOpenChange,\n  onInsert,\n  existingKeys,\n  initialValues,\n}: ManualFieldBuilderProps)",
           "exports": [
             "ManualFieldBuilder"

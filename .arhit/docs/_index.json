@@ -882,5 +882,21 @@
     "content": "Интерфейс в packages/shared/src/types.ts: { label, value } — один вариант select-поля. label показывается в выпадающем списке и является идентичностью варианта (что хранит/шлёт фронт). value — 'реальное' значение, подставляемое в документ при valueMode='mapped'. Связанные типы: SelectValueMode ('direct'|'mapped'), TemplateFieldType (добавлен 'select').",
     "createdAt": "2026-06-08T10:43:03.907Z",
     "updatedAt": "2026-06-08T10:43:03.907Z"
+  },
+  {
+    "element": "parseBulkOptions",
+    "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+    "type": "function",
+    "content": "Хелпер в ManualFieldBuilder.tsx. Разбирает вставленный блок текста в массив вариантов select-поля: по одной непустой строке на вариант. Параметр splitValue: при true (режим mapped) каждая строка делится на label и value по первому табу или прогону из 2+ пробелов (часть до — название для пользователя, часть после — подставляемое значение); строка без разделителя → вариант только с label. При false (режим direct) вся строка целиком становится вариантом (без разбивки, чтобы значения с двойными пробелами не ломались). Используется кнопкой 'Разобрать' (addBulkOptions) — добавляет распознанные варианты к существующим с дедупликацией по label и удалением пустых placeholder-строк.",
+    "createdAt": "2026-06-08T11:28:14.957Z",
+    "updatedAt": "2026-06-08T11:28:14.957Z"
+  },
+  {
+    "element": "addBulkOptions",
+    "path": "",
+    "type": "unknown",
+    "content": "Обработчик в ManualFieldBuilder (компонент): берёт текст из bulkText, парсит через parseBulkOptions(bulkText, valueMode==='mapped'), удаляет пустые строки-плейсхолдеры из текущих options, добавляет новые варианты с дедупликацией по label, очищает bulkText. Привязан к кнопке 'Разобрать' в блоке 'Вставить списком'.",
+    "createdAt": "2026-06-08T11:28:15.216Z",
+    "updatedAt": "2026-06-08T11:28:15.216Z"
   }
 ]

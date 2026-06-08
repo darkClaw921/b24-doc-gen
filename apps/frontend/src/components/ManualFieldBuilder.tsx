@@ -74,6 +74,36 @@ const TYPE_OPTIONS: Array<{ value: TemplateFieldTypeDTO; label: string }> = [
   { value: 'select', label: 'Выпадающий список' },
 ];
 
+/**
+ * Parse a pasted block of text into `select` options — one per non-empty
+ * line.
+ *
+ * When `splitValue` is true (`mapped` mode) each line is split into a label
+ * and a value by the FIRST tab or run of 2+ spaces: the part before is the
+ * label (shown to the user), the part after is the value (substituted into
+ * the document). A line with no such separator becomes a label-only option.
+ *
+ * When `splitValue` is false (`direct` mode) the whole line is the option —
+ * no splitting, so values that contain double spaces stay intact.
+ *
+ * Example (mapped): `ПАО СК «Росгосстрах»\t600020 г.Владимир, ул.Михайловская`
+ * → { label: 'ПАО СК «Росгосстрах»', value: '600020 г.Владимир, ул.Михайловская' }
+ */
+export function parseBulkOptions(text: string, splitValue: boolean): SelectOptionDTO[] {
+  return text
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0)
+    .map((line) => {
+      if (!splitValue) return { label: line, value: '' };
+      const m = /^(.*?)(?:\t+|\s{2,})(.+)$/.exec(line);
+      return m
+        ? { label: m[1].trim(), value: m[2].trim() }
+        : { label: line, value: '' };
+    })
+    .filter((o) => o.label.length > 0);
+}
+
 export function ManualFieldBuilder({
   open,
   onOpenChange,
@@ -91,6 +121,8 @@ export function ManualFieldBuilder({
   // substituted value.
   const [options, setOptions] = useState<SelectOptionDTO[]>([]);
   const [valueMode, setValueMode] = useState<SelectValueModeDTO>('direct');
+  // Scratch text for the "paste a list" bulk-add box.
+  const [bulkText, setBulkText] = useState('');
   // Once the admin edits the key by hand we stop auto-suggesting it.
   const [keyDirty, setKeyDirty] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -108,6 +140,7 @@ export function ManualFieldBuilder({
     setDefaultValue(initialValues?.defaultValue ?? '');
     setOptions(initialValues?.options ?? []);
     setValueMode(initialValues?.valueMode ?? 'direct');
+    setBulkText('');
     setKeyDirty(Boolean(initialValues?.fieldKey));
     setError(null);
   }, [open, initialValues]);
@@ -118,6 +151,25 @@ export function ManualFieldBuilder({
     setOptions((prev) => prev.filter((_, i) => i !== index));
   const updateOption = (index: number, patch: Partial<SelectOptionDTO>) =>
     setOptions((prev) => prev.map((o, i) => (i === index ? { ...o, ...patch } : o)));
+  /** Parse the bulk-paste box and append new options (dedup by label). */
+  const addBulkOptions = () => {
+    const parsed = parseBulkOptions(bulkText, valueMode === 'mapped');
+    if (parsed.length === 0) return;
+    setOptions((prev) => {
+      // Drop empty placeholder rows (e.g. the seed row from switching to
+      // `select`); the bulk paste always yields ≥1 real option.
+      const kept = prev.filter((o) => o.label.trim().length > 0);
+      const seen = new Set(kept.map((o) => o.label.trim()));
+      const merged = [...kept];
+      for (const o of parsed) {
+        if (seen.has(o.label)) continue;
+        seen.add(o.label);
+        merged.push(o);
+      }
+      return merged;
+    });
+    setBulkText('');
+  };
 
   const handleLabelChange = (value: string) => {
     setLabel(value);
@@ -185,7 +237,7 @@ export function ManualFieldBuilder({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="flex max-h-[85vh] max-w-md flex-col">
         <DialogHeader>
           <DialogTitle>
             {isEditing ? 'Изменить поле' : 'Поле для ручного заполнения'}
@@ -195,7 +247,7 @@ export function ManualFieldBuilder({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4 py-2">
+        <div className="-mr-2 min-h-0 flex-1 space-y-4 overflow-y-auto py-2 pr-2">
           <div>
             <label className="mb-1 block text-sm font-medium">Название</label>
             <Input
@@ -318,6 +370,40 @@ export function ManualFieldBuilder({
                     ))}
                   </div>
                 )}
+
+                <div className="mt-3 border-t border-input pt-3">
+                  <label className="mb-1 block text-xs font-medium text-muted-foreground">
+                    Вставить списком
+                  </label>
+                  <textarea
+                    value={bulkText}
+                    onChange={(e) => setBulkText(e.target.value)}
+                    rows={3}
+                    placeholder={
+                      valueMode === 'mapped'
+                        ? 'Название    Значение\n(по строке на вариант)'
+                        : 'Вариант 1\nВариант 2\nВариант 3'
+                    }
+                    className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  />
+                  <div className="mt-1 flex items-start justify-between gap-2">
+                    <p className="text-[11px] text-muted-foreground">
+                      Каждая строка — вариант.
+                      {valueMode === 'mapped'
+                        ? ' Название и значение разделяйте Tab или 2+ пробелами.'
+                        : ''}
+                    </p>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={addBulkOptions}
+                      disabled={bulkText.trim().length === 0}
+                    >
+                      Разобрать
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           )}
