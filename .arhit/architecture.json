@@ -1,6 +1,6 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-06-08T06:57:54.781Z",
+  "generatedAt": "2026-06-08T07:21:26.417Z",
   "nodes": [
     {
       "id": "apps/backend/scripts/render-check.ts",
@@ -3283,7 +3283,7 @@
           "name": "App",
           "type": "function",
           "path": "apps/frontend/src/App.tsx",
-          "line": 28,
+          "line": 29,
           "signature": "App()",
           "docComment": "Top-level application component.\n\nThe whole route tree is wrapped in `<PlacementGuard>` which:\n\n  1. Verifies the Bitrix24 SDK is initialized (otherwise renders\n     a \"open me from Bitrix24\" stub).\n  2. Checks `/api/install/status` and redirects to `/install` if\n     the application has not been installed yet.\n  3. Reads the `?view=` query parameter and redirects to the\n     matching React Router path. This lets us register a single\n     iframe handler URL with Bitrix24 (the same URL is used for\n     every placement) and dispatch on the client.\n\nThe placement-aware default landing path is decided by the guard\n(CRM_DEAL_DETAIL_TAB → /generate, DEFAULT → /templates).",
           "exports": [
@@ -5246,6 +5246,7 @@
         "getPlacementOptions",
         "installFinishB24",
         "reloadParentWindow",
+        "resizeB24WindowToContent",
         "getB24AuthHeaders",
         "B24FrontendAuth"
       ],
@@ -5395,11 +5396,23 @@
           ]
         },
         {
+          "id": "apps/frontend/src/lib/b24.ts:resizeB24WindowToContent",
+          "name": "resizeB24WindowToContent",
+          "type": "function",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 294,
+          "signature": "resizeB24WindowToContent(minHeight = 0): Promise<void>",
+          "docComment": "Resizes the application iframe to match its content height so the\nembedded app fills the placement area instead of showing at Bitrix24's\nsmall default height (the \"opens only halfway, empty space below\"\nproblem).\n\nImplementation: the B24 SDK exposes `parent.resizeWindowAuto(appNode,\nminHeight, minWidth)` which measures `document.body` (or `appNode`) and\nasks the portal to resize the iframe to that height — clamped to at\nleast `minHeight`. We pass a comfortable `minHeight` so viewport-pinned\npages (which use `h-screen` + internally scrolling columns, so their\nbody never overflows the iframe) still get a usable height, while\nnaturally-flowing pages (e.g. SettingsPage) grow to fit their content.\n\nNo-op outside the iframe; errors are swallowed (a failed resize is\ncosmetic and must never break the app). The SDK sends the underlying\n`resizeWindow` message with `isSafely:true`, so this never hangs.\n\nFalls back to `parent.fitWindow()` on SDK builds without\n`resizeWindowAuto`.",
+          "exports": [
+            "resizeB24WindowToContent"
+          ]
+        },
+        {
           "id": "apps/frontend/src/lib/b24.ts:getB24AuthHeaders",
           "name": "getB24AuthHeaders",
           "type": "function",
           "path": "apps/frontend/src/lib/b24.ts",
-          "line": 278,
+          "line": 324,
           "signature": "getB24AuthHeaders(): Record<string, string>",
           "docComment": "Builds the headers used by the backend's auth middleware. The\nfrontend sends the SDK's access_token, member_id and domain via\nthe X-B24-* headers; the middleware verifies them on every call.",
           "exports": [
@@ -5725,6 +5738,37 @@
           "path": "apps/frontend/src/lib/useApiError.ts",
           "line": 31,
           "signature": "interface ReportedError",
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "name": "useB24AutoResize.ts",
+      "type": "file",
+      "path": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "exports": [
+        "useB24AutoResize"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/lib/useB24AutoResize.ts:useB24AutoResize",
+          "name": "useB24AutoResize",
+          "type": "function",
+          "path": "apps/frontend/src/lib/useB24AutoResize.ts",
+          "line": 41,
+          "signature": "useB24AutoResize(): void",
+          "exports": [
+            "useB24AutoResize"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/useB24AutoResize.ts:EMBED_MIN_HEIGHT",
+          "name": "EMBED_MIN_HEIGHT",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/useB24AutoResize.ts",
+          "line": 39,
+          "docComment": "Comfortable minimum height (px) for viewport-pinned placement views.",
           "exports": []
         }
       ]

@@ -1,0 +1,3 @@
+# resizeB24WindowToContent
+
+Подгоняет высоту iframe приложения под контент в местах встройки Bitrix24, чтобы приложение заполняло область плейсмента, а не показывалось на малой дефолтной высоте портала (проблема «открывается только на половину, снизу пустое место»). Вызывает frame.parent.resizeWindowAuto(null, minHeight, 0) из @bitrix24/b24jssdk (меряет document.body scrollHeight/offsetHeight, клампит снизу minHeight, шлёт resizeWindow с isSafely:true) с фолбэком на parent.fitWindow() для сборок SDK без resizeWindowAuto. No-op вне iframe (frameInstance null), ошибки проглатываются (ресайз — косметика). Используется хуком useB24AutoResize.

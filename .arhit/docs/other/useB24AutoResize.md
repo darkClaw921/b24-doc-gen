@@ -1,0 +1,3 @@
+# useB24AutoResize
+
+React-хук: держит высоту iframe приложения подогнанной под контент в местах встройки Bitrix24. Перевызывает ресайз при смене маршрута (location.pathname из useLocation), изменении размера document.body (ResizeObserver), window.resize и через таймауты 150/600мс после монтирования (поздний асинхронный контент: web-шрифты, рендер docx-preview). Срабатывания коалесцируются через один requestAnimationFrame. Передаёт minHeight = max(EMBED_MIN_HEIGHT=720, window.innerHeight) в resizeB24WindowToContent: для viewport-страниц (h-screen с внутренним скроллом колонок) задаёт комфортную высоту, для текучих страниц (SettingsPage) растит iframe под контент. Вне iframe (isB24Available()===false) — no-op. Монтируется один раз в App.

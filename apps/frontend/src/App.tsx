@@ -7,6 +7,7 @@ import { SettingsPage } from '@/pages/SettingsPage';
 import { PlacementGuard } from '@/components/PlacementGuard';
 import { OAuthSync } from '@/components/OAuthSync';
 import { Toaster } from '@/components/ui/toaster';
+import { useB24AutoResize } from '@/lib/useB24AutoResize';
 
 /**
  * Top-level application component.
@@ -26,6 +27,11 @@ import { Toaster } from '@/components/ui/toaster';
  * (CRM_DEAL_DETAIL_TAB → /generate, DEFAULT → /templates).
  */
 export default function App() {
+  // Keep the Bitrix24 iframe sized to content so the embedded app fills
+  // the placement area instead of showing at the portal's tiny default
+  // height. No-op outside the iframe.
+  useB24AutoResize();
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <PlacementGuard>

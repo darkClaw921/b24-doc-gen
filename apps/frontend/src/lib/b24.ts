@@ -271,6 +271,52 @@ export async function reloadParentWindow(): Promise<void> {
 }
 
 /**
+ * Resizes the application iframe to match its content height so the
+ * embedded app fills the placement area instead of showing at Bitrix24's
+ * small default height (the "opens only halfway, empty space below"
+ * problem).
+ *
+ * Implementation: the B24 SDK exposes `parent.resizeWindowAuto(appNode,
+ * minHeight, minWidth)` which measures `document.body` (or `appNode`) and
+ * asks the portal to resize the iframe to that height — clamped to at
+ * least `minHeight`. We pass a comfortable `minHeight` so viewport-pinned
+ * pages (which use `h-screen` + internally scrolling columns, so their
+ * body never overflows the iframe) still get a usable height, while
+ * naturally-flowing pages (e.g. SettingsPage) grow to fit their content.
+ *
+ * No-op outside the iframe; errors are swallowed (a failed resize is
+ * cosmetic and must never break the app). The SDK sends the underlying
+ * `resizeWindow` message with `isSafely:true`, so this never hangs.
+ *
+ * Falls back to `parent.fitWindow()` on SDK builds without
+ * `resizeWindowAuto`.
+ */
+export async function resizeB24WindowToContent(minHeight = 0): Promise<void> {
+  if (!frameInstance) return;
+  try {
+    const parent = (
+      frameInstance as unknown as {
+        parent?: {
+          resizeWindowAuto?: (
+            appNode?: HTMLElement | null,
+            minHeight?: number,
+            minWidth?: number,
+          ) => Promise<void>;
+          fitWindow?: () => Promise<void>;
+        };
+      }
+    ).parent;
+    if (parent?.resizeWindowAuto) {
+      await parent.resizeWindowAuto(null, minHeight, 0);
+    } else if (parent?.fitWindow) {
+      await parent.fitWindow();
+    }
+  } catch {
+    // ignore — resizing is best-effort cosmetics
+  }
+}
+
+/**
  * Builds the headers used by the backend's auth middleware. The
  * frontend sends the SDK's access_token, member_id and domain via
  * the X-B24-* headers; the middleware verifies them on every call.

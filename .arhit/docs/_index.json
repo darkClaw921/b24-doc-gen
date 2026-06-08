@@ -837,5 +837,21 @@
     "content": "Достаёт числовой file id из одной записи множественного файлового поля. Обрабатывает документированную форму-объект {id,url,urlMachine}, а также легаси-варианты: скалярный id (number/string) и {ID|fileId|FILE_ID}. Возвращает number или null. Используется resolveExistingFileRefs.",
     "createdAt": "2026-06-08T06:57:07.715Z",
     "updatedAt": "2026-06-08T06:57:07.715Z"
+  },
+  {
+    "element": "resizeB24WindowToContent",
+    "path": "",
+    "type": "unknown",
+    "content": "Подгоняет высоту iframe приложения под контент в местах встройки Bitrix24, чтобы приложение заполняло область плейсмента, а не показывалось на малой дефолтной высоте портала (проблема «открывается только на половину, снизу пустое место»). Вызывает frame.parent.resizeWindowAuto(null, minHeight, 0) из @bitrix24/b24jssdk (меряет document.body scrollHeight/offsetHeight, клампит снизу minHeight, шлёт resizeWindow с isSafely:true) с фолбэком на parent.fitWindow() для сборок SDK без resizeWindowAuto. No-op вне iframe (frameInstance null), ошибки проглатываются (ресайз — косметика). Используется хуком useB24AutoResize.",
+    "createdAt": "2026-06-08T07:21:21.259Z",
+    "updatedAt": "2026-06-08T07:21:21.259Z"
+  },
+  {
+    "element": "useB24AutoResize",
+    "path": "",
+    "type": "unknown",
+    "content": "React-хук: держит высоту iframe приложения подогнанной под контент в местах встройки Bitrix24. Перевызывает ресайз при смене маршрута (location.pathname из useLocation), изменении размера document.body (ResizeObserver), window.resize и через таймауты 150/600мс после монтирования (поздний асинхронный контент: web-шрифты, рендер docx-preview). Срабатывания коалесцируются через один requestAnimationFrame. Передаёт minHeight = max(EMBED_MIN_HEIGHT=720, window.innerHeight) в resizeB24WindowToContent: для viewport-страниц (h-screen с внутренним скроллом колонок) задаёт комфортную высоту, для текучих страниц (SettingsPage) растит iframe под контент. Вне iframe (isB24Available()===false) — no-op. Монтируется один раз в App.",
+    "createdAt": "2026-06-08T07:21:21.516Z",
+    "updatedAt": "2026-06-08T07:21:21.516Z"
   }
 ]

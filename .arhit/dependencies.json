@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-08T06:57:55.390Z",
+  "generatedAt": "2026-06-08T07:21:27.013Z",
   "dependencies": [
     {
       "from": "apps/backend/scripts/render-check.ts",
@@ -11480,6 +11480,19 @@
       "toElement": "Toaster"
     },
     {
+      "from": "apps/frontend/src/App.tsx",
+      "to": "@/lib/useB24AutoResize",
+      "type": "import",
+      "toElement": "useB24AutoResize"
+    },
+    {
+      "from": "apps/frontend/src/App.tsx",
+      "to": "apps/frontend/src/App.tsx",
+      "type": "call",
+      "fromElement": "App",
+      "toElement": "useB24AutoResize"
+    },
+    {
       "from": "apps/frontend/src/components/AdminOnly.tsx",
       "to": "react",
       "type": "import",
@@ -16522,6 +16535,20 @@
       "from": "apps/frontend/src/lib/b24.ts",
       "to": "apps/frontend/src/lib/b24.ts",
       "type": "call",
+      "fromElement": "resizeB24WindowToContent",
+      "toElement": "parent.resizeWindowAuto"
+    },
+    {
+      "from": "apps/frontend/src/lib/b24.ts",
+      "to": "apps/frontend/src/lib/b24.ts",
+      "type": "call",
+      "fromElement": "resizeB24WindowToContent",
+      "toElement": "parent.fitWindow"
+    },
+    {
+      "from": "apps/frontend/src/lib/b24.ts",
+      "to": "apps/frontend/src/lib/b24.ts",
+      "type": "call",
       "fromElement": "getB24AuthHeaders",
       "toElement": "getB24Auth"
     },
@@ -16700,6 +16727,149 @@
       "type": "call",
       "fromElement": "useApiError",
       "toElement": "reportApiError"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "react",
+      "type": "import",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "react-router-dom",
+      "type": "import",
+      "toElement": "useLocation"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/b24.ts",
+      "type": "import",
+      "toElement": "isB24Available"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/b24.ts",
+      "type": "import",
+      "toElement": "resizeB24WindowToContent"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "useLocation"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "isB24Available"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "cancelAnimationFrame"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "requestAnimationFrame"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "Math.max"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "resizeB24WindowToContent"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "fire"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "window.setTimeout"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "window.setTimeout"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "observer.observe"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "window.addEventListener"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "cancelAnimationFrame"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "window.clearTimeout"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "window.clearTimeout"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "observer.disconnect"
+    },
+    {
+      "from": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "to": "apps/frontend/src/lib/useB24AutoResize.ts",
+      "type": "call",
+      "fromElement": "useB24AutoResize",
+      "toElement": "window.removeEventListener"
     },
     {
       "from": "apps/frontend/src/lib/useCurrentRole.ts",
