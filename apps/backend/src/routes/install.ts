@@ -77,6 +77,7 @@ export function toAppSettings(row: PrismaAppSettings): AppSettings {
     portalDomain: row.portalDomain,
     adminUserIds: parsed,
     dealFieldBinding: row.dealFieldBinding,
+    addToTimeline: row.addToTimeline,
     installedAt: row.installedAt.toISOString(),
   };
 }

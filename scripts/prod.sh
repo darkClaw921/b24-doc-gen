@@ -41,14 +41,25 @@ if [[ "$NODE_MAJOR" -lt 20 ]]; then
 fi
 
 # ---------- .env ----------
-ENV_FILE="$REPO_ROOT/apps/backend/.env"
-if [[ ! -f "$ENV_FILE" ]]; then
-  error ".env не найден. Скопируй .env.example → apps/backend/.env и заполни переменные."
+# Приоритет у .env в корне проекта; запасной вариант — apps/backend/.env.
+if [[ -f "$REPO_ROOT/.env" ]]; then
+  ENV_FILE="$REPO_ROOT/.env"
+elif [[ -f "$REPO_ROOT/apps/backend/.env" ]]; then
+  ENV_FILE="$REPO_ROOT/apps/backend/.env"
+else
+  error ".env не найден. Скопируй .env.example → .env и заполни переменные."
   exit 1
 fi
+info "Переменные окружения: $ENV_FILE"
 
-# Проверяем обязательные переменные
+# Экспортируем переменные из .env в окружение процесса, чтобы они дошли
+# до prisma (migrate/generate) и до backend (node dist/server.js).
+# dotenv в backend НЕ перезаписывает уже заданные переменные окружения,
+# поэтому значения из этого .env имеют приоритет над apps/backend/.env.
+set -a
 source "$ENV_FILE" 2>/dev/null || true
+set +a
+
 : "${B24_APP_ID:?Не задан B24_APP_ID в $ENV_FILE}"
 : "${B24_APP_SECRET:?Не задан B24_APP_SECRET в $ENV_FILE}"
 

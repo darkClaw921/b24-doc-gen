@@ -662,9 +662,9 @@
     "element": "runGeneration",
     "path": "apps/backend/src/services/generationPipeline.ts",
     "type": "function",
-    "content": "Shared generation pipeline core in generationPipeline.ts. Executes the full .docx generation flow for one (templateId, dealId) pair: 1) load template+formulas+theme+fields, 2) effective settings (theme overrides), 3) deal context via getDealContext, 4) evaluate formulas, 5) build the .docx via buildDocxFromTemplate(originalDocx, {formulas, products, fieldValues, title}) — guards missing/empty originalDocx with GenerationError('docx_build_failed') and coerces Bytes to Buffer, mapping DocxTemplateError->GenerationError('docx_build_failed'), 6) upload to B24 Disk (file name <name>_deal<id>_<ts>.docx), 7) optional UF_CRM_* binding (crm.item.update), 8) optional timeline comment, 9) return GenerationResult. Never throws for business errors — wraps them in GenerationError so HTTP/webhook/bizproc callers map them. fieldValues come from RunGenerationParams (resolved through resolveManualFieldValues).",
+    "content": "Framework-agnostic ядро генерации .docx. Шаги: загрузка template+formulas+fields+AppSettings → detectProductUsage → deal context → evaluate formulas → resolveManualFieldValues → buildDocxFromTemplate → disk upload → опциональная привязка к UF_CRM_* через crm.item.update (одиночное поле: [fileName,base64] заменяет; множественное: существующие {id} из resolveExistingFileRefs + новый [fileName,base64] = добавление без потери прежних) → опциональный crm.timeline.comment.add. Таймлайн гейтится effectiveAddToTimeline = globalAddToTimeline(AppSettings.addToTimeline) && theme.addToTimeline: глобальный выключатель в настройках имеет приоритет — при выключении комментарий не пишется ни для одной темы. Возвращает GenerationResult {fileId, downloadUrl, fileName, formulas, binding, timeline, warnings[]}. Детерминированные ошибки — GenerationError с kind.",
     "createdAt": "2026-06-07T18:30:52.436Z",
-    "updatedAt": "2026-06-07T18:30:52.436Z"
+    "updatedAt": "2026-06-08T06:57:07.976Z"
   },
   {
     "element": "registerGenerateRoutes",
@@ -821,5 +821,21 @@
     "content": "Оборачивает плоский объект сущности (DEAL/CONTACT/COMPANY) в Proxy, который для отсутствующего или null поля возвращает пустую строку '' вместо undefined. Нужно, потому что mathjs кидает 'Unexpected type of argument in function multiplyScalar' при попадании undefined в арифметический оператор. Дефолт '' приводится mathjs к 0 в арифметике и к пустоте в конкатенации, при этом подлинные ошибки типов сохраняются. Proxy сохраняет constructor === Object, чтобы mathjs.isPlainObject и безопасный доступ к свойствам продолжали работать; присутствующие непустые значения, унаследованные члены и symbol-ключи проходят без изменений. Используется в evaluateExpression при построении scope.",
     "createdAt": "2026-06-08T06:32:28.539Z",
     "updatedAt": "2026-06-08T06:32:28.539Z"
+  },
+  {
+    "element": "resolveExistingFileRefs",
+    "path": "apps/backend/src/services/generationPipeline.ts",
+    "type": "function",
+    "content": "Читает ID файлов, уже хранящихся в множественном пользовательском поле сделки типа «файл», чтобы переслать их обратно в crm.item.update и СОХРАНИТЬ при добавлении нового файла (иначе update перезапишет). Использует универсальный crm.item.get (entityTypeId=2) с useOriginalUfNames:Y — как рекомендует документация Bitrix «Как обновить и удалить файлы» (crm.deal.get для файловых полей не рекомендуется и отдаёт нестабильную форму). В универсальном getter множественное файловое поле приходит как [{id,url,urlMachine}, ...]; каждый элемент маппится в {id} — точную ссылку «сохранить этот файл», которую ждёт updater. Сбои сети/парсинга non-fatal: логируется warning и возвращается пустой список (update может перезаписать вместо добавления, но сама генерация не падает). Параметры: client (B24Client), dealId, fieldName (UF_CRM_*), logger. Возвращает Array<{id:number}>.",
+    "createdAt": "2026-06-08T06:57:07.455Z",
+    "updatedAt": "2026-06-08T06:57:07.455Z"
+  },
+  {
+    "element": "extractFileId",
+    "path": "apps/backend/src/services/generationPipeline.ts",
+    "type": "function",
+    "content": "Достаёт числовой file id из одной записи множественного файлового поля. Обрабатывает документированную форму-объект {id,url,urlMachine}, а также легаси-варианты: скалярный id (number/string) и {ID|fileId|FILE_ID}. Возвращает number или null. Используется resolveExistingFileRefs.",
+    "createdAt": "2026-06-08T06:57:07.715Z",
+    "updatedAt": "2026-06-08T06:57:07.715Z"
   }
 ]

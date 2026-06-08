@@ -151,10 +151,14 @@ export async function runGeneration(
 
   // Effective per-template generation settings: theme overrides win.
   // dealFieldBinding falls back to AppSettings only when the theme has
-  // no per-folder override; addToTimeline is always taken from the theme.
+  // no per-folder override. addToTimeline is gated by a global master
+  // switch (AppSettings.addToTimeline): when the admin turns it off, no
+  // timeline comment is posted for ANY theme; when on, the per-theme
+  // Theme.addToTimeline flag still decides. Missing settings → default on.
   const effectiveFieldBinding =
     template.theme.dealFieldBinding ?? settings?.dealFieldBinding ?? null;
-  const effectiveAddToTimeline = template.theme.addToTimeline;
+  const globalAddToTimeline = settings?.addToTimeline ?? true;
+  const effectiveAddToTimeline = globalAddToTimeline && template.theme.addToTimeline;
 
   if (!Number.isFinite(dealId) || dealId <= 0) {
     throw new GenerationError('bad_deal_id', 'dealId must be a positive number');
@@ -320,49 +324,28 @@ export async function runGeneration(
         );
       }
 
-      // See routes/generate.ts for the full reasoning behind the
-      // `crm.item.update` + `useOriginalUfNames:Y` choice. Summary:
-      // Bitrix requires the universal item update for file UF fields
-      // and the array-merge format below to preserve existing files
-      // when the field is multi-valued.
+      // File UF fields must be written via the universal `crm.item.update`
+      // (deal entityTypeId = 2) + `useOriginalUfNames:Y`. Per the Bitrix
+      // docs "Как обновить и удалить файлы" the correct multi-value
+      // payload is an array mixing references to KEPT files as `{ id }`
+      // objects with NEW files as `[fileName, base64]` tuples — files
+      // whose id is omitted get deleted. A single-value field just takes
+      // the `[fileName, base64]` tuple (the old file is replaced).
       const newFilePayload: [string, string] = [fileName, docxBuffer.toString('base64')];
 
       let fieldValue: unknown;
       if (isMultiple) {
-        const existingRefs: Array<{ id: number }> = [];
-        try {
-          const rawDeal = await client.callMethod<Record<string, unknown>>(
-            'crm.deal.get',
-            { id: dealId },
-          );
-          const raw = rawDeal?.[fieldName];
-          const items = Array.isArray(raw)
-            ? raw
-            : raw !== null && raw !== undefined && raw !== ''
-              ? [raw]
-              : [];
-          for (const item of items) {
-            let id: number | null = null;
-            if (typeof item === 'number') {
-              id = item;
-            } else if (typeof item === 'string') {
-              const n = Number(item);
-              if (Number.isFinite(n)) id = n;
-            } else if (item && typeof item === 'object') {
-              const obj = item as Record<string, unknown>;
-              const candidate = obj.id ?? obj.ID ?? obj.fileId ?? obj.FILE_ID;
-              const n = Number(candidate);
-              if (Number.isFinite(n) && n > 0) id = n;
-            }
-            if (id != null && id > 0) existingRefs.push({ id });
-          }
-        } catch (err) {
-          logger.warn(
-            { err: err instanceof Error ? err.message : String(err), fieldName },
-            'crm.deal.get failed while resolving existing file IDs; ' +
-              'proceeding with no existing files (may overwrite)',
-          );
-        }
+        // To ADD (not overwrite) we must re-send the ids of the existing
+        // files. The docs explicitly recommend reading them via the
+        // universal `crm.item.get` (NOT `crm.deal.get`, which is
+        // discouraged for file fields): with `useOriginalUfNames:Y` the
+        // field comes back as `[{ id, url, urlMachine }, …]`.
+        const existingRefs = await resolveExistingFileRefs(
+          client,
+          dealId,
+          fieldName,
+          logger,
+        );
         fieldValue = [...existingRefs, newFilePayload];
       } else {
         fieldValue = newFilePayload;
@@ -410,7 +393,11 @@ export async function runGeneration(
       logger.warn({ err: msg }, 'crm.timeline.comment.add failed');
     }
   } else {
-    warnings.push('addToTimeline disabled for this theme');
+    warnings.push(
+      globalAddToTimeline
+        ? 'addToTimeline disabled for this theme'
+        : 'addToTimeline disabled globally in settings',
+    );
   }
 
   /* -------------------------------------------------------------- */
@@ -426,6 +413,84 @@ export async function runGeneration(
     timeline,
     warnings,
   };
+}
+
+/* ------------------------------------------------------------------ */
+/* Existing-file resolution for multi-value file UF fields             */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Read the ids of files currently stored in a multi-value file UF field
+ * so they can be re-sent to `crm.item.update` and thus PRESERVED while
+ * a new file is appended (otherwise the update would overwrite them).
+ *
+ * Uses the universal `crm.item.get` (deal entityTypeId = 2) with
+ * `useOriginalUfNames:Y`, as recommended by the Bitrix docs "Как
+ * обновить и удалить файлы" — `crm.deal.get` is explicitly discouraged
+ * for file fields and returns an inconsistent shape. With the universal
+ * getter a multi-value file field comes back as
+ * `[{ id, url, urlMachine }, …]`; we map each entry to `{ id }`, the
+ * exact "keep this file" reference the updater expects.
+ *
+ * Network/parse failures are non-fatal: we log and return an empty list,
+ * which means the update may replace existing files rather than append —
+ * the generation itself still succeeds.
+ */
+async function resolveExistingFileRefs(
+  client: B24Client,
+  dealId: number,
+  fieldName: string,
+  logger: FastifyBaseLogger,
+): Promise<Array<{ id: number }>> {
+  const refs: Array<{ id: number }> = [];
+  try {
+    const resp = await client.callMethod<Record<string, unknown>>('crm.item.get', {
+      entityTypeId: 2,
+      id: dealId,
+      useOriginalUfNames: 'Y',
+    });
+    // `crm.item.get` result is `{ item: { …fields } }`.
+    const item = (resp?.item ?? resp) as Record<string, unknown> | undefined;
+    const raw = item?.[fieldName];
+    const entries = Array.isArray(raw)
+      ? raw
+      : raw !== null && raw !== undefined && raw !== ''
+        ? [raw]
+        : [];
+    for (const entry of entries) {
+      const id = extractFileId(entry);
+      if (id != null && id > 0) refs.push({ id });
+    }
+  } catch (err) {
+    logger.warn(
+      { err: err instanceof Error ? err.message : String(err), fieldName },
+      'crm.item.get failed while resolving existing file IDs; ' +
+        'proceeding with no existing files (update may overwrite)',
+    );
+  }
+  return refs;
+}
+
+/**
+ * Pull a numeric file id out of a single multi-value file entry. Handles
+ * the documented `{ id, url, urlMachine }` object shape plus the legacy
+ * scalar id / `{ ID | fileId | FILE_ID }` variants some portals return.
+ */
+function extractFileId(entry: unknown): number | null {
+  if (typeof entry === 'number') {
+    return Number.isFinite(entry) ? entry : null;
+  }
+  if (typeof entry === 'string') {
+    const n = Number(entry);
+    return Number.isFinite(n) ? n : null;
+  }
+  if (entry && typeof entry === 'object') {
+    const obj = entry as Record<string, unknown>;
+    const candidate = obj.id ?? obj.ID ?? obj.fileId ?? obj.FILE_ID;
+    const n = Number(candidate);
+    return Number.isFinite(n) && n > 0 ? n : null;
+  }
+  return null;
 }
 
 /* ------------------------------------------------------------------ */

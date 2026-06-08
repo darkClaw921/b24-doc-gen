@@ -27,6 +27,13 @@ export interface AppSettings {
    * .docx file is attached. Null if not yet configured.
    */
   dealFieldBinding: string | null;
+  /**
+   * Global master switch for posting a generation comment (with the
+   * generated .docx attached) into the deal timeline. When false, no
+   * timeline comment is posted for any theme regardless of the per-theme
+   * flag; when true, the per-theme `Theme.addToTimeline` still applies.
+   */
+  addToTimeline: boolean;
   /** ISO timestamp of the first installation. */
   installedAt: string;
 }

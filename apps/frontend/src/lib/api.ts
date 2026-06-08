@@ -715,6 +715,8 @@ export interface SettingsDTO {
   portalDomain: string;
   adminUserIds: number[];
   dealFieldBinding: string | null;
+  /** Global master switch for posting generation comments to the timeline. */
+  addToTimeline: boolean;
   installedAt: string;
 }
 
@@ -731,8 +733,11 @@ export const settingsApi = {
   get: (signal?: AbortSignal) =>
     apiRequest<{ settings: SettingsDTO }>('/settings', { signal }),
 
-  update: (body: { dealFieldBinding?: string | null; adminUserIds?: number[] }) =>
-    apiRequest<{ settings: SettingsDTO }>('/settings', { method: 'PUT', body }),
+  update: (body: {
+    dealFieldBinding?: string | null;
+    adminUserIds?: number[];
+    addToTimeline?: boolean;
+  }) => apiRequest<{ settings: SettingsDTO }>('/settings', { method: 'PUT', body }),
 
   dealFields: (signal?: AbortSignal) =>
     apiRequest<{ fields: DealFileFieldDTO[] }>('/settings/deal-fields', { signal }),

@@ -22,6 +22,12 @@ model AppSettings {
   portalDomain     String
   adminUserIds     String
   dealFieldBinding String?
+  /// Global master switch for posting a generation comment (with the
+  /// generated .docx attached) into the deal timeline. When false, NO
+  /// timeline comment is posted for any theme, regardless of the
+  /// per-theme `Theme.addToTimeline` flag. When true, the per-theme flag
+  /// still applies. Defaults to true to preserve the original behavior.
+  addToTimeline    Boolean  @default(true)
   /// Secret token that Bitrix24 sends on every bizproc robot / outgoing
   /// webhook call. Populated on first install (install.ts) from the
   /// `APP_SID` / `auth.application_token` field. Routes that accept

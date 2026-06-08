@@ -39,6 +39,8 @@ import { requireAdmin, invalidateRoleCache } from '../middleware/role.js';
 interface PutSettingsBody {
   dealFieldBinding?: string | null;
   adminUserIds?: number[];
+  /** Global master switch for posting generation comments to the timeline. */
+  addToTimeline?: boolean;
 }
 
 interface CreateFieldBody {
@@ -175,6 +177,14 @@ export async function registerSettingsRoutes(app: FastifyInstance): Promise<void
         }
         updateData.dealFieldBinding = v;
       }
+    }
+
+    // addToTimeline: optional global master switch.
+    if ('addToTimeline' in body) {
+      if (typeof body.addToTimeline !== 'boolean') {
+        return reply.badRequest('addToTimeline must be a boolean');
+      }
+      updateData.addToTimeline = body.addToTimeline;
     }
 
     // adminUserIds: optional replacement. Must be non-empty if present.

@@ -101,6 +101,8 @@ export function SettingsPage() {
   /* Local form state (mirrors AppSettings)                          */
   /* -------------------------------------------------------------- */
   const [selectedFieldName, setSelectedFieldName] = useState<string>('');
+  // Global master switch: post the generation comment to the deal timeline.
+  const [addToTimeline, setAddToTimeline] = useState<boolean>(true);
   const [adminMap, setAdminMap] = useState<Map<number, PortalUserDTO>>(new Map());
   const [saveMessage, setSaveMessage] = useState<
     { kind: 'ok' | 'error'; text: string } | null
@@ -112,6 +114,7 @@ export function SettingsPage() {
     const s: SettingsDTO | undefined = settingsQuery.data;
     if (!s) return;
     setSelectedFieldName(s.dealFieldBinding ?? '');
+    setAddToTimeline(s.addToTimeline);
     // We only have numeric ids from AppSettings — we don't resolve
     // them to full user records here to avoid a second search query.
     // The UI shows "User #<id>" for unknown users and the full name
@@ -207,12 +210,15 @@ export function SettingsPage() {
   const [createOpen, setCreateOpen] = useState(false);
   const [newXmlId, setNewXmlId] = useState('');
   const [newLabel, setNewLabel] = useState('');
+  // Whether the created UF_CRM_* file field stores multiple files.
+  const [newMultiple, setNewMultiple] = useState(false);
 
   const createFieldMutation = useMutation({
     mutationFn: () =>
       settingsApi.createField({
         xmlId: newXmlId.trim().toUpperCase(),
         label: newLabel.trim(),
+        multiple: newMultiple,
       }),
     onSuccess: async (res) => {
       await queryClient.invalidateQueries({ queryKey: ['settings', 'deal-fields'] });
@@ -220,6 +226,7 @@ export function SettingsPage() {
       setCreateOpen(false);
       setNewXmlId('');
       setNewLabel('');
+      setNewMultiple(false);
       setSaveMessage({
         kind: 'ok',
         text: `Создано поле ${res.field.fieldName}`,
@@ -235,6 +242,7 @@ export function SettingsPage() {
       settingsApi.update({
         dealFieldBinding: selectedFieldName.length > 0 ? selectedFieldName : null,
         adminUserIds: Array.from(adminMap.keys()),
+        addToTimeline,
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['settings'] });
@@ -397,12 +405,43 @@ export function SettingsPage() {
             {selectedField && (
               <div className="text-xs text-muted-foreground">
                 {selectedField.multiple
-                  ? 'Поле хранит несколько файлов'
-                  : 'Поле хранит один файл'}
+                  ? 'Поле хранит несколько файлов: новый документ добавляется к существующим, старые не удаляются.'
+                  : 'Поле хранит один файл: новый документ заменяет предыдущий.'}
               </div>
             )}
           </div>
         )}
+      </section>
+
+      {/* ------------------------------------------------------- */}
+      {/* Timeline master switch                                  */}
+      {/* ------------------------------------------------------- */}
+      <section className="space-y-3 rounded-md border border-border bg-background p-6 shadow-sm">
+        <div>
+          <h2 className="text-lg font-semibold">Таймлайн сделки</h2>
+          <p className="text-sm text-muted-foreground">
+            Глобальный выключатель. Если выключено — комментарий с
+            документом не отправляется в таймлайн ни для одной темы,
+            независимо от настройки самой темы.
+          </p>
+        </div>
+        <label className="flex items-start gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            className="mt-1 h-4 w-4"
+            checked={addToTimeline}
+            onChange={(e) => setAddToTimeline(e.target.checked)}
+          />
+          <div>
+            <div className="text-sm font-medium">
+              Отправлять сообщение в таймлайн сделки
+            </div>
+            <div className="text-xs text-muted-foreground">
+              После генерации в карточку сделки записывается комментарий
+              с прикреплённым .docx-файлом.
+            </div>
+          </div>
+        </label>
       </section>
 
       {/* ------------------------------------------------------- */}
@@ -779,6 +818,23 @@ export function SettingsPage() {
                 placeholder="Сгенерированные документы"
               />
             </div>
+
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                className="mt-1 h-4 w-4"
+                checked={newMultiple}
+                onChange={(e) => setNewMultiple(e.target.checked)}
+              />
+              <div>
+                <div className="text-sm font-medium">Множественное поле</div>
+                <div className="text-xs text-muted-foreground">
+                  Поле сможет хранить несколько файлов. При генерации новый
+                  документ будет добавляться к уже прикреплённым, а не заменять
+                  их.
+                </div>
+              </div>
+            </label>
 
             {createFieldMutation.error && (
               <div className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs text-destructive">

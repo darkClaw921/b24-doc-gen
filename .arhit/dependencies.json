@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-08T06:32:34.211Z",
+  "generatedAt": "2026-06-08T06:57:55.390Z",
   "dependencies": [
     {
       "from": "apps/backend/scripts/render-check.ts",
@@ -3272,6 +3272,13 @@
       "type": "call",
       "fromElement": "registerSettingsRoutes",
       "toElement": "reply.conflict"
+    },
+    {
+      "from": "apps/backend/src/routes/settings.ts",
+      "to": "apps/backend/src/routes/settings.ts",
+      "type": "call",
+      "fromElement": "registerSettingsRoutes",
+      "toElement": "reply.badRequest"
     },
     {
       "from": "apps/backend/src/routes/settings.ts",
@@ -10363,63 +10370,7 @@
       "to": "apps/backend/src/services/generationPipeline.ts",
       "type": "call",
       "fromElement": "runGeneration",
-      "toElement": "client.callMethod"
-    },
-    {
-      "from": "apps/backend/src/services/generationPipeline.ts",
-      "to": "apps/backend/src/services/generationPipeline.ts",
-      "type": "call",
-      "fromElement": "runGeneration",
-      "toElement": "Array.isArray"
-    },
-    {
-      "from": "apps/backend/src/services/generationPipeline.ts",
-      "to": "apps/backend/src/services/generationPipeline.ts",
-      "type": "call",
-      "fromElement": "runGeneration",
-      "toElement": "Number"
-    },
-    {
-      "from": "apps/backend/src/services/generationPipeline.ts",
-      "to": "apps/backend/src/services/generationPipeline.ts",
-      "type": "call",
-      "fromElement": "runGeneration",
-      "toElement": "Number.isFinite"
-    },
-    {
-      "from": "apps/backend/src/services/generationPipeline.ts",
-      "to": "apps/backend/src/services/generationPipeline.ts",
-      "type": "call",
-      "fromElement": "runGeneration",
-      "toElement": "Number"
-    },
-    {
-      "from": "apps/backend/src/services/generationPipeline.ts",
-      "to": "apps/backend/src/services/generationPipeline.ts",
-      "type": "call",
-      "fromElement": "runGeneration",
-      "toElement": "Number.isFinite"
-    },
-    {
-      "from": "apps/backend/src/services/generationPipeline.ts",
-      "to": "apps/backend/src/services/generationPipeline.ts",
-      "type": "call",
-      "fromElement": "runGeneration",
-      "toElement": "existingRefs.push"
-    },
-    {
-      "from": "apps/backend/src/services/generationPipeline.ts",
-      "to": "apps/backend/src/services/generationPipeline.ts",
-      "type": "call",
-      "fromElement": "runGeneration",
-      "toElement": "logger.warn"
-    },
-    {
-      "from": "apps/backend/src/services/generationPipeline.ts",
-      "to": "apps/backend/src/services/generationPipeline.ts",
-      "type": "call",
-      "fromElement": "runGeneration",
-      "toElement": "String"
+      "toElement": "resolveExistingFileRefs"
     },
     {
       "from": "apps/backend/src/services/generationPipeline.ts",
@@ -10497,6 +10448,83 @@
       "type": "call",
       "fromElement": "runGeneration",
       "toElement": "warnings.push"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "resolveExistingFileRefs",
+      "toElement": "client.callMethod"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "resolveExistingFileRefs",
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "resolveExistingFileRefs",
+      "toElement": "extractFileId"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "resolveExistingFileRefs",
+      "toElement": "refs.push"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "resolveExistingFileRefs",
+      "toElement": "logger.warn"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "resolveExistingFileRefs",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "extractFileId",
+      "toElement": "Number.isFinite"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "extractFileId",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "extractFileId",
+      "toElement": "Number.isFinite"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "extractFileId",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/generationPipeline.ts",
+      "to": "apps/backend/src/services/generationPipeline.ts",
+      "type": "call",
+      "fromElement": "extractFileId",
+      "toElement": "Number.isFinite"
     },
     {
       "from": "apps/backend/src/services/generationPipeline.ts",
@@ -18346,6 +18374,13 @@
       "to": "apps/frontend/src/pages/SettingsPage.tsx",
       "type": "call",
       "fromElement": "SettingsPage",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
       "toElement": "useEffect"
     },
     {
@@ -18354,6 +18389,13 @@
       "type": "call",
       "fromElement": "SettingsPage",
       "toElement": "setSelectedFieldName"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "setAddToTimeline"
     },
     {
       "from": "apps/frontend/src/pages/SettingsPage.tsx",
@@ -18556,6 +18598,13 @@
       "to": "apps/frontend/src/pages/SettingsPage.tsx",
       "type": "call",
       "fromElement": "SettingsPage",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
       "toElement": "useMutation"
     },
     {
@@ -18613,6 +18662,13 @@
       "type": "call",
       "fromElement": "SettingsPage",
       "toElement": "setNewLabel"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "setNewMultiple"
     },
     {
       "from": "apps/frontend/src/pages/SettingsPage.tsx",
@@ -18815,6 +18871,13 @@
       "to": "apps/frontend/src/pages/SettingsPage.tsx",
       "type": "call",
       "fromElement": "SettingsPage",
+      "toElement": "setAddToTimeline"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
       "toElement": "adminList.map"
     },
     {
@@ -18949,6 +19012,13 @@
       "type": "call",
       "fromElement": "SettingsPage",
       "toElement": "setNewLabel"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "apps/frontend/src/pages/SettingsPage.tsx",
+      "type": "call",
+      "fromElement": "SettingsPage",
+      "toElement": "setNewMultiple"
     },
     {
       "from": "apps/frontend/src/pages/SettingsPage.tsx",

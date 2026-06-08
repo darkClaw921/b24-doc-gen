@@ -1,6 +1,6 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-06-08T06:32:33.524Z",
+  "generatedAt": "2026-06-08T06:57:54.781Z",
   "nodes": [
     {
       "id": "apps/backend/scripts/render-check.ts",
@@ -796,7 +796,7 @@
           "name": "resolveHandlerBaseUrl",
           "type": "function",
           "path": "apps/backend/src/routes/install.ts",
-          "line": 126,
+          "line": 127,
           "signature": "resolveHandlerBaseUrl(explicit: string | undefined, reply: FastifyReply): string | null",
           "docComment": "Resolve and validate the public HTTPS handler base URL used as the\niframe src for placement handlers. Priority: explicit value (from the\nrequest body) > FRONTEND_PUBLIC_URL > PUBLIC_URL > FRONTEND_URL.\n\nReturns the cleaned base URL (no trailing slash) on success. On\nfailure it sends a 400 reply itself and returns `null`, so callers\nmust `return` early when the result is null. We deliberately reject\nnon-HTTPS URLs because Bitrix24 answers `ERROR_WRONG_HANDLER_URL`.",
           "exports": []
@@ -806,7 +806,7 @@
           "name": "registerInstallRoutes",
           "type": "function",
           "path": "apps/backend/src/routes/install.ts",
-          "line": 150,
+          "line": 151,
           "signature": "registerInstallRoutes(app: FastifyInstance): Promise<void>",
           "exports": [
             "registerInstallRoutes"
@@ -847,7 +847,7 @@
           "name": "DEAL_PLACEMENT_CATALOG",
           "type": "variable",
           "path": "apps/backend/src/routes/install.ts",
-          "line": 95,
+          "line": 96,
           "docComment": "Catalog of CRM deal embedding locations the app exposes in the\nSettings UI (\"Места встройки\"). Each entry maps a Bitrix24 placement\ncode to a friendly title/description and the `?view=` the iframe is\nopened in. This is the single source of truth for which placements an\nadmin may bind via `POST /api/placements`.\n\nIMPORTANT: a code can only be bound if it's also declared in the local\napp manifest on the portal — otherwise `placement.bind` returns an\nerror, which we surface back to the user.",
           "exports": []
         }
@@ -902,7 +902,7 @@
           "name": "loadSettings",
           "type": "function",
           "path": "apps/backend/src/routes/settings.ts",
-          "line": 65,
+          "line": 67,
           "signature": "loadSettings(): Promise<PrismaAppSettings | null>",
           "exports": []
         },
@@ -911,7 +911,7 @@
           "name": "requireSettings",
           "type": "function",
           "path": "apps/backend/src/routes/settings.ts",
-          "line": 75,
+          "line": 77,
           "signature": "requireSettings(): Promise<PrismaAppSettings>",
           "docComment": "Ensure the AppSettings row exists. Unlike `POST /api/install`,\nthis does not require a non-empty admin list — the install flow\nshould run first. If the row is missing we throw so routes return\n409 Conflict instead of silently creating a half-initialized row.",
           "exports": []
@@ -921,7 +921,7 @@
           "name": "normalizeUserField",
           "type": "function",
           "path": "apps/backend/src/routes/settings.ts",
-          "line": 89,
+          "line": 91,
           "signature": "normalizeUserField(raw: Record<string, unknown>): DealFileFieldDTO",
           "docComment": "Coerce a Bitrix24 userfield record into our DTO. Bitrix returns the\nkeys in SHOUTY_CASE and some of them as numeric strings.",
           "exports": []
@@ -931,7 +931,7 @@
           "name": "pickLocalized",
           "type": "function",
           "path": "apps/backend/src/routes/settings.ts",
-          "line": 108,
+          "line": 110,
           "signature": "pickLocalized(value: unknown): string | null",
           "exports": []
         },
@@ -940,7 +940,7 @@
           "name": "registerSettingsRoutes",
           "type": "function",
           "path": "apps/backend/src/routes/settings.ts",
-          "line": 128,
+          "line": 130,
           "signature": "registerSettingsRoutes(app: FastifyInstance): Promise<void>",
           "exports": [
             "registerSettingsRoutes"
@@ -960,7 +960,7 @@
           "name": "CreateFieldBody",
           "type": "interface",
           "path": "apps/backend/src/routes/settings.ts",
-          "line": 44,
+          "line": 46,
           "signature": "interface CreateFieldBody",
           "exports": []
         },
@@ -969,7 +969,7 @@
           "name": "DealFileFieldDTO",
           "type": "interface",
           "path": "apps/backend/src/routes/settings.ts",
-          "line": 52,
+          "line": 54,
           "signature": "interface DealFileFieldDTO",
           "docComment": "Simplified UF field metadata returned to the SettingsPage.",
           "exports": [
@@ -2719,11 +2719,31 @@
           ]
         },
         {
+          "id": "apps/backend/src/services/generationPipeline.ts:resolveExistingFileRefs",
+          "name": "resolveExistingFileRefs",
+          "type": "function",
+          "path": "apps/backend/src/services/generationPipeline.ts",
+          "line": 439,
+          "signature": "resolveExistingFileRefs(client: B24Client, dealId: number, fieldName: string, logger: FastifyBaseLogger): Promise<Array<{ id: number }>>",
+          "docComment": "Read the ids of files currently stored in a multi-value file UF field\nso they can be re-sent to `crm.item.update` and thus PRESERVED while\na new file is appended (otherwise the update would overwrite them).\n\nUses the universal `crm.item.get` (deal entityTypeId = 2) with\n`useOriginalUfNames:Y`, as recommended by the Bitrix docs \"Как\nобновить и удалить файлы\" — `crm.deal.get` is explicitly discouraged\nfor file fields and returns an inconsistent shape. With the universal\ngetter a multi-value file field comes back as\n`[{ id, url, urlMachine }, …]`; we map each entry to `{ id }`, the\nexact \"keep this file\" reference the updater expects.\n\nNetwork/parse failures are non-fatal: we log and return an empty list,\nwhich means the update may replace existing files rather than append —\nthe generation itself still succeeds.",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/services/generationPipeline.ts:extractFileId",
+          "name": "extractFileId",
+          "type": "function",
+          "path": "apps/backend/src/services/generationPipeline.ts",
+          "line": 479,
+          "signature": "extractFileId(entry: unknown): number | null",
+          "docComment": "Pull a numeric file id out of a single multi-value file entry. Handles\nthe documented `{ id, url, urlMachine }` object shape plus the legacy\nscalar id / `{ ID | fileId | FILE_ID }` variants some portals return.",
+          "exports": []
+        },
+        {
           "id": "apps/backend/src/services/generationPipeline.ts:todayRu",
           "name": "todayRu",
           "type": "function",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 443,
+          "line": 508,
           "signature": "todayRu(): string",
           "docComment": "Current date as `dd.MM.yyyy` (server local time).",
           "exports": []
@@ -2733,7 +2753,7 @@
           "name": "resolveFieldDefault",
           "type": "function",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 451,
+          "line": 516,
           "signature": "resolveFieldDefault(field: FieldForResolve): string",
           "docComment": "Resolve a field's default into a concrete string for substitution.",
           "exports": []
@@ -2743,7 +2763,7 @@
           "name": "resolveManualFieldValues",
           "type": "function",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 468,
+          "line": 533,
           "signature": "resolveManualFieldValues(fields: FieldForResolve[], rawValues: Record<string, string> | undefined): Record<string, string>",
           "docComment": "Build the final manual-field value map. A value provided by the\ncaller (even an empty string) is respected as-is; only when the key\nis ABSENT do we fall back to the field's default. This lets the UI\n(which always sends every key) override a default by clearing it,\nwhile server-to-server callers (webhooks, which send nothing) still\nget defaults like \"today\".",
           "exports": [
@@ -2755,7 +2775,7 @@
           "name": "detectProductUsage",
           "type": "function",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 498,
+          "line": 563,
           "signature": "detectProductUsage(contentHtml: string, expressions: string[]): { fetchProducts: boolean; fetchProductImages: boolean }",
           "docComment": "Scan the template HTML and formula expressions to determine whether\nproduct data (and product images) need to be fetched from Bitrix24.",
           "exports": []
@@ -2810,7 +2830,7 @@
           "name": "FieldForResolve",
           "type": "interface",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 436,
+          "line": 501,
           "signature": "interface FieldForResolve",
           "docComment": "Minimal shape of a TemplateField needed to resolve its value.",
           "exports": [
@@ -2833,7 +2853,7 @@
           "name": "PRODUCT_HELPER_RE",
           "type": "variable",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 491,
+          "line": 556,
           "docComment": "Regex patterns for product-related helpers in formula expressions.",
           "exports": []
         },
@@ -2842,7 +2862,7 @@
           "name": "PRODUCT_IMAGE_HELPER_RE",
           "type": "variable",
           "path": "apps/backend/src/services/generationPipeline.ts",
-          "line": 492,
+          "line": 557,
           "exports": []
         }
       ]
@@ -5018,7 +5038,7 @@
           "name": "DealFileFieldDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 721,
+          "line": 723,
           "signature": "interface DealFileFieldDTO",
           "exports": [
             "DealFileFieldDTO"
@@ -5029,7 +5049,7 @@
           "name": "WebhookListItemDTO",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 764,
+          "line": 769,
           "signature": "interface WebhookListItemDTO",
           "docComment": "Webhook list item. The backend's `GET /api/webhooks` returns each\n`WebhookSummary` with two extra joined fields so the UI can render a\nhuman-readable target name without a second round-trip:\n\n  - `themeName`    — present when `scope === 'theme'`.\n  - `templateName` — present when `scope === 'template'`.\n\nBoth fields are nullable in case the referenced row was deleted.\nMutations (`create`, `patch`) return the plain `WebhookSummary`\n(without the join fields), so callers should refetch the list after\na mutation to pick up a fresh `themeName`/`templateName`.",
           "exports": [
@@ -5041,7 +5061,7 @@
           "name": "CreateWebhookBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 769,
+          "line": 774,
           "signature": "interface CreateWebhookBody",
           "exports": [
             "CreateWebhookBody"
@@ -5052,7 +5072,7 @@
           "name": "UpdateWebhookBody",
           "type": "interface",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 776,
+          "line": 781,
           "signature": "interface UpdateWebhookBody",
           "exports": [
             "UpdateWebhookBody"
@@ -5191,7 +5211,7 @@
           "name": "settingsApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 730,
+          "line": 732,
           "exports": [
             "settingsApi"
           ]
@@ -5201,7 +5221,7 @@
           "name": "webhooksApi",
           "type": "variable",
           "path": "apps/frontend/src/lib/api.ts",
-          "line": 781,
+          "line": 786,
           "exports": [
             "webhooksApi"
           ]
@@ -6258,7 +6278,7 @@
           "name": "Theme",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 42,
+          "line": 49,
           "signature": "interface Theme",
           "docComment": "A group (theme) of templates. Used to organize templates on the UI\nand let admins categorize them. Order is a sort key (asc).",
           "exports": [
@@ -6270,7 +6290,7 @@
           "name": "Template",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 68,
+          "line": 75,
           "signature": "interface Template",
           "docComment": "A document template uploaded by an admin. The original .docx file\nis kept as bytes on the backend for re-editing; the HTML form\n(with <formula-tag> inline nodes) is what is rendered in TipTap.",
           "exports": [
@@ -6282,7 +6302,7 @@
           "name": "TemplateField",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 110,
+          "line": 117,
           "signature": "interface TemplateField",
           "docComment": "A manual field attached to a template. Unlike a {@link Formula} (whose\nvalue is computed from CRM data), a manual field is filled in by the\nuser at generation time. It is referenced from the template HTML by\nits `fieldKey` (a `<span data-field-key=\"…\">` placeholder pill).",
           "exports": [
@@ -6294,7 +6314,7 @@
           "name": "Formula",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 148,
+          "line": 155,
           "signature": "interface Formula",
           "docComment": "A formula attached to a template. It is referenced from inside\nthe template HTML by its `tagKey`.\n\nExpression language: mathjs-compatible with a small number of\nhelpers registered on the server side (if/concat/format/upper/lower/\ndateFormat). Identifiers such as DEAL.OPPORTUNITY, CONTACT.NAME,\nCOMPANY.TITLE, COMPANY.UF_CRM_INN refer to values injected by\nthe backend from Bitrix24 REST responses.",
           "exports": [
@@ -6306,7 +6326,7 @@
           "name": "FormulaDependencies",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 166,
+          "line": 173,
           "signature": "interface FormulaDependencies",
           "docComment": "Fields a formula reads from. Used to decide which REST calls\nto make when computing a preview.",
           "exports": [
@@ -6318,7 +6338,7 @@
           "name": "DealField",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 183,
+          "line": 190,
           "signature": "interface DealField",
           "docComment": "Simplified field descriptor matching the shape returned by\n`crm.deal.fields`. Used by FieldPicker to let the admin pick\na field while building a formula.",
           "exports": [
@@ -6330,7 +6350,7 @@
           "name": "ProductRow",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 215,
+          "line": 222,
           "signature": "interface ProductRow",
           "docComment": "A single product row attached to a CRM deal. Mirrors the shape\nreturned by `crm.deal.productrows.get` with two optional fields\n(`IMAGE_BASE64`, `IMAGE_URL`) that are populated only when the\ncaller requests product images via `fetchProductImages`.",
           "exports": [
@@ -6342,7 +6362,7 @@
           "name": "FormulaContext",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 280,
+          "line": 287,
           "signature": "interface FormulaContext",
           "docComment": "The runtime context passed to a formula evaluator.\nAll three entities may be partially populated depending on what\nthe deal linked to at the moment of generation.",
           "exports": [
@@ -6354,7 +6374,7 @@
           "name": "FormulaEvaluationResult",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 293,
+          "line": 300,
           "signature": "interface FormulaEvaluationResult",
           "docComment": "Result of evaluating a single formula. Sent back to the frontend\nso the preview can display both the value and the original\nexpression in a tooltip.",
           "exports": [
@@ -6366,7 +6386,7 @@
           "name": "B24AuthPayload",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 313,
+          "line": 320,
           "signature": "interface B24AuthPayload",
           "docComment": "Payload extracted from a verified Bitrix24 auth token.\nThe backend auth middleware populates this object on the request.",
           "exports": [
@@ -6378,7 +6398,7 @@
           "name": "InstallRequest",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 333,
+          "line": 340,
           "signature": "interface InstallRequest",
           "docComment": "POST /api/install — request body.",
           "exports": [
@@ -6390,7 +6410,7 @@
           "name": "InstallResponse",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 339,
+          "line": 346,
           "signature": "interface InstallResponse",
           "docComment": "POST /api/install — response.",
           "exports": [
@@ -6402,7 +6422,7 @@
           "name": "TemplatePreviewRequest",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 352,
+          "line": 359,
           "signature": "interface TemplatePreviewRequest",
           "docComment": "POST /api/templates/:id/preview — request body.\n\nThe preview endpoint substitutes formula values, manual `fieldValues`\nand product rows directly into the admin-uploaded original `.docx`\n(via `buildDocxFromTemplate`), so it needs the same inputs as\ngeneration: a deal to pull CRM data from and the user's manual field\nvalues.",
           "exports": [
@@ -6414,7 +6434,7 @@
           "name": "TemplatePreviewResponse",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 371,
+          "line": 378,
           "signature": "interface TemplatePreviewResponse",
           "docComment": "POST /api/templates/:id/preview — response body.\n\nThe preview is a fully-substituted `.docx` (formulas + manual\n`fieldValues` + product rows rendered into the original Word archive\nvia `buildDocxFromTemplate`), returned base64-encoded so the frontend\ncan render it client-side (e.g. via `docx-preview`). The legacy\nserver-rendered HTML preview is gone.",
           "exports": [
@@ -6426,7 +6446,7 @@
           "name": "GenerateRequest",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 387,
+          "line": 394,
           "signature": "interface GenerateRequest",
           "docComment": "POST /api/generate — request body.",
           "exports": [
@@ -6438,7 +6458,7 @@
           "name": "GenerateResponse",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 407,
+          "line": 414,
           "signature": "interface GenerateResponse",
           "docComment": "POST /api/generate — response body.\n\nThe generated document is a `.docx` file: the pipeline renders the\nadmin-uploaded original `.docx` template via `buildDocxFromTemplate`\n(substituting formula values, manual `fieldValues`, and product rows\ndirectly into the Word archive), so the uploaded Bitrix24 Disk file and\nits download URL point to a `.docx` (the legacy HTML→PDF path is gone).",
           "exports": [
@@ -6450,7 +6470,7 @@
           "name": "ApiErrorBody",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 424,
+          "line": 431,
           "signature": "interface ApiErrorBody",
           "docComment": "Generic error envelope returned by the backend.\n\nPhase 6 introduced the centralized error handler which always wraps\nerrors in `{ error: { code, message, details? } }`. The legacy flat\nshape (`{ error, message }`) is still produced by some plugins, so\nthe frontend client tolerates both — see `apps/frontend/src/lib/api.ts`.",
           "exports": [
@@ -6462,7 +6482,7 @@
           "name": "ApiErrorEnvelope",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 434,
+          "line": 441,
           "signature": "interface ApiErrorEnvelope",
           "docComment": "Top-level envelope wrapping an `ApiErrorBody`.",
           "exports": [
@@ -6474,7 +6494,7 @@
           "name": "ApiError",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 442,
+          "line": 449,
           "signature": "interface ApiError",
           "docComment": "Legacy / fastify-sensible flat shape. Kept for compatibility with\nolder clients and the plugins that bypass the central error handler.",
           "exports": [
@@ -6486,7 +6506,7 @@
           "name": "WebhookSummary",
           "type": "interface",
           "path": "packages/shared/src/types.ts",
-          "line": 462,
+          "line": 469,
           "signature": "interface WebhookSummary",
           "docComment": "A webhook trigger that admins can attach to a Theme or a single\nTemplate. When Bitrix24 \"Outgoing webhook\" robot POSTs to the\nbackend URL, the same generation pipeline used by the manual UI\nbutton runs for every Template in scope.\n\nDates are serialized as ISO strings (not `Date`) so the shape is\nsafe to transport over JSON between the backend and the frontend.",
           "exports": [
@@ -6498,7 +6518,7 @@
           "name": "TemplateFieldType",
           "type": "type",
           "path": "packages/shared/src/types.ts",
-          "line": 102,
+          "line": 109,
           "docComment": "Input type of a manual field. Decides which control the generate\nform renders and what client-side validation applies.",
           "exports": [
             "TemplateFieldType"
@@ -6509,7 +6529,7 @@
           "name": "EntityValues",
           "type": "type",
           "path": "packages/shared/src/types.ts",
-          "line": 273,
+          "line": 280,
           "docComment": "Raw entity values injected by the server before formula evaluation.\nKeys are the Bitrix24 field codes, values are whatever the REST\nAPI returned (numbers, strings, arrays, etc.).",
           "exports": [
             "EntityValues"
@@ -6520,7 +6540,7 @@
           "name": "AppRole",
           "type": "type",
           "path": "packages/shared/src/types.ts",
-          "line": 503,
+          "line": 510,
           "docComment": "Role of the current user inside the app. Derived from\nAppSettings.adminUserIds.",
           "exports": [
             "AppRole"
