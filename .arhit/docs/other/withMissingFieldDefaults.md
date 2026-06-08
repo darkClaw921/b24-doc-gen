@@ -1,0 +1,3 @@
+# withMissingFieldDefaults
+
+Оборачивает плоский объект сущности (DEAL/CONTACT/COMPANY) в Proxy, который для отсутствующего или null поля возвращает пустую строку '' вместо undefined. Нужно, потому что mathjs кидает 'Unexpected type of argument in function multiplyScalar' при попадании undefined в арифметический оператор. Дефолт '' приводится mathjs к 0 в арифметике и к пустоте в конкатенации, при этом подлинные ошибки типов сохраняются. Proxy сохраняет constructor === Object, чтобы mathjs.isPlainObject и безопасный доступ к свойствам продолжали работать; присутствующие непустые значения, унаследованные члены и symbol-ключи проходят без изменений. Используется в evaluateExpression при построении scope.

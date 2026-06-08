@@ -454,6 +454,43 @@ export interface EvaluationResult {
 }
 
 /**
+ * Wrap a flat entity object (`DEAL` / `CONTACT` / `COMPANY`) in a Proxy
+ * that returns an **empty string** for any field that is absent or
+ * `null`, instead of `undefined`.
+ *
+ * Why: mathjs throws "Unexpected type of argument in function
+ * multiplyScalar (… actual: identifier | undefined …)" the moment an
+ * `undefined` flows into an arithmetic operator. That happens whenever a
+ * formula references a field that is not present in the scope — most
+ * notably during the **trial validation** in
+ * `routes/formulas.ts::POST /api/formulas/validate`, which runs the
+ * expression against empty `{}` stub entities, but also at generation
+ * time when a real deal simply has an empty/unset field. A perfectly
+ * valid formula like `DEAL.OPPORTUNITY * 2` would otherwise be reported
+ * as broken.
+ *
+ * Defaulting to `''` makes mathjs coerce the missing value to `0` in
+ * arithmetic (`'' * 2 → 0`) and to nothing in text concatenation, while
+ * genuine type errors (e.g. `"abc" * 2`) still surface. The Proxy keeps
+ * `constructor === Object` so mathjs's `isPlainObject` check — and thus
+ * its safe property access — keeps working. Present (non-null) values
+ * and inherited members pass through untouched; symbol keys behave
+ * normally so iteration/`toString` are unaffected.
+ */
+function withMissingFieldDefaults(obj: Record<string, unknown>): Record<string, unknown> {
+  return new Proxy(obj, {
+    get(target, prop, receiver) {
+      if (typeof prop === 'symbol' || prop in target) {
+        const value = Reflect.get(target, prop, receiver);
+        return value === null ? '' : value;
+      }
+      // Field genuinely absent from the entity → benign empty string.
+      return '';
+    },
+  }) as Record<string, unknown>;
+}
+
+/**
  * Evaluate an expression with a typed context. The context is forwarded
  * verbatim to the mathjs scope; missing entity keys default to empty
  * objects so accessing `CONTACT.NAME` against a deal with no linked
@@ -471,9 +508,13 @@ export function evaluateExpression(
   const products: ProductRow[] = context.PRODUCTS ?? [];
 
   const scope = {
-    DEAL: context.DEAL ?? {},
-    CONTACT: context.CONTACT ?? {},
-    COMPANY: context.COMPANY ?? {},
+    // Wrap each entity so missing/null fields default to '' rather than
+    // undefined — otherwise `DEAL.X * 2` throws in mathjs (see
+    // withMissingFieldDefaults). Covers trial validation (empty stubs)
+    // and real deals with empty fields alike.
+    DEAL: withMissingFieldDefaults(context.DEAL ?? {}),
+    CONTACT: withMissingFieldDefaults(context.CONTACT ?? {}),
+    COMPANY: withMissingFieldDefaults(context.COMPANY ?? {}),
 
     /* -------------------------------------------------------------- */
     /* Product helpers — closures capturing `products`                 */

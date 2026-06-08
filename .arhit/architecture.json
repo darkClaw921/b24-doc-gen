@@ -1,6 +1,6 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-06-08T06:21:14.034Z",
+  "generatedAt": "2026-06-08T06:32:33.524Z",
   "nodes": [
     {
       "id": "apps/backend/scripts/render-check.ts",
@@ -2464,6 +2464,14 @@
       ]
     },
     {
+      "id": "apps/backend/src/services/formulaEngine.test.ts",
+      "name": "formulaEngine.test.ts",
+      "type": "file",
+      "path": "apps/backend/src/services/formulaEngine.test.ts",
+      "exports": [],
+      "children": []
+    },
+    {
       "id": "apps/backend/src/services/formulaEngine.ts",
       "name": "formulaEngine.ts",
       "type": "file",
@@ -2572,11 +2580,21 @@
           "exports": []
         },
         {
+          "id": "apps/backend/src/services/formulaEngine.ts:withMissingFieldDefaults",
+          "name": "withMissingFieldDefaults",
+          "type": "function",
+          "path": "apps/backend/src/services/formulaEngine.ts",
+          "line": 480,
+          "signature": "withMissingFieldDefaults(obj: Record<string, unknown>): Record<string, unknown>",
+          "docComment": "Wrap a flat entity object (`DEAL` / `CONTACT` / `COMPANY`) in a Proxy\nthat returns an **empty string** for any field that is absent or\n`null`, instead of `undefined`.\n\nWhy: mathjs throws \"Unexpected type of argument in function\nmultiplyScalar (… actual: identifier | undefined …)\" the moment an\n`undefined` flows into an arithmetic operator. That happens whenever a\nformula references a field that is not present in the scope — most\nnotably during the **trial validation** in\n`routes/formulas.ts::POST /api/formulas/validate`, which runs the\nexpression against empty `{}` stub entities, but also at generation\ntime when a real deal simply has an empty/unset field. A perfectly\nvalid formula like `DEAL.OPPORTUNITY * 2` would otherwise be reported\nas broken.\n\nDefaulting to `''` makes mathjs coerce the missing value to `0` in\narithmetic (`'' * 2 → 0`) and to nothing in text concatenation, while\ngenuine type errors (e.g. `\"abc\" * 2`) still surface. The Proxy keeps\n`constructor === Object` so mathjs's `isPlainObject` check — and thus\nits safe property access — keeps working. Present (non-null) values\nand inherited members pass through untouched; symbol keys behave\nnormally so iteration/`toString` are unaffected.",
+          "exports": []
+        },
+        {
           "id": "apps/backend/src/services/formulaEngine.ts:evaluateExpression",
           "name": "evaluateExpression",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 462,
+          "line": 499,
           "signature": "evaluateExpression(expression: string, context: Partial<FormulaContext>): EvaluationResult",
           "docComment": "Evaluate an expression with a typed context. The context is forwarded\nverbatim to the mathjs scope; missing entity keys default to empty\nobjects so accessing `CONTACT.NAME` against a deal with no linked\ncontact yields an empty string instead of throwing.",
           "exports": [
@@ -2588,7 +2606,7 @@
           "name": "extractDependencies",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 563,
+          "line": 604,
           "signature": "extractDependencies(expression: string): FormulaDependencies",
           "docComment": "Static dependency extraction. Used by the preview/generation\npipelines to decide which REST calls to make. Returns empty arrays\nfor an unparseable expression rather than throwing — callers should\nuse `validateExpression` if they need to surface errors.",
           "exports": [
@@ -2600,7 +2618,7 @@
           "name": "toEvaluationResult",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 572,
+          "line": 613,
           "signature": "toEvaluationResult(raw: unknown): EvaluationResult",
           "docComment": "Coerce an arbitrary mathjs result into the public EvaluationResult shape.",
           "exports": []

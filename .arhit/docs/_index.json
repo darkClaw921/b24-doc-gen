@@ -805,5 +805,21 @@
     "content": "Невидимые sentinel-символы приватной Unicode-зоны (U+E000..U+E003: formulaStart/End, fieldStart/End) в packages/shared/src/constants.ts. Preview-endpoint (routes/templates.ts) оборачивает ими подставленные значения формул/полей; GeneratePage.applyPreviewHighlights заменяет пары на подсвеченные span. Только для preview — в генерируемом .docx маркеров нет.",
     "createdAt": "2026-06-08T06:21:09.295Z",
     "updatedAt": "2026-06-08T06:21:09.295Z"
+  },
+  {
+    "element": "evaluateExpression",
+    "path": "apps/backend/src/services/formulaEngine.ts",
+    "type": "function",
+    "content": "Вычисляет формулу через sandboxed mathjs против контекста сделки (DEAL/CONTACT/COMPANY/PRODUCTS). Сущности DEAL/CONTACT/COMPANY оборачиваются в Proxy (withMissingFieldDefaults): отсутствующее или null поле возвращает '' вместо undefined. Это исключает ошибку mathjs 'Unexpected type of argument in function multiplyScalar (actual: identifier | undefined)' при арифметике над пустым полем (например DEAL.OPPORTUNITY * 2): '' приводится к 0 в арифметике и к пустоте в тексте. Покрывает и trial-валидацию в POST /api/formulas/validate (гоняет формулу против пустых заглушек {}), и реальную генерацию со сделкой, где поле может быть пустым. Реальные ошибки типа ('abc' * 2) по-прежнему сообщаются. Возвращает EvaluationResult { value, raw, error? }.",
+    "createdAt": "2026-06-08T06:32:28.271Z",
+    "updatedAt": "2026-06-08T06:32:28.271Z"
+  },
+  {
+    "element": "withMissingFieldDefaults",
+    "path": "",
+    "type": "unknown",
+    "content": "Оборачивает плоский объект сущности (DEAL/CONTACT/COMPANY) в Proxy, который для отсутствующего или null поля возвращает пустую строку '' вместо undefined. Нужно, потому что mathjs кидает 'Unexpected type of argument in function multiplyScalar' при попадании undefined в арифметический оператор. Дефолт '' приводится mathjs к 0 в арифметике и к пустоте в конкатенации, при этом подлинные ошибки типов сохраняются. Proxy сохраняет constructor === Object, чтобы mathjs.isPlainObject и безопасный доступ к свойствам продолжали работать; присутствующие непустые значения, унаследованные члены и symbol-ключи проходят без изменений. Используется в evaluateExpression при построении scope.",
+    "createdAt": "2026-06-08T06:32:28.539Z",
+    "updatedAt": "2026-06-08T06:32:28.539Z"
   }
 ]

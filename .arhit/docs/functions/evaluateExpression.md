@@ -1,0 +1,3 @@
+# evaluateExpression
+
+Вычисляет формулу через sandboxed mathjs против контекста сделки (DEAL/CONTACT/COMPANY/PRODUCTS). Сущности DEAL/CONTACT/COMPANY оборачиваются в Proxy (withMissingFieldDefaults): отсутствующее или null поле возвращает '' вместо undefined. Это исключает ошибку mathjs 'Unexpected type of argument in function multiplyScalar (actual: identifier | undefined)' при арифметике над пустым полем (например DEAL.OPPORTUNITY * 2): '' приводится к 0 в арифметике и к пустоте в тексте. Покрывает и trial-валидацию в POST /api/formulas/validate (гоняет формулу против пустых заглушек {}), и реальную генерацию со сделкой, где поле может быть пустым. Реальные ошибки типа ('abc' * 2) по-прежнему сообщаются. Возвращает EvaluationResult { value, raw, error? }.
