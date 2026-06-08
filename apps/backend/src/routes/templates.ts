@@ -39,6 +39,8 @@ import type {
   Formula,
   FormulaDependencies,
   FormulaEvaluationResult,
+  SelectOption,
+  SelectValueMode,
   TemplateField,
   TemplateFieldType,
   TemplatePreviewRequest,
@@ -146,6 +148,10 @@ export interface TemplateFieldInput {
   required?: boolean;
   placeholder?: string;
   defaultValue?: string;
+  /** Choices for a `select` field; ignored for other types. */
+  options?: SelectOption[];
+  /** Substitution mode for a `select` field; ignored for other types. */
+  valueMode?: string;
   order?: number;
 }
 
@@ -202,7 +208,7 @@ function toFormulaDto(row: PrismaFormula): Formula {
 }
 
 /** Allowed manual-field types; anything else falls back to "text". */
-const FIELD_TYPES: TemplateFieldType[] = ['text', 'textarea', 'number', 'date'];
+const FIELD_TYPES: TemplateFieldType[] = ['text', 'textarea', 'number', 'date', 'select'];
 
 function normalizeFieldType(value: unknown): TemplateFieldType {
   return FIELD_TYPES.includes(value as TemplateFieldType)
@@ -210,16 +216,61 @@ function normalizeFieldType(value: unknown): TemplateFieldType {
     : 'text';
 }
 
+/** Caps to keep a `select` field's option set reasonable. */
+const SELECT_MAX_OPTIONS = 200;
+const SELECT_MAX_STR = 500;
+
+/**
+ * Validate and normalize a `select` field's options. Drops entries with an
+ * empty label, trims and length-caps both label and value, and caps the
+ * total count. Returns the cleaned array (possibly empty).
+ */
+function normalizeSelectOptions(raw: unknown): SelectOption[] {
+  if (!Array.isArray(raw)) return [];
+  const out: SelectOption[] = [];
+  for (const item of raw) {
+    if (out.length >= SELECT_MAX_OPTIONS) break;
+    if (!item || typeof item !== 'object') continue;
+    const label = String((item as { label?: unknown }).label ?? '').trim();
+    if (!label) continue;
+    const value = String((item as { value?: unknown }).value ?? '').trim();
+    out.push({
+      label: label.slice(0, SELECT_MAX_STR),
+      value: value.slice(0, SELECT_MAX_STR),
+    });
+  }
+  return out;
+}
+
+/** Parse the JSON-encoded options column back into an array (safe). */
+function parseSelectOptions(raw: string | null | undefined): SelectOption[] {
+  if (!raw) return [];
+  try {
+    return normalizeSelectOptions(JSON.parse(raw));
+  } catch {
+    return [];
+  }
+}
+
+/** Allowed `select` substitution modes; anything else falls back to "direct". */
+function normalizeValueMode(value: unknown): SelectValueMode {
+  return value === 'mapped' ? 'mapped' : 'direct';
+}
+
 function toTemplateFieldDto(row: PrismaTemplateField): TemplateField {
+  const type = normalizeFieldType(row.type);
+  const isSelect = type === 'select';
   return {
     id: row.id,
     templateId: row.templateId,
     fieldKey: row.fieldKey,
     label: row.label,
-    type: normalizeFieldType(row.type),
+    type,
     required: row.required,
     placeholder: row.placeholder ?? undefined,
     defaultValue: row.defaultValue ?? undefined,
+    options: isSelect ? parseSelectOptions(row.options) : undefined,
+    valueMode: isSelect ? normalizeValueMode(row.valueMode) : undefined,
     order: row.order,
   };
 }
@@ -242,6 +293,8 @@ function normalizeFieldsInput(
   required: boolean;
   placeholder: string | null;
   defaultValue: string | null;
+  options: string | null;
+  valueMode: string | null;
   order: number;
 }> {
   const byKey = new Map<string, ReturnType<typeof normalizeFieldsInput>[number]>();
@@ -253,13 +306,23 @@ function normalizeFieldsInput(
         ? f.placeholder.trim()
         : null;
     const type = normalizeFieldType(f.type);
+    // `select` fields carry a JSON-encoded option set and a substitution
+    // mode; both are null for every other type.
+    const selectOptions = type === 'select' ? normalizeSelectOptions(f.options) : [];
+    const options =
+      type === 'select' && selectOptions.length > 0 ? JSON.stringify(selectOptions) : null;
+    const valueMode = type === 'select' ? normalizeValueMode(f.valueMode) : null;
     // Default value: for `date` it must be a known token (e.g. "today");
+    // for `select` it must match one of the configured option labels;
     // for text/textarea/number it is an arbitrary literal the user can
     // edit at generation time (trimmed, length-capped).
     let defaultValue: string | null = null;
     if (typeof f.defaultValue === 'string') {
       if (type === 'date') {
         defaultValue = FIELD_DEFAULTS.has(f.defaultValue) ? f.defaultValue : null;
+      } else if (type === 'select') {
+        const trimmed = f.defaultValue.trim();
+        defaultValue = selectOptions.some((o) => o.label === trimmed) ? trimmed : null;
       } else {
         const trimmed = f.defaultValue.trim();
         defaultValue = trimmed.length > 0 ? trimmed.slice(0, 2000) : null;
@@ -272,6 +335,8 @@ function normalizeFieldsInput(
       required: Boolean(f.required),
       placeholder,
       defaultValue,
+      options,
+      valueMode,
       order: typeof f.order === 'number' ? f.order : index,
     });
   });
@@ -930,6 +995,8 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
                   required: f.required,
                   placeholder: f.placeholder,
                   defaultValue: f.defaultValue,
+                  options: f.options,
+                  valueMode: f.valueMode,
                   order: f.order,
                 })),
               });

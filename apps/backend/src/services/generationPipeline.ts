@@ -502,6 +502,10 @@ export interface FieldForResolve {
   fieldKey: string;
   type: string;
   defaultValue: string | null;
+  /** For `select` fields: JSON-encoded array of { label, value }. */
+  options?: string | null;
+  /** For `select` fields: "direct" | "mapped". */
+  valueMode?: string | null;
 }
 
 /** Current date as `dd.MM.yyyy` (server local time). */
@@ -518,8 +522,31 @@ function resolveFieldDefault(field: FieldForResolve): string {
   if (field.type === 'date') {
     return field.defaultValue === 'today' ? todayRu() : '';
   }
+  // For `select` the default holds the label of the pre-selected option;
+  // the label→value mapping is applied later by resolveSelectValue.
   // text/textarea/number defaults are literal values.
   return field.defaultValue ?? '';
+}
+
+/**
+ * Turn a `select` field's chosen label into the string actually substituted
+ * into the document. In `direct` mode the label itself is substituted; in
+ * `mapped` mode the label is looked up in the field's options and its paired
+ * `value` is substituted (falling back to the label if no option matches).
+ * Non-select fields pass through unchanged.
+ */
+function resolveSelectValue(field: FieldForResolve, selectedLabel: string): string {
+  if (field.type !== 'select') return selectedLabel;
+  if (field.valueMode !== 'mapped') return selectedLabel;
+  if (!selectedLabel || !field.options) return selectedLabel;
+  try {
+    const options = JSON.parse(field.options) as Array<{ label?: unknown; value?: unknown }>;
+    if (!Array.isArray(options)) return selectedLabel;
+    const match = options.find((o) => String(o?.label ?? '') === selectedLabel);
+    return match ? String(match.value ?? '') : selectedLabel;
+  } catch {
+    return selectedLabel;
+  }
 }
 
 /**
@@ -537,13 +564,18 @@ export function resolveManualFieldValues(
   const out: Record<string, string> = {};
   for (const f of fields) {
     const provided = rawValues?.[f.fieldKey];
+    // The "selected" value: what the user picked/typed, or the default when
+    // the key is absent. For `select` this is the chosen option's label.
+    let selected: string;
     if (typeof provided === 'string') {
-      out[f.fieldKey] = provided;
+      selected = provided;
     } else if (provided != null) {
-      out[f.fieldKey] = String(provided);
+      selected = String(provided);
     } else {
-      out[f.fieldKey] = resolveFieldDefault(f);
+      selected = resolveFieldDefault(f);
     }
+    // Apply `select` label→value mapping (no-op for other field types).
+    out[f.fieldKey] = resolveSelectValue(f, selected);
   }
   return out;
 }

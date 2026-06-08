@@ -105,8 +105,33 @@ export interface Template {
 /**
  * Input type of a manual field. Decides which control the generate
  * form renders and what client-side validation applies.
+ *
+ * `select` renders a dropdown of admin-defined {@link SelectOption}s. The
+ * value substituted into the document depends on {@link TemplateField.valueMode}:
+ * `direct` substitutes the chosen label, `mapped` substitutes the option's
+ * paired `value`.
  */
-export type TemplateFieldType = 'text' | 'textarea' | 'number' | 'date';
+export type TemplateFieldType = 'text' | 'textarea' | 'number' | 'date' | 'select';
+
+/**
+ * How a `select` field turns the user's choice into the substituted string.
+ * - `direct` — substitute the chosen option's label as-is.
+ * - `mapped`  — substitute the chosen option's paired `value` (the "real"
+ *   value), letting the admin show a friendly label but inject a code.
+ */
+export type SelectValueMode = 'direct' | 'mapped';
+
+/**
+ * A single choice in a `select` manual field.
+ * - `label` is shown in the generate-form dropdown and is the option's
+ *   stable identity (what the frontend stores/sends as the field value).
+ * - `value` is the "real" value substituted into the document when the
+ *   field's {@link TemplateField.valueMode} is `mapped`; ignored in `direct`.
+ */
+export interface SelectOption {
+  label: string;
+  value: string;
+}
 
 /**
  * A manual field attached to a template. Unlike a {@link Formula} (whose
@@ -134,6 +159,17 @@ export interface TemplateField {
    * Empty/undefined means no default.
    */
   defaultValue?: string;
+  /**
+   * Choices for a `select` field. Undefined/empty for other types. The
+   * dropdown shows each option's `label`; what gets substituted depends on
+   * {@link valueMode}.
+   */
+  options?: SelectOption[];
+  /**
+   * For `select` fields: how the chosen option becomes the substituted
+   * value. Defaults to `direct`. Undefined for other types.
+   */
+  valueMode?: SelectValueMode;
   /** Sort order inside the generate form (ascending). */
   order: number;
 }

@@ -113,8 +113,19 @@ export async function registerGenerateRoutes(app: FastifyInstance): Promise<void
         ? body.fieldValues
         : undefined;
     const resolvedFields = resolveManualFieldValues(fieldsOnly.fields, rawFieldValues);
+    // A required field is satisfied when the user supplied a non-empty raw
+    // value OR the resolved value is non-empty. The raw check matters for
+    // `select` fields whose chosen option maps to an empty string (mapped
+    // mode) — the user did pick something, so we must not reject it, staying
+    // consistent with the frontend's "missing required" guard.
     const missingRequired = fieldsOnly.fields
-      .filter((f) => f.required && resolvedFields[f.fieldKey].trim() === '')
+      .filter((f) => {
+        if (!f.required) return false;
+        const raw = rawFieldValues?.[f.fieldKey];
+        const rawFilled = typeof raw === 'string' && raw.trim() !== '';
+        const resolvedFilled = (resolvedFields[f.fieldKey] ?? '').trim() !== '';
+        return !rawFilled && !resolvedFilled;
+      })
       .map((f) => f.label || f.fieldKey);
     if (missingRequired.length > 0) {
       return reply.badRequest(

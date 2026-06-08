@@ -199,6 +199,8 @@ function formatFieldValue(field: TemplateFieldDTO, raw: string): string {
     const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
     if (m) return `${m[3]}.${m[2]}.${m[1]}`;
   }
+  // For `select` fields we send the chosen option's label as-is; the
+  // backend applies the label→value mapping (direct vs mapped mode).
   return value;
 }
 
@@ -833,7 +835,18 @@ function ManualFieldInput({
         {field.label || field.fieldKey}
         {field.required && <span className="ml-0.5 text-destructive">*</span>}
       </label>
-      {field.type === 'textarea' ? (
+      {field.type === 'select' ? (
+        <select value={value} onChange={(e) => onChange(e.target.value)} className={baseClass}>
+          {/* Empty choice so a non-required field can stay blank; for a
+              required field it acts as the "please pick" prompt. */}
+          <option value="">{field.required ? '— выберите —' : 'Не выбрано'}</option>
+          {(field.options ?? []).map((opt, idx) => (
+            <option key={idx} value={opt.label}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      ) : field.type === 'textarea' ? (
         <textarea
           value={value}
           onChange={(e) => onChange(e.target.value)}

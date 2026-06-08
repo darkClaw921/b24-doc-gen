@@ -595,12 +595,9 @@
     "element": "ManualFieldBuilder",
     "path": "apps/frontend/src/components/ManualFieldBuilder.tsx",
     "type": "function",
-    "content": "Модалка конструктора ручного поля (shadcn Dialog). Inputs: label, fieldKey (авто-slug через generateTagKey с флагом keyDirty), select типа (text/textarea/number/date), чекбокс Обязательное, input placeholder. Поддержка EDIT-режима (initialValues) и проверки уникальности (existingKeys). На submit вызывает onInsert({fieldKey, label, type, required, placeholder}). Экспортирует ManualFieldBuilderResult.",
+    "content": "Модальный диалог настройки поля для ручного заполнения (admin). Поддерживает типы text|textarea|number|date|select. Для type='select' показывает секцию: переключатель режима подстановки (valueMode 'direct' — подставлять выбранное / 'mapped' — сопоставить со значением) и редактируемый список вариантов options[{label,value}] (в режиме mapped редактируются оба поля, в direct — только label). Блок 'Значение по умолчанию' для select — выпадающий список меток вариантов (defaultValue = метка предвыбранного варианта). handleSubmit для select требует ≥1 вариант с непустым label и чистит options (trim, без пустых). Результат ManualFieldBuilderResult расширен полями options и valueMode.",
     "createdAt": "2026-06-07T14:06:31.244Z",
-    "updatedAt": "2026-06-07T14:06:39.982Z",
-    "aliases": [
-      "поле для заполнения вручную"
-    ]
+    "updatedAt": "2026-06-08T10:43:03.347Z"
   },
   {
     "element": "TemplateField",
@@ -630,9 +627,9 @@
     "element": "resolveManualFieldValues",
     "path": "apps/backend/src/services/generationPipeline.ts",
     "type": "function",
-    "content": "Хелпер generationPipeline.ts: строит финальную карту значений ручных полей. Если ключ есть в rawValues (даже пустая строка) — используется как есть; если ключ отсутствует — подставляется дефолт (resolveFieldDefault): для date+today → todayRu() (dd.MM.yyyy), для text/textarea/number → литеральное defaultValue. UI шлёт все ключи (может перебить дефолт очисткой), webhook без значений получает дефолты. Используется в routes/generate.ts и runGeneration.",
+    "content": "Строит финальную карту fieldKey->строка для подстановки в .docx. Для каждого поля берёт переданное значение (даже пустую строку уважает) либо дефолт (resolveFieldDefault) при отсутствии ключа, затем пропускает через resolveSelectValue (маппинг select). Используется тремя путями: генерация (generationPipeline runGeneration), preview (routes/templates.ts) и hard-валидация required (routes/generate.ts).",
     "createdAt": "2026-06-07T15:05:22.365Z",
-    "updatedAt": "2026-06-07T15:16:17.151Z"
+    "updatedAt": "2026-06-08T10:42:47.873Z"
   },
   {
     "element": "GeneratePage",
@@ -853,5 +850,37 @@
     "content": "React-хук: держит высоту iframe приложения подогнанной под контент в местах встройки Bitrix24. Перевызывает ресайз при смене маршрута (location.pathname из useLocation), изменении размера document.body (ResizeObserver), window.resize и через таймауты 150/600мс после монтирования (поздний асинхронный контент: web-шрифты, рендер docx-preview). Срабатывания коалесцируются через один requestAnimationFrame. Передаёт minHeight = max(EMBED_MIN_HEIGHT=720, window.innerHeight) в resizeB24WindowToContent: для viewport-страниц (h-screen с внутренним скроллом колонок) задаёт комфортную высоту, для текучих страниц (SettingsPage) растит iframe под контент. Вне iframe (isB24Available()===false) — no-op. Монтируется один раз в App.",
     "createdAt": "2026-06-08T07:21:21.516Z",
     "updatedAt": "2026-06-08T07:21:21.516Z"
+  },
+  {
+    "element": "resolveSelectValue",
+    "path": "apps/backend/src/services/generationPipeline.ts",
+    "type": "function",
+    "content": "Хелпер в generationPipeline.ts. Преобразует выбранную пользователем метку (label) select-поля в подставляемую в документ строку. В режиме valueMode='direct' возвращает саму метку; в режиме 'mapped' ищет в options (JSON-массив {label,value}) опцию по label и возвращает её value (если не найдено — метку). Для не-select полей возвращает значение без изменений. Вызывается из resolveManualFieldValues для каждого поля после вычисления 'выбранной' метки (provided или дефолт). Это единая точка маппинга, общая для генерации, preview и webhook-вызовов.",
+    "createdAt": "2026-06-08T10:42:47.601Z",
+    "updatedAt": "2026-06-08T10:42:47.601Z"
+  },
+  {
+    "element": "normalizeSelectOptions",
+    "path": "apps/backend/src/routes/templates.ts",
+    "type": "function",
+    "content": "В routes/templates.ts. Валидирует и нормализует массив вариантов select-поля: отбрасывает записи с пустым label, тримит и обрезает label/value до 500 символов, ограничивает количество 200 (SELECT_MAX_OPTIONS). parseSelectOptions парсит JSON-колонку options обратно в массив. normalizeValueMode приводит режим к 'direct'|'mapped'.",
+    "createdAt": "2026-06-08T10:42:48.144Z",
+    "updatedAt": "2026-06-08T10:42:48.144Z"
+  },
+  {
+    "element": "ManualFieldInput",
+    "path": "apps/frontend/src/pages/GeneratePage.tsx",
+    "type": "function",
+    "content": "Компонент в GeneratePage.tsx, рендерит инпут значения поля при генерации. Для field.type==='select' рендерит <select> с вариантами field.options (option value=label) и пустым вариантом ('— выберите —' для required, 'Не выбрано' иначе); хранит/отдаёт выбранную метку. Для textarea — <textarea>, для number/date/text — <input>. Маппинг метки в реальное значение выполняется на бэкенде (resolveSelectValue).",
+    "createdAt": "2026-06-08T10:43:03.626Z",
+    "updatedAt": "2026-06-08T10:43:03.626Z"
+  },
+  {
+    "element": "SelectOption",
+    "path": "packages/shared/src/types.ts",
+    "type": "interface",
+    "content": "Интерфейс в packages/shared/src/types.ts: { label, value } — один вариант select-поля. label показывается в выпадающем списке и является идентичностью варианта (что хранит/шлёт фронт). value — 'реальное' значение, подставляемое в документ при valueMode='mapped'. Связанные типы: SelectValueMode ('direct'|'mapped'), TemplateFieldType (добавлен 'select').",
+    "createdAt": "2026-06-08T10:43:03.907Z",
+    "updatedAt": "2026-06-08T10:43:03.907Z"
   }
 ]

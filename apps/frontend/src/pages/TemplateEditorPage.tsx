@@ -593,6 +593,8 @@ export function TemplateEditorPage() {
           required: result.required,
           placeholder: result.placeholder,
           defaultValue: result.defaultValue,
+          options: result.options,
+          valueMode: result.valueMode,
           order: prev[fieldKey]?.order,
         },
       }));
@@ -626,6 +628,8 @@ export function TemplateEditorPage() {
         required: result.required,
         placeholder: result.placeholder,
         defaultValue: result.defaultValue,
+        options: result.options,
+        valueMode: result.valueMode,
         order: prev[tag]?.order,
       },
     }));
@@ -746,6 +750,8 @@ export function TemplateEditorPage() {
       required: f.required,
       placeholder: f.placeholder ?? '',
       defaultValue: f.defaultValue ?? '',
+      options: f.options,
+      valueMode: f.valueMode,
       order: tagOrder.get(f.fieldKey) ?? 0,
     }));
 
@@ -790,6 +796,8 @@ export function TemplateEditorPage() {
         required: meta.required,
         placeholder: meta.placeholder ?? '',
         defaultValue: meta.defaultValue ?? '',
+        options: meta.options ?? [],
+        valueMode: meta.valueMode ?? 'direct',
       };
     }
     return {
@@ -1370,6 +1378,8 @@ function fieldDtoToInput(f: TemplateFieldDTO): TemplateFieldInputDTO {
     required: f.required,
     placeholder: f.placeholder ?? '',
     defaultValue: f.defaultValue ?? '',
+    options: f.options,
+    valueMode: f.valueMode,
     order: f.order,
   };
 }

@@ -26,7 +26,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Plus, Trash2 } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -38,7 +38,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { generateTagKey } from '@/lib/formulas';
-import type { TemplateFieldTypeDTO } from '@/lib/api';
+import type { SelectOptionDTO, SelectValueModeDTO, TemplateFieldTypeDTO } from '@/lib/api';
 
 export interface ManualFieldBuilderResult {
   fieldKey: string;
@@ -46,8 +46,13 @@ export interface ManualFieldBuilderResult {
   type: TemplateFieldTypeDTO;
   required: boolean;
   placeholder: string;
-  /** Default-value token (e.g. "today" for date fields), or "" for none. */
+  /** Default-value token (e.g. "today" for date fields), or "" for none.
+   * For `select` fields this is the label of the pre-selected option. */
   defaultValue: string;
+  /** Choices for a `select` field; empty for other types. */
+  options: SelectOptionDTO[];
+  /** Substitution mode for a `select` field; "direct" for other types. */
+  valueMode: SelectValueModeDTO;
 }
 
 export interface ManualFieldBuilderProps {
@@ -66,6 +71,7 @@ const TYPE_OPTIONS: Array<{ value: TemplateFieldTypeDTO; label: string }> = [
   { value: 'textarea', label: 'Текст (много строк)' },
   { value: 'number', label: 'Число' },
   { value: 'date', label: 'Дата' },
+  { value: 'select', label: 'Выпадающий список' },
 ];
 
 export function ManualFieldBuilder({
@@ -81,6 +87,10 @@ export function ManualFieldBuilder({
   const [required, setRequired] = useState(false);
   const [placeholder, setPlaceholder] = useState('');
   const [defaultValue, setDefaultValue] = useState('');
+  // `select`-only state: the list of choices and how they map to the
+  // substituted value.
+  const [options, setOptions] = useState<SelectOptionDTO[]>([]);
+  const [valueMode, setValueMode] = useState<SelectValueModeDTO>('direct');
   // Once the admin edits the key by hand we stop auto-suggesting it.
   const [keyDirty, setKeyDirty] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -96,9 +106,18 @@ export function ManualFieldBuilder({
     setRequired(initialValues?.required ?? false);
     setPlaceholder(initialValues?.placeholder ?? '');
     setDefaultValue(initialValues?.defaultValue ?? '');
+    setOptions(initialValues?.options ?? []);
+    setValueMode(initialValues?.valueMode ?? 'direct');
     setKeyDirty(Boolean(initialValues?.fieldKey));
     setError(null);
   }, [open, initialValues]);
+
+  /* ---- select-option editing helpers ---- */
+  const addOption = () => setOptions((prev) => [...prev, { label: '', value: '' }]);
+  const removeOption = (index: number) =>
+    setOptions((prev) => prev.filter((_, i) => i !== index));
+  const updateOption = (index: number, patch: Partial<SelectOptionDTO>) =>
+    setOptions((prev) => prev.map((o, i) => (i === index ? { ...o, ...patch } : o)));
 
   const handleLabelChange = (value: string) => {
     setLabel(value);
@@ -128,15 +147,38 @@ export function ManualFieldBuilder({
       setError(`Ключ "${trimmedKey}" уже используется в этом шаблоне`);
       return;
     }
+    // For `select` fields: keep only options with a non-empty label and
+    // require at least one.
+    let cleanOptions: SelectOptionDTO[] = [];
+    if (type === 'select') {
+      cleanOptions = options
+        .map((o) => ({ label: o.label.trim(), value: o.value.trim() }))
+        .filter((o) => o.label.length > 0);
+      if (cleanOptions.length === 0) {
+        setError('Добавьте хотя бы один вариант списка');
+        return;
+      }
+    }
+    // Keep the default only if it still matches one of the options.
+    const trimmedDefault = defaultValue.trim();
+    const resolvedDefault =
+      type === 'select'
+        ? cleanOptions.some((o) => o.label === trimmedDefault)
+          ? trimmedDefault
+          : ''
+        : trimmedDefault;
     onInsert({
       fieldKey: trimmedKey,
       label: trimmedLabel,
       type,
       required,
       placeholder: placeholder.trim(),
-      // For date this is a token ("today"); for other types it is a
-      // literal value the user can edit at generation time.
-      defaultValue: defaultValue.trim(),
+      // For date this is a token ("today"); for select the label of the
+      // pre-selected option; for other types a literal value the user can
+      // edit at generation time.
+      defaultValue: resolvedDefault,
+      options: cleanOptions,
+      valueMode: type === 'select' ? valueMode : 'direct',
     });
     onOpenChange(false);
   };
@@ -182,10 +224,17 @@ export function ManualFieldBuilder({
             <select
               value={type}
               onChange={(e) => {
-                setType(e.target.value as TemplateFieldTypeDTO);
+                const nextType = e.target.value as TemplateFieldTypeDTO;
+                setType(nextType);
                 // The meaning of defaultValue differs per type (token vs
-                // literal), so reset it when the type changes.
+                // literal vs option label), so reset it when the type changes.
                 setDefaultValue('');
+                // Seed an empty option row when switching to `select` so the
+                // admin has something to start editing.
+                if (nextType === 'select') {
+                  setOptions((prev) => (prev.length > 0 ? prev : [{ label: '', value: '' }]));
+                  setValueMode('direct');
+                }
               }}
               className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             >
@@ -197,11 +246,102 @@ export function ManualFieldBuilder({
             </select>
           </div>
 
+          {type === 'select' && (
+            <div className="space-y-3 rounded-md border border-input bg-muted/30 p-3">
+              <div>
+                <label className="mb-1 block text-sm font-medium">
+                  Режим подстановки
+                </label>
+                <select
+                  value={valueMode}
+                  onChange={(e) => setValueMode(e.target.value as SelectValueModeDTO)}
+                  className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                >
+                  <option value="direct">Подставлять выбранное значение</option>
+                  <option value="mapped">Сопоставить со значением</option>
+                </select>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {valueMode === 'mapped'
+                    ? 'Пользователь выбирает вариант, а в документ подставляется сопоставленное ему значение.'
+                    : 'В документ подставляется ровно тот вариант, который выбрал пользователь.'}
+                </p>
+              </div>
+
+              <div>
+                <div className="mb-1 flex items-center justify-between">
+                  <label className="block text-sm font-medium">Варианты</label>
+                  <Button type="button" variant="outline" size="sm" onClick={addOption}>
+                    <Plus className="mr-1 h-3.5 w-3.5" />
+                    Добавить
+                  </Button>
+                </div>
+                {options.length === 0 ? (
+                  <p className="text-xs text-muted-foreground">
+                    Нет вариантов — добавьте первый.
+                  </p>
+                ) : (
+                  <div className="space-y-2">
+                    {valueMode === 'mapped' && (
+                      <div className="flex gap-2 px-0.5 text-[11px] text-muted-foreground">
+                        <span className="flex-1">Что видит пользователь</span>
+                        <span className="flex-1">Что подставится</span>
+                        <span className="w-8 shrink-0" />
+                      </div>
+                    )}
+                    {options.map((opt, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <Input
+                          value={opt.label}
+                          onChange={(e) => updateOption(idx, { label: e.target.value })}
+                          placeholder="Вариант"
+                          className="flex-1"
+                        />
+                        {valueMode === 'mapped' && (
+                          <Input
+                            value={opt.value}
+                            onChange={(e) => updateOption(idx, { value: e.target.value })}
+                            placeholder="Значение"
+                            className="flex-1"
+                          />
+                        )}
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => removeOption(idx)}
+                          className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
+                          aria-label="Удалить вариант"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           <div>
             <label className="mb-1 block text-sm font-medium">
               Значение по умолчанию
             </label>
-            {type === 'date' ? (
+            {type === 'select' ? (
+              <select
+                value={defaultValue}
+                onChange={(e) => setDefaultValue(e.target.value)}
+                className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              >
+                <option value="">Не задано</option>
+                {options
+                  .filter((o) => o.label.trim().length > 0)
+                  .map((o, idx) => (
+                    <option key={idx} value={o.label.trim()}>
+                      {o.label.trim()}
+                    </option>
+                  ))}
+              </select>
+            ) : type === 'date' ? (
               <select
                 value={defaultValue}
                 onChange={(e) => setDefaultValue(e.target.value)}
@@ -231,16 +371,18 @@ export function ManualFieldBuilder({
             </p>
           </div>
 
-          <div>
-            <label className="mb-1 block text-sm font-medium">
-              Подсказка (placeholder)
-            </label>
-            <Input
-              value={placeholder}
-              onChange={(e) => setPlaceholder(e.target.value)}
-              placeholder="Необязательно"
-            />
-          </div>
+          {type !== 'select' && (
+            <div>
+              <label className="mb-1 block text-sm font-medium">
+                Подсказка (placeholder)
+              </label>
+              <Input
+                value={placeholder}
+                onChange={(e) => setPlaceholder(e.target.value)}
+                placeholder="Необязательно"
+              />
+            </div>
+          )}
 
           <label className="flex cursor-pointer items-center gap-2 text-sm">
             <input

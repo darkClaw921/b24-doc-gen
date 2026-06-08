@@ -99,8 +99,8 @@ model Template {
 /// generation time.
 /// - fieldKey is referenced from contentHtml by the TipTap manualFieldTag
 ///   node (a `<span data-field-key>` placeholder).
-/// - type is one of text | textarea | number | date and decides which
-///   control the generate form renders.
+/// - type is one of text | textarea | number | date | select and decides
+///   which control the generate form renders.
 /// - required forces the user to fill the field before generating.
 model TemplateField {
   id          String   @id @default(cuid())
@@ -113,7 +113,14 @@ model TemplateField {
   placeholder String?
   /// Default-value token applied at generation when no value is given.
   /// Currently used by `date` fields: "today" pre-fills the current date.
+  /// For `select` fields this holds the label of the pre-selected option.
   defaultValue String?
+  /// For `select` fields: JSON-encoded array of { label, value } choices.
+  /// Null for other field types.
+  options      String?
+  /// For `select` fields: "direct" (substitute the chosen label) or
+  /// "mapped" (substitute the option's paired value). Null for other types.
+  valueMode    String?
   order        Int      @default(0)
 
   @@unique([templateId, fieldKey])

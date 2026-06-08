@@ -493,7 +493,16 @@ export interface FormulaDTO {
   dependsOn: FormulaDependenciesDTO;
 }
 
-export type TemplateFieldTypeDTO = 'text' | 'textarea' | 'number' | 'date';
+export type TemplateFieldTypeDTO = 'text' | 'textarea' | 'number' | 'date' | 'select';
+
+/** How a `select` field turns the user's choice into the substituted value. */
+export type SelectValueModeDTO = 'direct' | 'mapped';
+
+/** A single choice in a `select` manual field. */
+export interface SelectOptionDTO {
+  label: string;
+  value: string;
+}
 
 export interface TemplateFieldDTO {
   id: string;
@@ -504,6 +513,10 @@ export interface TemplateFieldDTO {
   required: boolean;
   placeholder?: string;
   defaultValue?: string;
+  /** Choices for a `select` field; undefined for other types. */
+  options?: SelectOptionDTO[];
+  /** Substitution mode for a `select` field; undefined for other types. */
+  valueMode?: SelectValueModeDTO;
   order: number;
 }
 
@@ -515,6 +528,8 @@ export interface TemplateFieldInputDTO {
   required: boolean;
   placeholder?: string;
   defaultValue?: string;
+  options?: SelectOptionDTO[];
+  valueMode?: SelectValueModeDTO;
   order?: number;
 }
 
