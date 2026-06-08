@@ -722,9 +722,9 @@
     "element": "TemplateEditorPage",
     "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
     "type": "function",
-    "content": "Редактор шаблона /templates/:id/edit (модель тегов .docx). Слева — редактируемый <DocxEditor> (@eigenpal/docx-editor-react), справа — панель «Теги шаблона». Над редактором кнопки «Вставить формулу»/«Вставить поле» (insert-режим): открывают FormulaBuilder/ManualFieldBuilder с чистой формой, при подтверждении создают привязку и вставляют {tagKey} в позицию курсора через ProseMirror (editorRef.getEditorRef().getView() -> view.dispatch(state.tr.insertText)), хелпер insertPlaceholderAtCursor. Новый тег попадает в locallyInsertedTags и сразу виден в панели. Привязка к существующим тегам (bind-режим) — через действия в строке тега. Сохранение: docx (если менялся) -> пересканирование тегов -> formulas/fields.",
+    "content": "Hover-попап тегов в редакторе: overlay-пилюли template-плагина имеют класс .template-highlight (pointer-events:auto, без data-tag). mouseover на editorHostRef ловит .template-highlight, через requestAnimationFrame читает pluginHostRef.getPluginState('template').hoveredId + tags -> имя тега, ставит hoverInfo -> портальный TagHoverContent (формула/поле/reserved/unbound). pluginHostRef: useRef<PluginHostRef>. Подсветка: <PluginHost plugins={[templatePlugin]}> рисует renderOverlay как pluginOverlays. Кнопки вставки формул/полей в курсор через insertPlaceholderAtCursor.",
     "createdAt": "2026-06-07T19:13:18.507Z",
-    "updatedAt": "2026-06-07T20:57:25.142Z"
+    "updatedAt": "2026-06-07T21:38:38.998Z"
   },
   {
     "element": "templateTags",

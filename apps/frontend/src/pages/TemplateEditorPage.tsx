@@ -33,6 +33,13 @@
  *      at the cursor via the ProseMirror view (`getEditorRef().getView()`),
  *      mirroring the legacy TipTap "Σ" toolbar. The new tag is tracked in
  *      `locallyInsertedTags` so it shows in the panel before the next save.
+ *   4c. The `<DocxEditor>` is wrapped in `<PluginHost plugins={[templatePlugin]}>`,
+ *      whose `renderOverlay` paints a `.template-highlight` pill over every
+ *      `{tag}` placeholder on the document pages. A delegated `mouseover` off the
+ *      editor host reads the hovered tag from `pluginHostRef.getPluginState(
+ *      'template').hoveredId` (the pill div has no `data-tag`) and anchors a
+ *      `TagHoverContent` tooltip showing the tag's binding — restoring the old
+ *      pill highlight + hover popup.
  *   5. Saving issues `PUT /api/templates/:id` with the `formulas[]` and
  *      `fields[]` arrays only. `contentHtml` is sent unchanged (it no
  *      longer carries any formula/field markup). The admin is warned
@@ -44,9 +51,11 @@
  */
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { DocxEditor, type DocxEditorRef } from '@eigenpal/docx-editor-react';
+import { PluginHost, templatePlugin, type PluginHostRef } from '@eigenpal/docx-editor-react/plugin-api';
 import '@eigenpal/docx-editor-react/styles.css';
 import {
   ArrowLeft,
@@ -94,6 +103,26 @@ import { cn } from '@/lib/utils';
  * bleed into the surrounding app chrome or the right-hand tags panel.
  */
 const EDITOR_CLASS_NAME = 'docx-editor-host';
+
+/**
+ * Pill-style highlight for the `{tag}` placeholders the template plugin
+ * decorates with `.docx-template-tag`. The plugin's own `TEMPLATE_DECORATION_STYLES`
+ * only sets cursor/hover-filter, so we add the amber background that mirrors the
+ * old TipTap formula pills. Scoped under the editor host so it can't leak. The
+ * cursor is `help` to hint the hover tooltip.
+ */
+const TAG_HIGHLIGHT_STYLES = `
+.docx-editor-host .docx-template-tag {
+  background: #fef9c3;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgba(202, 138, 4, 0.45);
+  cursor: help;
+}
+.docx-editor-host .docx-template-tag:hover,
+.docx-editor-host .docx-template-tag.hovered {
+  background: #fde68a;
+}
+`;
 
 /** Decode a base64 string into a `Uint8Array`. */
 function base64ToBytes(b64: string): Uint8Array {
@@ -149,6 +178,31 @@ export function TemplateEditorPage() {
 
   /** Imperative handle to the docx editor (used to `save()` on submit). */
   const editorRef = useRef<DocxEditorRef>(null);
+  /**
+   * Wrapper around the editor (and the template plugin's highlight overlays).
+   * Hover listeners are delegated off this node because the highlighted `{tag}`
+   * pills are rendered by the plugin overlay (which carries `data-tag`), not in
+   * the hidden ProseMirror DOM.
+   */
+  const editorHostRef = useRef<HTMLDivElement>(null);
+  /**
+   * Handle to the PluginHost — its `getPluginState('template')` returns the
+   * template plugin's `{ tags, hoveredId }`, which is how we map a hovered
+   * highlight pill (the overlay div carries no `data-tag`) back to its tag name.
+   */
+  const pluginHostRef = useRef<PluginHostRef>(null);
+  /**
+   * The tag currently hovered in the editor and the viewport coordinates where
+   * its tooltip should anchor. Null when nothing is hovered.
+   */
+  const [hoverInfo, setHoverInfo] = useState<{ tag: string; top: number; left: number } | null>(null);
+  /**
+   * Template plugin (docxtemplater syntax detection + highlight overlays). It is
+   * driven by `<PluginHost>`, which computes the plugin's `renderOverlay` output
+   * and feeds it back to `<DocxEditor>` as `pluginOverlays` — this is what
+   * actually paints the `{tag}` pills over the document pages.
+   */
+  const plugins = useMemo(() => [templatePlugin], []);
   /**
    * Whether the admin edited the `.docx` in the editor since it was loaded.
    * Drives whether `handleSave` pushes the edited bytes to the backend.
@@ -216,6 +270,49 @@ export function TemplateEditorPage() {
     // editor. Casting to `ArrayBuffer` narrows the `ArrayBufferLike` type.
     return bytes.buffer as ArrayBuffer;
   }, [templateQuery.data?.originalDocxBase64]);
+
+  /**
+   * Hover tooltip wiring. The template plugin paints each `{tag}` as a
+   * `.template-highlight` overlay pill (`pointer-events: auto`). The pill div
+   * carries no `data-tag`, so we read the hovered tag from the plugin state:
+   * the pill's own `onMouseEnter` calls `setHoveredElement`, after which
+   * `getPluginState('template').hoveredId` resolves to a tag in `tags`. The
+   * lookup is deferred via `requestAnimationFrame` so the plugin's handler has
+   * landed before we read the state. Anchored to the pill's bounding box.
+   */
+  useEffect(() => {
+    const dom = editorHostRef.current;
+    if (!dom) return;
+    let hideTimer: number | undefined;
+    const onOver = (e: Event) => {
+      const target = e.target as HTMLElement | null;
+      const el = target?.closest?.('.template-highlight') as HTMLElement | null;
+      if (!el) return;
+      if (hideTimer) window.clearTimeout(hideTimer);
+      const r = el.getBoundingClientRect();
+      window.requestAnimationFrame(() => {
+        const state = pluginHostRef.current?.getPluginState<{
+          tags?: Array<{ id: string; name: string }>;
+          hoveredId?: string;
+        }>('template');
+        const tag = state?.tags?.find((t) => t.id === state?.hoveredId);
+        if (!tag?.name) return;
+        setHoverInfo({ tag: tag.name, top: r.bottom + 6, left: r.left });
+      });
+    };
+    const onOut = (e: Event) => {
+      const target = e.target as HTMLElement | null;
+      if (!target?.closest?.('.template-highlight')) return;
+      hideTimer = window.setTimeout(() => setHoverInfo(null), 150);
+    };
+    dom.addEventListener('mouseover', onOver);
+    dom.addEventListener('mouseout', onOut);
+    return () => {
+      if (hideTimer) window.clearTimeout(hideTimer);
+      dom.removeEventListener('mouseover', onOver);
+      dom.removeEventListener('mouseout', onOut);
+    };
+  }, [documentBuffer]);
 
   const saveMutation = useMutation({
     mutationFn: (body: {
@@ -760,6 +857,7 @@ export function TemplateEditorPage() {
 
   return (
     <div className="flex h-screen w-full flex-col">
+      <style>{TAG_HIGHLIGHT_STYLES}</style>
       <header className="flex flex-wrap items-center gap-3 border-b border-border px-6 py-3">
         <Button
           variant="ghost"
@@ -875,23 +973,27 @@ export function TemplateEditorPage() {
                     <span>Ошибка редактора .docx: {editorError}</span>
                   </div>
                 )}
-                {/* CSS-isolation wrapper: `isolation-isolate` + `contain`
-                    keep the editor's Word-like styles scoped to this pane. */}
-                <div className={cn(EDITOR_CLASS_NAME, 'isolate h-full w-full [contain:layout_paint]')}>
+                {/* CSS-isolation wrapper (`isolation-isolate`) scopes the
+                    editor's Word-like styles to this pane. `contain` is
+                    deliberately NOT used here — it would clip the template
+                    plugin's highlight overlays. */}
+                <div ref={editorHostRef} className={cn(EDITOR_CLASS_NAME, 'isolate h-full w-full')}>
                   {documentBuffer ? (
-                    <DocxEditor
-                      ref={editorRef}
-                      documentBuffer={documentBuffer}
-                      mode="editing"
-                      showToolbar
-                      showRuler
-                      documentName={name || 'template.docx'}
-                      className="h-full w-full"
-                      onChange={() => setDocDirty(true)}
-                      onError={(err: Error) =>
-                        setEditorError(err.message || 'Не удалось загрузить .docx')
-                      }
-                    />
+                    <PluginHost ref={pluginHostRef} plugins={plugins} className="h-full w-full">
+                      <DocxEditor
+                        ref={editorRef}
+                        documentBuffer={documentBuffer}
+                        mode="editing"
+                        showToolbar
+                        showRuler
+                        documentName={name || 'template.docx'}
+                        className="h-full w-full"
+                        onChange={() => setDocDirty(true)}
+                        onError={(err: Error) =>
+                          setEditorError(err.message || 'Не удалось загрузить .docx')
+                        }
+                      />
+                    </PluginHost>
                   ) : (
                     <div className="flex h-full items-center justify-center gap-2 text-sm text-muted-foreground">
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -1003,6 +1105,75 @@ export function TemplateEditorPage() {
         existingKeys={otherFieldKeys}
         initialValues={fieldInitialValues}
       />
+
+      {/* Hover tooltip for `{tag}` pills in the editor (portal to body so it
+          escapes the editor's overflow/contain context). */}
+      {hoverInfo &&
+        createPortal(
+          <div
+            className="pointer-events-none fixed z-[60] max-w-xs rounded-md border border-border bg-popover px-3 py-2 text-xs text-popover-foreground shadow-md"
+            style={{ top: hoverInfo.top, left: hoverInfo.left }}
+          >
+            <TagHoverContent
+              tag={hoverInfo.tag}
+              formula={formulasByKey[hoverInfo.tag]}
+              field={fieldsByKey[hoverInfo.tag]}
+            />
+          </div>,
+          document.body,
+        )}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* TagHoverContent                                                     */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Body of the hover tooltip shown over a `{tag}` pill in the editor. Mirrors
+ * the old TipTap formula tooltip: shows the tag name and what it resolves to —
+ * a formula (label + expression), a manual field (label + type), a reserved
+ * product-loop tag, or an unbound warning.
+ */
+function TagHoverContent({
+  tag,
+  formula,
+  field,
+}: {
+  tag: string;
+  formula?: FormulaInputDTO;
+  field?: TemplateFieldInputDTO;
+}) {
+  const reserved = isReservedTag(tag);
+  return (
+    <div className="space-y-1">
+      <code className="block font-mono text-[12px] font-semibold text-foreground">
+        {'{'}
+        {tag}
+        {'}'}
+      </code>
+      {formula ? (
+        <>
+          <div className="font-medium text-blue-700">Σ {formula.label || tag}</div>
+          <pre className="mt-0.5 max-w-[16rem] whitespace-pre-wrap break-all rounded bg-muted px-1.5 py-1 font-mono text-[11px] text-foreground">
+            {formula.expression || '—'}
+          </pre>
+        </>
+      ) : field ? (
+        <div className="text-emerald-700">
+          <span className="font-medium">✎ {field.label || tag}</span>
+          {' · '}
+          <span className="font-mono">{field.type}</span>
+          {field.required && <span className="ml-1 text-amber-700">обязательное</span>}
+        </div>
+      ) : reserved ? (
+        <div className="text-muted-foreground">
+          Зарезервированный тег товаров — заполняется автоматически.
+        </div>
+      ) : (
+        <div className="text-amber-700">Тег не связан — привяжите формулу или поле.</div>
+      )}
     </div>
   );
 }

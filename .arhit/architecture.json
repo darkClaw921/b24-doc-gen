@@ -1,6 +1,6 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-06-07T20:57:29.787Z",
+  "generatedAt": "2026-06-07T21:38:43.690Z",
   "nodes": [
     {
       "id": "apps/backend/scripts/render-check.ts",
@@ -5982,7 +5982,7 @@
           "name": "base64ToBytes",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 99,
+          "line": 128,
           "signature": "base64ToBytes(b64: string): Uint8Array",
           "docComment": "Decode a base64 string into a `Uint8Array`.",
           "exports": []
@@ -5992,18 +5992,28 @@
           "name": "TemplateEditorPage",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 108,
+          "line": 137,
           "signature": "TemplateEditorPage()",
           "exports": [
             "TemplateEditorPage"
           ]
         },
         {
+          "id": "apps/frontend/src/pages/TemplateEditorPage.tsx:TagHoverContent",
+          "name": "TagHoverContent",
+          "type": "function",
+          "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+          "line": 1139,
+          "signature": "TagHoverContent({\n  tag,\n  formula,\n  field,\n}: {\n  tag: string;\n  formula?: FormulaInputDTO;\n  field?: TemplateFieldInputDTO;\n})",
+          "docComment": "Body of the hover tooltip shown over a `{tag}` pill in the editor. Mirrors\nthe old TipTap formula tooltip: shows the tag name and what it resolves to —\na formula (label + expression), a manual field (label + type), a reserved\nproduct-loop tag, or an unbound warning.",
+          "exports": []
+        },
+        {
           "id": "apps/frontend/src/pages/TemplateEditorPage.tsx:TagRow",
           "name": "TagRow",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 1022,
+          "line": 1193,
           "signature": "TagRow({\n  tag,\n  status,\n  orphan = false,\n  formula,\n  field,\n  onBindFormula,\n  onBindField,\n  onRemoveFormula,\n  onRemoveField,\n}: {\n  tag: string;\n  status: TagBindingStatus;\n  orphan?: boolean;\n  formula?: FormulaInputDTO;\n  field?: TemplateFieldInputDTO;\n  onBindFormula: () => void;\n  onBindField: () => void;\n  onRemoveFormula: () => void;\n  onRemoveField: () => void;\n})",
           "docComment": "A single row in the \"Теги шаблона\" panel. Shows the tag name, its\nbinding status badge and the relevant actions (bind/edit a formula,\ndeclare/edit a manual field, or remove an existing binding). Unbound\nnon-reserved tags are highlighted with an amber border so the admin\nnotices them; reserved product-loop tags are shown muted with no\nactions because the engine fills them automatically.",
           "exports": []
@@ -6013,7 +6023,7 @@
           "name": "StatusBadge",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 1144,
+          "line": 1315,
           "signature": "StatusBadge({ status }: { status: TagBindingStatus })",
           "docComment": "Small coloured badge describing a tag's binding status.",
           "exports": []
@@ -6023,7 +6033,7 @@
           "name": "formulaDtoToInput",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 1182,
+          "line": 1353,
           "signature": "formulaDtoToInput(f: FormulaDTO): FormulaInputDTO",
           "docComment": "Translate a FormulaDTO into the FormulaInputDTO sent back on save.",
           "exports": []
@@ -6033,7 +6043,7 @@
           "name": "fieldDtoToInput",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 1193,
+          "line": 1364,
           "signature": "fieldDtoToInput(f: TemplateFieldDTO): TemplateFieldInputDTO",
           "docComment": "Translate a TemplateFieldDTO into the input shape sent on save.",
           "exports": []
@@ -6043,8 +6053,17 @@
           "name": "EDITOR_CLASS_NAME",
           "type": "variable",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 96,
+          "line": 105,
           "docComment": "The DocxEditor ships its own (Word-like) styles via `styles.css`. We mount\nthe editor inside a container carrying this class and a CSS `isolation`\ncontext so its layout/paint stays scoped to the left pane and does not\nbleed into the surrounding app chrome or the right-hand tags panel.",
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/pages/TemplateEditorPage.tsx:TAG_HIGHLIGHT_STYLES",
+          "name": "TAG_HIGHLIGHT_STYLES",
+          "type": "variable",
+          "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+          "line": 114,
+          "docComment": "Pill-style highlight for the `{tag}` placeholders the template plugin\ndecorates with `.docx-template-tag`. The plugin's own `TEMPLATE_DECORATION_STYLES`\nonly sets cursor/hover-filter, so we add the amber background that mirrors the\nold TipTap formula pills. Scoped under the editor host so it can't leak. The\ncursor is `help` to hint the hover tooltip.",
           "exports": []
         }
       ]

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-07T20:57:30.373Z",
+  "generatedAt": "2026-06-07T21:20:15.304Z",
   "dependencies": [
     {
       "from": "apps/backend/scripts/render-check.ts",
@@ -18657,6 +18657,12 @@
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "react-dom",
+      "type": "import",
+      "toElement": "createPortal"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "to": "react-router-dom",
       "type": "import",
       "toElement": "useNavigate"
@@ -18696,6 +18702,12 @@
       "to": "@eigenpal/docx-editor-react",
       "type": "import",
       "toElement": "DocxEditorRef"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "@eigenpal/docx-editor-react/plugin-api",
+      "type": "import",
+      "toElement": "createTemplateProseMirrorPlugin"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -19034,6 +19046,34 @@
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
+      "toElement": "useMemo"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "createTemplateProseMirrorPlugin"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
       "toElement": "useState"
     },
     {
@@ -19168,6 +19208,90 @@
       "type": "call",
       "fromElement": "TemplateEditorPage",
       "toElement": "base64ToBytes"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "el.getAttribute"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "window.clearTimeout"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "el.getBoundingClientRect"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setHoverInfo"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "window.setTimeout"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setHoverInfo"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "dom.addEventListener"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "dom.addEventListener"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "window.clearTimeout"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "dom.removeEventListener"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "dom.removeEventListener"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
@@ -20056,6 +20180,13 @@
       "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
       "type": "call",
       "fromElement": "TemplateEditorPage",
+      "toElement": "setPmView"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
       "toElement": "setDocDirty"
     },
     {
@@ -20176,6 +20307,20 @@
       "type": "call",
       "fromElement": "TemplateEditorPage",
       "toElement": "setInsertMode"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "createPortal"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TagHoverContent",
+      "toElement": "isReservedTag"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
