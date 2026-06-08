@@ -65,6 +65,7 @@ import {
   type TemplateFieldDTO,
 } from '@/lib/api';
 import { getCurrentDealId, reloadParentWindow } from '@/lib/b24';
+import { PREVIEW_HIGHLIGHT_MARKERS } from '@b24-doc-gen/shared';
 
 /* ------------------------------------------------------------------ */
 /* Style isolation for the docx-preview output                        */
@@ -79,6 +80,17 @@ import { getCurrentDealId, reloadParentWindow } from '@/lib/b24';
  * the rendered page(s) and uses the same prefix.
  */
 const DOCX_CLASS_NAME = 'gen-docx-preview';
+
+/**
+ * Colours for the preview-only value highlights. Formula values (auto-resolved
+ * from the deal) get an amber wash; manual-field values (user-entered) get a
+ * sky wash. Applied by `applyPreviewHighlights` after the docx renders. These
+ * exist ONLY in the preview — the downloadable `.docx` has no markers.
+ */
+const PREVIEW_HL_STYLES = `
+  .gen-formula-hl { background-color: #fef08a; border-radius: 2px; box-shadow: 0 0 0 1px rgba(202, 138, 4, 0.35); }
+  .gen-field-hl { background-color: #bae6fd; border-radius: 2px; box-shadow: 0 0 0 1px rgba(2, 132, 199, 0.35); }
+`;
 
 /* ------------------------------------------------------------------ */
 /* Debounce                                                            */
@@ -110,6 +122,65 @@ function base64ToBytes(b64: string): Uint8Array {
     bytes[i] = binary.charCodeAt(i);
   }
   return bytes;
+}
+
+/* ------------------------------------------------------------------ */
+/* Preview value highlights                                            */
+/* ------------------------------------------------------------------ */
+
+const M = PREVIEW_HIGHLIGHT_MARKERS;
+
+/**
+ * Walk the rendered preview and replace the backend's invisible sentinel pairs
+ * with styled `<span>`s so substituted values are colour-highlighted: formula
+ * values (auto from the deal) amber, manual-field values (user-entered) sky.
+ *
+ * The markers are wrapped per value, so a start+end pair almost always lands in
+ * a single text node. When a pair is split across nodes (e.g. a multi-line
+ * value), the stray sentinel is simply dropped — it's an invisible code point,
+ * so the text still reads correctly, just without the highlight.
+ */
+function applyPreviewHighlights(root: HTMLElement): void {
+  const sentinel = new RegExp(`[${M.formulaStart}${M.formulaEnd}${M.fieldStart}${M.fieldEnd}]`);
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const targets: Text[] = [];
+  let n = walker.nextNode();
+  while (n) {
+    if (n.nodeValue && sentinel.test(n.nodeValue)) targets.push(n as Text);
+    n = walker.nextNode();
+  }
+
+  for (const node of targets) {
+    const text = node.nodeValue ?? '';
+    const frag = document.createDocumentFragment();
+    let buffer = '';
+    const flushText = () => {
+      if (buffer) {
+        frag.appendChild(document.createTextNode(buffer));
+        buffer = '';
+      }
+    };
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (ch === M.formulaStart || ch === M.fieldStart) {
+        const endCh = ch === M.formulaStart ? M.formulaEnd : M.fieldEnd;
+        const end = text.indexOf(endCh, i + 1);
+        if (end === -1) continue; // stray start (split node) — drop the marker
+        flushText();
+        const span = document.createElement('span');
+        span.className = ch === M.formulaStart ? 'gen-formula-hl' : 'gen-field-hl';
+        span.textContent = text.slice(i + 1, end);
+        frag.appendChild(span);
+        i = end;
+      } else if (ch === M.formulaEnd || ch === M.fieldEnd) {
+        continue; // stray end — drop the marker
+      } else {
+        buffer += ch;
+      }
+    }
+    flushText();
+    node.parentNode?.replaceChild(frag, node);
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -295,7 +366,11 @@ export function GeneratePage() {
         if (cancelled) {
           // A newer render superseded us — drop whatever we produced.
           body.replaceChildren();
+          return;
         }
+        // Colour-highlight the substituted values (formula = amber, manual
+        // field = sky) by replacing the backend's sentinel markers.
+        applyPreviewHighlights(body);
       })
       .catch((err: unknown) => {
         if (cancelled) return;
@@ -411,6 +486,7 @@ export function GeneratePage() {
 
   return (
     <div className="flex h-screen w-full">
+      <style>{PREVIEW_HL_STYLES}</style>
       {/* Hidden style container for the document's own (Word) CSS. Kept
           out of the visual flow so Word styles do not leak into the UI. */}
       <div ref={previewStyleRef} className="hidden" aria-hidden="true" />

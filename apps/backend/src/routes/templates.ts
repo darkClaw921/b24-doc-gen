@@ -44,6 +44,7 @@ import type {
   TemplatePreviewRequest,
   TemplatePreviewResponse,
 } from '@b24-doc-gen/shared';
+import { PREVIEW_HIGHLIGHT_MARKERS } from '@b24-doc-gen/shared';
 import { prisma } from '../prisma/client.js';
 import { parseDocxToHtml, DocxParseError } from '../services/docxParser.js';
 import { evaluateExpression } from '../services/formulaEngine.js';
@@ -567,14 +568,35 @@ export async function registerTemplateRoutes(app: FastifyInstance): Promise<void
       // (e.g. date "today"). Same helper used by the generation pipeline.
       const fieldValues = resolveManualFieldValues(row.fields, rawFieldValues);
 
+      // Wrap substituted values in preview sentinels so GeneratePage can
+      // colour-highlight where each value came from (formula = auto from the
+      // deal, manual field = user-entered). Errors, empty values and image
+      // data URIs are left untouched. NOTE: only the preview path does this —
+      // the downloadable/generated .docx (generationPipeline) is built without
+      // markers, so the final document carries no highlighting.
+      const M = PREVIEW_HIGHLIGHT_MARKERS;
+      const previewFormulas: Record<string, FormulaEvaluationResult> = {};
+      for (const [k, r] of Object.entries(formulaResults)) {
+        const v = r.value ?? '';
+        previewFormulas[k] =
+          !r.error && v && !v.startsWith('data:image/')
+            ? { ...r, value: `${M.formulaStart}${v}${M.formulaEnd}` }
+            : r;
+      }
+      const previewFieldValues: Record<string, string> = {};
+      for (const [k, v] of Object.entries(fieldValues)) {
+        previewFieldValues[k] = v && v.trim() ? `${M.fieldStart}${v}${M.fieldEnd}` : v;
+      }
+
       // Substitute formulas, products and field values directly into the
-      // original .docx, preserving all Word formatting.
+      // original .docx, preserving all Word formatting. Uses the sentinel-
+      // wrapped values so the preview can be highlighted client-side.
       let docxBuffer: Buffer;
       try {
         docxBuffer = await buildDocxFromTemplate(originalDocx, {
-          formulas: formulaResults,
+          formulas: previewFormulas,
           products: context.PRODUCTS ?? [],
-          fieldValues,
+          fieldValues: previewFieldValues,
           title: row.name,
         });
       } catch (err) {

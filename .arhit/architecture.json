@@ -1,6 +1,6 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-06-07T21:38:43.690Z",
+  "generatedAt": "2026-06-08T06:21:14.034Z",
   "nodes": [
     {
       "id": "apps/backend/scripts/render-check.ts",
@@ -996,7 +996,7 @@
           "name": "safeName",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 155,
+          "line": 156,
           "signature": "safeName(value: unknown): string | null",
           "exports": []
         },
@@ -1005,7 +1005,7 @@
           "name": "safeContentHtml",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 162,
+          "line": 163,
           "signature": "safeContentHtml(value: unknown): string",
           "exports": []
         },
@@ -1014,7 +1014,7 @@
           "name": "parseDependsOn",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 171,
+          "line": 172,
           "signature": "parseDependsOn(raw: string): FormulaDependencies",
           "exports": []
         },
@@ -1023,7 +1023,7 @@
           "name": "serializeDependsOn",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 184,
+          "line": 185,
           "signature": "serializeDependsOn(deps: FormulaDependencies | undefined): string",
           "exports": []
         },
@@ -1032,7 +1032,7 @@
           "name": "toFormulaDto",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 192,
+          "line": 193,
           "signature": "toFormulaDto(row: PrismaFormula): Formula",
           "exports": []
         },
@@ -1041,7 +1041,7 @@
           "name": "normalizeFieldType",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 206,
+          "line": 207,
           "signature": "normalizeFieldType(value: unknown): TemplateFieldType",
           "exports": []
         },
@@ -1050,7 +1050,7 @@
           "name": "toTemplateFieldDto",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 212,
+          "line": 213,
           "signature": "toTemplateFieldDto(row: PrismaTemplateField): TemplateField",
           "exports": []
         },
@@ -1059,7 +1059,7 @@
           "name": "normalizeFieldsInput",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 235,
+          "line": 236,
           "signature": "normalizeFieldsInput(fields: TemplateFieldInput[]): Array<{\n  fieldKey: string;\n  label: string;\n  type: TemplateFieldType;\n  required: boolean;\n  placeholder: string | null;\n  defaultValue: string | null;\n  order: number;\n}>",
           "docComment": "Validate and normalize the manual-field array sent by the client.\nDrops entries with an empty fieldKey and de-duplicates by fieldKey\n(last write wins). `order` is derived from array position so the\ngenerate form reflects the order in which the admin authored them.",
           "exports": []
@@ -1069,7 +1069,7 @@
           "name": "toTemplateDto",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 285,
+          "line": 286,
           "signature": "toTemplateDto(row: TemplateRow, withDocx: boolean): TemplateDTO",
           "exports": []
         },
@@ -1078,7 +1078,7 @@
           "name": "substituteFormulaTagsForPreview",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 338,
+          "line": 339,
           "signature": "substituteFormulaTagsForPreview(html: string, formulas: Record<string, FormulaEvaluationResult>): string",
           "docComment": "Rewrite every `<span data-formula-key=\"…\">` node inside `html` so it\ncarries `data-computed-value` and its inner text is the computed\nvalue (or the original label on error). The TipTap-rendered span has\na stable shape — `<span ... data-formula-key=\"X\" ...>...</span>` —\nso a tolerant regex is safe and avoids pulling in cheerio.\n\nThe two flags it preserves:\n  - data-formula-key, -label, -expression  → still needed by the\n    frontend to render the FormulaTag pill in preview mode.\n  - data-computed-value=\"…\"                → new attribute that\n    carries the evaluated value for the frontend tooltip.\n  - data-formula-error=\"…\" (optional)      → set if evaluation\n    failed; the frontend renders an error badge.",
           "exports": []
@@ -1088,7 +1088,7 @@
           "name": "escapeAttr",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 376,
+          "line": 377,
           "signature": "escapeAttr(value: string): string",
           "docComment": "Minimal HTML attribute escaper.",
           "exports": []
@@ -1098,7 +1098,7 @@
           "name": "escapeHtml",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 385,
+          "line": 386,
           "signature": "escapeHtml(value: string): string",
           "docComment": "Minimal HTML text escaper (preserves spaces).",
           "exports": []
@@ -1108,7 +1108,7 @@
           "name": "toTemplateListDto",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 392,
+          "line": 393,
           "signature": "toTemplateListDto(row: TemplateListRow): TemplateListItemDTO",
           "exports": []
         },
@@ -1117,7 +1117,7 @@
           "name": "registerTemplateRoutes",
           "type": "function",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 409,
+          "line": 410,
           "signature": "registerTemplateRoutes(app: FastifyInstance): Promise<void>",
           "exports": [
             "registerTemplateRoutes"
@@ -1128,7 +1128,7 @@
           "name": "TemplateListItemDTO",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 65,
+          "line": 66,
           "signature": "interface TemplateListItemDTO",
           "exports": [
             "TemplateListItemDTO"
@@ -1139,7 +1139,7 @@
           "name": "TemplateDTO",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 76,
+          "line": 77,
           "signature": "interface TemplateDTO",
           "exports": [
             "TemplateDTO"
@@ -1150,7 +1150,7 @@
           "name": "ListTemplatesQuery",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 98,
+          "line": 99,
           "signature": "interface ListTemplatesQuery",
           "exports": []
         },
@@ -1159,7 +1159,7 @@
           "name": "GetTemplateParams",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 103,
+          "line": 104,
           "signature": "interface GetTemplateParams",
           "exports": []
         },
@@ -1168,7 +1168,7 @@
           "name": "GetTemplateQuery",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 107,
+          "line": 108,
           "signature": "interface GetTemplateQuery",
           "exports": []
         },
@@ -1177,7 +1177,7 @@
           "name": "PreviewTemplateQuery",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 111,
+          "line": 112,
           "signature": "interface PreviewTemplateQuery",
           "exports": []
         },
@@ -1186,7 +1186,7 @@
           "name": "CreateTemplateBody",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 115,
+          "line": 116,
           "signature": "interface CreateTemplateBody",
           "exports": []
         },
@@ -1195,7 +1195,7 @@
           "name": "UpdateTemplateBody",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 121,
+          "line": 122,
           "signature": "interface UpdateTemplateBody",
           "exports": []
         },
@@ -1204,7 +1204,7 @@
           "name": "FormulaInput",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 130,
+          "line": 131,
           "signature": "interface FormulaInput",
           "docComment": "Shape of a formula sent by the client when saving a template.",
           "exports": [
@@ -1216,7 +1216,7 @@
           "name": "TemplateFieldInput",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 140,
+          "line": 141,
           "signature": "interface TemplateFieldInput",
           "docComment": "Shape of a manual field sent by the client when saving a template.",
           "exports": [
@@ -1228,7 +1228,7 @@
           "name": "TemplateRow",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 280,
+          "line": 281,
           "signature": "interface TemplateRow",
           "exports": []
         },
@@ -1237,7 +1237,7 @@
           "name": "TemplateListRow",
           "type": "interface",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 318,
+          "line": 319,
           "signature": "interface TemplateListRow",
           "exports": []
         },
@@ -1246,7 +1246,7 @@
           "name": "FIELD_TYPES",
           "type": "variable",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 204,
+          "line": 205,
           "docComment": "Allowed manual-field types; anything else falls back to \"text\".",
           "exports": []
         },
@@ -1255,7 +1255,7 @@
           "name": "FIELD_DEFAULTS",
           "type": "variable",
           "path": "apps/backend/src/routes/templates.ts",
-          "line": 227,
+          "line": 228,
           "docComment": "Allowed default-value tokens. Anything else is dropped (no default).",
           "exports": []
         }
@@ -5829,7 +5829,7 @@
           "name": "useDebouncedValue",
           "type": "function",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 92,
+          "line": 104,
           "signature": "useDebouncedValue(value: T, delay = 500): T",
           "docComment": "Tiny custom debounce — returns a value that lags `value` by `delay`\nms. Used to coalesce rapid manual-field edits into a single preview\nre-request. Mirrors the helper used on the other pages.",
           "exports": []
@@ -5839,9 +5839,19 @@
           "name": "base64ToBytes",
           "type": "function",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 106,
+          "line": 118,
           "signature": "base64ToBytes(b64: string): Uint8Array",
           "docComment": "Decode a base64 string into a `Uint8Array` docx-preview can read.",
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/pages/GeneratePage.tsx:applyPreviewHighlights",
+          "name": "applyPreviewHighlights",
+          "type": "function",
+          "path": "apps/frontend/src/pages/GeneratePage.tsx",
+          "line": 143,
+          "signature": "applyPreviewHighlights(root: HTMLElement): void",
+          "docComment": "Walk the rendered preview and replace the backend's invisible sentinel pairs\nwith styled `<span>`s so substituted values are colour-highlighted: formula\nvalues (auto from the deal) amber, manual-field values (user-entered) sky.\n\nThe markers are wrapped per value, so a start+end pair almost always lands in\na single text node. When a pair is split across nodes (e.g. a multi-line\nvalue), the stray sentinel is simply dropped — it's an invisible code point,\nso the text still reads correctly, just without the highlight.",
           "exports": []
         },
         {
@@ -5849,7 +5859,7 @@
           "name": "formatFieldValue",
           "type": "function",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 124,
+          "line": 195,
           "signature": "formatFieldValue(field: TemplateFieldDTO, raw: string): string",
           "docComment": "Convert a raw input value into the string that goes into the\ndocument. Date inputs yield ISO `yyyy-mm-dd`; we render them as the\nRussian `dd.MM.yyyy`. Everything else passes through unchanged.",
           "exports": []
@@ -5859,7 +5869,7 @@
           "name": "todayISO",
           "type": "function",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 135,
+          "line": 206,
           "signature": "todayISO(): string",
           "docComment": "Today's date as the `yyyy-mm-dd` string a `<input type=\"date\">` expects.",
           "exports": []
@@ -5869,7 +5879,7 @@
           "name": "initialFieldValue",
           "type": "function",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 147,
+          "line": 218,
           "signature": "initialFieldValue(field: TemplateFieldDTO): string",
           "docComment": "Initial value for a field — applies its default. Date defaults are\ntokens (`today` → ISO date for the `<input type=\"date\">`); text /\ntextarea / number defaults are literal values the user can edit.",
           "exports": []
@@ -5879,7 +5889,7 @@
           "name": "GeneratePage",
           "type": "function",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 158,
+          "line": 229,
           "signature": "GeneratePage()",
           "exports": [
             "GeneratePage"
@@ -5890,7 +5900,7 @@
           "name": "ManualFieldInput",
           "type": "function",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 741,
+          "line": 817,
           "signature": "ManualFieldInput({\n  field,\n  value,\n  onChange,\n}: {\n  field: TemplateFieldDTO;\n  value: string;\n  onChange: (value: string) => void;\n})",
           "docComment": "Single control for a manual field on the generate form. Renders the\nright input type (textarea / number / date / text), shows the label\nwith a required marker and the placeholder hint.",
           "exports": []
@@ -5900,8 +5910,25 @@
           "name": "DOCX_CLASS_NAME",
           "type": "variable",
           "path": "apps/frontend/src/pages/GeneratePage.tsx",
-          "line": 81,
+          "line": 82,
           "docComment": "docx-preview renders the document's own CSS (page size, fonts,\nnumbering) into a separate \"style container\". We keep that container\nhidden so those Word-derived rules — which are scoped by the\n`className` prefix below — are present for the body container but do\nnot visually bleed into the rest of the app. The body container holds\nthe rendered page(s) and uses the same prefix.",
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/pages/GeneratePage.tsx:PREVIEW_HL_STYLES",
+          "name": "PREVIEW_HL_STYLES",
+          "type": "variable",
+          "path": "apps/frontend/src/pages/GeneratePage.tsx",
+          "line": 90,
+          "docComment": "Colours for the preview-only value highlights. Formula values (auto-resolved\nfrom the deal) get an amber wash; manual-field values (user-entered) get a\nsky wash. Applied by `applyPreviewHighlights` after the docx renders. These\nexist ONLY in the preview — the downloadable `.docx` has no markers.",
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/pages/GeneratePage.tsx:M",
+          "name": "M",
+          "type": "variable",
+          "path": "apps/frontend/src/pages/GeneratePage.tsx",
+          "line": 131,
           "exports": []
         }
       ]
@@ -6133,6 +6160,28 @@
       "path": "apps/frontend/vite.config.ts",
       "exports": [],
       "children": []
+    },
+    {
+      "id": "packages/shared/src/constants.ts",
+      "name": "constants.ts",
+      "type": "file",
+      "path": "packages/shared/src/constants.ts",
+      "exports": [
+        "PREVIEW_HIGHLIGHT_MARKERS"
+      ],
+      "children": [
+        {
+          "id": "packages/shared/src/constants.ts:PREVIEW_HIGHLIGHT_MARKERS",
+          "name": "PREVIEW_HIGHLIGHT_MARKERS",
+          "type": "variable",
+          "path": "packages/shared/src/constants.ts",
+          "line": 19,
+          "docComment": "Private-use Unicode sentinels the **preview** endpoint wraps substituted\nvalues in, so the GeneratePage preview can colour-highlight where data came\nfrom (formula = auto from the deal, manual field = user-entered). They are\ninvisible code points, survive the docx-preview render as plain text, and the\nclient strips them while wrapping the inner text in a styled `<span>`.\n\nIMPORTANT: only the preview path uses these — the downloadable/generated\n`.docx` is built without markers, so the final document has no highlighting.\nSingle source of truth shared by `routes/templates.ts` (wrap) and\n`GeneratePage.tsx` (strip + highlight).",
+          "exports": [
+            "PREVIEW_HIGHLIGHT_MARKERS"
+          ]
+        }
+      ]
     },
     {
       "id": "packages/shared/src/index.ts",
