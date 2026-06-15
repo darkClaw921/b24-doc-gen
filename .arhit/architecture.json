@@ -1,6 +1,6 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-06-15T14:16:49.720Z",
+  "generatedAt": "2026-06-15T18:31:46.911Z",
   "nodes": [
     {
       "id": "apps/backend/scripts/render-check.ts",
@@ -542,6 +542,39 @@
           "line": 15,
           "exports": [
             "prisma"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/backend/src/prisma/ensureSchema.ts",
+      "name": "ensureSchema.ts",
+      "type": "file",
+      "path": "apps/backend/src/prisma/ensureSchema.ts",
+      "exports": [
+        "ensureSchema"
+      ],
+      "children": [
+        {
+          "id": "apps/backend/src/prisma/ensureSchema.ts:resolvePrismaCli",
+          "name": "resolvePrismaCli",
+          "type": "function",
+          "path": "apps/backend/src/prisma/ensureSchema.ts",
+          "line": 37,
+          "signature": "resolvePrismaCli(): string",
+          "docComment": "Resolve the absolute path to the local `prisma` CLI entry script.",
+          "exports": []
+        },
+        {
+          "id": "apps/backend/src/prisma/ensureSchema.ts:ensureSchema",
+          "name": "ensureSchema",
+          "type": "function",
+          "path": "apps/backend/src/prisma/ensureSchema.ts",
+          "line": 55,
+          "signature": "ensureSchema(): boolean",
+          "docComment": "Run `prisma db push` against the database in `DATABASE_URL`. Returns\ntrue when the schema was applied, false when it was skipped or failed\n(the caller logs and continues either way).",
+          "exports": [
+            "ensureSchema"
           ]
         }
       ]
@@ -1871,7 +1904,7 @@
           "name": "buildServer",
           "type": "function",
           "path": "apps/backend/src/server.ts",
-          "line": 44,
+          "line": 45,
           "signature": "buildServer(): Promise<FastifyInstance>",
           "docComment": "Build a Fastify instance with all plugins, middleware and routes\nregistered. Kept as a factory so integration tests can spin up\ntheir own instance.",
           "exports": [
@@ -1883,7 +1916,7 @@
           "name": "start",
           "type": "function",
           "path": "apps/backend/src/server.ts",
-          "line": 229,
+          "line": 230,
           "signature": "start(): Promise<void>",
           "docComment": "Process entry point. Starts the server on BACKEND_PORT (default 3001).",
           "exports": []
@@ -1901,7 +1934,7 @@
           "name": "isDirectRun",
           "type": "variable",
           "path": "apps/backend/src/server.ts",
-          "line": 253,
+          "line": 259,
           "exports": []
         }
       ]

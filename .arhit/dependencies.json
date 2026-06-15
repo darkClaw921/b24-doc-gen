@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-15T14:16:44.007Z",
+  "generatedAt": "2026-06-15T18:31:41.432Z",
   "dependencies": [
     {
       "from": "apps/backend/scripts/render-check.ts",
@@ -1598,6 +1598,168 @@
       "to": "@prisma/client",
       "type": "import",
       "toElement": "PrismaClient"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "node:child_process",
+      "type": "import",
+      "toElement": "execFileSync"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "node:module",
+      "type": "import",
+      "toElement": "createRequire"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "node:url",
+      "type": "import",
+      "toElement": "fileURLToPath"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "node:fs",
+      "type": "import",
+      "toElement": "readFileSync"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "node:path",
+      "type": "import",
+      "toElement": "dirname"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "node:path",
+      "type": "import",
+      "toElement": "resolve"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "resolvePrismaCli",
+      "toElement": "createRequire"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "resolvePrismaCli",
+      "toElement": "require.resolve"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "resolvePrismaCli",
+      "toElement": "JSON.parse"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "resolvePrismaCli",
+      "toElement": "readFileSync"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "resolvePrismaCli",
+      "toElement": "resolve"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "resolvePrismaCli",
+      "toElement": "dirname"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "ensureSchema",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "ensureSchema",
+      "toElement": "dirname"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "ensureSchema",
+      "toElement": "fileURLToPath"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "ensureSchema",
+      "toElement": "resolve"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "ensureSchema",
+      "toElement": "resolve"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "ensureSchema",
+      "toElement": "resolvePrismaCli"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "ensureSchema",
+      "toElement": "console.error"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "ensureSchema",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "ensureSchema",
+      "toElement": "execFileSync"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "ensureSchema",
+      "toElement": "console.log"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "ensureSchema",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/prisma/ensureSchema.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "call",
+      "fromElement": "ensureSchema",
+      "toElement": "console.error"
     },
     {
       "from": "apps/backend/src/routes/deal.ts",
@@ -7607,6 +7769,12 @@
     },
     {
       "from": "apps/backend/src/server.ts",
+      "to": "apps/backend/src/prisma/ensureSchema.ts",
+      "type": "import",
+      "toElement": "ensureSchema"
+    },
+    {
+      "from": "apps/backend/src/server.ts",
       "to": "apps/backend/src/server.ts",
       "type": "call",
       "toElement": "dns.setDefaultResultOrder"
@@ -7895,6 +8063,13 @@
       "type": "call",
       "fromElement": "buildServer",
       "toElement": "reply.status"
+    },
+    {
+      "from": "apps/backend/src/server.ts",
+      "to": "apps/backend/src/server.ts",
+      "type": "call",
+      "fromElement": "start",
+      "toElement": "ensureSchema"
     },
     {
       "from": "apps/backend/src/server.ts",

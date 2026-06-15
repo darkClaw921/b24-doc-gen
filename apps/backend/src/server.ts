@@ -35,6 +35,7 @@ import { registerWebhookRoutes } from './routes/webhooks.js';
 import { registerWebhookRunRoute } from './routes/webhookRun.js';
 import { registerImageRoutes } from './services/imageCache.js';
 import { registerAuthMiddleware } from './middleware/auth.js';
+import { ensureSchema } from './prisma/ensureSchema.js';
 
 /**
  * Build a Fastify instance with all plugins, middleware and routes
@@ -227,6 +228,11 @@ export async function buildServer(): Promise<FastifyInstance> {
  * Process entry point. Starts the server on BACKEND_PORT (default 3001).
  */
 async function start(): Promise<void> {
+  // Bring the database schema up to date with schema.prisma before we
+  // accept traffic, so new models/columns (added via `db push`, not
+  // migrations) exist on the running DB. Non-fatal — see ensureSchema.
+  ensureSchema();
+
   const app = await buildServer();
   const port = Number(process.env.BACKEND_PORT ?? 3001);
   const host = process.env.BACKEND_HOST ?? '0.0.0.0';

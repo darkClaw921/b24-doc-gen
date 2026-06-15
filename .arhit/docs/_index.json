@@ -970,5 +970,13 @@
     "content": "Чистые хелперы палитры 'Часто используемые поля' FormulaBuilder. QuickField {label,token}; константы QUICK_FIELDS_PAGE_SIZE=6, QUICK_FIELDS_MAX=20, ключ localStorage; DEFAULT_QUICK_FIELDS сид. loadRecentFields/saveRecentFields — localStorage с защитой от повреждённого JSON. mergeQuickFields — слияние истории с дефолтами (дедуп, кап). addRecentField — редьюсер: токен в начало, дедуп, кап. Покрыто quickFields.test.ts.",
     "createdAt": "2026-06-15T14:16:44.530Z",
     "updatedAt": "2026-06-15T14:16:44.530Z"
+  },
+  {
+    "element": "ensureSchema",
+    "path": "apps/backend/src/prisma/ensureSchema.ts",
+    "type": "function",
+    "content": "Авто-применение схемы Prisma к БД при старте бэкенда. Вызывается из server.ts::start() перед listen. Запускает локальный prisma db push --skip-generate (CLI резолвится через require.resolve('prisma/package.json') и поле bin; backendDir = ../../ от модуля, схема prisma/schema.prisma). Назначение: модель добавляется через db push без миграций, поэтому при деплое (tsc-сборка) прод-БД отстаёт — авто-push на старте устраняет это независимо от лаунчера (systemd/prod.sh/tsx). Безопасность: без --accept-data-loss db push прерывается вместо удаления данных; ошибки некритичны (лог + старт со старой схемой). Отключение: DB_AUTO_PUSH=false. ВАЖНО: SQLite file:./X.db резолвится относительно папки schema.prisma (prisma/), реальная БД — apps/backend/prisma/{dev,prod}.db.",
+    "createdAt": "2026-06-15T18:31:41.716Z",
+    "updatedAt": "2026-06-15T18:31:41.716Z"
   }
 ]
