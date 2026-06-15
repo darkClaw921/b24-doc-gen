@@ -134,6 +134,29 @@ export interface SelectOption {
 }
 
 /**
+ * A reusable `select` field preset defined by an admin in Settings.
+ *
+ * Lets admins define a dropdown's options (and value mapping) once and
+ * reuse it across templates: when binding a `select` manual field in the
+ * ManualFieldBuilder they pick a preset instead of re-entering the list.
+ * The preset only seeds the field's `options`/`valueMode` — the field
+ * keeps its own `label`/`fieldKey`/`required`.
+ */
+export interface FieldPreset {
+  id: string;
+  /** Human-readable name shown in the settings list and the picker. */
+  name: string;
+  /** Substitution mode applied to the seeded options. */
+  valueMode: SelectValueMode;
+  /** The dropdown choices ({ label, value }). */
+  options: SelectOption[];
+  /** Ascending sort key in the settings list. */
+  order: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+/**
  * A manual field attached to a template. Unlike a {@link Formula} (whose
  * value is computed from CRM data), a manual field is filled in by the
  * user at generation time. It is referenced from the template HTML by
@@ -210,6 +233,8 @@ export interface FormulaDependencies {
   deal: string[];
   contact: string[];
   company: string[];
+  /** Fields read from the deal's responsible user (`ASSIGNED.*`). */
+  assigned?: string[];
   /** True when the formula references product helpers (productSum, productGet, etc.). */
   products?: boolean;
 }
@@ -324,6 +349,12 @@ export interface FormulaContext {
   DEAL: EntityValues;
   CONTACT: EntityValues;
   COMPANY: EntityValues;
+  /**
+   * The deal's responsible user (`crm.deal.ASSIGNED_BY_ID` resolved via
+   * `user.get`). Empty object when the deal has no assignee or it could
+   * not be loaded.
+   */
+  ASSIGNED: EntityValues;
   /** Product rows attached to the deal (empty array when not loaded). */
   PRODUCTS: ProductRow[];
 }

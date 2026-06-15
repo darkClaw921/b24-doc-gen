@@ -203,9 +203,9 @@
     "element": "formulaEngine",
     "path": "",
     "type": "unknown",
-    "content": "Sandboxed mathjs engine for template formulas. Creates isolated math instance via create(all), then disables dangerous functions (import, createUnit, simplify, derivative, rationalize, resolve, symbolicEqual, reviver, replacer) via Object.defineProperty. Registers helpers: if, concat, format (money/usd/eur/0.00/0.0%/...), dateFormat (iso/date/datetime/dd.MM.yyyy tokens), upper, lower. Exposes validateExpression (AST parse + symbol whitelist), evaluateExpression (compiles + runs with {DEAL, CONTACT, COMPANY} scope), extractDependencies (AST traverse for AccessorNode). Safe against injection: every validated identifier must be DEAL/CONTACT/COMPANY namespace, a whitelisted helper, or a function exposed on the math instance.",
+    "content": "Песочница mathjs для формул шаблонов. Поддерживает 4 namespace-сущности в выражениях: DEAL.*, CONTACT.*, COMPANY.* и ASSIGNED.* (поля ответственного пользователя сделки). ENTITY_SYMBOLS=['DEAL','CONTACT','COMPANY','ASSIGNED']. collectDeps извлекает зависимости в FormulaDependencies {deal,contact,company,assigned,products?}. evaluateExpression подставляет каждую сущность через withMissingFieldDefaults (отсутствующие поля → ''). Заблокированы динамические примитивы mathjs (import/createUnit/simplify и т.д.).",
     "createdAt": "2026-04-07T17:28:54.052Z",
-    "updatedAt": "2026-04-07T17:28:54.052Z"
+    "updatedAt": "2026-06-15T12:50:42.624Z"
   },
   {
     "element": "registerFormulaRoutes",
@@ -219,9 +219,9 @@
     "element": "FieldPicker",
     "path": "apps/frontend/src/components/FieldPicker.tsx",
     "type": "function",
-    "content": "Three-tab CRM field picker used inside FormulaBuilder. Tabs: Сделка/Контакт/Компания. Loads all three field schemas in a single call via crmApi.allFields (GET /api/crm/fields, backend-cached 5 min per portal). Supports free-text search filtering over code or title. Clicking a field invokes onSelect(token, field, entity) with a namespaced token like DEAL.OPPORTUNITY. Shows field type + multiple/required markers.",
+    "content": "Tabbed picker полей CRM внутри FormulaBuilder. Вкладки: Сделка (DEAL), Контакт (CONTACT), Компания (COMPANY), Ответственный (ASSIGNED — поля ответственного пользователя сделки из user.fields), Товары (PRODUCT, статический список). Схемы DEAL/CONTACT/COMPANY/ASSIGNED грузятся из GET /api/crm/fields (crmApi.allFields), кешируются на бэкенде 5 мин. Клик по полю вызывает onSelect(token) с токеном вида ENTITY.CODE (например ASSIGNED.WORK_POSITION); для товаров — productGet(1, \"CODE\").",
     "createdAt": "2026-04-07T17:29:12.734Z",
-    "updatedAt": "2026-04-07T17:29:12.734Z"
+    "updatedAt": "2026-06-15T12:50:32.979Z"
   },
   {
     "element": "FormulaBuilder",
@@ -898,5 +898,77 @@
     "content": "Обработчик в ManualFieldBuilder (компонент): берёт текст из bulkText, парсит через parseBulkOptions(bulkText, valueMode==='mapped'), удаляет пустые строки-плейсхолдеры из текущих options, добавляет новые варианты с дедупликацией по label, очищает bulkText. Привязан к кнопке 'Разобрать' в блоке 'Вставить списком'.",
     "createdAt": "2026-06-08T11:28:15.216Z",
     "updatedAt": "2026-06-08T11:28:15.216Z"
+  },
+  {
+    "element": "getUserFields",
+    "path": "",
+    "type": "unknown",
+    "content": "Метод B24Client: схема полей ответственного пользователя (ASSIGNED.*) для FieldPicker. Мержит два источника: user.fields (стандартные поля код→метка, type:'string') и user.userfield.list (пользовательские UF_USR_* поля с реальным USER_TYPE_ID, MULTIPLE/MANDATORY и LIST вариантами для enumeration). UF-вызов best-effort (ошибки/отсутствие scope user.userfield → пустой список, стандартные поля всё равно возвращаются). Стандартные UF-коды из user.fields заменяются богатой UF-метаинформацией. Нормализация UF — normalizeUserField.",
+    "createdAt": "2026-06-15T12:50:33.265Z",
+    "updatedAt": "2026-06-15T13:25:39.162Z"
+  },
+  {
+    "element": "getUser",
+    "path": "",
+    "type": "unknown",
+    "content": "Метод B24Client: user.get с фильтром {ID}. Возвращает первую запись пользователя или null. Используется для резолва ASSIGNED_BY_ID сделки в контекст ASSIGNED при вычислении формул (dealData.getDealContext и formulas.fetchDealContext).",
+    "createdAt": "2026-06-15T12:50:33.542Z",
+    "updatedAt": "2026-06-15T12:50:33.542Z"
+  },
+  {
+    "element": "getDealContext",
+    "path": "apps/backend/src/services/dealData.ts",
+    "type": "function",
+    "content": "dealData.getDealContext: собирает FormulaContext {DEAL,CONTACT,COMPANY,ASSIGNED,PRODUCTS} двумя batch-запросами. Stage1: crm.deal.get + crm.deal.contact.items.get (+productrows). Stage2: crm.contact.get + crm.company.get + user.get (по ASSIGNED_BY_ID сделки) — ответственный берётся как users[0]. flattenEntity нормализует мультиполя. Используется generationPipeline и preview.",
+    "createdAt": "2026-06-15T12:50:42.903Z",
+    "updatedAt": "2026-06-15T12:50:42.903Z"
+  },
+  {
+    "element": "normalizeUserField",
+    "path": "apps/backend/src/routes/settings.ts",
+    "type": "function",
+    "content": "Приватный хелпер b24Client: приводит запись user.userfield.list (UF_USR_* поле пользователя) к DealField. code=FIELD_NAME, title=EDIT_FORM_LABEL/LIST_COLUMN_LABEL/LIST_FILTER_LABEL (через pickLocalizedLabel) либо FIELD_NAME, type=USER_TYPE_ID, isRequired=MANDATORY==='Y', isUserField=true, isMultiple=MULTIPLE==='Y', items из LIST [{ID,VALUE}].",
+    "createdAt": "2026-06-15T13:25:39.434Z",
+    "updatedAt": "2026-06-15T13:25:39.434Z"
+  },
+  {
+    "element": "registerFieldPresetRoutes",
+    "path": "apps/backend/src/routes/fieldPresets.ts",
+    "type": "function",
+    "content": "Бэкенд CRUD-маршруты переиспользуемых пресетов выпадающих списков: GET/POST/PUT/DELETE /api/field-presets. Мутации под requireAdmin. options хранится JSON-строкой (parseOptions/normalizeOptions/JSON.stringify), toPresetDto приводит к shared FieldPreset. Валидация: name 1..200, ≥1 вариант, valueMode direct/mapped. Зарегистрирован в server.ts. Пресеты используются в ManualFieldBuilder для заполнения options+valueMode select-поля.",
+    "createdAt": "2026-06-15T14:02:24.068Z",
+    "updatedAt": "2026-06-15T14:02:24.068Z"
+  },
+  {
+    "element": "SelectOptionsEditor",
+    "path": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+    "type": "function",
+    "content": "Переиспользуемый controlled-редактор вариантов списочного поля (frontend). Вынесен из ManualFieldBuilder, используется также в FieldPresetsSettings. Содержит: select режима подстановки (valueMode direct/mapped, скрывается showModeSelector=false), список options[{label,value}] с add/remove/inline-edit, блок массового ввода. Экспортирует parseBulkOptions(text, splitValue). Props: valueMode/onValueModeChange, options/onOptionsChange, showModeSelector?.",
+    "createdAt": "2026-06-15T14:02:24.331Z",
+    "updatedAt": "2026-06-15T14:02:24.331Z"
+  },
+  {
+    "element": "FieldPresetsSettings",
+    "path": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+    "type": "function",
+    "content": "Секция настроек 'Списочные поля (готовые списки)' (frontend). CRUD пресетов выпадающих списков через fieldPresetsApi, своя TanStack Query ['field-presets'] + мутации create/update/delete (инвалидируют тот же ключ — синхронно с пикером в ManualFieldBuilder). Список пресетов с изменить/удалить, диалог создания/редактирования с input названия и общим SelectOptionsEditor. Рендерится как section в SettingsPage.",
+    "createdAt": "2026-06-15T14:02:24.589Z",
+    "updatedAt": "2026-06-15T14:02:24.589Z"
+  },
+  {
+    "element": "apps/frontend/src/lib/selectOptions.ts",
+    "path": "apps/frontend/src/lib/selectOptions.ts",
+    "type": "file",
+    "content": "Чистые хелперы редактирования вариантов списочного поля (без React). parseBulkOptions(text, splitValue) — построчный парсинг вставленного списка (mapped: label/value по табу или 2+ пробелам; direct: вся строка — вариант; пустые игнорируются). mergeParsedOptions(existing, parsed) — добавляет с отбрасыванием пустых placeholder и дедупом по trimmed label. Используется SelectOptionsEditor (реэкспортит parseBulkOptions). Покрыто selectOptions.test.ts.",
+    "createdAt": "2026-06-15T14:16:44.273Z",
+    "updatedAt": "2026-06-15T14:16:44.273Z"
+  },
+  {
+    "element": "apps/frontend/src/lib/quickFields.ts",
+    "path": "apps/frontend/src/lib/quickFields.ts",
+    "type": "file",
+    "content": "Чистые хелперы палитры 'Часто используемые поля' FormulaBuilder. QuickField {label,token}; константы QUICK_FIELDS_PAGE_SIZE=6, QUICK_FIELDS_MAX=20, ключ localStorage; DEFAULT_QUICK_FIELDS сид. loadRecentFields/saveRecentFields — localStorage с защитой от повреждённого JSON. mergeQuickFields — слияние истории с дефолтами (дедуп, кап). addRecentField — редьюсер: токен в начало, дедуп, кап. Покрыто quickFields.test.ts.",
+    "createdAt": "2026-06-15T14:16:44.530Z",
+    "updatedAt": "2026-06-15T14:16:44.530Z"
   }
 ]

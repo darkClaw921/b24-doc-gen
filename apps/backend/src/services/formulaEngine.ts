@@ -22,6 +22,8 @@
  *   - `DEAL.<FIELD_CODE>`     — values from `crm.deal.get`
  *   - `CONTACT.<FIELD_CODE>`  — values from the primary `crm.contact.get`
  *   - `COMPANY.<FIELD_CODE>`  — values from the linked `crm.company.get`
+ *   - `ASSIGNED.<FIELD_CODE>` — values for the deal's responsible user
+ *                                (`ASSIGNED_BY_ID` resolved via `user.get`)
  *
  * Public API:
  *
@@ -134,7 +136,7 @@ function buildSandboxedMath() {
 const math = buildSandboxedMath();
 
 /** Names of the three top-level entity symbols available in expressions. */
-const ENTITY_SYMBOLS = ['DEAL', 'CONTACT', 'COMPANY'] as const;
+const ENTITY_SYMBOLS = ['DEAL', 'CONTACT', 'COMPANY', 'ASSIGNED'] as const;
 type EntitySymbol = (typeof ENTITY_SYMBOLS)[number];
 
 /* ------------------------------------------------------------------ */
@@ -300,6 +302,7 @@ function collectDeps(node: MathNode): FormulaDependencies {
     DEAL: new Set(),
     CONTACT: new Set(),
     COMPANY: new Set(),
+    ASSIGNED: new Set(),
   };
   let needsProducts = false;
 
@@ -338,6 +341,7 @@ function collectDeps(node: MathNode): FormulaDependencies {
     deal: Array.from(deps.DEAL).sort(),
     contact: Array.from(deps.CONTACT).sort(),
     company: Array.from(deps.COMPANY).sort(),
+    assigned: Array.from(deps.ASSIGNED).sort(),
     ...(needsProducts ? { products: true } : {}),
   };
 }
@@ -515,6 +519,7 @@ export function evaluateExpression(
     DEAL: withMissingFieldDefaults(context.DEAL ?? {}),
     CONTACT: withMissingFieldDefaults(context.CONTACT ?? {}),
     COMPANY: withMissingFieldDefaults(context.COMPANY ?? {}),
+    ASSIGNED: withMissingFieldDefaults(context.ASSIGNED ?? {}),
 
     /* -------------------------------------------------------------- */
     /* Product helpers — closures capturing `products`                 */
@@ -604,7 +609,7 @@ export function evaluateExpression(
 export function extractDependencies(expression: string): FormulaDependencies {
   const parsed = tryParse(expression);
   if ('error' in parsed) {
-    return { deal: [], contact: [], company: [] };
+    return { deal: [], contact: [], company: [], assigned: [] };
   }
   return collectDeps(parsed.node);
 }

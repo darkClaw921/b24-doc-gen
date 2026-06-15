@@ -18,7 +18,11 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { evaluateExpression, validateExpression } from './formulaEngine.js';
+import {
+  evaluateExpression,
+  validateExpression,
+  extractDependencies,
+} from './formulaEngine.js';
 
 test('arithmetic on a missing entity field does not throw (defaults to 0)', () => {
   const r = evaluateExpression('DEAL.OPPORTUNITY * 2', { DEAL: {} });
@@ -53,4 +57,45 @@ test('validateExpression accepts arithmetic on entity fields', () => {
   const v = validateExpression('DEAL.OPPORTUNITY * 2');
   assert.equal(v.ok, true);
   assert.deepEqual(v.deps?.deal, ['OPPORTUNITY']);
+});
+
+/* ------------------------------------------------------------------ */
+/* ASSIGNED namespace (deal's responsible user)                        */
+/* ------------------------------------------------------------------ */
+
+test('ASSIGNED.* is a valid namespace and resolves from context', () => {
+  const r = evaluateExpression('concat(ASSIGNED.NAME, " ", ASSIGNED.LAST_NAME)', {
+    ASSIGNED: { NAME: 'Иван', LAST_NAME: 'Петров' },
+  });
+  assert.equal(r.error, undefined);
+  assert.equal(r.value, 'Иван Петров');
+});
+
+test('validateExpression collects ASSIGNED dependencies', () => {
+  const v = validateExpression('concat(ASSIGNED.LAST_NAME, ASSIGNED.WORK_POSITION)');
+  assert.equal(v.ok, true);
+  assert.deepEqual(v.deps?.assigned, ['LAST_NAME', 'WORK_POSITION']);
+});
+
+test('extractDependencies splits ASSIGNED from DEAL/CONTACT/COMPANY', () => {
+  const deps = extractDependencies(
+    'concat(DEAL.TITLE, CONTACT.NAME, COMPANY.TITLE, ASSIGNED.EMAIL)',
+  );
+  assert.deepEqual(deps.deal, ['TITLE']);
+  assert.deepEqual(deps.contact, ['NAME']);
+  assert.deepEqual(deps.company, ['TITLE']);
+  assert.deepEqual(deps.assigned, ['EMAIL']);
+});
+
+test('missing ASSIGNED field does not throw (empty assignee)', () => {
+  // A deal with no responsible user → ASSIGNED is {} → fields default to ''.
+  const r = evaluateExpression('concat(ASSIGNED.WORK_POSITION, "!")', { ASSIGNED: {} });
+  assert.equal(r.error, undefined);
+  assert.equal(r.value, '!');
+});
+
+test('an unknown namespace is still rejected', () => {
+  const v = validateExpression('USER.NAME');
+  assert.equal(v.ok, false);
+  assert.match(v.error ?? '', /Unknown identifier/);
 });

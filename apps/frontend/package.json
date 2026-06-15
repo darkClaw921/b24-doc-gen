@@ -8,6 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
+    "test": "tsx --test \"src/lib/**/*.test.ts\"",
     "lint": "eslint src --ext .ts,.tsx --max-warnings 0",
     "clean": "rm -rf dist node_modules/.vite"
   },

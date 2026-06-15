@@ -20,7 +20,9 @@
  *     `crm.company.get` for whichever of the two ids we have. If
  *     neither id is present we skip stage 2 entirely.
  *  4. The returned object is intentionally flat:
- *       { DEAL: {...}, CONTACT: {...}, COMPANY: {...} }
+ *       { DEAL: {...}, CONTACT: {...}, COMPANY: {...}, ASSIGNED: {...} }
+ *     where ASSIGNED is the deal's responsible user resolved from
+ *     `ASSIGNED_BY_ID` via `user.get`.
  *     Each top-level key is a `Record<string, unknown>` — keys are
  *     the raw Bitrix24 field codes (OPPORTUNITY, TITLE, UF_CRM_*,
  *     PHONE, EMAIL, ...). The caller passes this object directly to
@@ -179,9 +181,10 @@ export async function getDealContext(
     ? Number(primary['CONTACT_ID'] ?? primary['contact_id'] ?? 0)
     : 0;
   const companyId = Number(dealRaw['COMPANY_ID'] ?? 0);
+  const assignedById = Number(dealRaw['ASSIGNED_BY_ID'] ?? 0);
 
   /* -------------------------------------------------------------- */
-  /* Stage 2 — contact + company in one batch (conditional)         */
+  /* Stage 2 — contact + company + responsible user (conditional)   */
   /* -------------------------------------------------------------- */
   const stage2Calls: Record<
     string,
@@ -199,9 +202,17 @@ export async function getDealContext(
       params: { id: companyId },
     };
   }
+  if (Number.isFinite(assignedById) && assignedById > 0) {
+    // `user.get` filters by ID and returns an array of users.
+    stage2Calls.assigned = {
+      method: 'user.get',
+      params: { ID: assignedById },
+    };
+  }
 
   let contactRaw: Record<string, unknown> = {};
   let companyRaw: Record<string, unknown> = {};
+  let assignedRaw: Record<string, unknown> = {};
 
   if (Object.keys(stage2Calls).length > 0) {
     try {
@@ -211,6 +222,13 @@ export async function getDealContext(
       }
       if (stage2.result.company && !stage2.result_error?.company) {
         companyRaw = (stage2.result.company as Record<string, unknown>) ?? {};
+      }
+      if (stage2.result.assigned && !stage2.result_error?.assigned) {
+        // `user.get` returns an array — take the first matching user.
+        const users = stage2.result.assigned as unknown;
+        if (Array.isArray(users) && users.length > 0) {
+          assignedRaw = (users[0] as Record<string, unknown>) ?? {};
+        }
       }
     } catch (err) {
       // Non-fatal: a missing contact or company should not break
@@ -246,6 +264,7 @@ export async function getDealContext(
     DEAL: flattenEntity(dealRaw),
     CONTACT: flattenEntity(contactRaw),
     COMPANY: flattenEntity(companyRaw),
+    ASSIGNED: flattenEntity(assignedRaw),
     PRODUCTS: products,
   };
 }

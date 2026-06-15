@@ -177,3 +177,23 @@ model Webhook {
   @@index([themeId])
   @@index([templateId])
 }
+
+/// A reusable "select" field preset, defined by an admin in Settings and
+/// reusable across templates. Instead of re-entering the same dropdown
+/// options (and their value mapping) on every template, an admin saves a
+/// preset here once and picks it in the ManualFieldBuilder when binding a
+/// `select` field.
+///
+/// - `valueMode` mirrors TemplateField.valueMode ("direct" | "mapped").
+/// - `options` is a JSON array of { label, value } (same shape as
+///   SelectOption), serialized as a string for SQLite.
+/// - `order` is an ascending sort key for the settings list.
+model FieldPreset {
+  id        String   @id @default(cuid())
+  name      String
+  valueMode String   @default("direct")
+  options   String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

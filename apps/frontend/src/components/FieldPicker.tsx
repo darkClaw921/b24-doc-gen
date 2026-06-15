@@ -1,17 +1,19 @@
 /**
- * FieldPicker — a three-tabbed picker for CRM fields.
+ * FieldPicker — a tabbed picker for CRM fields.
  *
  * Used inside `FormulaBuilder` to let admins drop a field reference
- * (`DEAL.OPPORTUNITY`, `CONTACT.NAME`, `COMPANY.UF_CRM_INN`, …) into
- * the expression editor without memorising internal codes.
+ * (`DEAL.OPPORTUNITY`, `CONTACT.NAME`, `COMPANY.UF_CRM_INN`,
+ * `ASSIGNED.WORK_POSITION`, …) into the expression editor without
+ * memorising internal codes.
  *
  * Data flow:
- *  - Loads the field schemas for all three entities (Deal, Contact,
- *    Company) from `GET /api/crm/fields` via TanStack Query. The
- *    response is cached per portal on the backend for 5 min.
- *  - Displays three tabs (Сделка / Контакт / Компания) populated from
- *    the query result. A search box on top filters by code or title
- *    inside the active tab.
+ *  - Loads the field schemas for the deal, contact, company and the
+ *    deal's responsible user (`user.fields`) from `GET /api/crm/fields`
+ *    via TanStack Query. The response is cached per portal on the
+ *    backend for 5 min.
+ *  - Displays tabs (Сделка / Контакт / Компания / Ответственный /
+ *    Товары) populated from the query result. A search box on top
+ *    filters by code or title inside the active tab.
  *  - Clicking a field invokes `onSelect(token)` with the fully
  *    qualified identifier (`DEAL.CODE`) — the caller is free to
  *    append it to the formula expression.
@@ -33,7 +35,7 @@ import { Input } from '@/components/ui/input';
 import { crmApi, type CrmFieldDTO, ApiError } from '@/lib/api';
 import { cn } from '@/lib/utils';
 
-export type FieldPickerEntity = 'DEAL' | 'CONTACT' | 'COMPANY' | 'PRODUCT';
+export type FieldPickerEntity = 'DEAL' | 'CONTACT' | 'COMPANY' | 'ASSIGNED' | 'PRODUCT';
 
 export interface FieldPickerProps {
   /**
@@ -51,6 +53,7 @@ const ENTITY_LABELS: Record<FieldPickerEntity, string> = {
   DEAL: 'Сделка',
   CONTACT: 'Контакт',
   COMPANY: 'Компания',
+  ASSIGNED: 'Ответственный',
   PRODUCT: 'Товары',
 };
 
@@ -88,6 +91,7 @@ export function FieldPicker({
     if (!fieldsQuery.data) return [];
     if (activeEntity === 'DEAL') return fieldsQuery.data.deal;
     if (activeEntity === 'CONTACT') return fieldsQuery.data.contact;
+    if (activeEntity === 'ASSIGNED') return fieldsQuery.data.assigned ?? [];
     return fieldsQuery.data.company;
   }, [fieldsQuery.data, activeEntity]);
 

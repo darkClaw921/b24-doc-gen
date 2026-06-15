@@ -83,6 +83,7 @@ export async function registerFormulaRoutes(app: FastifyInstance): Promise<void>
       DEAL: {},
       CONTACT: {},
       COMPANY: {},
+      ASSIGNED: {},
       PRODUCTS: [],
     });
     if (trialResult.error) {
@@ -148,6 +149,7 @@ export async function registerFormulaRoutes(app: FastifyInstance): Promise<void>
           DEAL: { ...fetched.DEAL, ...(context.DEAL ?? {}) },
           CONTACT: { ...fetched.CONTACT, ...(context.CONTACT ?? {}) },
           COMPANY: { ...fetched.COMPANY, ...(context.COMPANY ?? {}) },
+          ASSIGNED: { ...fetched.ASSIGNED, ...(context.ASSIGNED ?? {}) },
           PRODUCTS: fetched.PRODUCTS ?? [],
         };
       } catch (err) {
@@ -212,6 +214,7 @@ async function fetchDealContext(
     ? Number(primary['CONTACT_ID'] ?? primary['contact_id'])
     : null;
   const companyId = Number(dealResult['COMPANY_ID'] ?? 0);
+  const assignedById = Number(dealResult['ASSIGNED_BY_ID'] ?? 0);
 
   const stage2Calls: Record<string, { method: string; params?: Record<string, unknown> }> = {};
   if (primaryContactId && Number.isFinite(primaryContactId) && primaryContactId > 0) {
@@ -220,19 +223,29 @@ async function fetchDealContext(
   if (Number.isFinite(companyId) && companyId > 0) {
     stage2Calls.company = { method: 'crm.company.get', params: { id: companyId } };
   }
+  if (Number.isFinite(assignedById) && assignedById > 0) {
+    stage2Calls.assigned = { method: 'user.get', params: { ID: assignedById } };
+  }
 
   let contact: Record<string, unknown> = {};
   let company: Record<string, unknown> = {};
+  let assigned: Record<string, unknown> = {};
   if (Object.keys(stage2Calls).length > 0) {
     const stage2 = await client.callBatch<Record<string, unknown>>(stage2Calls);
     contact = (stage2.result.contact as Record<string, unknown> | undefined) ?? {};
     company = (stage2.result.company as Record<string, unknown> | undefined) ?? {};
+    // `user.get` returns an array — take the first matching user.
+    const users = stage2.result.assigned as unknown;
+    if (Array.isArray(users) && users.length > 0) {
+      assigned = (users[0] as Record<string, unknown>) ?? {};
+    }
   }
 
   return {
     DEAL: dealResult,
     CONTACT: contact,
     COMPANY: company,
+    ASSIGNED: assigned,
     PRODUCTS: [],
   };
 }

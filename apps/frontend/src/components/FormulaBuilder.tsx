@@ -10,9 +10,11 @@
  *  2. A monospace `<textarea>` for the mathjs expression. The caret
  *     position is tracked with a ref so field/operator/function
  *     clicks can splice tokens in place.
- *  3. `FieldPicker` for inserting `DEAL.X`/`CONTACT.Y`/`COMPANY.Z`
- *     tokens — clicking a field appends it to the expression at the
- *     caret.
+ *  3. A "Часто используемые поля" quick palette (`QUICK_FIELDS`) plus
+ *     the full `FieldPicker` for inserting `DEAL.X`/`CONTACT.Y`/
+ *     `COMPANY.Z`/`ASSIGNED.W` tokens (the last being fields of the
+ *     deal's responsible user) — clicking a field appends it to the
+ *     expression at the caret.
  *  4. Two button palettes:
  *       - operators: + - * / ( ) , == != > < >= <= ? :
  *       - helper functions with parameter hints inside parentheses.
@@ -45,7 +47,14 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Loader2, AlertCircle, CheckCircle2, Play } from 'lucide-react';
+import {
+  Loader2,
+  AlertCircle,
+  CheckCircle2,
+  Play,
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -56,7 +65,16 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { FieldPicker } from './FieldPicker';
+import { FieldPicker, type FieldPickerEntity } from './FieldPicker';
+import type { CrmFieldDTO } from '@/lib/api';
+import {
+  QUICK_FIELDS_PAGE_SIZE,
+  type QuickField,
+  loadRecentFields,
+  mergeQuickFields,
+  addRecentField,
+  saveRecentFields,
+} from '@/lib/quickFields';
 import { RichTooltip } from '@/components/ui/RichTooltip';
 import { HELPER_DOCS, OPERATOR_DOCS, type HelperDoc } from '@/lib/formulaHelp';
 import {
@@ -133,6 +151,7 @@ const HELPERS: HelperDescriptor[] = [
   { name: 'lower', insert: 'lower()', cursorOffset: 6 },
 ];
 
+/** Один пункт палитры быстрых полей. */
 /**
  * Product-specific helpers — shown in a separate palette section so
  * admins can quickly build product-related formulas.
@@ -217,6 +236,25 @@ export function FormulaBuilder({
   const [remoteResult, setRemoteResult] = useState<LocalValidationResult | null>(null);
   const [remoteLoading, setRemoteLoading] = useState(false);
 
+  /* --------------------- quick-fields palette ------------------- */
+  // История недавно использованных полей (до QUICK_FIELDS_MAX), слитая
+  // с дефолтным набором, плюс пагинация по QUICK_FIELDS_PAGE_SIZE чипов.
+  const [recentFields, setRecentFields] = useState<QuickField[]>(() =>
+    mergeQuickFields(loadRecentFields()),
+  );
+  const [quickPage, setQuickPage] = useState(0);
+
+  /** Записать поле в начало истории и поднять его наверх палитры. */
+  const recordRecentField = useCallback((token: string, label: string) => {
+    setRecentFields((prev) => {
+      const next = addRecentField(prev, token, label);
+      saveRecentFields(next);
+      return next;
+    });
+    // Новое поле всегда оказывается на первой странице.
+    setQuickPage(0);
+  }, []);
+
   // Reset form whenever the dialog is re-opened with new values.
   useEffect(() => {
     if (!open) return;
@@ -300,10 +338,26 @@ export function FormulaBuilder({
   );
 
   const handleFieldSelect = useCallback(
-    (token: string) => {
+    (token: string, field?: CrmFieldDTO, entity?: FieldPickerEntity) => {
       insertAtCaret(token);
+      // Подпись для истории: название поля (+ сущность) либо сам токен.
+      const label = field?.title
+        ? entity
+          ? `${field.title} (${entity})`
+          : field.title
+        : token;
+      recordRecentField(token, label);
     },
-    [insertAtCaret],
+    [insertAtCaret, recordRecentField],
+  );
+
+  /** Быстрая вставка из палитры — подпись уже известна. */
+  const handleQuickField = useCallback(
+    (qf: QuickField) => {
+      insertAtCaret(qf.token);
+      recordRecentField(qf.token, qf.label);
+    },
+    [insertAtCaret, recordRecentField],
   );
 
   const handleOperator = useCallback(
@@ -353,7 +407,7 @@ export function FormulaBuilder({
   const canSubmit =
     isValid && label.trim().length > 0 && tagKey.trim().length > 0 && expression.trim().length > 0;
   const dependencies: FormulaDependencies =
-    remoteResult?.dependencies ?? { deal: [], contact: [], company: [] };
+    remoteResult?.dependencies ?? { deal: [], contact: [], company: [], assigned: [] };
 
   const handleSubmit = () => {
     if (!canSubmit) return;
@@ -573,12 +627,81 @@ export function FormulaBuilder({
 
           {/* Right column: field picker */}
           <div className="flex flex-col">
+            {/* Quick-access palette of the most common / recent fields */}
+            {(() => {
+              const pageCount = Math.max(
+                1,
+                Math.ceil(recentFields.length / QUICK_FIELDS_PAGE_SIZE),
+              );
+              const safePage = Math.min(quickPage, pageCount - 1);
+              const start = safePage * QUICK_FIELDS_PAGE_SIZE;
+              const pageFields = recentFields.slice(
+                start,
+                start + QUICK_FIELDS_PAGE_SIZE,
+              );
+              return (
+                <div className="mb-3">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-medium text-muted-foreground">
+                      Часто используемые поля
+                    </label>
+                    {pageCount > 1 && (
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          aria-label="Предыдущие поля"
+                          disabled={safePage === 0}
+                          onClick={() => setQuickPage(Math.max(0, safePage - 1))}
+                          className="flex h-5 w-5 items-center justify-center rounded border border-input bg-background text-muted-foreground hover:bg-muted disabled:opacity-40 disabled:hover:bg-background"
+                        >
+                          <ChevronLeft className="h-3 w-3" />
+                        </button>
+                        <span className="text-[10px] tabular-nums text-muted-foreground">
+                          {safePage + 1}/{pageCount}
+                        </span>
+                        <button
+                          type="button"
+                          aria-label="Следующие поля"
+                          disabled={safePage >= pageCount - 1}
+                          onClick={() =>
+                            setQuickPage(Math.min(pageCount - 1, safePage + 1))
+                          }
+                          className="flex h-5 w-5 items-center justify-center rounded border border-input bg-background text-muted-foreground hover:bg-muted disabled:opacity-40 disabled:hover:bg-background"
+                        >
+                          <ChevronRight className="h-3 w-3" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-1 flex flex-wrap gap-1">
+                    {pageFields.map((qf) => (
+                      <RichTooltip
+                        key={qf.token}
+                        content={
+                          <div className="font-mono text-[11px]">{qf.token}</div>
+                        }
+                      >
+                        <button
+                          type="button"
+                          onClick={() => handleQuickField(qf)}
+                          className="h-7 rounded-md border border-input bg-background px-2 text-xs hover:bg-muted"
+                        >
+                          {qf.label}
+                        </button>
+                      </RichTooltip>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
+
             <label className="text-sm font-medium">Поля</label>
             <FieldPicker onSelect={handleFieldSelect} className="mt-1" />
             {dependencies &&
               (dependencies.deal.length > 0 ||
                 dependencies.contact.length > 0 ||
-                dependencies.company.length > 0) && (
+                dependencies.company.length > 0 ||
+                (dependencies.assigned?.length ?? 0) > 0) && (
                 <div className="mt-3 rounded-md border border-border bg-muted/30 p-2 text-xs">
                   <div className="mb-1 font-medium text-muted-foreground">
                     Зависимости:
@@ -586,6 +709,7 @@ export function FormulaBuilder({
                   <DepList title="DEAL" items={dependencies.deal} />
                   <DepList title="CONTACT" items={dependencies.contact} />
                   <DepList title="COMPANY" items={dependencies.company} />
+                  <DepList title="ASSIGNED" items={dependencies.assigned ?? []} />
                 </div>
               )}
           </div>

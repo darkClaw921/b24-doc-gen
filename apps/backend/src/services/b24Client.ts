@@ -293,6 +293,81 @@ export class B24Client {
   }
 
   /**
+   * Portal-user field metadata for the deal's responsible person
+   * (`ASSIGNED.*` namespace in formulas).
+   *
+   * Two sources are merged:
+   *  - `user.fields` — flat `Record<code, label>` map of the standard
+   *    fields (NAME, LAST_NAME, WORK_POSITION, …). No type info and no
+   *    user-defined fields, so each is mapped with a neutral `string`
+   *    type.
+   *  - `user.userfield.list` — the user-defined fields (`UF_USR_*`)
+   *    with their real `USER_TYPE_ID`, multiplicity and enumeration
+   *    items. Labels (`EDIT_FORM_LABEL`/`LIST_COLUMN_LABEL`) are used
+   *    when present, otherwise we fall back to the technical
+   *    `FIELD_NAME`.
+   *
+   * The UF call is best-effort: if the app lacks the `user.userfield`
+   * scope (or it otherwise fails) we still return the standard fields.
+   */
+  async getUserFields(): Promise<DealField[]> {
+    const [standardRaw, userFields] = await Promise.all([
+      this.callMethod<Record<string, unknown>>('user.fields'),
+      this.listUserUserFields(),
+    ]);
+
+    const standard: DealField[] = Object.entries(standardRaw).map(
+      ([code, label]) => ({
+        code,
+        title: typeof label === 'string' && label.trim() ? label : code,
+        type: 'string',
+      }),
+    );
+
+    // Standard `user.fields` already includes the technical codes of UF
+    // fields; override/extend them with the richer UF metadata.
+    const standardCodes = new Set(standard.map((f) => f.code));
+    const uf = userFields.map(normalizeUserField);
+    const merged = standard.filter((f) => !f.code.startsWith('UF_'));
+    for (const field of uf) {
+      if (!standardCodes.has(field.code) || field.code.startsWith('UF_')) {
+        merged.push(field);
+      }
+    }
+    return merged;
+  }
+
+  /**
+   * `user.userfield.list` — list of user-defined (`UF_USR_*`) fields of
+   * the portal-user entity. Failures are swallowed (returns `[]`) so a
+   * missing `user.userfield` scope does not break the field picker.
+   */
+  private async listUserUserFields(): Promise<Array<Record<string, unknown>>> {
+    try {
+      const list = await this.callMethod<Array<Record<string, unknown>>>(
+        'user.userfield.list',
+        { order: { SORT: 'asc' } },
+      );
+      return Array.isArray(list) ? list : [];
+    } catch {
+      return [];
+    }
+  }
+
+  /**
+   * `user.get` — fetch a single portal user by id. Returns the first
+   * matching record or `null` when the id is unknown. Used to resolve a
+   * deal's `ASSIGNED_BY_ID` into the `ASSIGNED` formula context.
+   */
+  async getUser(id: number): Promise<Record<string, unknown> | null> {
+    const list = await this.callMethod<Array<Record<string, unknown>>>(
+      'user.get',
+      { ID: id },
+    );
+    return Array.isArray(list) && list.length > 0 ? list[0] : null;
+  }
+
+  /**
    * Fetch user-field labels for an entity via the corresponding
    * `crm.<entity>.userfield.list` method. Returns a Map keyed by
    * FIELD_NAME (`UF_CRM_*`) with the resolved human label.
@@ -606,6 +681,41 @@ function normalizeDealField(
     items: meta.items?.map((it) => ({
       id: it.ID ?? it.VALUE,
       value: it.VALUE,
+    })),
+  };
+}
+
+/**
+ * Map a raw `user.userfield.list` record (a portal-user UF_USR_* field)
+ * into the shared `DealField` shape consumed by the FieldPicker.
+ *
+ * Unlike `crm.<entity>.fields`, this method exposes the field metadata
+ * directly: `FIELD_NAME`, `USER_TYPE_ID` (string/enumeration/money/…),
+ * `MULTIPLE`/`MANDATORY` flags and, for enumeration fields, a `LIST`
+ * array of `{ ID, VALUE }` options. Human labels are not guaranteed —
+ * we read `EDIT_FORM_LABEL`/`LIST_COLUMN_LABEL` when present and fall
+ * back to the technical `FIELD_NAME`.
+ */
+function normalizeUserField(raw: Record<string, unknown>): DealField {
+  const code = String(raw.FIELD_NAME ?? '');
+  const title =
+    pickLocalizedLabel(raw.EDIT_FORM_LABEL) ??
+    pickLocalizedLabel(raw.LIST_COLUMN_LABEL) ??
+    pickLocalizedLabel(raw.LIST_FILTER_LABEL) ??
+    code;
+  const listRaw = Array.isArray(raw.LIST)
+    ? (raw.LIST as Array<Record<string, unknown>>)
+    : undefined;
+  return {
+    code,
+    title,
+    type: String(raw.USER_TYPE_ID ?? 'string'),
+    isRequired: String(raw.MANDATORY ?? '').toUpperCase() === 'Y',
+    isUserField: true,
+    isMultiple: String(raw.MULTIPLE ?? '').toUpperCase() === 'Y',
+    items: listRaw?.map((it) => ({
+      id: (it.ID as string | number) ?? String(it.VALUE ?? ''),
+      value: String(it.VALUE ?? ''),
     })),
   };
 }

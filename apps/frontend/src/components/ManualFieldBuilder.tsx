@@ -13,7 +13,10 @@
  *     key suggestion (slugified via `generateTagKey`, kept unique
  *     against `existingKeys`) until the admin edits the key manually.
  *  2. Field key — the stable identifier referenced from the document.
- *  3. Type — text | textarea | number | date.
+ *  3. Type — text | textarea | number | date | select. For `select`
+ *     the admin can pick a reusable preset (defined in Settings via
+ *     `fieldPresetsApi`) to seed the options + value mapping, or edit
+ *     them inline via the shared `SelectOptionsEditor`.
  *  4. Required — checkbox.
  *  5. Placeholder — optional hint shown inside the empty input at
  *     generation time.
@@ -26,7 +29,8 @@
  */
 
 import { useEffect, useState } from 'react';
-import { AlertCircle, Plus, Trash2 } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { AlertCircle } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -38,7 +42,13 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { generateTagKey } from '@/lib/formulas';
-import type { SelectOptionDTO, SelectValueModeDTO, TemplateFieldTypeDTO } from '@/lib/api';
+import { SelectOptionsEditor } from '@/components/SelectOptionsEditor';
+import {
+  fieldPresetsApi,
+  type SelectOptionDTO,
+  type SelectValueModeDTO,
+  type TemplateFieldTypeDTO,
+} from '@/lib/api';
 
 export interface ManualFieldBuilderResult {
   fieldKey: string;
@@ -74,36 +84,6 @@ const TYPE_OPTIONS: Array<{ value: TemplateFieldTypeDTO; label: string }> = [
   { value: 'select', label: 'Выпадающий список' },
 ];
 
-/**
- * Parse a pasted block of text into `select` options — one per non-empty
- * line.
- *
- * When `splitValue` is true (`mapped` mode) each line is split into a label
- * and a value by the FIRST tab or run of 2+ spaces: the part before is the
- * label (shown to the user), the part after is the value (substituted into
- * the document). A line with no such separator becomes a label-only option.
- *
- * When `splitValue` is false (`direct` mode) the whole line is the option —
- * no splitting, so values that contain double spaces stay intact.
- *
- * Example (mapped): `ПАО СК «Росгосстрах»\t600020 г.Владимир, ул.Михайловская`
- * → { label: 'ПАО СК «Росгосстрах»', value: '600020 г.Владимир, ул.Михайловская' }
- */
-export function parseBulkOptions(text: string, splitValue: boolean): SelectOptionDTO[] {
-  return text
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0)
-    .map((line) => {
-      if (!splitValue) return { label: line, value: '' };
-      const m = /^(.*?)(?:\t+|\s{2,})(.+)$/.exec(line);
-      return m
-        ? { label: m[1].trim(), value: m[2].trim() }
-        : { label: line, value: '' };
-    })
-    .filter((o) => o.label.length > 0);
-}
-
 export function ManualFieldBuilder({
   open,
   onOpenChange,
@@ -121,13 +101,23 @@ export function ManualFieldBuilder({
   // substituted value.
   const [options, setOptions] = useState<SelectOptionDTO[]>([]);
   const [valueMode, setValueMode] = useState<SelectValueModeDTO>('direct');
-  // Scratch text for the "paste a list" bulk-add box.
-  const [bulkText, setBulkText] = useState('');
+  // Currently applied preset id (or '' when the list is custom/manual).
+  const [presetId, setPresetId] = useState('');
   // Once the admin edits the key by hand we stop auto-suggesting it.
   const [keyDirty, setKeyDirty] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const isEditing = Boolean(initialValues);
+
+  // Reusable select presets defined by an admin in Settings. Loaded only
+  // while the dialog is open so the picker stays fresh.
+  const presetsQuery = useQuery({
+    queryKey: ['field-presets'],
+    queryFn: () => fieldPresetsApi.list(),
+    enabled: open,
+    staleTime: 60 * 1000,
+  });
+  const presets = presetsQuery.data?.presets ?? [];
 
   // Re-seed the form every time the dialog opens.
   useEffect(() => {
@@ -140,35 +130,32 @@ export function ManualFieldBuilder({
     setDefaultValue(initialValues?.defaultValue ?? '');
     setOptions(initialValues?.options ?? []);
     setValueMode(initialValues?.valueMode ?? 'direct');
-    setBulkText('');
+    setPresetId('');
     setKeyDirty(Boolean(initialValues?.fieldKey));
     setError(null);
   }, [open, initialValues]);
 
-  /* ---- select-option editing helpers ---- */
-  const addOption = () => setOptions((prev) => [...prev, { label: '', value: '' }]);
-  const removeOption = (index: number) =>
-    setOptions((prev) => prev.filter((_, i) => i !== index));
-  const updateOption = (index: number, patch: Partial<SelectOptionDTO>) =>
-    setOptions((prev) => prev.map((o, i) => (i === index ? { ...o, ...patch } : o)));
-  /** Parse the bulk-paste box and append new options (dedup by label). */
-  const addBulkOptions = () => {
-    const parsed = parseBulkOptions(bulkText, valueMode === 'mapped');
-    if (parsed.length === 0) return;
-    setOptions((prev) => {
-      // Drop empty placeholder rows (e.g. the seed row from switching to
-      // `select`); the bulk paste always yields ≥1 real option.
-      const kept = prev.filter((o) => o.label.trim().length > 0);
-      const seen = new Set(kept.map((o) => o.label.trim()));
-      const merged = [...kept];
-      for (const o of parsed) {
-        if (seen.has(o.label)) continue;
-        seen.add(o.label);
-        merged.push(o);
-      }
-      return merged;
-    });
-    setBulkText('');
+  /** Apply a saved preset: seed options + valueMode from it. */
+  const applyPreset = (id: string) => {
+    setPresetId(id);
+    if (!id) return;
+    const preset = presets.find((p) => p.id === id);
+    if (!preset) return;
+    setValueMode(preset.valueMode);
+    setOptions(preset.options.map((o) => ({ ...o })));
+    // The preset only seeds the option list; the pre-selected default may
+    // no longer be valid, so reset it.
+    setDefaultValue('');
+  };
+
+  // Editing the options manually detaches the field from its preset.
+  const handleOptionsChange = (next: SelectOptionDTO[]) => {
+    setOptions(next);
+    setPresetId('');
+  };
+  const handleValueModeChange = (mode: SelectValueModeDTO) => {
+    setValueMode(mode);
+    setPresetId('');
   };
 
   const handleLabelChange = (value: string) => {
@@ -299,112 +286,44 @@ export function ManualFieldBuilder({
           </div>
 
           {type === 'select' && (
-            <div className="space-y-3 rounded-md border border-input bg-muted/30 p-3">
+            <div className="space-y-3">
+              {/* Reusable preset picker — saved in Settings, reused here. */}
               <div>
                 <label className="mb-1 block text-sm font-medium">
-                  Режим подстановки
+                  Сохранённый список
                 </label>
                 <select
-                  value={valueMode}
-                  onChange={(e) => setValueMode(e.target.value as SelectValueModeDTO)}
-                  className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                  value={presetId}
+                  onChange={(e) => applyPreset(e.target.value)}
+                  disabled={presetsQuery.isLoading || presets.length === 0}
+                  className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
                 >
-                  <option value="direct">Подставлять выбранное значение</option>
-                  <option value="mapped">Сопоставить со значением</option>
+                  <option value="">
+                    {presetsQuery.isLoading
+                      ? 'Загрузка списков…'
+                      : presets.length === 0
+                        ? 'Нет сохранённых списков'
+                        : '— Свой список —'}
+                  </option>
+                  {presets.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name} ({p.options.length})
+                    </option>
+                  ))}
                 </select>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  {valueMode === 'mapped'
-                    ? 'Пользователь выбирает вариант, а в документ подставляется сопоставленное ему значение.'
-                    : 'В документ подставляется ровно тот вариант, который выбрал пользователь.'}
+                  Выберите готовый список из настроек, чтобы не вводить варианты
+                  заново. Можно отредактировать варианты ниже — список станет
+                  «своим».
                 </p>
               </div>
 
-              <div>
-                <div className="mb-1 flex items-center justify-between">
-                  <label className="block text-sm font-medium">Варианты</label>
-                  <Button type="button" variant="outline" size="sm" onClick={addOption}>
-                    <Plus className="mr-1 h-3.5 w-3.5" />
-                    Добавить
-                  </Button>
-                </div>
-                {options.length === 0 ? (
-                  <p className="text-xs text-muted-foreground">
-                    Нет вариантов — добавьте первый.
-                  </p>
-                ) : (
-                  <div className="space-y-2">
-                    {valueMode === 'mapped' && (
-                      <div className="flex gap-2 px-0.5 text-[11px] text-muted-foreground">
-                        <span className="flex-1">Что видит пользователь</span>
-                        <span className="flex-1">Что подставится</span>
-                        <span className="w-8 shrink-0" />
-                      </div>
-                    )}
-                    {options.map((opt, idx) => (
-                      <div key={idx} className="flex items-center gap-2">
-                        <Input
-                          value={opt.label}
-                          onChange={(e) => updateOption(idx, { label: e.target.value })}
-                          placeholder="Вариант"
-                          className="flex-1"
-                        />
-                        {valueMode === 'mapped' && (
-                          <Input
-                            value={opt.value}
-                            onChange={(e) => updateOption(idx, { value: e.target.value })}
-                            placeholder="Значение"
-                            className="flex-1"
-                          />
-                        )}
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => removeOption(idx)}
-                          className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
-                          aria-label="Удалить вариант"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <div className="mt-3 border-t border-input pt-3">
-                  <label className="mb-1 block text-xs font-medium text-muted-foreground">
-                    Вставить списком
-                  </label>
-                  <textarea
-                    value={bulkText}
-                    onChange={(e) => setBulkText(e.target.value)}
-                    rows={3}
-                    placeholder={
-                      valueMode === 'mapped'
-                        ? 'Название    Значение\n(по строке на вариант)'
-                        : 'Вариант 1\nВариант 2\nВариант 3'
-                    }
-                    className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                  />
-                  <div className="mt-1 flex items-start justify-between gap-2">
-                    <p className="text-[11px] text-muted-foreground">
-                      Каждая строка — вариант.
-                      {valueMode === 'mapped'
-                        ? ' Название и значение разделяйте Tab или 2+ пробелами.'
-                        : ''}
-                    </p>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={addBulkOptions}
-                      disabled={bulkText.trim().length === 0}
-                    >
-                      Разобрать
-                    </Button>
-                  </div>
-                </div>
-              </div>
+              <SelectOptionsEditor
+                valueMode={valueMode}
+                onValueModeChange={handleValueModeChange}
+                options={options}
+                onOptionsChange={handleOptionsChange}
+              />
             </div>
           )}
 

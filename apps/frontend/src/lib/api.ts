@@ -382,6 +382,8 @@ export const crmApi = {
       deal: CrmFieldDTO[];
       contact: CrmFieldDTO[];
       company: CrmFieldDTO[];
+      /** Responsible-user (ASSIGNED.*) field schema from `user.fields`. */
+      assigned: CrmFieldDTO[];
       cached: boolean;
     }>('/crm/fields', { signal }),
 
@@ -464,6 +466,47 @@ export const themesApi = {
 };
 
 /* ------------------------------------------------------------------ */
+/* Field presets (reusable select fields)                              */
+/* ------------------------------------------------------------------ */
+
+export interface FieldPresetDTO {
+  id: string;
+  name: string;
+  valueMode: SelectValueModeDTO;
+  options: SelectOptionDTO[];
+  order: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface UpsertFieldPresetBody {
+  name?: string;
+  valueMode?: SelectValueModeDTO;
+  options?: SelectOptionDTO[];
+  order?: number;
+}
+
+export const fieldPresetsApi = {
+  list: (signal?: AbortSignal) =>
+    apiRequest<{ presets: FieldPresetDTO[] }>('/field-presets', { signal }),
+
+  create: (body: UpsertFieldPresetBody) =>
+    apiRequest<{ preset: FieldPresetDTO }>('/field-presets', {
+      method: 'POST',
+      body,
+    }),
+
+  update: (id: string, body: UpsertFieldPresetBody) =>
+    apiRequest<{ preset: FieldPresetDTO }>(`/field-presets/${id}`, {
+      method: 'PUT',
+      body,
+    }),
+
+  delete: (id: string) =>
+    apiRequest<void>(`/field-presets/${id}`, { method: 'DELETE' }),
+};
+
+/* ------------------------------------------------------------------ */
 /* Templates                                                           */
 /* ------------------------------------------------------------------ */
 
@@ -482,6 +525,8 @@ export interface FormulaDependenciesDTO {
   deal: string[];
   contact: string[];
   company: string[];
+  /** Fields read from the deal's responsible user (`ASSIGNED.*`). */
+  assigned?: string[];
 }
 
 export interface FormulaDTO {

@@ -49,6 +49,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { FieldPresetsSettings } from '@/components/FieldPresetsSettings';
 import {
   ApiError,
   settingsApi,
@@ -538,6 +539,11 @@ export function SettingsPage() {
           )}
         </div>
       </section>
+
+      {/* ------------------------------------------------------- */}
+      {/* Reusable select-field presets                           */}
+      {/* ------------------------------------------------------- */}
+      <FieldPresetsSettings />
 
       {/* ------------------------------------------------------- */}
       {/* Placements                                              */}

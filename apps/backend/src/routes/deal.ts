@@ -25,6 +25,8 @@ const dealFieldsCache = new TTLCache<DealField[]>(DEAL_FIELDS_TTL_MS);
 /** Per-portal cache of `crm.contact.fields` and `crm.company.fields`. */
 const contactFieldsCache = new TTLCache<DealField[]>(DEAL_FIELDS_TTL_MS);
 const companyFieldsCache = new TTLCache<DealField[]>(DEAL_FIELDS_TTL_MS);
+/** Per-portal cache of `user.fields` (responsible-user schema). */
+const userFieldsCache = new TTLCache<DealField[]>(DEAL_FIELDS_TTL_MS);
 
 /** Exported for tests + cache-busting if a UF_CRM field is created. */
 export function invalidateDealFieldsCache(portal?: string): void {
@@ -32,10 +34,12 @@ export function invalidateDealFieldsCache(portal?: string): void {
     dealFieldsCache.delete(portal);
     contactFieldsCache.delete(portal);
     companyFieldsCache.delete(portal);
+    userFieldsCache.delete(portal);
   } else {
     dealFieldsCache.clear();
     contactFieldsCache.clear();
     companyFieldsCache.clear();
+    userFieldsCache.clear();
   }
 }
 
@@ -71,7 +75,7 @@ export async function registerDealRoutes(app: FastifyInstance): Promise<void> {
   });
 
   /* ---------------------------------------------------------------- */
-  /* GET /api/crm/fields — all three entity schemas in one call        */
+  /* GET /api/crm/fields — deal/contact/company/assigned schemas        */
   /* ---------------------------------------------------------------- */
   app.get('/api/crm/fields', async (request, reply) => {
     const auth = request.b24Auth;
@@ -80,11 +84,13 @@ export async function registerDealRoutes(app: FastifyInstance): Promise<void> {
     const cachedDeal = dealFieldsCache.get(auth.domain);
     const cachedContact = contactFieldsCache.get(auth.domain);
     const cachedCompany = companyFieldsCache.get(auth.domain);
-    if (cachedDeal && cachedContact && cachedCompany) {
+    const cachedUser = userFieldsCache.get(auth.domain);
+    if (cachedDeal && cachedContact && cachedCompany && cachedUser) {
       return {
         deal: cachedDeal,
         contact: cachedContact,
         company: cachedCompany,
+        assigned: cachedUser,
         cached: true,
       };
     }
@@ -95,15 +101,17 @@ export async function registerDealRoutes(app: FastifyInstance): Promise<void> {
     });
 
     try {
-      const [deal, contact, company] = await Promise.all([
+      const [deal, contact, company, assigned] = await Promise.all([
         cachedDeal ? Promise.resolve(cachedDeal) : client.getDealFields(),
         cachedContact ? Promise.resolve(cachedContact) : client.getContactFields(),
         cachedCompany ? Promise.resolve(cachedCompany) : client.getCompanyFields(),
+        cachedUser ? Promise.resolve(cachedUser) : client.getUserFields(),
       ]);
       if (!cachedDeal) dealFieldsCache.set(auth.domain, deal);
       if (!cachedContact) contactFieldsCache.set(auth.domain, contact);
       if (!cachedCompany) companyFieldsCache.set(auth.domain, company);
-      return { deal, contact, company, cached: false };
+      if (!cachedUser) userFieldsCache.set(auth.domain, assigned);
+      return { deal, contact, company, assigned, cached: false };
     } catch (err) {
       throw mapB24Error(err);
     }

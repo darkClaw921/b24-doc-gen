@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-08T10:42:32.600Z",
+  "generatedAt": "2026-06-15T14:16:44.007Z",
   "dependencies": [
     {
       "from": "apps/backend/scripts/render-check.ts",
@@ -1655,6 +1655,13 @@
       "to": "apps/backend/src/routes/deal.ts",
       "type": "call",
       "fromElement": "invalidateDealFieldsCache",
+      "toElement": "userFieldsCache.delete"
+    },
+    {
+      "from": "apps/backend/src/routes/deal.ts",
+      "to": "apps/backend/src/routes/deal.ts",
+      "type": "call",
+      "fromElement": "invalidateDealFieldsCache",
       "toElement": "dealFieldsCache.clear"
     },
     {
@@ -1670,6 +1677,13 @@
       "type": "call",
       "fromElement": "invalidateDealFieldsCache",
       "toElement": "companyFieldsCache.clear"
+    },
+    {
+      "from": "apps/backend/src/routes/deal.ts",
+      "to": "apps/backend/src/routes/deal.ts",
+      "type": "call",
+      "fromElement": "invalidateDealFieldsCache",
+      "toElement": "userFieldsCache.clear"
     },
     {
       "from": "apps/backend/src/routes/deal.ts",
@@ -1753,6 +1767,13 @@
       "to": "apps/backend/src/routes/deal.ts",
       "type": "call",
       "fromElement": "registerDealRoutes",
+      "toElement": "userFieldsCache.get"
+    },
+    {
+      "from": "apps/backend/src/routes/deal.ts",
+      "to": "apps/backend/src/routes/deal.ts",
+      "type": "call",
+      "fromElement": "registerDealRoutes",
       "toElement": "Promise.all"
     },
     {
@@ -1802,6 +1823,20 @@
       "to": "apps/backend/src/routes/deal.ts",
       "type": "call",
       "fromElement": "registerDealRoutes",
+      "toElement": "Promise.resolve"
+    },
+    {
+      "from": "apps/backend/src/routes/deal.ts",
+      "to": "apps/backend/src/routes/deal.ts",
+      "type": "call",
+      "fromElement": "registerDealRoutes",
+      "toElement": "client.getUserFields"
+    },
+    {
+      "from": "apps/backend/src/routes/deal.ts",
+      "to": "apps/backend/src/routes/deal.ts",
+      "type": "call",
+      "fromElement": "registerDealRoutes",
       "toElement": "dealFieldsCache.set"
     },
     {
@@ -1817,6 +1852,13 @@
       "type": "call",
       "fromElement": "registerDealRoutes",
       "toElement": "companyFieldsCache.set"
+    },
+    {
+      "from": "apps/backend/src/routes/deal.ts",
+      "to": "apps/backend/src/routes/deal.ts",
+      "type": "call",
+      "fromElement": "registerDealRoutes",
+      "toElement": "userFieldsCache.set"
     },
     {
       "from": "apps/backend/src/routes/deal.ts",
@@ -1964,6 +2006,832 @@
       "type": "call",
       "fromElement": "mapB24Error",
       "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "node:test",
+      "type": "import",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "node:assert/strict",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "import",
+      "toElement": "__test"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeName"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeName"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeName"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeName"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeName"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeName"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeValueMode"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeValueMode"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeValueMode"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeValueMode"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeValueMode"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeOrder"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeOrder"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeOrder"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeOrder"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeOptions"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeOptions"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeOptions"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "normalizeOptions"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "parseOptions"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "JSON.stringify"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "parseOptions"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "parseOptions"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "parseOptions"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "toPresetDto"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "JSON.stringify"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "toPresetDto"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.test.ts",
+      "to": "apps/backend/src/routes/fieldPresets.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "fastify",
+      "type": "import",
+      "toElement": "FastifyInstance"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "@prisma/client",
+      "type": "import",
+      "toElement": "Prisma"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "@b24-doc-gen/shared",
+      "type": "import",
+      "toElement": "FieldPreset"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "@b24-doc-gen/shared",
+      "type": "import",
+      "toElement": "SelectOption"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "@b24-doc-gen/shared",
+      "type": "import",
+      "toElement": "SelectValueMode"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/prisma/client.ts",
+      "type": "import",
+      "toElement": "prisma"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/middleware/role.ts",
+      "type": "import",
+      "toElement": "requireAdmin"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "normalizeName",
+      "toElement": "value.trim"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "normalizeOrder",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "normalizeOrder",
+      "toElement": "Number.isFinite"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "normalizeOrder",
+      "toElement": "Math.trunc"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "normalizeOptions",
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "normalizeOptions",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "normalizeOptions",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "normalizeOptions",
+      "toElement": "out.push"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "parseOptions",
+      "toElement": "normalizeOptions"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "parseOptions",
+      "toElement": "JSON.parse"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "toPresetDto",
+      "toElement": "normalizeValueMode"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "toPresetDto",
+      "toElement": "parseOptions"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "toPresetDto",
+      "toElement": "row.createdAt.toISOString"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "toPresetDto",
+      "toElement": "row.updatedAt.toISOString"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "app.get"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "prisma.fieldPreset.findMany"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "rows.map"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "app.post"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "normalizeName"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "normalizeOptions"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "normalizeOrder"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "prisma.fieldPreset.findFirst"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "prisma.fieldPreset.create"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "normalizeValueMode"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "JSON.stringify"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "reply.code"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "toPresetDto"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "app.put"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "normalizeName"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "normalizeValueMode"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "normalizeOptions"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "JSON.stringify"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "normalizeOrder"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "Object.keys"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "prisma.fieldPreset.update"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "toPresetDto"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "reply.notFound"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "app.delete"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "reply.unauthorized"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "reply.badRequest"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "prisma.fieldPreset.delete"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "reply.code"
+    },
+    {
+      "from": "apps/backend/src/routes/fieldPresets.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "call",
+      "fromElement": "registerFieldPresetRoutes",
+      "toElement": "reply.notFound"
     },
     {
       "from": "apps/backend/src/routes/formulas.ts",
@@ -2167,6 +3035,20 @@
       "to": "apps/backend/src/routes/formulas.ts",
       "type": "call",
       "fromElement": "fetchDealContext",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/routes/formulas.ts",
+      "to": "apps/backend/src/routes/formulas.ts",
+      "type": "call",
+      "fromElement": "fetchDealContext",
+      "toElement": "Number.isFinite"
+    },
+    {
+      "from": "apps/backend/src/routes/formulas.ts",
+      "to": "apps/backend/src/routes/formulas.ts",
+      "type": "call",
+      "fromElement": "fetchDealContext",
       "toElement": "Number.isFinite"
     },
     {
@@ -2189,6 +3071,13 @@
       "type": "call",
       "fromElement": "fetchDealContext",
       "toElement": "client.callBatch"
+    },
+    {
+      "from": "apps/backend/src/routes/formulas.ts",
+      "to": "apps/backend/src/routes/formulas.ts",
+      "type": "call",
+      "fromElement": "fetchDealContext",
+      "toElement": "Array.isArray"
     },
     {
       "from": "apps/backend/src/routes/generate.ts",
@@ -2307,6 +3196,13 @@
       "type": "call",
       "fromElement": "registerGenerateRoutes",
       "toElement": "resolveManualFieldValues"
+    },
+    {
+      "from": "apps/backend/src/routes/generate.ts",
+      "to": "apps/backend/src/routes/generate.ts",
+      "type": "call",
+      "fromElement": "registerGenerateRoutes",
+      "toElement": "raw.trim"
     },
     {
       "from": "apps/backend/src/routes/generate.ts",
@@ -6669,6 +7565,12 @@
     },
     {
       "from": "apps/backend/src/server.ts",
+      "to": "apps/backend/src/routes/fieldPresets.ts",
+      "type": "import",
+      "toElement": "registerFieldPresetRoutes"
+    },
+    {
+      "from": "apps/backend/src/server.ts",
       "to": "apps/backend/src/routes/generate.ts",
       "type": "import",
       "toElement": "registerGenerateRoutes"
@@ -6776,6 +7678,13 @@
       "type": "call",
       "fromElement": "buildServer",
       "toElement": "registerAuthMiddleware"
+    },
+    {
+      "from": "apps/backend/src/server.ts",
+      "to": "apps/backend/src/server.ts",
+      "type": "call",
+      "fromElement": "buildServer",
+      "toElement": "app.register"
     },
     {
       "from": "apps/backend/src/server.ts",
@@ -7310,6 +8219,102 @@
       "from": "apps/backend/src/services/b24Client.ts",
       "to": "apps/backend/src/services/b24Client.ts",
       "type": "call",
+      "toElement": "Promise.all"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "this.callMethod"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "this.listUserUserFields"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "Object.entries"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "label.trim"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "standard.map"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "userFields.map"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "standard.filter"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "f.code.startsWith"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "standardCodes.has"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "field.code.startsWith"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "merged.push"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "this.callMethod"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "this.callMethod"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
       "toElement": "this.callMethod"
     },
     {
@@ -7638,6 +8643,76 @@
       "from": "apps/backend/src/services/b24Client.ts",
       "to": "apps/backend/src/services/b24Client.ts",
       "type": "call",
+      "fromElement": "normalizeUserField",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeUserField",
+      "toElement": "pickLocalizedLabel"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeUserField",
+      "toElement": "pickLocalizedLabel"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeUserField",
+      "toElement": "pickLocalizedLabel"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeUserField",
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeUserField",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeUserField",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeUserField",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeUserField",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
+      "fromElement": "normalizeUserField",
+      "toElement": "String"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "call",
       "fromElement": "appendParam",
       "toElement": "Array.isArray"
     },
@@ -7684,6 +8759,305 @@
       "toElement": "String"
     },
     {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "node:test",
+      "type": "import",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "node:assert/strict",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "import",
+      "toElement": "B24Client"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "fromElement": "fakeFetch",
+      "toElement": "url.includes"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "fromElement": "fakeFetch",
+      "toElement": "envelope"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "fromElement": "fakeFetch",
+      "toElement": "url.includes"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "fromElement": "fakeFetch",
+      "toElement": "envelope"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "fromElement": "makeClient",
+      "toElement": "fakeFetch"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "makeClient"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "client.getUserFields"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "fields.map"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "byCode.get"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "byCode.get"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "byCode.get"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "byCode.get"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.ok"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "byCode.get"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "makeClient"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "client.getUserFields"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "fields.map"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.ok"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "fields.every"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "makeClient"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "client.getUserFields"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "fields.filter"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "makeClient"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "client.getUserFields"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "to": "apps/backend/src/services/b24Client.userFields.test.ts",
+      "type": "call",
+      "toElement": "fields.map"
+    },
+    {
       "from": "apps/backend/src/services/cache.ts",
       "to": "apps/backend/src/services/cache.ts",
       "type": "call",
@@ -7724,6 +9098,142 @@
       "to": "apps/backend/src/services/cache.ts",
       "type": "call",
       "toElement": "this.store.clear"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "node:test",
+      "type": "import",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "node:assert/strict",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/b24Client.ts",
+      "type": "import",
+      "toElement": "B24Client"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "import",
+      "toElement": "getDealContext"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "fromElement": "dealFetch",
+      "toElement": "JSON.parse"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "fromElement": "dealFetch",
+      "toElement": "batchEnvelope"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "fromElement": "dealFetch",
+      "toElement": "batchEnvelope"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "fromElement": "makeClient",
+      "toElement": "dealFetch"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "toElement": "makeClient"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "toElement": "getDealContext"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "toElement": "makeClient"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "toElement": "getDealContext"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "toElement": "makeClient"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "toElement": "getDealContext"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.assigned.test.ts",
+      "to": "apps/backend/src/services/dealData.assigned.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
     },
     {
       "from": "apps/backend/src/services/dealData.ts",
@@ -7836,6 +9346,20 @@
       "to": "apps/backend/src/services/dealData.ts",
       "type": "call",
       "fromElement": "getDealContext",
+      "toElement": "Number"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "Number.isFinite"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
       "toElement": "Number.isFinite"
     },
     {
@@ -7871,6 +9395,13 @@
       "to": "apps/backend/src/services/dealData.ts",
       "type": "call",
       "fromElement": "getDealContext",
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
       "toElement": "client.getDealProductRows"
     },
     {
@@ -7879,6 +9410,13 @@
       "type": "call",
       "fromElement": "getDealContext",
       "toElement": "attachProductImages"
+    },
+    {
+      "from": "apps/backend/src/services/dealData.ts",
+      "to": "apps/backend/src/services/dealData.ts",
+      "type": "call",
+      "fromElement": "getDealContext",
+      "toElement": "flattenEntity"
     },
     {
       "from": "apps/backend/src/services/dealData.ts",
@@ -9432,6 +10970,12 @@
     },
     {
       "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "import",
+      "toElement": "extractDependencies"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
       "to": "apps/backend/src/services/formulaEngine.test.ts",
       "type": "call",
       "toElement": "test"
@@ -9579,6 +11123,138 @@
       "to": "apps/backend/src/services/formulaEngine.test.ts",
       "type": "call",
       "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "evaluateExpression"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "validateExpression"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "extractDependencies"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "evaluateExpression"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "validateExpression"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.test.ts",
+      "to": "apps/backend/src/services/formulaEngine.test.ts",
+      "type": "call",
+      "toElement": "assert.match"
     },
     {
       "from": "apps/backend/src/services/formulaEngine.ts",
@@ -9946,6 +11622,13 @@
       "from": "apps/backend/src/services/formulaEngine.ts",
       "to": "apps/backend/src/services/formulaEngine.ts",
       "type": "call",
+      "fromElement": "collectDeps",
+      "toElement": "Array.from"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "call",
       "fromElement": "validateExpression",
       "toElement": "tryParse"
     },
@@ -10025,6 +11708,13 @@
       "type": "call",
       "fromElement": "evaluateExpression",
       "toElement": "tryParse"
+    },
+    {
+      "from": "apps/backend/src/services/formulaEngine.ts",
+      "to": "apps/backend/src/services/formulaEngine.ts",
+      "type": "call",
+      "fromElement": "evaluateExpression",
+      "toElement": "withMissingFieldDefaults"
     },
     {
       "from": "apps/backend/src/services/formulaEngine.ts",
@@ -11894,6 +13584,437 @@
       "toElement": "formatType"
     },
     {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "react",
+      "type": "import",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "react",
+      "type": "import",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@tanstack/react-query",
+      "type": "import",
+      "toElement": "useMutation"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@tanstack/react-query",
+      "type": "import",
+      "toElement": "useQuery"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@tanstack/react-query",
+      "type": "import",
+      "toElement": "useQueryClient"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "lucide-react",
+      "type": "import",
+      "toElement": "AlertCircle"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "lucide-react",
+      "type": "import",
+      "toElement": "Loader2"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "lucide-react",
+      "type": "import",
+      "toElement": "Pencil"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "lucide-react",
+      "type": "import",
+      "toElement": "Plus"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "lucide-react",
+      "type": "import",
+      "toElement": "Trash2"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@/components/ui/button",
+      "type": "import",
+      "toElement": "Button"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@/components/ui/input",
+      "type": "import",
+      "toElement": "Input"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "Dialog"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "DialogContent"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "DialogDescription"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "DialogFooter"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "DialogHeader"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@/components/ui/dialog",
+      "type": "import",
+      "toElement": "DialogTitle"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@/components/SelectOptionsEditor",
+      "type": "import",
+      "toElement": "SelectOptionsEditor"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "ApiError"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "fieldPresetsApi"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "FieldPresetDTO"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "SelectOptionDTO"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "SelectValueModeDTO"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "useQueryClient"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "useQuery"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "fieldPresetsApi.list"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "setName"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "setValueMode"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "setOptions"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "setEditing"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "setDialogOpen"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "setEditing"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "setDialogOpen"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "queryClient.invalidateQueries"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "useMutation"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "fieldPresetsApi.update"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "fieldPresetsApi.create"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "invalidate"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "setDialogOpen"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "useMutation"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "fieldPresetsApi.delete"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "invalidate"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "name.trim"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "o.label.trim"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "o.value.trim"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "setError"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "saveMutation.mutate"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "presets.map"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "openEdit"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "window.confirm"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "deleteMutation.mutate"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "setName"
+    },
+    {
+      "from": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "to": "apps/frontend/src/components/FieldPresetsSettings.tsx",
+      "type": "call",
+      "fromElement": "FieldPresetsSettings",
+      "toElement": "setDialogOpen"
+    },
+    {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
       "to": "react",
       "type": "import",
@@ -11949,6 +14070,18 @@
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "lucide-react",
+      "type": "import",
+      "toElement": "ChevronLeft"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "lucide-react",
+      "type": "import",
+      "toElement": "ChevronRight"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
       "to": "@/components/ui/dialog",
       "type": "import",
       "toElement": "Dialog"
@@ -12000,6 +14133,54 @@
       "to": "apps/frontend/src/components/FieldPicker.tsx",
       "type": "import",
       "toElement": "FieldPicker"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FieldPicker.tsx",
+      "type": "import",
+      "toElement": "FieldPickerEntity"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "CrmFieldDTO"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "@/lib/quickFields",
+      "type": "import",
+      "toElement": "QUICK_FIELDS_PAGE_SIZE"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "@/lib/quickFields",
+      "type": "import",
+      "toElement": "QuickField"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "@/lib/quickFields",
+      "type": "import",
+      "toElement": "loadRecentFields"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "@/lib/quickFields",
+      "type": "import",
+      "toElement": "mergeQuickFields"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "@/lib/quickFields",
+      "type": "import",
+      "toElement": "addRecentField"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "@/lib/quickFields",
+      "type": "import",
+      "toElement": "saveRecentFields"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
@@ -12143,6 +14324,69 @@
       "type": "call",
       "fromElement": "FormulaBuilder",
       "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "mergeQuickFields"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "loadRecentFields"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "useCallback"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "setRecentFields"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "addRecentField"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "saveRecentFields"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "setQuickPage"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
@@ -12388,6 +14632,34 @@
       "type": "call",
       "fromElement": "FormulaBuilder",
       "toElement": "insertAtCaret"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "recordRecentField"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "useCallback"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "insertAtCaret"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "recordRecentField"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
@@ -12667,6 +14939,76 @@
       "to": "apps/frontend/src/components/FormulaBuilder.tsx",
       "type": "call",
       "fromElement": "FormulaBuilder",
+      "toElement": "Math.max"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "Math.ceil"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "Math.min"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "recentFields.slice"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "setQuickPage"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "Math.max"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "setQuickPage"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "Math.min"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "pageFields.map"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "handleQuickField"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
       "toElement": "onOpenChange"
     },
     {
@@ -12690,21 +15032,15 @@
     },
     {
       "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "@tanstack/react-query",
+      "type": "import",
+      "toElement": "useQuery"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
       "to": "lucide-react",
       "type": "import",
       "toElement": "AlertCircle"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "Plus"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
-      "to": "lucide-react",
-      "type": "import",
-      "toElement": "Trash2"
     },
     {
       "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
@@ -12759,6 +15095,18 @@
       "to": "@/lib/formulas",
       "type": "import",
       "toElement": "generateTagKey"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "@/components/SelectOptionsEditor",
+      "type": "import",
+      "toElement": "SelectOptionsEditor"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "fieldPresetsApi"
     },
     {
       "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
@@ -12853,7 +15201,28 @@
       "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
       "type": "call",
       "fromElement": "ManualFieldBuilder",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
       "toElement": "Boolean"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "useQuery"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "fieldPresetsApi.list"
     },
     {
       "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
@@ -12923,6 +15292,13 @@
       "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
       "type": "call",
       "fromElement": "ManualFieldBuilder",
+      "toElement": "setPresetId"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
       "toElement": "setKeyDirty"
     },
     {
@@ -12944,7 +15320,21 @@
       "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
       "type": "call",
       "fromElement": "ManualFieldBuilder",
-      "toElement": "setOptions"
+      "toElement": "setPresetId"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "presets.find"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setValueMode"
     },
     {
       "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
@@ -12958,7 +15348,14 @@
       "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
       "type": "call",
       "fromElement": "ManualFieldBuilder",
-      "toElement": "prev.filter"
+      "toElement": "preset.options.map"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setDefaultValue"
     },
     {
       "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
@@ -12972,7 +15369,21 @@
       "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
       "type": "call",
       "fromElement": "ManualFieldBuilder",
-      "toElement": "prev.map"
+      "toElement": "setPresetId"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setValueMode"
+    },
+    {
+      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
+      "type": "call",
+      "fromElement": "ManualFieldBuilder",
+      "toElement": "setPresetId"
     },
     {
       "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
@@ -13168,35 +15579,14 @@
       "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
       "type": "call",
       "fromElement": "ManualFieldBuilder",
-      "toElement": "setValueMode"
+      "toElement": "applyPreset"
     },
     {
       "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
       "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
       "type": "call",
       "fromElement": "ManualFieldBuilder",
-      "toElement": "options.map"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
-      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
-      "type": "call",
-      "fromElement": "ManualFieldBuilder",
-      "toElement": "updateOption"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
-      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
-      "type": "call",
-      "fromElement": "ManualFieldBuilder",
-      "toElement": "updateOption"
-    },
-    {
-      "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
-      "to": "apps/frontend/src/components/ManualFieldBuilder.tsx",
-      "type": "call",
-      "fromElement": "ManualFieldBuilder",
-      "toElement": "removeOption"
+      "toElement": "presets.map"
     },
     {
       "from": "apps/frontend/src/components/ManualFieldBuilder.tsx",
@@ -13545,6 +15935,179 @@
       "type": "call",
       "fromElement": "PlacementGuard",
       "toElement": "getCurrentPlacement"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "react",
+      "type": "import",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "lucide-react",
+      "type": "import",
+      "toElement": "Plus"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "lucide-react",
+      "type": "import",
+      "toElement": "Trash2"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "@/components/ui/button",
+      "type": "import",
+      "toElement": "Button"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "@/components/ui/input",
+      "type": "import",
+      "toElement": "Input"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "@/lib/selectOptions",
+      "type": "import",
+      "toElement": "parseBulkOptions"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "@/lib/selectOptions",
+      "type": "import",
+      "toElement": "mergeParsedOptions"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "SelectOptionDTO"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "@/lib/api",
+      "type": "import",
+      "toElement": "SelectValueModeDTO"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "onOptionsChange"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "onOptionsChange"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "options.filter"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "onOptionsChange"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "options.map"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "parseBulkOptions"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "onOptionsChange"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "mergeParsedOptions"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "setBulkText"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "onValueModeChange"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "options.map"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "updateOption"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "updateOption"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "removeOption"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "setBulkText"
+    },
+    {
+      "from": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "to": "apps/frontend/src/components/SelectOptionsEditor.tsx",
+      "type": "call",
+      "fromElement": "SelectOptionsEditor",
+      "toElement": "bulkText.trim"
     },
     {
       "from": "apps/frontend/src/components/TemplateUploader.tsx",
@@ -16601,6 +19164,30 @@
       "from": "apps/frontend/src/lib/api.ts",
       "to": "apps/frontend/src/lib/api.ts",
       "type": "call",
+      "toElement": "apiRequest"
+    },
+    {
+      "from": "apps/frontend/src/lib/api.ts",
+      "to": "apps/frontend/src/lib/api.ts",
+      "type": "call",
+      "toElement": "apiRequest"
+    },
+    {
+      "from": "apps/frontend/src/lib/api.ts",
+      "to": "apps/frontend/src/lib/api.ts",
+      "type": "call",
+      "toElement": "apiRequest"
+    },
+    {
+      "from": "apps/frontend/src/lib/api.ts",
+      "to": "apps/frontend/src/lib/api.ts",
+      "type": "call",
+      "toElement": "apiRequest"
+    },
+    {
+      "from": "apps/frontend/src/lib/api.ts",
+      "to": "apps/frontend/src/lib/api.ts",
+      "type": "call",
       "toElement": "qs.set"
     },
     {
@@ -16997,6 +19584,673 @@
       "type": "call",
       "fromElement": "slugify",
       "toElement": "out.replace"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "node:test",
+      "type": "import",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "node:test",
+      "type": "import",
+      "toElement": "beforeEach"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "node:assert/strict",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "import",
+      "toElement": "DEFAULT_QUICK_FIELDS"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "import",
+      "toElement": "QUICK_FIELDS_MAX"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "import",
+      "toElement": "QUICK_FIELDS_STORAGE_KEY"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "import",
+      "toElement": "loadRecentFields"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "import",
+      "toElement": "mergeQuickFields"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "import",
+      "toElement": "addRecentField"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "import",
+      "toElement": "saveRecentFields"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "import",
+      "toElement": "QuickField"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "fromElement": "installStorage",
+      "toElement": "store.has"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "fromElement": "installStorage",
+      "toElement": "store.get"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "fromElement": "installStorage",
+      "toElement": "store.set"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "fromElement": "installStorage",
+      "toElement": "store.delete"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "fromElement": "installStorage",
+      "toElement": "store.clear"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "beforeEach"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "installStorage"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "mergeQuickFields"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "mergeQuickFields"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "merged.filter"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "Array.from"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "mergeQuickFields"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "addRecentField"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "Array.from"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "addRecentField"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "next.some"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "saveRecentFields"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "loadRecentFields"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "store.set"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "loadRecentFields"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "store.set"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "JSON.stringify"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "loadRecentFields"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "store.set"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "JSON.stringify"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "loadRecentFields"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "type": "call",
+      "toElement": "loadRecentFields"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "call",
+      "fromElement": "loadRecentFields",
+      "toElement": "localStorage.getItem"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "call",
+      "fromElement": "loadRecentFields",
+      "toElement": "JSON.parse"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "call",
+      "fromElement": "loadRecentFields",
+      "toElement": "Array.isArray"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "call",
+      "fromElement": "loadRecentFields",
+      "toElement": "parsed.filter"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "call",
+      "fromElement": "mergeQuickFields",
+      "toElement": "recent.map"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "call",
+      "fromElement": "mergeQuickFields",
+      "toElement": "seen.has"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "call",
+      "fromElement": "mergeQuickFields",
+      "toElement": "merged.push"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "call",
+      "fromElement": "mergeQuickFields",
+      "toElement": "seen.add"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "call",
+      "fromElement": "mergeQuickFields",
+      "toElement": "merged.slice"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "call",
+      "fromElement": "addRecentField",
+      "toElement": "list.filter"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "call",
+      "fromElement": "saveRecentFields",
+      "toElement": "localStorage.setItem"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFields.ts",
+      "to": "apps/frontend/src/lib/quickFields.ts",
+      "type": "call",
+      "fromElement": "saveRecentFields",
+      "toElement": "JSON.stringify"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "node:test",
+      "type": "import",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "node:assert/strict",
+      "type": "import",
+      "toElement": "default"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.ts",
+      "type": "import",
+      "toElement": "parseBulkOptions"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.ts",
+      "type": "import",
+      "toElement": "mergeParsedOptions"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "parseBulkOptions"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "parseBulkOptions"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "parseBulkOptions"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "parseBulkOptions"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "parseBulkOptions"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "parseBulkOptions"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "test"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "assert.deepEqual"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.test.ts",
+      "to": "apps/frontend/src/lib/selectOptions.test.ts",
+      "type": "call",
+      "toElement": "mergeParsedOptions"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.ts",
+      "to": "apps/frontend/src/lib/api.ts",
+      "type": "import",
+      "toElement": "SelectOptionDTO"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.ts",
+      "to": "apps/frontend/src/lib/selectOptions.ts",
+      "type": "call",
+      "fromElement": "parseBulkOptions",
+      "toElement": "line.trim"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.ts",
+      "to": "apps/frontend/src/lib/selectOptions.ts",
+      "type": "call",
+      "fromElement": "mergeParsedOptions",
+      "toElement": "existing.filter"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.ts",
+      "to": "apps/frontend/src/lib/selectOptions.ts",
+      "type": "call",
+      "fromElement": "mergeParsedOptions",
+      "toElement": "o.label.trim"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.ts",
+      "to": "apps/frontend/src/lib/selectOptions.ts",
+      "type": "call",
+      "fromElement": "mergeParsedOptions",
+      "toElement": "kept.map"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.ts",
+      "to": "apps/frontend/src/lib/selectOptions.ts",
+      "type": "call",
+      "fromElement": "mergeParsedOptions",
+      "toElement": "o.label.trim"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.ts",
+      "to": "apps/frontend/src/lib/selectOptions.ts",
+      "type": "call",
+      "fromElement": "mergeParsedOptions",
+      "toElement": "seen.has"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.ts",
+      "to": "apps/frontend/src/lib/selectOptions.ts",
+      "type": "call",
+      "fromElement": "mergeParsedOptions",
+      "toElement": "seen.add"
+    },
+    {
+      "from": "apps/frontend/src/lib/selectOptions.ts",
+      "to": "apps/frontend/src/lib/selectOptions.ts",
+      "type": "call",
+      "fromElement": "mergeParsedOptions",
+      "toElement": "merged.push"
     },
     {
       "from": "apps/frontend/src/lib/templateTags.ts",
@@ -18751,6 +22005,12 @@
       "to": "@/components/ui/dialog",
       "type": "import",
       "toElement": "DialogTitle"
+    },
+    {
+      "from": "apps/frontend/src/pages/SettingsPage.tsx",
+      "to": "@/components/FieldPresetsSettings",
+      "type": "import",
+      "toElement": "FieldPresetsSettings"
     },
     {
       "from": "apps/frontend/src/pages/SettingsPage.tsx",

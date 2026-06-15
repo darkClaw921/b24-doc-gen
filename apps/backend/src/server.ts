@@ -28,6 +28,7 @@ import { registerThemeRoutes } from './routes/themes.js';
 import { registerTemplateRoutes } from './routes/templates.js';
 import { registerFormulaRoutes } from './routes/formulas.js';
 import { registerSettingsRoutes } from './routes/settings.js';
+import { registerFieldPresetRoutes } from './routes/fieldPresets.js';
 import { registerGenerateRoutes } from './routes/generate.js';
 import { registerMeRoutes } from './routes/me.js';
 import { registerWebhookRoutes } from './routes/webhooks.js';
@@ -107,6 +108,7 @@ export async function buildServer(): Promise<FastifyInstance> {
   await app.register(registerTemplateRoutes);
   await app.register(registerFormulaRoutes);
   await app.register(registerSettingsRoutes);
+  await app.register(registerFieldPresetRoutes);
   await app.register(registerGenerateRoutes);
   await app.register(registerMeRoutes);
   await app.register(registerWebhookRoutes);
