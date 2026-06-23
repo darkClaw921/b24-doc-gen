@@ -1,6 +1,6 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-06-15T18:31:46.911Z",
+  "generatedAt": "2026-06-23T20:09:00.865Z",
   "nodes": [
     {
       "id": "apps/backend/scripts/render-check.ts",
@@ -3789,7 +3789,7 @@
           "name": "HelperTooltipContent",
           "type": "function",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 171,
+          "line": 175,
           "signature": "HelperTooltipContent({ doc }: { doc: HelperDoc })",
           "docComment": "Содержимое всплывающей подсказки для функции — рендерится один раз\nна каждую кнопку палитры. Для пилюль формул в редакторе используется\nта же разметка, поэтому компонент экспортируется ниже.",
           "exports": [
@@ -3801,7 +3801,7 @@
           "name": "FormulaBuilder",
           "type": "function",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 218,
+          "line": 222,
           "signature": "FormulaBuilder({\n  open,\n  onOpenChange,\n  onInsert,\n  existingKeys,\n  initialValues,\n  testDealId,\n}: FormulaBuilderProps)",
           "exports": [
             "FormulaBuilder"
@@ -3812,7 +3812,7 @@
           "name": "DepList",
           "type": "function",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 731,
+          "line": 744,
           "signature": "DepList({ title, items }: { title: string; items: ReadonlyArray<string> })",
           "exports": []
         },
@@ -3821,7 +3821,7 @@
           "name": "FormulaBuilderResult",
           "type": "interface",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 90,
+          "line": 94,
           "signature": "interface FormulaBuilderResult",
           "exports": [
             "FormulaBuilderResult"
@@ -3832,7 +3832,7 @@
           "name": "FormulaBuilderProps",
           "type": "interface",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 97,
+          "line": 101,
           "signature": "interface FormulaBuilderProps",
           "exports": [
             "FormulaBuilderProps"
@@ -3843,7 +3843,7 @@
           "name": "HelperDescriptor",
           "type": "interface",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 133,
+          "line": 137,
           "signature": "interface HelperDescriptor",
           "exports": []
         },
@@ -3852,7 +3852,7 @@
           "name": "OPERATORS",
           "type": "variable",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 117,
+          "line": 121,
           "exports": []
         },
         {
@@ -3860,7 +3860,7 @@
           "name": "HELPERS",
           "type": "variable",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 145,
+          "line": 149,
           "docComment": "Snippet-карта функций. Описания/сигнатуры/примеры берутся из общего\nсправочника `HELPER_DOCS` (lib/formulaHelp.ts), здесь хранится только\nшаблон вставки и смещение каретки.",
           "exports": []
         },
@@ -3869,7 +3869,7 @@
           "name": "PRODUCT_HELPERS",
           "type": "variable",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 159,
+          "line": 163,
           "docComment": "Product-specific helpers — shown in a separate palette section so\nadmins can quickly build product-related formulas.",
           "exports": []
         }
@@ -6082,150 +6082,150 @@
       ]
     },
     {
-      "id": "apps/frontend/src/lib/quickFields.test.ts",
-      "name": "quickFields.test.ts",
+      "id": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "name": "quickFormulas.test.ts",
       "type": "file",
-      "path": "apps/frontend/src/lib/quickFields.test.ts",
+      "path": "apps/frontend/src/lib/quickFormulas.test.ts",
       "exports": [],
       "children": [
         {
-          "id": "apps/frontend/src/lib/quickFields.test.ts:installStorage",
+          "id": "apps/frontend/src/lib/quickFormulas.test.ts:installStorage",
           "name": "installStorage",
           "type": "function",
-          "path": "apps/frontend/src/lib/quickFields.test.ts",
+          "path": "apps/frontend/src/lib/quickFormulas.test.ts",
           "line": 24,
           "signature": "installStorage(): Map<string, string>",
           "exports": []
         },
         {
-          "id": "apps/frontend/src/lib/quickFields.test.ts:store",
+          "id": "apps/frontend/src/lib/quickFormulas.test.ts:store",
           "name": "store",
           "type": "variable",
-          "path": "apps/frontend/src/lib/quickFields.test.ts",
+          "path": "apps/frontend/src/lib/quickFormulas.test.ts",
           "line": 35,
           "exports": []
         }
       ]
     },
     {
-      "id": "apps/frontend/src/lib/quickFields.ts",
-      "name": "quickFields.ts",
+      "id": "apps/frontend/src/lib/quickFormulas.ts",
+      "name": "quickFormulas.ts",
       "type": "file",
-      "path": "apps/frontend/src/lib/quickFields.ts",
+      "path": "apps/frontend/src/lib/quickFormulas.ts",
       "exports": [
-        "loadRecentFields",
-        "mergeQuickFields",
-        "addRecentField",
-        "saveRecentFields",
-        "QuickField",
-        "QUICK_FIELDS_PAGE_SIZE",
-        "QUICK_FIELDS_MAX",
-        "QUICK_FIELDS_STORAGE_KEY",
-        "DEFAULT_QUICK_FIELDS"
+        "loadRecentFormulas",
+        "mergeQuickFormulas",
+        "addRecentFormula",
+        "saveRecentFormulas",
+        "QuickFormula",
+        "QUICK_FORMULAS_PAGE_SIZE",
+        "QUICK_FORMULAS_MAX",
+        "QUICK_FORMULAS_STORAGE_KEY",
+        "DEFAULT_QUICK_FORMULAS"
       ],
       "children": [
         {
-          "id": "apps/frontend/src/lib/quickFields.ts:loadRecentFields",
-          "name": "loadRecentFields",
+          "id": "apps/frontend/src/lib/quickFormulas.ts:loadRecentFormulas",
+          "name": "loadRecentFormulas",
           "type": "function",
-          "path": "apps/frontend/src/lib/quickFields.ts",
-          "line": 39,
-          "signature": "loadRecentFields(): QuickField[]",
+          "path": "apps/frontend/src/lib/quickFormulas.ts",
+          "line": 49,
+          "signature": "loadRecentFormulas(): QuickFormula[]",
           "docComment": "Read the history from localStorage, tolerating corrupt / absent data.",
           "exports": [
-            "loadRecentFields"
+            "loadRecentFormulas"
           ]
         },
         {
-          "id": "apps/frontend/src/lib/quickFields.ts:mergeQuickFields",
-          "name": "mergeQuickFields",
+          "id": "apps/frontend/src/lib/quickFormulas.ts:mergeQuickFormulas",
+          "name": "mergeQuickFormulas",
           "type": "function",
-          "path": "apps/frontend/src/lib/quickFields.ts",
-          "line": 60,
-          "signature": "mergeQuickFields(recent: QuickField[]): QuickField[]",
-          "docComment": "Merge the history with the default fields so the palette is never\nempty: recent first, then defaults not already present, capped at\n`QUICK_FIELDS_MAX`.",
+          "path": "apps/frontend/src/lib/quickFormulas.ts",
+          "line": 73,
+          "signature": "mergeQuickFormulas(recent: QuickFormula[]): QuickFormula[]",
+          "docComment": "Merge the history with the default formulas so the palette is never\nempty: recent first, then defaults not already present (deduped by\nexpression), capped at `QUICK_FORMULAS_MAX`.",
           "exports": [
-            "mergeQuickFields"
+            "mergeQuickFormulas"
           ]
         },
         {
-          "id": "apps/frontend/src/lib/quickFields.ts:addRecentField",
-          "name": "addRecentField",
+          "id": "apps/frontend/src/lib/quickFormulas.ts:addRecentFormula",
+          "name": "addRecentFormula",
           "type": "function",
-          "path": "apps/frontend/src/lib/quickFields.ts",
-          "line": 77,
-          "signature": "addRecentField(list: QuickField[], token: string, label: string): QuickField[]",
-          "docComment": "Return a new history with `{ token, label }` moved to the front,\nde-duplicated by token and capped at `QUICK_FIELDS_MAX`. Pure.",
+          "path": "apps/frontend/src/lib/quickFormulas.ts",
+          "line": 90,
+          "signature": "addRecentFormula(list: QuickFormula[], expression: string, label: string): QuickFormula[]",
+          "docComment": "Return a new history with `{ expression, label }` moved to the front,\nde-duplicated by expression and capped at `QUICK_FORMULAS_MAX`. Pure.",
           "exports": [
-            "addRecentField"
+            "addRecentFormula"
           ]
         },
         {
-          "id": "apps/frontend/src/lib/quickFields.ts:saveRecentFields",
-          "name": "saveRecentFields",
+          "id": "apps/frontend/src/lib/quickFormulas.ts:saveRecentFormulas",
+          "name": "saveRecentFormulas",
           "type": "function",
-          "path": "apps/frontend/src/lib/quickFields.ts",
-          "line": 89,
-          "signature": "saveRecentFields(list: QuickField[]): void",
+          "path": "apps/frontend/src/lib/quickFormulas.ts",
+          "line": 102,
+          "signature": "saveRecentFormulas(list: QuickFormula[]): void",
           "docComment": "Persist the history, swallowing storage errors (private mode, quota).",
           "exports": [
-            "saveRecentFields"
+            "saveRecentFormulas"
           ]
         },
         {
-          "id": "apps/frontend/src/lib/quickFields.ts:QuickField",
-          "name": "QuickField",
+          "id": "apps/frontend/src/lib/quickFormulas.ts:QuickFormula",
+          "name": "QuickFormula",
           "type": "interface",
-          "path": "apps/frontend/src/lib/quickFields.ts",
-          "line": 9,
-          "signature": "interface QuickField",
-          "docComment": "One entry of the quick-fields palette.",
+          "path": "apps/frontend/src/lib/quickFormulas.ts",
+          "line": 18,
+          "signature": "interface QuickFormula",
+          "docComment": "One entry of the quick-formulas palette.",
           "exports": [
-            "QuickField"
+            "QuickFormula"
           ]
         },
         {
-          "id": "apps/frontend/src/lib/quickFields.ts:QUICK_FIELDS_PAGE_SIZE",
-          "name": "QUICK_FIELDS_PAGE_SIZE",
+          "id": "apps/frontend/src/lib/quickFormulas.ts:QUICK_FORMULAS_PAGE_SIZE",
+          "name": "QUICK_FORMULAS_PAGE_SIZE",
           "type": "variable",
-          "path": "apps/frontend/src/lib/quickFields.ts",
-          "line": 15,
+          "path": "apps/frontend/src/lib/quickFormulas.ts",
+          "line": 26,
           "docComment": "How many chips show on one palette page.",
           "exports": [
-            "QUICK_FIELDS_PAGE_SIZE"
+            "QUICK_FORMULAS_PAGE_SIZE"
           ]
         },
         {
-          "id": "apps/frontend/src/lib/quickFields.ts:QUICK_FIELDS_MAX",
-          "name": "QUICK_FIELDS_MAX",
+          "id": "apps/frontend/src/lib/quickFormulas.ts:QUICK_FORMULAS_MAX",
+          "name": "QUICK_FORMULAS_MAX",
           "type": "variable",
-          "path": "apps/frontend/src/lib/quickFields.ts",
-          "line": 17,
-          "docComment": "Max stored \"recent\" fields (usage history).",
+          "path": "apps/frontend/src/lib/quickFormulas.ts",
+          "line": 28,
+          "docComment": "Max stored \"recent\" formulas (usage history).",
           "exports": [
-            "QUICK_FIELDS_MAX"
+            "QUICK_FORMULAS_MAX"
           ]
         },
         {
-          "id": "apps/frontend/src/lib/quickFields.ts:QUICK_FIELDS_STORAGE_KEY",
-          "name": "QUICK_FIELDS_STORAGE_KEY",
+          "id": "apps/frontend/src/lib/quickFormulas.ts:QUICK_FORMULAS_STORAGE_KEY",
+          "name": "QUICK_FORMULAS_STORAGE_KEY",
           "type": "variable",
-          "path": "apps/frontend/src/lib/quickFields.ts",
-          "line": 19,
+          "path": "apps/frontend/src/lib/quickFormulas.ts",
+          "line": 30,
           "docComment": "localStorage key for the usage history.",
           "exports": [
-            "QUICK_FIELDS_STORAGE_KEY"
+            "QUICK_FORMULAS_STORAGE_KEY"
           ]
         },
         {
-          "id": "apps/frontend/src/lib/quickFields.ts:DEFAULT_QUICK_FIELDS",
-          "name": "DEFAULT_QUICK_FIELDS",
+          "id": "apps/frontend/src/lib/quickFormulas.ts:DEFAULT_QUICK_FORMULAS",
+          "name": "DEFAULT_QUICK_FORMULAS",
           "type": "variable",
-          "path": "apps/frontend/src/lib/quickFields.ts",
-          "line": 25,
-          "docComment": "Default set of common fields — a seed shown until the admin has\ninserted their own. Real usage promotes fields above these.",
+          "path": "apps/frontend/src/lib/quickFormulas.ts",
+          "line": 36,
+          "docComment": "Default set of common formulas — a seed shown until the admin has\ninserted their own. Real usage promotes formulas above these.",
           "exports": [
-            "DEFAULT_QUICK_FIELDS"
+            "DEFAULT_QUICK_FORMULAS"
           ]
         }
       ]

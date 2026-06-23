@@ -227,9 +227,9 @@
     "element": "FormulaBuilder",
     "path": "apps/frontend/src/components/FormulaBuilder.tsx",
     "type": "function",
-    "content": "Modal dialog for building/editing template formulas. Two-column grid: left column holds label, tagKey (auto-slug via generateTagKey with tagKeyDirty flag to respect manual edits), monospaced textarea with caret-aware token insertion, operator palette (+ - * / , == != > < >= <=), helper palette (if/concat/format/dateFormat/upper/lower) — обе палитры теперь оборачивают каждую кнопку в RichTooltip с богатым содержимым: для функций — HelperTooltipContent (signature, описание, таблица аргументов, пример), для операторов — символ + одностроковое описание из OPERATOR_DOCS. Метаданные функций берутся из общего справочника HELPER_DOCS (lib/formulaHelp.ts), локально хранится только snippet вставки и cursorOffset. Опциональный preview-панель (если задан testDealId), live валидация (validateLocally sync + debounced 500ms validateRemote). Insert button blocked until valid + label + tagKey + expression filled. On submit calls onInsert({tagKey, label, expression, dependsOn}). Экспортирует HelperTooltipContent для повторного использования в EditorFormulaTooltip.",
+    "content": "Модалка конструктора формул (shadcn Dialog). Слева — поле «Название формулы», авто-tagKey (generateTagKey + флаг tagKeyDirty), монопространственная textarea выражения, палитры операторов и helper-функций (if/concat/format/dateFormat/upper/lower) с RichTooltip-подсказками из HELPER_DOCS/OPERATOR_DOCS (lib/formulaHelp.ts), отдельная палитра «Товары» (productSum/productCount/productGet/productImage), блок предпросмотра (при testDealId → formulasApi.evaluate). Справа — палитра быстрого доступа «Часто используемые формулы» (история ранее вставленных формул из lib/quickFormulas.ts; пагинация по 6 чипов со стрелками; чип подписан именем формулы, тултип показывает имя+выражение; handleQuickFormula вставляет выражение в каретку, заполняет пустое «Название» именем формулы и поднимает формулу наверх истории), полный FieldPicker (handleFieldSelect просто вставляет токен поля) и блок зависимостей. Live-валидация: validateLocally синхронно + debounce 500мс validateRemote. handleSubmit записывает формулу в историю через recordRecentFormula и вызывает onInsert({tagKey,label,expression,dependsOn}). Экспортирует HelperTooltipContent для EditorFormulaTooltip. Прежний блок «Часто используемые поля» (quickFields.ts) заменён на «Часто используемые формулы».",
     "createdAt": "2026-04-07T17:29:20.165Z",
-    "updatedAt": "2026-04-08T00:21:05.491Z"
+    "updatedAt": "2026-06-23T20:09:22.397Z"
   },
   {
     "element": "validateLocally",
@@ -978,5 +978,17 @@
     "content": "Авто-применение схемы Prisma к БД при старте бэкенда. Вызывается из server.ts::start() перед listen. Запускает локальный prisma db push --skip-generate (CLI резолвится через require.resolve('prisma/package.json') и поле bin; backendDir = ../../ от модуля, схема prisma/schema.prisma). Назначение: модель добавляется через db push без миграций, поэтому при деплое (tsc-сборка) прод-БД отстаёт — авто-push на старте устраняет это независимо от лаунчера (systemd/prod.sh/tsx). Безопасность: без --accept-data-loss db push прерывается вместо удаления данных; ошибки некритичны (лог + старт со старой схемой). Отключение: DB_AUTO_PUSH=false. ВАЖНО: SQLite file:./X.db резолвится относительно папки schema.prisma (prisma/), реальная БД — apps/backend/prisma/{dev,prod}.db.",
     "createdAt": "2026-06-15T18:31:41.716Z",
     "updatedAt": "2026-06-15T18:31:41.716Z"
+  },
+  {
+    "element": "apps/frontend/src/lib/quickFormulas.ts",
+    "path": "apps/frontend/src/lib/quickFormulas.ts",
+    "type": "file",
+    "content": "Чистые хелперы и константы палитры «Часто используемые формулы» в FormulaBuilder. Заменяет прежний quickFields.ts (история полей). Тип QuickFormula {label, expression}. Константы: QUICK_FORMULAS_PAGE_SIZE=6, QUICK_FORMULAS_MAX=20, QUICK_FORMULAS_STORAGE_KEY='b24dg:recent-formulas'. DEFAULT_QUICK_FORMULAS — сид типовых выражений (ФИО контакта, сумма деньгами, дата сделки, сумма товаров, НДС 20%, ответственный). loadRecentFormulas()/saveRecentFormulas(list) — чтение/запись истории вставленных формул в localStorage, терпят повреждённый JSON и недоступный storage, отфильтровывают записи с пустым expression. mergeQuickFormulas(recent) — слияние истории с дефолтами: недавние первыми, дедуп по expression, кап QUICK_FORMULAS_MAX. addRecentFormula(list, expression, label) — чистый редьюсер: переносит выражение в начало, дедуп по expression, кап. Свободен от React-импортов для unit-тестов (quickFormulas.test.ts, node:test через tsx). Бизнес-логика: большинство документов используют одни и те же выражения, поэтому ранее вставленные формулы предлагаются для переиспользования одним кликом.",
+    "createdAt": "2026-06-23T20:09:01.841Z",
+    "updatedAt": "2026-06-23T20:09:02.391Z",
+    "aliases": [
+      "часто используемые формулы",
+      "часто используемые функции"
+    ]
   }
 ]

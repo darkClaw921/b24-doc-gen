@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-15T18:31:41.432Z",
+  "generatedAt": "2026-06-23T20:09:01.561Z",
   "dependencies": [
     {
       "from": "apps/backend/scripts/render-check.ts",
@@ -14311,51 +14311,39 @@
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
-      "to": "apps/frontend/src/components/FieldPicker.tsx",
+      "to": "@/lib/quickFormulas",
       "type": "import",
-      "toElement": "FieldPickerEntity"
+      "toElement": "QUICK_FORMULAS_PAGE_SIZE"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
-      "to": "@/lib/api",
+      "to": "@/lib/quickFormulas",
       "type": "import",
-      "toElement": "CrmFieldDTO"
+      "toElement": "QuickFormula"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
-      "to": "@/lib/quickFields",
+      "to": "@/lib/quickFormulas",
       "type": "import",
-      "toElement": "QUICK_FIELDS_PAGE_SIZE"
+      "toElement": "loadRecentFormulas"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
-      "to": "@/lib/quickFields",
+      "to": "@/lib/quickFormulas",
       "type": "import",
-      "toElement": "QuickField"
+      "toElement": "mergeQuickFormulas"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
-      "to": "@/lib/quickFields",
+      "to": "@/lib/quickFormulas",
       "type": "import",
-      "toElement": "loadRecentFields"
+      "toElement": "addRecentFormula"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
-      "to": "@/lib/quickFields",
+      "to": "@/lib/quickFormulas",
       "type": "import",
-      "toElement": "mergeQuickFields"
-    },
-    {
-      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
-      "to": "@/lib/quickFields",
-      "type": "import",
-      "toElement": "addRecentField"
-    },
-    {
-      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
-      "to": "@/lib/quickFields",
-      "type": "import",
-      "toElement": "saveRecentFields"
+      "toElement": "saveRecentFormulas"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
@@ -14512,14 +14500,14 @@
       "to": "apps/frontend/src/components/FormulaBuilder.tsx",
       "type": "call",
       "fromElement": "FormulaBuilder",
-      "toElement": "mergeQuickFields"
+      "toElement": "mergeQuickFormulas"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
       "to": "apps/frontend/src/components/FormulaBuilder.tsx",
       "type": "call",
       "fromElement": "FormulaBuilder",
-      "toElement": "loadRecentFields"
+      "toElement": "loadRecentFormulas"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
@@ -14540,21 +14528,35 @@
       "to": "apps/frontend/src/components/FormulaBuilder.tsx",
       "type": "call",
       "fromElement": "FormulaBuilder",
-      "toElement": "setRecentFields"
+      "toElement": "expression.trim"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
       "to": "apps/frontend/src/components/FormulaBuilder.tsx",
       "type": "call",
       "fromElement": "FormulaBuilder",
-      "toElement": "addRecentField"
+      "toElement": "setRecentFormulas"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
       "to": "apps/frontend/src/components/FormulaBuilder.tsx",
       "type": "call",
       "fromElement": "FormulaBuilder",
-      "toElement": "saveRecentFields"
+      "toElement": "addRecentFormula"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "label.trim"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "saveRecentFormulas"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
@@ -14813,13 +14815,6 @@
       "to": "apps/frontend/src/components/FormulaBuilder.tsx",
       "type": "call",
       "fromElement": "FormulaBuilder",
-      "toElement": "recordRecentField"
-    },
-    {
-      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
-      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
-      "type": "call",
-      "fromElement": "FormulaBuilder",
       "toElement": "useCallback"
     },
     {
@@ -14834,7 +14829,21 @@
       "to": "apps/frontend/src/components/FormulaBuilder.tsx",
       "type": "call",
       "fromElement": "FormulaBuilder",
-      "toElement": "recordRecentField"
+      "toElement": "setLabel"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "prev.trim"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "recordRecentFormula"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
@@ -14988,6 +14997,27 @@
       "to": "apps/frontend/src/components/FormulaBuilder.tsx",
       "type": "call",
       "fromElement": "FormulaBuilder",
+      "toElement": "recordRecentFormula"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "expression.trim"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
+      "toElement": "label.trim"
+    },
+    {
+      "from": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "to": "apps/frontend/src/components/FormulaBuilder.tsx",
+      "type": "call",
+      "fromElement": "FormulaBuilder",
       "toElement": "onInsert"
     },
     {
@@ -15135,7 +15165,7 @@
       "to": "apps/frontend/src/components/FormulaBuilder.tsx",
       "type": "call",
       "fromElement": "FormulaBuilder",
-      "toElement": "recentFields.slice"
+      "toElement": "recentFormulas.slice"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
@@ -15170,14 +15200,14 @@
       "to": "apps/frontend/src/components/FormulaBuilder.tsx",
       "type": "call",
       "fromElement": "FormulaBuilder",
-      "toElement": "pageFields.map"
+      "toElement": "pageFormulas.map"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
       "to": "apps/frontend/src/components/FormulaBuilder.tsx",
       "type": "call",
       "fromElement": "FormulaBuilder",
-      "toElement": "handleQuickField"
+      "toElement": "handleQuickFormula"
     },
     {
       "from": "apps/frontend/src/components/FormulaBuilder.tsx",
@@ -19761,464 +19791,471 @@
       "toElement": "out.replace"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
       "to": "node:test",
       "type": "import",
       "toElement": "test"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
       "to": "node:test",
       "type": "import",
       "toElement": "beforeEach"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
       "to": "node:assert/strict",
       "type": "import",
       "toElement": "default"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "import",
-      "toElement": "DEFAULT_QUICK_FIELDS"
+      "toElement": "DEFAULT_QUICK_FORMULAS"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "import",
-      "toElement": "QUICK_FIELDS_MAX"
+      "toElement": "QUICK_FORMULAS_MAX"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "import",
-      "toElement": "QUICK_FIELDS_STORAGE_KEY"
+      "toElement": "QUICK_FORMULAS_STORAGE_KEY"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "import",
-      "toElement": "loadRecentFields"
+      "toElement": "loadRecentFormulas"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "import",
-      "toElement": "mergeQuickFields"
+      "toElement": "mergeQuickFormulas"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "import",
-      "toElement": "addRecentField"
+      "toElement": "addRecentFormula"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "import",
-      "toElement": "saveRecentFields"
+      "toElement": "saveRecentFormulas"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "import",
-      "toElement": "QuickField"
+      "toElement": "QuickFormula"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "fromElement": "installStorage",
       "toElement": "store.has"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "fromElement": "installStorage",
       "toElement": "store.get"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "fromElement": "installStorage",
       "toElement": "store.set"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "fromElement": "installStorage",
       "toElement": "store.delete"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "fromElement": "installStorage",
       "toElement": "store.clear"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "beforeEach"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "installStorage"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "test"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "assert.deepEqual"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
-      "toElement": "mergeQuickFields"
+      "toElement": "mergeQuickFormulas"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "test"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
-      "toElement": "mergeQuickFields"
+      "toElement": "mergeQuickFormulas"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "assert.deepEqual"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "assert.equal"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "merged.filter"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "test"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "Array.from"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
-      "toElement": "mergeQuickFields"
+      "toElement": "mergeQuickFormulas"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "assert.equal"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "test"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
-      "toElement": "addRecentField"
+      "toElement": "addRecentFormula"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "assert.deepEqual"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "assert.equal"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "test"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "Array.from"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
-      "toElement": "addRecentField"
+      "toElement": "addRecentFormula"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
-      "type": "call",
-      "toElement": "assert.equal"
-    },
-    {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "assert.equal"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "assert.equal"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "type": "call",
+      "toElement": "assert.equal"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "next.some"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "test"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
-      "toElement": "saveRecentFields"
+      "toElement": "saveRecentFormulas"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "assert.deepEqual"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
-      "toElement": "loadRecentFields"
+      "toElement": "loadRecentFormulas"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "test"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "store.set"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "assert.deepEqual"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
-      "toElement": "loadRecentFields"
+      "toElement": "loadRecentFormulas"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "test"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "store.set"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "JSON.stringify"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "assert.deepEqual"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
-      "toElement": "loadRecentFields"
+      "toElement": "loadRecentFormulas"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "test"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "store.set"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "JSON.stringify"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "assert.deepEqual"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
-      "toElement": "loadRecentFields"
+      "toElement": "loadRecentFormulas"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "test"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
       "toElement": "assert.deepEqual"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.test.ts",
-      "to": "apps/frontend/src/lib/quickFields.test.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.test.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.test.ts",
       "type": "call",
-      "toElement": "loadRecentFields"
+      "toElement": "loadRecentFormulas"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "call",
-      "fromElement": "loadRecentFields",
+      "fromElement": "loadRecentFormulas",
       "toElement": "localStorage.getItem"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "call",
-      "fromElement": "loadRecentFields",
+      "fromElement": "loadRecentFormulas",
       "toElement": "JSON.parse"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "call",
-      "fromElement": "loadRecentFields",
+      "fromElement": "loadRecentFormulas",
       "toElement": "Array.isArray"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "call",
-      "fromElement": "loadRecentFields",
+      "fromElement": "loadRecentFormulas",
       "toElement": "parsed.filter"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "call",
-      "fromElement": "mergeQuickFields",
+      "fromElement": "loadRecentFormulas",
+      "toElement": "x.expression.trim"
+    },
+    {
+      "from": "apps/frontend/src/lib/quickFormulas.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
+      "type": "call",
+      "fromElement": "mergeQuickFormulas",
       "toElement": "recent.map"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "call",
-      "fromElement": "mergeQuickFields",
+      "fromElement": "mergeQuickFormulas",
       "toElement": "seen.has"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "call",
-      "fromElement": "mergeQuickFields",
+      "fromElement": "mergeQuickFormulas",
       "toElement": "merged.push"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "call",
-      "fromElement": "mergeQuickFields",
+      "fromElement": "mergeQuickFormulas",
       "toElement": "seen.add"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "call",
-      "fromElement": "mergeQuickFields",
+      "fromElement": "mergeQuickFormulas",
       "toElement": "merged.slice"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "call",
-      "fromElement": "addRecentField",
+      "fromElement": "addRecentFormula",
       "toElement": "list.filter"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "call",
-      "fromElement": "saveRecentFields",
+      "fromElement": "saveRecentFormulas",
       "toElement": "localStorage.setItem"
     },
     {
-      "from": "apps/frontend/src/lib/quickFields.ts",
-      "to": "apps/frontend/src/lib/quickFields.ts",
+      "from": "apps/frontend/src/lib/quickFormulas.ts",
+      "to": "apps/frontend/src/lib/quickFormulas.ts",
       "type": "call",
-      "fromElement": "saveRecentFields",
+      "fromElement": "saveRecentFormulas",
       "toElement": "JSON.stringify"
     },
     {

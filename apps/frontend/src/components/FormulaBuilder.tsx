@@ -10,11 +10,16 @@
  *  2. A monospace `<textarea>` for the mathjs expression. The caret
  *     position is tracked with a ref so field/operator/function
  *     clicks can splice tokens in place.
- *  3. A "Часто используемые поля" quick palette (`QUICK_FIELDS`) plus
- *     the full `FieldPicker` for inserting `DEAL.X`/`CONTACT.Y`/
- *     `COMPANY.Z`/`ASSIGNED.W` tokens (the last being fields of the
- *     deal's responsible user) — clicking a field appends it to the
- *     expression at the caret.
+ *  3. A "Часто используемые формулы" quick palette — the history of
+ *     formulas the admin has already inserted (persisted in
+ *     localStorage via `lib/quickFormulas.ts`) plus a default seed.
+ *     Clicking a chip splices the whole expression into the textarea
+ *     at the caret and, if the name field is still empty, fills it in
+ *     — so common formulas (ФИО, сумма деньгами, дата …) are reused in
+ *     one click instead of being retyped. Below it the full
+ *     `FieldPicker` inserts individual `DEAL.X`/`CONTACT.Y`/
+ *     `COMPANY.Z`/`ASSIGNED.W` tokens at the caret (the last being
+ *     fields of the deal's responsible user).
  *  4. Two button palettes:
  *       - operators: + - * / ( ) , == != > < >= <= ? :
  *       - helper functions with parameter hints inside parentheses.
@@ -65,16 +70,15 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { FieldPicker, type FieldPickerEntity } from './FieldPicker';
-import type { CrmFieldDTO } from '@/lib/api';
+import { FieldPicker } from './FieldPicker';
 import {
-  QUICK_FIELDS_PAGE_SIZE,
-  type QuickField,
-  loadRecentFields,
-  mergeQuickFields,
-  addRecentField,
-  saveRecentFields,
-} from '@/lib/quickFields';
+  QUICK_FORMULAS_PAGE_SIZE,
+  type QuickFormula,
+  loadRecentFormulas,
+  mergeQuickFormulas,
+  addRecentFormula,
+  saveRecentFormulas,
+} from '@/lib/quickFormulas';
 import { RichTooltip } from '@/components/ui/RichTooltip';
 import { HELPER_DOCS, OPERATOR_DOCS, type HelperDoc } from '@/lib/formulaHelp';
 import {
@@ -236,22 +240,24 @@ export function FormulaBuilder({
   const [remoteResult, setRemoteResult] = useState<LocalValidationResult | null>(null);
   const [remoteLoading, setRemoteLoading] = useState(false);
 
-  /* --------------------- quick-fields palette ------------------- */
-  // История недавно использованных полей (до QUICK_FIELDS_MAX), слитая
-  // с дефолтным набором, плюс пагинация по QUICK_FIELDS_PAGE_SIZE чипов.
-  const [recentFields, setRecentFields] = useState<QuickField[]>(() =>
-    mergeQuickFields(loadRecentFields()),
+  /* -------------------- quick-formulas palette ------------------ */
+  // История недавно вставленных формул (до QUICK_FORMULAS_MAX), слитая
+  // с дефолтным набором, плюс пагинация по QUICK_FORMULAS_PAGE_SIZE.
+  const [recentFormulas, setRecentFormulas] = useState<QuickFormula[]>(() =>
+    mergeQuickFormulas(loadRecentFormulas()),
   );
   const [quickPage, setQuickPage] = useState(0);
 
-  /** Записать поле в начало истории и поднять его наверх палитры. */
-  const recordRecentField = useCallback((token: string, label: string) => {
-    setRecentFields((prev) => {
-      const next = addRecentField(prev, token, label);
-      saveRecentFields(next);
+  /** Записать формулу в начало истории и поднять её наверх палитры. */
+  const recordRecentFormula = useCallback((expression: string, label: string) => {
+    const expr = expression.trim();
+    if (!expr) return;
+    setRecentFormulas((prev) => {
+      const next = addRecentFormula(prev, expr, label.trim() || expr);
+      saveRecentFormulas(next);
       return next;
     });
-    // Новое поле всегда оказывается на первой странице.
+    // Новая формула всегда оказывается на первой странице.
     setQuickPage(0);
   }, []);
 
@@ -338,26 +344,24 @@ export function FormulaBuilder({
   );
 
   const handleFieldSelect = useCallback(
-    (token: string, field?: CrmFieldDTO, entity?: FieldPickerEntity) => {
+    (token: string) => {
       insertAtCaret(token);
-      // Подпись для истории: название поля (+ сущность) либо сам токен.
-      const label = field?.title
-        ? entity
-          ? `${field.title} (${entity})`
-          : field.title
-        : token;
-      recordRecentField(token, label);
     },
-    [insertAtCaret, recordRecentField],
+    [insertAtCaret],
   );
 
-  /** Быстрая вставка из палитры — подпись уже известна. */
-  const handleQuickField = useCallback(
-    (qf: QuickField) => {
-      insertAtCaret(qf.token);
-      recordRecentField(qf.token, qf.label);
+  /**
+   * Клик по чипу часто используемой формулы: подставляем выражение в
+   * позицию каретки и, если название ещё пустое, заполняем его именем
+   * формулы. Историю при этом поднимаем — чип явно выбрали.
+   */
+  const handleQuickFormula = useCallback(
+    (qf: QuickFormula) => {
+      insertAtCaret(qf.expression);
+      setLabel((prev) => (prev.trim() ? prev : qf.label));
+      recordRecentFormula(qf.expression, qf.label);
     },
-    [insertAtCaret, recordRecentField],
+    [insertAtCaret, recordRecentFormula],
   );
 
   const handleOperator = useCallback(
@@ -411,6 +415,8 @@ export function FormulaBuilder({
 
   const handleSubmit = () => {
     if (!canSubmit) return;
+    // Запоминаем вставленную формулу для палитры быстрого доступа.
+    recordRecentFormula(expression.trim(), label.trim());
     onInsert({
       tagKey: tagKey.trim(),
       label: label.trim(),
@@ -627,29 +633,29 @@ export function FormulaBuilder({
 
           {/* Right column: field picker */}
           <div className="flex flex-col">
-            {/* Quick-access palette of the most common / recent fields */}
+            {/* Quick-access palette of the most common / recent formulas */}
             {(() => {
               const pageCount = Math.max(
                 1,
-                Math.ceil(recentFields.length / QUICK_FIELDS_PAGE_SIZE),
+                Math.ceil(recentFormulas.length / QUICK_FORMULAS_PAGE_SIZE),
               );
               const safePage = Math.min(quickPage, pageCount - 1);
-              const start = safePage * QUICK_FIELDS_PAGE_SIZE;
-              const pageFields = recentFields.slice(
+              const start = safePage * QUICK_FORMULAS_PAGE_SIZE;
+              const pageFormulas = recentFormulas.slice(
                 start,
-                start + QUICK_FIELDS_PAGE_SIZE,
+                start + QUICK_FORMULAS_PAGE_SIZE,
               );
               return (
                 <div className="mb-3">
                   <div className="flex items-center justify-between">
                     <label className="text-xs font-medium text-muted-foreground">
-                      Часто используемые поля
+                      Часто используемые формулы
                     </label>
                     {pageCount > 1 && (
                       <div className="flex items-center gap-1">
                         <button
                           type="button"
-                          aria-label="Предыдущие поля"
+                          aria-label="Предыдущие формулы"
                           disabled={safePage === 0}
                           onClick={() => setQuickPage(Math.max(0, safePage - 1))}
                           className="flex h-5 w-5 items-center justify-center rounded border border-input bg-background text-muted-foreground hover:bg-muted disabled:opacity-40 disabled:hover:bg-background"
@@ -661,7 +667,7 @@ export function FormulaBuilder({
                         </span>
                         <button
                           type="button"
-                          aria-label="Следующие поля"
+                          aria-label="Следующие формулы"
                           disabled={safePage >= pageCount - 1}
                           onClick={() =>
                             setQuickPage(Math.min(pageCount - 1, safePage + 1))
@@ -674,17 +680,24 @@ export function FormulaBuilder({
                     )}
                   </div>
                   <div className="mt-1 flex flex-wrap gap-1">
-                    {pageFields.map((qf) => (
+                    {pageFormulas.map((qf) => (
                       <RichTooltip
-                        key={qf.token}
+                        key={qf.expression}
                         content={
-                          <div className="font-mono text-[11px]">{qf.token}</div>
+                          <div className="space-y-1">
+                            <div className="text-[11px] font-medium text-foreground">
+                              {qf.label}
+                            </div>
+                            <pre className="whitespace-pre-wrap break-all rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] text-foreground">
+                              {qf.expression}
+                            </pre>
+                          </div>
                         }
                       >
                         <button
                           type="button"
-                          onClick={() => handleQuickField(qf)}
-                          className="h-7 rounded-md border border-input bg-background px-2 text-xs hover:bg-muted"
+                          onClick={() => handleQuickFormula(qf)}
+                          className="h-7 max-w-full truncate rounded-md border border-input bg-background px-2 text-xs hover:bg-muted"
                         >
                           {qf.label}
                         </button>
