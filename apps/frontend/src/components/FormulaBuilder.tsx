@@ -151,6 +151,7 @@ const HELPERS: HelperDescriptor[] = [
   { name: 'concat', insert: 'concat()', cursorOffset: 7 },
   { name: 'format', insert: 'format(, "0.00")', cursorOffset: 7 },
   { name: 'dateFormat', insert: 'dateFormat(, "dd.MM.yyyy")', cursorOffset: 11 },
+  { name: 'today', insert: 'today()', cursorOffset: 6 },
   { name: 'upper', insert: 'upper()', cursorOffset: 6 },
   { name: 'lower', insert: 'lower()', cursorOffset: 6 },
 ];

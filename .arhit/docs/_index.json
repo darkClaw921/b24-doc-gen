@@ -203,9 +203,12 @@
     "element": "formulaEngine",
     "path": "",
     "type": "unknown",
-    "content": "Песочница mathjs для формул шаблонов. Поддерживает 4 namespace-сущности в выражениях: DEAL.*, CONTACT.*, COMPANY.* и ASSIGNED.* (поля ответственного пользователя сделки). ENTITY_SYMBOLS=['DEAL','CONTACT','COMPANY','ASSIGNED']. collectDeps извлекает зависимости в FormulaDependencies {deal,contact,company,assigned,products?}. evaluateExpression подставляет каждую сущность через withMissingFieldDefaults (отсутствующие поля → ''). Заблокированы динамические примитивы mathjs (import/createUnit/simplify и т.д.).",
+    "content": "Sandboxed mathjs-движок формул шаблонов. math=create(all) с заблокированными небезопасными примитивами (import/createUnit/simplify/derivative/...). Helper-функции (импортируются в math instance): if(cond,a,b), concat(...args), format(value,pattern) (0/0.00/money/usd/eur/проценты), dateFormat(date,fmt) (iso/date/datetime + токены yyyy/yy/MM/dd/HH/mm/ss), today(fmt?) — текущая дата на момент генерации, форматируется тем же formatDate, по умолчанию dd.MM.yyyy, не зависит от контекста сущностей, добавлена в KNOWN_NON_ENTITY_SYMBOLS, upper(s), lower(s). Product-хелперы как замыкания в scope evaluateExpression (productCount/productSum/productGet/productImage). ENTITY_SYMBOLS=['DEAL','CONTACT','COMPANY','ASSIGNED']. evaluateExpression оборачивает сущности в Proxy withMissingFieldDefaults (отсутствующее/null поле → ''). Публичный API: validateExpression, evaluateExpression, extractDependencies. Покрыто formulaEngine.test.ts (включая тесты today()).",
     "createdAt": "2026-04-07T17:28:54.052Z",
-    "updatedAt": "2026-06-15T12:50:42.624Z"
+    "updatedAt": "2026-06-23T20:43:22.601Z",
+    "aliases": [
+      "сегодняшняя дата"
+    ]
   },
   {
     "element": "registerFormulaRoutes",
@@ -363,9 +366,12 @@
     "element": "apps/frontend/src/lib/formulaHelp.ts",
     "path": "apps/frontend/src/lib/formulaHelp.ts",
     "type": "file",
-    "content": "Справочник метаданных функций и операторов формул. Экспортирует HELPER_DOCS (Record по имени функции: signature, summary, description, args[], examples[]) и OPERATOR_DOCS (символ → краткое описание). Заполнено для if, concat, format, dateFormat, upper, lower и всех операторов palette. Функция extractUsedHelpers(expression) парсит строку формулы регуляркой /\\b([a-zA-Z_]\\w*)\\s*\\(/g и возвращает HelperDoc[] для встретившихся имён — используется в EditorFormulaTooltip для авто-показа справки по функциям внутри пилюли. Один источник правды: используется и FormulaBuilder (тултипы кнопок), и TemplateEditorPage (hover-подсказки над пилюлями).",
+    "content": "Справочник метаданных функций и операторов формул. HELPER_DOCS (Record по имени: signature, summary, description, args[], examples[]) для if/concat/format/dateFormat/today/upper/lower/productSum/productCount/productGet/productImage. today(fmt?) — пресет текущей даты на момент генерации документа, формат как у dateFormat, по умолчанию dd.MM.yyyy. OPERATOR_DOCS — символ→описание. extractUsedHelpers(expression) парсит имена функций перед ( и возвращает HelperDoc[]. Один источник правды для FormulaBuilder (тултипы) и TemplateEditorPage (hover-подсказки).",
     "createdAt": "2026-04-08T00:20:54.543Z",
-    "updatedAt": "2026-04-08T00:20:54.543Z"
+    "updatedAt": "2026-06-23T20:43:22.864Z",
+    "aliases": [
+      "функция today"
+    ]
   },
   {
     "element": "apps/backend/src/routes/webhooks.ts",
@@ -989,6 +995,18 @@
     "aliases": [
       "часто используемые формулы",
       "часто используемые функции"
+    ]
+  },
+  {
+    "element": "apps/frontend/src/lib/formulaSuggest.ts",
+    "path": "apps/frontend/src/lib/formulaSuggest.ts",
+    "type": "file",
+    "content": "«Обучение по примеру» для автоподсказки формул в редакторе шаблона (TemplateEditorPage). Запоминает пары «шаблон строки → формула»: при вставке формулы вместо выделения сохраняется шаблон ВСЕЙ строки (абзаца) с маркером SELECTION_MARK (⟦⟧) на месте выделения и маскированием чисел, в localStorage (FORMULA_MEMORY_KEY, кап FORMULA_MEMORY_MAX=200). Тип FormulaMemoryEntry {pattern,label,expression,dependsOn}. normalizeLine(text) — lowercase + схлоп пробелов + числа→#. buildLinePattern(lineText,startOffset,endOffset) — вставка маркера на место выделения + нормализация (null для пустой строки). dice(a,b) — коэффициент Сёренсена-Дайса по биграммам. findFormulaSuggestion(pattern,list) — точное совпадение шаблона, иначе лучший нечёткий матч ≥ SUGGEST_THRESHOLD=0.8. addFormulaMemory(list,entry) — дедуп по pattern, в начало, кап. loadFormulaMemory/saveFormulaMemory — localStorage с защитой. Свободен от React/DOM для unit-тестов (formulaSuggest.test.ts). Интеграция в TemplateEditorPage: captureLinePattern/applySuggestion/слушатель выделения/портал-всплывашка suggestion.",
+    "createdAt": "2026-06-23T21:35:36.192Z",
+    "updatedAt": "2026-06-23T21:35:36.741Z",
+    "aliases": [
+      "автоподсказка формул",
+      "похожая строка формула"
     ]
   }
 ]

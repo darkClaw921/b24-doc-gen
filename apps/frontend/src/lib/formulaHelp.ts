@@ -98,6 +98,24 @@ export const HELPER_DOCS: Readonly<Record<string, HelperDoc>> = {
       'dateFormat(DEAL.CLOSEDATE, "datetime")',
     ],
   },
+  today: {
+    name: 'today',
+    signature: 'today(fmt?)',
+    summary: 'Сегодняшняя дата на момент генерации документа.',
+    description:
+      'Подставляет текущую дату (день, когда формируется документ). Необязательный параметр fmt задаёт формат по тем же правилам, что и dateFormat: iso, date, datetime или любая маска date-fns (например dd.MM.yyyy). По умолчанию dd.MM.yyyy.',
+    args: [
+      {
+        name: 'fmt',
+        description: 'Необязательный шаблон формата (как в dateFormat). По умолчанию dd.MM.yyyy.',
+      },
+    ],
+    examples: [
+      'today()',
+      'today("yyyy-MM-dd")',
+      'concat("Дата: ", today())',
+    ],
+  },
   upper: {
     name: 'upper',
     signature: 'upper(s)',

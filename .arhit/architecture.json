@@ -1,6 +1,6 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-06-23T20:09:00.865Z",
+  "generatedAt": "2026-06-23T21:35:35.226Z",
   "nodes": [
     {
       "id": "apps/backend/scripts/render-check.ts",
@@ -2818,7 +2818,7 @@
           "name": "buildSandboxedMath",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 58,
+          "line": 59,
           "signature": "buildSandboxedMath()",
           "docComment": "Build a brand new mathjs instance and lock it down.\n\nThe official mathjs security guide\n(https://mathjs.org/docs/expressions/security.html) recommends\ndisabling these functions to prevent code injection in user input.",
           "exports": []
@@ -2828,7 +2828,7 @@
           "name": "formatNumber",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 164,
+          "line": 172,
           "signature": "formatNumber(value: unknown, pattern: string): string",
           "docComment": "Format a numeric value according to a small set of patterns.\n\nSupported patterns (the leading \"0.\" just describes the typical use):\n  - \"0\"        — integer with thousand separators\n  - \"0.0\"      — one fractional digit\n  - \"0.00\"     — two fractional digits (default)\n  - \"0.000\"    — three fractional digits\n  - \"0%\"       — integer percentage\n  - \"0.0%\"     — one-digit percentage\n  - \"0.00%\"    — two-digit percentage\n  - \"money\"    — RUB-style with two fractional digits and currency\n  - \"usd\"      — USD currency format\n  - \"eur\"      — EUR currency format\n\nAnything else is treated as the number of fractional digits if it\nstarts with \"0.\", otherwise the value is returned via toString().",
           "exports": [
@@ -2840,7 +2840,7 @@
           "name": "formatDate",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 218,
+          "line": 226,
           "signature": "formatDate(value: unknown, pattern: string): string",
           "docComment": "Format a date value according to a small token set.\n\nSupported tokens: yyyy, yy, MM, dd, HH, mm, ss\nPredefined patterns: 'iso', 'date', 'datetime'.",
           "exports": [
@@ -2852,7 +2852,7 @@
           "name": "toNumberOrNull",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 244,
+          "line": 252,
           "signature": "toNumberOrNull(v: unknown): number | null",
           "exports": []
         },
@@ -2861,7 +2861,7 @@
           "name": "toDateOrNull",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 256,
+          "line": 264,
           "signature": "toDateOrNull(v: unknown): Date | null",
           "exports": []
         },
@@ -2870,7 +2870,7 @@
           "name": "tryParse",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 270,
+          "line": 278,
           "signature": "tryParse(expression: string): { node: MathNode; error?: undefined } | { node?: undefined; error: string }",
           "docComment": "Internal: parse but never throw — return a typed result.",
           "exports": []
@@ -2880,7 +2880,7 @@
           "name": "collectDeps",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 300,
+          "line": 308,
           "signature": "collectDeps(node: MathNode): FormulaDependencies",
           "exports": []
         },
@@ -2889,7 +2889,7 @@
           "name": "validateExpression",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 364,
+          "line": 372,
           "signature": "validateExpression(expression: string): ValidationResult",
           "docComment": "Parse an expression without evaluating it. Returns ok+deps on\nsuccess or ok=false+error on failure. Used by clients to validate\na draft formula before persisting it.",
           "exports": [
@@ -2901,7 +2901,7 @@
           "name": "findUnknownSymbol",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 418,
+          "line": 427,
           "signature": "findUnknownSymbol(node: MathNode): string | null",
           "docComment": "Walk the AST and return the name of the first symbol the engine\ncannot resolve. Recognised symbols include: the three entity\nnamespaces, our custom helpers, and any function exposed on the\nsandboxed math instance.\n\nSymbols that appear immediately under an `AccessorNode` (i.e. the\n\"object\" of `DEAL.OPPORTUNITY`) are skipped here because they are\nalready validated against ENTITY_SYMBOLS in collectDeps.",
           "exports": []
@@ -2911,7 +2911,7 @@
           "name": "withMissingFieldDefaults",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 484,
+          "line": 493,
           "signature": "withMissingFieldDefaults(obj: Record<string, unknown>): Record<string, unknown>",
           "docComment": "Wrap a flat entity object (`DEAL` / `CONTACT` / `COMPANY`) in a Proxy\nthat returns an **empty string** for any field that is absent or\n`null`, instead of `undefined`.\n\nWhy: mathjs throws \"Unexpected type of argument in function\nmultiplyScalar (… actual: identifier | undefined …)\" the moment an\n`undefined` flows into an arithmetic operator. That happens whenever a\nformula references a field that is not present in the scope — most\nnotably during the **trial validation** in\n`routes/formulas.ts::POST /api/formulas/validate`, which runs the\nexpression against empty `{}` stub entities, but also at generation\ntime when a real deal simply has an empty/unset field. A perfectly\nvalid formula like `DEAL.OPPORTUNITY * 2` would otherwise be reported\nas broken.\n\nDefaulting to `''` makes mathjs coerce the missing value to `0` in\narithmetic (`'' * 2 → 0`) and to nothing in text concatenation, while\ngenuine type errors (e.g. `\"abc\" * 2`) still surface. The Proxy keeps\n`constructor === Object` so mathjs's `isPlainObject` check — and thus\nits safe property access — keeps working. Present (non-null) values\nand inherited members pass through untouched; symbol keys behave\nnormally so iteration/`toString` are unaffected.",
           "exports": []
@@ -2921,7 +2921,7 @@
           "name": "evaluateExpression",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 503,
+          "line": 512,
           "signature": "evaluateExpression(expression: string, context: Partial<FormulaContext>): EvaluationResult",
           "docComment": "Evaluate an expression with a typed context. The context is forwarded\nverbatim to the mathjs scope; missing entity keys default to empty\nobjects so accessing `CONTACT.NAME` against a deal with no linked\ncontact yields an empty string instead of throwing.",
           "exports": [
@@ -2933,7 +2933,7 @@
           "name": "extractDependencies",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 609,
+          "line": 618,
           "signature": "extractDependencies(expression: string): FormulaDependencies",
           "docComment": "Static dependency extraction. Used by the preview/generation\npipelines to decide which REST calls to make. Returns empty arrays\nfor an unparseable expression rather than throwing — callers should\nuse `validateExpression` if they need to surface errors.",
           "exports": [
@@ -2945,7 +2945,7 @@
           "name": "toEvaluationResult",
           "type": "function",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 618,
+          "line": 627,
           "signature": "toEvaluationResult(raw: unknown): EvaluationResult",
           "docComment": "Coerce an arbitrary mathjs result into the public EvaluationResult shape.",
           "exports": []
@@ -2955,7 +2955,7 @@
           "name": "ValidationResult",
           "type": "interface",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 353,
+          "line": 361,
           "signature": "interface ValidationResult",
           "exports": [
             "ValidationResult"
@@ -2966,7 +2966,7 @@
           "name": "EvaluationResult",
           "type": "interface",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 451,
+          "line": 460,
           "signature": "interface EvaluationResult",
           "exports": [
             "EvaluationResult"
@@ -2977,7 +2977,7 @@
           "name": "EntitySymbol",
           "type": "type",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 140,
+          "line": 148,
           "exports": []
         },
         {
@@ -2985,7 +2985,7 @@
           "name": "math",
           "type": "variable",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 136,
+          "line": 144,
           "exports": []
         },
         {
@@ -2993,7 +2993,7 @@
           "name": "ENTITY_SYMBOLS",
           "type": "variable",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 139,
+          "line": 147,
           "docComment": "Names of the three top-level entity symbols available in expressions.",
           "exports": []
         },
@@ -3002,7 +3002,7 @@
           "name": "PRODUCT_HELPER_NAMES",
           "type": "variable",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 293,
+          "line": 301,
           "docComment": "Names of the product helper functions. When any of these appears as\n a call in the AST, `collectDeps` sets `products: true`.",
           "exports": []
         },
@@ -3011,7 +3011,7 @@
           "name": "KNOWN_NON_ENTITY_SYMBOLS",
           "type": "variable",
           "path": "apps/backend/src/services/formulaEngine.ts",
-          "line": 385,
+          "line": 393,
           "docComment": "Allow-list of identifiers that aren't entity namespaces.",
           "exports": []
         }
@@ -3789,7 +3789,7 @@
           "name": "HelperTooltipContent",
           "type": "function",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 175,
+          "line": 176,
           "signature": "HelperTooltipContent({ doc }: { doc: HelperDoc })",
           "docComment": "Содержимое всплывающей подсказки для функции — рендерится один раз\nна каждую кнопку палитры. Для пилюль формул в редакторе используется\nта же разметка, поэтому компонент экспортируется ниже.",
           "exports": [
@@ -3801,7 +3801,7 @@
           "name": "FormulaBuilder",
           "type": "function",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 222,
+          "line": 223,
           "signature": "FormulaBuilder({\n  open,\n  onOpenChange,\n  onInsert,\n  existingKeys,\n  initialValues,\n  testDealId,\n}: FormulaBuilderProps)",
           "exports": [
             "FormulaBuilder"
@@ -3812,7 +3812,7 @@
           "name": "DepList",
           "type": "function",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 744,
+          "line": 745,
           "signature": "DepList({ title, items }: { title: string; items: ReadonlyArray<string> })",
           "exports": []
         },
@@ -3869,7 +3869,7 @@
           "name": "PRODUCT_HELPERS",
           "type": "variable",
           "path": "apps/frontend/src/components/FormulaBuilder.tsx",
-          "line": 163,
+          "line": 164,
           "docComment": "Product-specific helpers — shown in a separate palette section so\nadmins can quickly build product-related formulas.",
           "exports": []
         }
@@ -5929,7 +5929,7 @@
           "name": "extractUsedHelpers",
           "type": "function",
           "path": "apps/frontend/src/lib/formulaHelp.ts",
-          "line": 216,
+          "line": 234,
           "signature": "extractUsedHelpers(expression: string): HelperDoc[]",
           "docComment": "По выражению формулы возвращает список встретившихся имён функций\n(только тех, что описаны в HELPER_DOCS). Используется для подсказки\nнад пилюлей формулы — чтобы показать справку по функциям, которые\nавтор использовал в expression.",
           "exports": [
@@ -5964,7 +5964,7 @@
           "name": "OperatorDoc",
           "type": "interface",
           "path": "apps/frontend/src/lib/formulaHelp.ts",
-          "line": 189,
+          "line": 207,
           "signature": "interface OperatorDoc",
           "exports": [
             "OperatorDoc"
@@ -5985,9 +5985,213 @@
           "name": "OPERATOR_DOCS",
           "type": "variable",
           "path": "apps/frontend/src/lib/formulaHelp.ts",
-          "line": 194,
+          "line": 212,
           "exports": [
             "OPERATOR_DOCS"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/lib/formulaSuggest.test.ts",
+      "name": "formulaSuggest.test.ts",
+      "type": "file",
+      "path": "apps/frontend/src/lib/formulaSuggest.test.ts",
+      "exports": [],
+      "children": [
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.test.ts:installStorage",
+          "name": "installStorage",
+          "type": "function",
+          "path": "apps/frontend/src/lib/formulaSuggest.test.ts",
+          "line": 27,
+          "signature": "installStorage(): Map<string, string>",
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.test.ts:store",
+          "name": "store",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/formulaSuggest.test.ts",
+          "line": 38,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.test.ts:deps",
+          "name": "deps",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/formulaSuggest.test.ts",
+          "line": 43,
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.test.ts:entry",
+          "name": "entry",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/formulaSuggest.test.ts",
+          "line": 44,
+          "exports": []
+        }
+      ]
+    },
+    {
+      "id": "apps/frontend/src/lib/formulaSuggest.ts",
+      "name": "formulaSuggest.ts",
+      "type": "file",
+      "path": "apps/frontend/src/lib/formulaSuggest.ts",
+      "exports": [
+        "normalizeLine",
+        "buildLinePattern",
+        "dice",
+        "findFormulaSuggestion",
+        "addFormulaMemory",
+        "loadFormulaMemory",
+        "saveFormulaMemory",
+        "FormulaMemoryEntry",
+        "SELECTION_MARK",
+        "FORMULA_MEMORY_KEY",
+        "FORMULA_MEMORY_MAX",
+        "SUGGEST_THRESHOLD"
+      ],
+      "children": [
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.ts:normalizeLine",
+          "name": "normalizeLine",
+          "type": "function",
+          "path": "apps/frontend/src/lib/formulaSuggest.ts",
+          "line": 51,
+          "signature": "normalizeLine(text: string): string",
+          "docComment": "Нормализовать текст строки: нижний регистр, схлопнуть пробелы, обрезать\nкрая и заменить любые числа (с разделителями) на «#», чтобы строки,\nотличающиеся лишь значениями, считались одинаковыми.",
+          "exports": [
+            "normalizeLine"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.ts:buildLinePattern",
+          "name": "buildLinePattern",
+          "type": "function",
+          "path": "apps/frontend/src/lib/formulaSuggest.ts",
+          "line": 68,
+          "signature": "buildLinePattern(lineText: string, startOffset: number, endOffset: number): string | null",
+          "docComment": "Построить шаблон строки: вставить `SELECTION_MARK` на место выделения\n`[startOffset, endOffset)` внутри `lineText`, затем нормализовать.\nВозвращает null, если строка пустая (нечего сопоставлять).\n\nСмещения — позиции внутри текста строки (parentOffset в ProseMirror).\nДля схлопнутого выделения (startOffset === endOffset) маркер ставится в\nточку курсора.",
+          "exports": [
+            "buildLinePattern"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.ts:dice",
+          "name": "dice",
+          "type": "function",
+          "path": "apps/frontend/src/lib/formulaSuggest.ts",
+          "line": 86,
+          "signature": "dice(a: string, b: string): number",
+          "docComment": "Коэффициент Сёренсена–Дайса по биграммам символов: 0 (нет общего) … 1\n(идентичны). Устойчив к мелким различиям и перестановкам.",
+          "exports": [
+            "dice"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.ts:findFormulaSuggestion",
+          "name": "findFormulaSuggestion",
+          "type": "function",
+          "path": "apps/frontend/src/lib/formulaSuggest.ts",
+          "line": 116,
+          "signature": "findFormulaSuggestion(pattern: string | null, list: ReadonlyArray<FormulaMemoryEntry>): FormulaMemoryEntry | null",
+          "docComment": "Найти подходящую запомненную формулу для шаблона строки `pattern`.\nСначала ищется точное совпадение шаблона; если нет — лучший нечёткий\nматч с коэффициентом ≥ `SUGGEST_THRESHOLD`. Возвращает null, если ничего\nподходящего нет.",
+          "exports": [
+            "findFormulaSuggestion"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.ts:addFormulaMemory",
+          "name": "addFormulaMemory",
+          "type": "function",
+          "path": "apps/frontend/src/lib/formulaSuggest.ts",
+          "line": 140,
+          "signature": "addFormulaMemory(list: ReadonlyArray<FormulaMemoryEntry>, entry: FormulaMemoryEntry): FormulaMemoryEntry[]",
+          "docComment": "Чистый редьюсер: добавить/обновить запись по `pattern` (переносится в\nначало списка), дедуп по шаблону, кап `FORMULA_MEMORY_MAX`.",
+          "exports": [
+            "addFormulaMemory"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.ts:loadFormulaMemory",
+          "name": "loadFormulaMemory",
+          "type": "function",
+          "path": "apps/frontend/src/lib/formulaSuggest.ts",
+          "line": 151,
+          "signature": "loadFormulaMemory(): FormulaMemoryEntry[]",
+          "docComment": "Прочитать историю из localStorage, терпя повреждённые/пустые данные.",
+          "exports": [
+            "loadFormulaMemory"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.ts:saveFormulaMemory",
+          "name": "saveFormulaMemory",
+          "type": "function",
+          "path": "apps/frontend/src/lib/formulaSuggest.ts",
+          "line": 175,
+          "signature": "saveFormulaMemory(list: ReadonlyArray<FormulaMemoryEntry>): void",
+          "docComment": "Записать историю, проглатывая ошибки storage (private mode, quota).",
+          "exports": [
+            "saveFormulaMemory"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.ts:FormulaMemoryEntry",
+          "name": "FormulaMemoryEntry",
+          "type": "interface",
+          "path": "apps/frontend/src/lib/formulaSuggest.ts",
+          "line": 22,
+          "signature": "interface FormulaMemoryEntry",
+          "docComment": "Одна запомненная пара «шаблон строки → формула».",
+          "exports": [
+            "FormulaMemoryEntry"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.ts:SELECTION_MARK",
+          "name": "SELECTION_MARK",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/formulaSuggest.ts",
+          "line": 34,
+          "docComment": "Маркер места выделения/вставки внутри строки-шаблона.",
+          "exports": [
+            "SELECTION_MARK"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.ts:FORMULA_MEMORY_KEY",
+          "name": "FORMULA_MEMORY_KEY",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/formulaSuggest.ts",
+          "line": 36,
+          "docComment": "localStorage key для истории сопоставлений.",
+          "exports": [
+            "FORMULA_MEMORY_KEY"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.ts:FORMULA_MEMORY_MAX",
+          "name": "FORMULA_MEMORY_MAX",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/formulaSuggest.ts",
+          "line": 38,
+          "docComment": "Сколько пар максимум храним.",
+          "exports": [
+            "FORMULA_MEMORY_MAX"
+          ]
+        },
+        {
+          "id": "apps/frontend/src/lib/formulaSuggest.ts:SUGGEST_THRESHOLD",
+          "name": "SUGGEST_THRESHOLD",
+          "type": "variable",
+          "path": "apps/frontend/src/lib/formulaSuggest.ts",
+          "line": 44,
+          "docComment": "Порог нечёткого совпадения (коэффициент Сёренсена–Дайса) при отсутствии\nточного совпадения шаблона. Высокий, чтобы предлагать только в реально\nпохожих строках.",
+          "exports": [
+            "SUGGEST_THRESHOLD"
           ]
         }
       ]
@@ -6129,7 +6333,7 @@
           "name": "loadRecentFormulas",
           "type": "function",
           "path": "apps/frontend/src/lib/quickFormulas.ts",
-          "line": 49,
+          "line": 50,
           "signature": "loadRecentFormulas(): QuickFormula[]",
           "docComment": "Read the history from localStorage, tolerating corrupt / absent data.",
           "exports": [
@@ -6141,7 +6345,7 @@
           "name": "mergeQuickFormulas",
           "type": "function",
           "path": "apps/frontend/src/lib/quickFormulas.ts",
-          "line": 73,
+          "line": 74,
           "signature": "mergeQuickFormulas(recent: QuickFormula[]): QuickFormula[]",
           "docComment": "Merge the history with the default formulas so the palette is never\nempty: recent first, then defaults not already present (deduped by\nexpression), capped at `QUICK_FORMULAS_MAX`.",
           "exports": [
@@ -6153,7 +6357,7 @@
           "name": "addRecentFormula",
           "type": "function",
           "path": "apps/frontend/src/lib/quickFormulas.ts",
-          "line": 90,
+          "line": 91,
           "signature": "addRecentFormula(list: QuickFormula[], expression: string, label: string): QuickFormula[]",
           "docComment": "Return a new history with `{ expression, label }` moved to the front,\nde-duplicated by expression and capped at `QUICK_FORMULAS_MAX`. Pure.",
           "exports": [
@@ -6165,7 +6369,7 @@
           "name": "saveRecentFormulas",
           "type": "function",
           "path": "apps/frontend/src/lib/quickFormulas.ts",
-          "line": 102,
+          "line": 103,
           "signature": "saveRecentFormulas(list: QuickFormula[]): void",
           "docComment": "Persist the history, swallowing storage errors (private mode, quota).",
           "exports": [
@@ -6737,7 +6941,7 @@
           "name": "base64ToBytes",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 128,
+          "line": 137,
           "signature": "base64ToBytes(b64: string): Uint8Array",
           "docComment": "Decode a base64 string into a `Uint8Array`.",
           "exports": []
@@ -6747,7 +6951,7 @@
           "name": "TemplateEditorPage",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 137,
+          "line": 146,
           "signature": "TemplateEditorPage()",
           "exports": [
             "TemplateEditorPage"
@@ -6758,7 +6962,7 @@
           "name": "TagHoverContent",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 1147,
+          "line": 1318,
           "signature": "TagHoverContent({\n  tag,\n  formula,\n  field,\n}: {\n  tag: string;\n  formula?: FormulaInputDTO;\n  field?: TemplateFieldInputDTO;\n})",
           "docComment": "Body of the hover tooltip shown over a `{tag}` pill in the editor. Mirrors\nthe old TipTap formula tooltip: shows the tag name and what it resolves to —\na formula (label + expression), a manual field (label + type), a reserved\nproduct-loop tag, or an unbound warning.",
           "exports": []
@@ -6768,7 +6972,7 @@
           "name": "TagRow",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 1201,
+          "line": 1372,
           "signature": "TagRow({\n  tag,\n  status,\n  orphan = false,\n  formula,\n  field,\n  onBindFormula,\n  onBindField,\n  onRemoveFormula,\n  onRemoveField,\n}: {\n  tag: string;\n  status: TagBindingStatus;\n  orphan?: boolean;\n  formula?: FormulaInputDTO;\n  field?: TemplateFieldInputDTO;\n  onBindFormula: () => void;\n  onBindField: () => void;\n  onRemoveFormula: () => void;\n  onRemoveField: () => void;\n})",
           "docComment": "A single row in the \"Теги шаблона\" panel. Shows the tag name, its\nbinding status badge and the relevant actions (bind/edit a formula,\ndeclare/edit a manual field, or remove an existing binding). Unbound\nnon-reserved tags are highlighted with an amber border so the admin\nnotices them; reserved product-loop tags are shown muted with no\nactions because the engine fills them automatically.",
           "exports": []
@@ -6778,7 +6982,7 @@
           "name": "StatusBadge",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 1323,
+          "line": 1494,
           "signature": "StatusBadge({ status }: { status: TagBindingStatus })",
           "docComment": "Small coloured badge describing a tag's binding status.",
           "exports": []
@@ -6788,7 +6992,7 @@
           "name": "formulaDtoToInput",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 1361,
+          "line": 1532,
           "signature": "formulaDtoToInput(f: FormulaDTO): FormulaInputDTO",
           "docComment": "Translate a FormulaDTO into the FormulaInputDTO sent back on save.",
           "exports": []
@@ -6798,7 +7002,7 @@
           "name": "fieldDtoToInput",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 1372,
+          "line": 1543,
           "signature": "fieldDtoToInput(f: TemplateFieldDTO): TemplateFieldInputDTO",
           "docComment": "Translate a TemplateFieldDTO into the input shape sent on save.",
           "exports": []
@@ -6808,7 +7012,7 @@
           "name": "EDITOR_CLASS_NAME",
           "type": "variable",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 105,
+          "line": 114,
           "docComment": "The DocxEditor ships its own (Word-like) styles via `styles.css`. We mount\nthe editor inside a container carrying this class and a CSS `isolation`\ncontext so its layout/paint stays scoped to the left pane and does not\nbleed into the surrounding app chrome or the right-hand tags panel.",
           "exports": []
         },
@@ -6817,7 +7021,7 @@
           "name": "TAG_HIGHLIGHT_STYLES",
           "type": "variable",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 114,
+          "line": 123,
           "docComment": "Pill-style highlight for the `{tag}` placeholders the template plugin\ndecorates with `.docx-template-tag`. The plugin's own `TEMPLATE_DECORATION_STYLES`\nonly sets cursor/hover-filter, so we add the amber background that mirrors the\nold TipTap formula pills. Scoped under the editor host so it can't leak. The\ncursor is `help` to hint the hover tooltip.",
           "exports": []
         }

@@ -99,3 +99,31 @@ test('an unknown namespace is still rejected', () => {
   assert.equal(v.ok, false);
   assert.match(v.error ?? '', /Unknown identifier/);
 });
+
+test('today() is a valid identifier and returns the current date', () => {
+  const v = validateExpression('today()');
+  assert.equal(v.ok, true);
+
+  const r = evaluateExpression('today()', {});
+  assert.equal(r.error, undefined);
+  // Default format is dd.MM.yyyy.
+  assert.match(r.value, /^\d{2}\.\d{2}\.\d{4}$/);
+  // It really is today (compare day/month/year against a fresh Date).
+  const now = new Date();
+  const dd = now.getDate().toString().padStart(2, '0');
+  const MM = (now.getMonth() + 1).toString().padStart(2, '0');
+  const yyyy = now.getFullYear().toString();
+  assert.equal(r.value, `${dd}.${MM}.${yyyy}`);
+});
+
+test('today(fmt) honours a custom format token set', () => {
+  const r = evaluateExpression('today("yyyy-MM-dd")', {});
+  assert.equal(r.error, undefined);
+  assert.match(r.value, /^\d{4}-\d{2}-\d{2}$/);
+});
+
+test('today() composes with concat', () => {
+  const r = evaluateExpression('concat("Дата: ", today())', {});
+  assert.equal(r.error, undefined);
+  assert.match(r.value, /^Дата: \d{2}\.\d{2}\.\d{4}$/);
+});

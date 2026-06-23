@@ -14,6 +14,7 @@
  *   - `format(value, pattern)` — number formatting via Intl.NumberFormat
  *                                 ("0.00", "0", "0.0%", "money", ...)
  *   - `dateFormat(date, fmt)`  — date formatting (ISO/dd.MM.yyyy/...)
+ *   - `today(fmt?)`            — current date at generation time
  *   - `upper(s)` / `lower(s)`  — case helpers
  *
  * Identifiers in expressions are namespaced under three top-level
@@ -83,6 +84,13 @@ function buildSandboxedMath() {
     // Date formatter — accepts Date | string | number.
     dateFormat(value: unknown, pattern: unknown) {
       return formatDate(value, typeof pattern === 'string' ? pattern : 'dd.MM.yyyy');
+    },
+
+    // Current date at generation time. Formatted by the same token set
+    // as `dateFormat`; defaults to dd.MM.yyyy. Takes no entity context,
+    // so it lives here on the math instance rather than in the scope.
+    today(pattern: unknown) {
+      return formatDate(new Date(), typeof pattern === 'string' ? pattern : 'dd.MM.yyyy');
     },
 
     // Case helpers.
@@ -388,6 +396,7 @@ const KNOWN_NON_ENTITY_SYMBOLS = new Set<string>([
   'concat',
   'format',
   'dateFormat',
+  'today',
   'upper',
   'lower',
   // product helpers

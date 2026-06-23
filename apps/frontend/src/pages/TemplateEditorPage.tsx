@@ -94,6 +94,15 @@ import {
   type ThemeDTO,
 } from '@/lib/api';
 import { computeTagStatus, isReservedTag, type TagBindingStatus } from '@/lib/templateTags';
+import { generateTagKey } from '@/lib/formulas';
+import {
+  buildLinePattern,
+  findFormulaSuggestion,
+  addFormulaMemory,
+  loadFormulaMemory,
+  saveFormulaMemory,
+  type FormulaMemoryEntry,
+} from '@/lib/formulaSuggest';
 import { cn } from '@/lib/utils';
 
 /**
@@ -196,6 +205,28 @@ export function TemplateEditorPage() {
    * its tooltip should anchor. Null when nothing is hovered.
    */
   const [hoverInfo, setHoverInfo] = useState<{ tag: string; top: number; left: number } | null>(null);
+  /**
+   * «Обучение по примеру»: история сопоставлений «шаблон строки → формула»
+   * (lib/formulaSuggest.ts, localStorage). Когда админ выделяет фрагмент и
+   * вставляет вместо него формулу, шаблон ВСЕЙ строки запоминается; при
+   * выделении в похожей строке редактор предлагает ту же формулу.
+   */
+  const [formulaMemory, setFormulaMemory] = useState<FormulaMemoryEntry[]>(() =>
+    loadFormulaMemory(),
+  );
+  /**
+   * Активное предложение формулы для текущего выделения: запись из памяти и
+   * экранные координаты якоря всплывашки. Null — предложить нечего.
+   */
+  const [suggestion, setSuggestion] = useState<
+    { entry: FormulaMemoryEntry; top: number; left: number } | null
+  >(null);
+  /**
+   * Шаблон строки, зафиксированный в момент открытия конструктора в
+   * insert-режиме. По нему `handleConfirmFormula` запоминает сопоставление
+   * после успешной вставки формулы.
+   */
+  const pendingLinePatternRef = useRef<string | null>(null);
   /**
    * Template plugin (docxtemplater syntax detection + highlight overlays). It is
    * driven by `<PluginHost>`, which computes the plugin's `renderOverlay` output
@@ -313,6 +344,45 @@ export function TemplateEditorPage() {
       dom.removeEventListener('mouseout', onOut);
     };
   }, [documentBuffer]);
+
+  /**
+   * Автоподсказка формулы по выделению. На `mouseup`/`keyup` в редакторе
+   * строим шаблон текущей строки и ищем сопоставление в `formulaMemory`.
+   * Если строка похожа на ту, где формулу уже вставляли, показываем
+   * всплывашку с предложением вставить ту же формулу. Чтение selection
+   * отложено через rAF, чтобы ProseMirror успел обновить состояние.
+   */
+  useEffect(() => {
+    const dom = editorHostRef.current;
+    if (!dom) return;
+    if (formulaMemory.length === 0) {
+      setSuggestion(null);
+      return;
+    }
+    const refresh = () => {
+      window.requestAnimationFrame(() => {
+        const view = editorRef.current?.getEditorRef()?.getView();
+        if (!view || view.state.selection.empty) {
+          setSuggestion(null);
+          return;
+        }
+        const entry = findFormulaSuggestion(captureLinePattern(), formulaMemory);
+        if (!entry) {
+          setSuggestion(null);
+          return;
+        }
+        const coords = view.coordsAtPos(view.state.selection.from);
+        setSuggestion({ entry, top: coords.bottom + 6, left: coords.left });
+      });
+    };
+    dom.addEventListener('mouseup', refresh);
+    dom.addEventListener('keyup', refresh);
+    return () => {
+      dom.removeEventListener('mouseup', refresh);
+      dom.removeEventListener('keyup', refresh);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [documentBuffer, formulaMemory]);
 
   const saveMutation = useMutation({
     mutationFn: (body: {
@@ -457,6 +527,10 @@ export function TemplateEditorPage() {
    * Mirrors the old TipTap "Σ Вставить формулу" toolbar button.
    */
   const openInsertFormula = () => {
+    // Снимок шаблона строки до открытия диалога (пока выделение активно),
+    // чтобы запомнить сопоставление «строка → формула» после вставки.
+    pendingLinePatternRef.current = captureLinePattern();
+    setSuggestion(null);
     setActiveTag(null);
     setInsertMode(true);
     setBuilderOpen(true);
@@ -485,6 +559,57 @@ export function TemplateEditorPage() {
     view.dispatch(view.state.tr.insertText(`{${tagKey}}`, from, to));
     view.focus();
     return true;
+  };
+
+  /**
+   * Построить шаблон ВСЕЙ строки (абзаца), в которой сейчас стоит выделение:
+   * текст родительского блока с маркером на месте выделения, нормализованный
+   * (lib/formulaSuggest). Возвращает null, если редактор не готов, выделение
+   * охватывает несколько блоков или строка пустая.
+   */
+  const captureLinePattern = (): string | null => {
+    const view = editorRef.current?.getEditorRef()?.getView();
+    if (!view) return null;
+    const { $from, $to } = view.state.selection;
+    // Учитываем только выделение в пределах одного текстового блока.
+    if (!$from.sameParent($to)) return null;
+    const lineText = $from.parent.textContent;
+    return buildLinePattern(lineText, $from.parentOffset, $to.parentOffset);
+  };
+
+  /**
+   * Применить предложенную формулу к текущему выделению: сгенерировать
+   * уникальный tagKey из имени формулы, вставить `{tagKey}` вместо выделения
+   * и завести привязку (как insert-режим конструктора, но без диалога).
+   */
+  const applySuggestion = (entry: FormulaMemoryEntry) => {
+    const tagKey = generateTagKey(entry.label, Object.keys(formulasByKey));
+    if (!tagKey) return;
+    const inserted = insertPlaceholderAtCursor(tagKey);
+    setFieldsByKey((prev) => {
+      if (!(tagKey in prev)) return prev;
+      const next = { ...prev };
+      delete next[tagKey];
+      return next;
+    });
+    setFormulasByKey((prev) => ({
+      ...prev,
+      [tagKey]: {
+        id: prev[tagKey]?.id,
+        tagKey,
+        label: entry.label,
+        expression: entry.expression,
+        dependsOn: entry.dependsOn,
+      },
+    }));
+    setLocallyInsertedTags((prev) => (prev.includes(tagKey) ? prev : [...prev, tagKey]));
+    if (inserted) setDocDirty(true);
+    else
+      setSaveError(
+        `Не удалось вставить {${tagKey}} в документ — впишите тег вручную в нужном месте.`,
+      );
+    setDirty(true);
+    setSuggestion(null);
   };
 
   /** Remove the formula bound to `tag`. */
@@ -539,6 +664,21 @@ export function TemplateEditorPage() {
         setSaveError(
           `Не удалось вставить {${tagKey}} в документ — впишите тег вручную в нужном месте.`,
         );
+      // Запомнить «шаблон строки → формула» для будущих автоподсказок.
+      const pattern = pendingLinePatternRef.current;
+      pendingLinePatternRef.current = null;
+      if (pattern) {
+        setFormulaMemory((prev) => {
+          const next = addFormulaMemory(prev, {
+            pattern,
+            label: result.label,
+            expression: result.expression,
+            dependsOn: result.dependsOn,
+          });
+          saveFormulaMemory(next);
+          return next;
+        });
+      }
       setDirty(true);
       setInsertMode(false);
       return;
@@ -1127,6 +1267,37 @@ export function TemplateEditorPage() {
               formula={formulasByKey[hoverInfo.tag]}
               field={fieldsByKey[hoverInfo.tag]}
             />
+          </div>,
+          document.body,
+        )}
+
+      {/* Автоподсказка формулы для похожей строки. `onMouseDown` гасится,
+          чтобы клик не сбросил выделение в ProseMirror до вставки. */}
+      {suggestion &&
+        createPortal(
+          <div
+            className="fixed z-[60] flex max-w-sm items-center gap-2 rounded-md border border-border bg-popover px-2.5 py-1.5 text-xs text-popover-foreground shadow-md"
+            style={{ top: suggestion.top, left: suggestion.left }}
+            onMouseDown={(e) => e.preventDefault()}
+          >
+            <Sigma className="h-3.5 w-3.5 shrink-0 text-blue-600" />
+            <span className="shrink-0 text-muted-foreground">Вставить формулу:</span>
+            <button
+              type="button"
+              onClick={() => applySuggestion(suggestion.entry)}
+              className="max-w-[12rem] truncate rounded bg-blue-600 px-2 py-0.5 font-medium text-white hover:bg-blue-700"
+              title={suggestion.entry.expression}
+            >
+              {suggestion.entry.label}
+            </button>
+            <button
+              type="button"
+              aria-label="Скрыть подсказку"
+              onClick={() => setSuggestion(null)}
+              className="shrink-0 px-0.5 text-muted-foreground hover:text-foreground"
+            >
+              ✕
+            </button>
           </div>,
           document.body,
         )}

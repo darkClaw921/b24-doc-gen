@@ -37,6 +37,7 @@ export const DEFAULT_QUICK_FORMULAS: QuickFormula[] = [
   { label: 'ФИО контакта', expression: 'concat(CONTACT.NAME, " ", CONTACT.LAST_NAME)' },
   { label: 'Сумма сделки (деньги)', expression: 'format(DEAL.OPPORTUNITY, "money")' },
   { label: 'Дата сделки', expression: 'dateFormat(DEAL.BEGINDATE, "dd.MM.yyyy")' },
+  { label: 'Сегодняшняя дата', expression: 'today()' },
   { label: 'Сумма товаров', expression: 'format(productSum("SUM"), "money")' },
   { label: 'НДС 20%', expression: 'format(DEAL.OPPORTUNITY * 0.2, "money")' },
   {
