@@ -359,7 +359,7 @@ export function TemplateEditorPage() {
       setSuggestion(null);
       return;
     }
-    const refresh = () => {
+    const refresh = (e: Event) => {
       window.requestAnimationFrame(() => {
         const view = editorRef.current?.getEditorRef()?.getView();
         if (!view || view.state.selection.empty) {
@@ -371,8 +371,21 @@ export function TemplateEditorPage() {
           setSuggestion(null);
           return;
         }
-        const coords = view.coordsAtPos(view.state.selection.from);
-        setSuggestion({ entry, top: coords.bottom + 6, left: coords.left });
+        // Якорь — позиция курсора мыши при отпускании выделения (координаты
+        // ВИДИМОГО слоя). В DocxEditor сам ProseMirror DOM спрятан за экраном
+        // (left:-9999), поэтому view.coordsAtPos дал бы координаты вне
+        // вьюпорта и всплывашка уехала бы за край; берём его лишь как фолбэк
+        // (например при выделении с клавиатуры, когда позиции мыши нет).
+        const me = e as MouseEvent;
+        const hasMouse = typeof me.clientX === 'number' && me.clientX > 0 && me.clientY > 0;
+        if (hasMouse) {
+          setSuggestion({ entry, top: me.clientY + 12, left: me.clientX });
+        } else {
+          const coords = view.coordsAtPos(view.state.selection.from);
+          const left = coords.left >= 0 ? coords.left : 16;
+          const top = coords.bottom >= 0 ? coords.bottom + 6 : 80;
+          setSuggestion({ entry, top, left });
+        }
       });
     };
     dom.addEventListener('mouseup', refresh);
