@@ -21,9 +21,24 @@
 import { useEffect, type ReactNode } from 'react';
 import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { isB24Available, getCurrentPlacement, getCurrentDealId } from '@/lib/b24';
+import {
+  isB24Available,
+  getCurrentPlacement,
+  getCurrentDealId,
+  isAppInstalledOnPortal,
+  installFinishB24,
+} from '@/lib/b24';
 import { installApi } from '@/lib/api';
 import { useCurrentRole } from '@/lib/useCurrentRole';
+
+/**
+ * Module-level guard so the portal-side install recovery is attempted at
+ * most once per page load. A healthy installFinish() reloads the iframe,
+ * which resets this on the fresh load; the flag only protects against an
+ * installFinish that silently fails to flip Bitrix24's INSTALLED flag,
+ * preventing a tight retry loop within a single load.
+ */
+let portalInstallRecoveryAttempted = false;
 
 /** Maps the `?view=...` query param to a router path. */
 const VIEW_TO_PATH: Record<string, string> = {
@@ -84,6 +99,56 @@ export function PlacementGuard({ children }: PlacementGuardProps): JSX.Element {
   // backend would just return 401 because there is no AppSettings row.
   const installed = statusQuery.data?.installed ?? false;
   const roleQuery = useCurrentRole();
+
+  /**
+   * Portal-side install recovery.
+   *
+   * Our backend's `installed` flag only reflects whether an `AppSettings`
+   * row exists. Bitrix24 keeps a SEPARATE `INSTALLED` flag that is set
+   * only when `installFinish()` runs. If a previous attempt saved our
+   * settings but never reached installFinish (e.g. an old build aborted
+   * on a placement.bind error), the two disagree: our DB says installed,
+   * so this guard renders the main app — but Bitrix24 keeps INSTALLED=false
+   * and re-opens the install handler on every admin open, while regular
+   * users see "ask administrator to finish install".
+   *
+   * Since the install handler URL may route straight into the app (not to
+   * /install), the recovery cannot live in InstallPage — it must run here,
+   * on every open. When our DB says installed but `app.info` reports the
+   * portal as NOT installed, we (best-effort) re-register placements and
+   * call installFinish to complete the portal-side install. On success the
+   * SDK reloads the iframe and Bitrix24 reopens the app fully installed.
+   */
+  useEffect(() => {
+    if (!isB24Available()) return;
+    if (portalInstallRecoveryAttempted) return;
+    // Only relevant once our backend already considers the app installed.
+    // A fresh portal (installed:false) is handled by the /install wizard,
+    // which calls installFinish itself after the admin picks admin users.
+    if (statusQuery.data?.installed !== true) return;
+
+    portalInstallRecoveryAttempted = true;
+    let cancelled = false;
+    (async () => {
+      const portalInstalled = await isAppInstalledOnPortal();
+      // null = unknown (REST error) → do nothing, never act destructively.
+      if (cancelled || portalInstalled !== false) return;
+      // Bitrix24 says NOT installed while our DB says installed → finish it.
+      try {
+        await installApi.registerPlacements({});
+      } catch {
+        // non-fatal — admin can re-bind placements from Settings
+      }
+      try {
+        await installFinishB24(); // reloads the iframe on success
+      } catch {
+        // leave the app usable; admin can also finish from /install
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [statusQuery.data?.installed]);
 
   /**
    * On first render after the SDK is up, route by `?view=` query

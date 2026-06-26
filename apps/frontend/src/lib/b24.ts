@@ -248,6 +248,60 @@ export async function installFinishB24(): Promise<void> {
 }
 
 /**
+ * Asks Bitrix24 for the REAL portal-side install status via `app.info`.
+ *
+ * This is distinct from our backend's `GET /api/install/status`, which
+ * only reflects whether an `AppSettings` row exists in our DB. Bitrix24
+ * keeps its own `INSTALLED` flag that is set to `true` ONLY when
+ * `installFinish()` has been called. The two can disagree: if a previous
+ * install attempt saved our settings but never reached `installFinish`
+ * (e.g. a placement.bind error aborted the flow), our DB says "installed"
+ * while Bitrix24 keeps showing the install page on every open and regular
+ * users see "ask administrator to finish install".
+ *
+ * Returns:
+ *  - `true`  — Bitrix24 considers the app fully installed.
+ *  - `false` — Bitrix24 considers the app NOT installed (call installFinish).
+ *  - `null`  — could not determine (SDK missing, REST error). Callers must
+ *              treat `null` as "unknown" and not act on it destructively.
+ */
+export async function isAppInstalledOnPortal(): Promise<boolean | null> {
+  if (!frameInstance) return null;
+  try {
+    const frame = frameInstance as unknown as {
+      callMethod?: (
+        method: string,
+        params?: Record<string, unknown>,
+      ) => Promise<{ getData?: () => unknown; data?: () => unknown }>;
+    };
+    if (typeof frame.callMethod !== 'function') return null;
+    const res = await frame.callMethod('app.info', {});
+    // The SDK exposes the payload via getData() (newer) or data() (older).
+    const payload =
+      typeof res.getData === 'function'
+        ? res.getData()
+        : typeof res.data === 'function'
+          ? res.data()
+          : res;
+    // app.info returns `{ result: { INSTALLED: bool, ... } }` after
+    // getData(), or the bare result object on some builds.
+    const obj = payload as Record<string, unknown> | null;
+    const result =
+      obj && typeof obj === 'object' && 'result' in obj
+        ? (obj.result as Record<string, unknown>)
+        : obj;
+    const installed = result?.['INSTALLED'];
+    if (typeof installed === 'boolean') return installed;
+    // Some portals return "Y"/"N" or 1/0.
+    if (installed === 'Y' || installed === 1 || installed === '1') return true;
+    if (installed === 'N' || installed === 0 || installed === '0') return false;
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Asks Bitrix24 to refresh the deal card data after a backend mutation
  * (e.g. after generating a document and binding the file to a UF_CRM_*
  * field), so the user immediately sees the new value without F5.

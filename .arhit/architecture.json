@@ -1,6 +1,6 @@
 {
   "root": "/Users/igorgerasimov/claudeWorkspace/b24-doc-gen",
-  "generatedAt": "2026-06-23T21:35:35.226Z",
+  "generatedAt": "2026-06-26T12:51:35.587Z",
   "nodes": [
     {
       "id": "apps/backend/scripts/render-check.ts",
@@ -3965,7 +3965,7 @@
           "name": "defaultPathForPlacement",
           "type": "function",
           "path": "apps/frontend/src/components/PlacementGuard.tsx",
-          "line": 37,
+          "line": 52,
           "signature": "defaultPathForPlacement(placement: string): string",
           "docComment": "Maps a Bitrix24 placement code to a default landing path.",
           "exports": []
@@ -3975,7 +3975,7 @@
           "name": "isDealCardContext",
           "type": "function",
           "path": "apps/frontend/src/components/PlacementGuard.tsx",
-          "line": 62,
+          "line": 77,
           "signature": "isDealCardContext(): boolean",
           "docComment": "True when the app is opened inside a deal card (any CRM_DEAL_DETAIL_*\nplacement, or whenever a deal id is present in the placement options).\nIn this context the app is ALWAYS the user-facing document generator —\nthe admin management UI (/templates, /settings) must never appear here,\nregardless of the caller's role. Those are reached from the portal's\ntop-menu (DEFAULT placement) instead.",
           "exports": []
@@ -3985,7 +3985,7 @@
           "name": "PlacementGuard",
           "type": "function",
           "path": "apps/frontend/src/components/PlacementGuard.tsx",
-          "line": 70,
+          "line": 85,
           "signature": "PlacementGuard({ children }: PlacementGuardProps): JSX.Element",
           "exports": [
             "PlacementGuard"
@@ -3996,8 +3996,17 @@
           "name": "PlacementGuardProps",
           "type": "interface",
           "path": "apps/frontend/src/components/PlacementGuard.tsx",
-          "line": 66,
+          "line": 81,
           "signature": "interface PlacementGuardProps",
+          "exports": []
+        },
+        {
+          "id": "apps/frontend/src/components/PlacementGuard.tsx:portalInstallRecoveryAttempted",
+          "name": "portalInstallRecoveryAttempted",
+          "type": "variable",
+          "path": "apps/frontend/src/components/PlacementGuard.tsx",
+          "line": 41,
+          "docComment": "Module-level guard so the portal-side install recovery is attempted at\nmost once per page load. A healthy installFinish() reloads the iframe,\nwhich resets this on the fresh load; the flag only protects against an\ninstallFinish that silently fails to flip Bitrix24's INSTALLED flag,\npreventing a tight retry loop within a single load.",
           "exports": []
         },
         {
@@ -4005,7 +4014,7 @@
           "name": "VIEW_TO_PATH",
           "type": "variable",
           "path": "apps/frontend/src/components/PlacementGuard.tsx",
-          "line": 29,
+          "line": 44,
           "docComment": "Maps the `?view=...` query param to a router path.",
           "exports": []
         }
@@ -5698,6 +5707,7 @@
         "getCurrentPlacement",
         "getPlacementOptions",
         "installFinishB24",
+        "isAppInstalledOnPortal",
         "reloadParentWindow",
         "resizeB24WindowToContent",
         "getB24AuthHeaders",
@@ -5837,11 +5847,23 @@
           ]
         },
         {
+          "id": "apps/frontend/src/lib/b24.ts:isAppInstalledOnPortal",
+          "name": "isAppInstalledOnPortal",
+          "type": "function",
+          "path": "apps/frontend/src/lib/b24.ts",
+          "line": 268,
+          "signature": "isAppInstalledOnPortal(): Promise<boolean | null>",
+          "docComment": "Asks Bitrix24 for the REAL portal-side install status via `app.info`.\n\nThis is distinct from our backend's `GET /api/install/status`, which\nonly reflects whether an `AppSettings` row exists in our DB. Bitrix24\nkeeps its own `INSTALLED` flag that is set to `true` ONLY when\n`installFinish()` has been called. The two can disagree: if a previous\ninstall attempt saved our settings but never reached `installFinish`\n(e.g. a placement.bind error aborted the flow), our DB says \"installed\"\nwhile Bitrix24 keeps showing the install page on every open and regular\nusers see \"ask administrator to finish install\".\n\nReturns:\n - `true`  — Bitrix24 considers the app fully installed.\n - `false` — Bitrix24 considers the app NOT installed (call installFinish).\n - `null`  — could not determine (SDK missing, REST error). Callers must\n             treat `null` as \"unknown\" and not act on it destructively.",
+          "exports": [
+            "isAppInstalledOnPortal"
+          ]
+        },
+        {
           "id": "apps/frontend/src/lib/b24.ts:reloadParentWindow",
           "name": "reloadParentWindow",
           "type": "function",
           "path": "apps/frontend/src/lib/b24.ts",
-          "line": 264,
+          "line": 318,
           "signature": "reloadParentWindow(): Promise<void>",
           "docComment": "Asks Bitrix24 to refresh the deal card data after a backend mutation\n(e.g. after generating a document and binding the file to a UF_CRM_*\nfield), so the user immediately sees the new value without F5.\n\nImplementation: invokes `placement.call('reloadData')` — the\nregistered interface command for the CRM_DEAL_DETAIL_TAB placement\nthat re-fetches the entity. Unlike `reloadWindow()` it does NOT\nreload our iframe, so the result panel of GeneratePage remains\nvisible.\n\nErrors are swallowed: a failed reload is non-fatal, the user can\nstill refresh manually.",
           "exports": [
@@ -5853,7 +5875,7 @@
           "name": "resizeB24WindowToContent",
           "type": "function",
           "path": "apps/frontend/src/lib/b24.ts",
-          "line": 294,
+          "line": 348,
           "signature": "resizeB24WindowToContent(minHeight = 0): Promise<void>",
           "docComment": "Resizes the application iframe to match its content height so the\nembedded app fills the placement area instead of showing at Bitrix24's\nsmall default height (the \"opens only halfway, empty space below\"\nproblem).\n\nImplementation: the B24 SDK exposes `parent.resizeWindowAuto(appNode,\nminHeight, minWidth)` which measures `document.body` (or `appNode`) and\nasks the portal to resize the iframe to that height — clamped to at\nleast `minHeight`. We pass a comfortable `minHeight` so viewport-pinned\npages (which use `h-screen` + internally scrolling columns, so their\nbody never overflows the iframe) still get a usable height, while\nnaturally-flowing pages (e.g. SettingsPage) grow to fit their content.\n\nNo-op outside the iframe; errors are swallowed (a failed resize is\ncosmetic and must never break the app). The SDK sends the underlying\n`resizeWindow` message with `isSafely:true`, so this never hangs.\n\nFalls back to `parent.fitWindow()` on SDK builds without\n`resizeWindowAuto`.",
           "exports": [
@@ -5865,7 +5887,7 @@
           "name": "getB24AuthHeaders",
           "type": "function",
           "path": "apps/frontend/src/lib/b24.ts",
-          "line": 324,
+          "line": 378,
           "signature": "getB24AuthHeaders(): Record<string, string>",
           "docComment": "Builds the headers used by the backend's auth middleware. The\nfrontend sends the SDK's access_token, member_id and domain via\nthe X-B24-* headers; the middleware verifies them on every call.",
           "exports": [
@@ -6962,7 +6984,7 @@
           "name": "TagHoverContent",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 1318,
+          "line": 1331,
           "signature": "TagHoverContent({\n  tag,\n  formula,\n  field,\n}: {\n  tag: string;\n  formula?: FormulaInputDTO;\n  field?: TemplateFieldInputDTO;\n})",
           "docComment": "Body of the hover tooltip shown over a `{tag}` pill in the editor. Mirrors\nthe old TipTap formula tooltip: shows the tag name and what it resolves to —\na formula (label + expression), a manual field (label + type), a reserved\nproduct-loop tag, or an unbound warning.",
           "exports": []
@@ -6972,7 +6994,7 @@
           "name": "TagRow",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 1372,
+          "line": 1385,
           "signature": "TagRow({\n  tag,\n  status,\n  orphan = false,\n  formula,\n  field,\n  onBindFormula,\n  onBindField,\n  onRemoveFormula,\n  onRemoveField,\n}: {\n  tag: string;\n  status: TagBindingStatus;\n  orphan?: boolean;\n  formula?: FormulaInputDTO;\n  field?: TemplateFieldInputDTO;\n  onBindFormula: () => void;\n  onBindField: () => void;\n  onRemoveFormula: () => void;\n  onRemoveField: () => void;\n})",
           "docComment": "A single row in the \"Теги шаблона\" panel. Shows the tag name, its\nbinding status badge and the relevant actions (bind/edit a formula,\ndeclare/edit a manual field, or remove an existing binding). Unbound\nnon-reserved tags are highlighted with an amber border so the admin\nnotices them; reserved product-loop tags are shown muted with no\nactions because the engine fills them automatically.",
           "exports": []
@@ -6982,7 +7004,7 @@
           "name": "StatusBadge",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 1494,
+          "line": 1507,
           "signature": "StatusBadge({ status }: { status: TagBindingStatus })",
           "docComment": "Small coloured badge describing a tag's binding status.",
           "exports": []
@@ -6992,7 +7014,7 @@
           "name": "formulaDtoToInput",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 1532,
+          "line": 1545,
           "signature": "formulaDtoToInput(f: FormulaDTO): FormulaInputDTO",
           "docComment": "Translate a FormulaDTO into the FormulaInputDTO sent back on save.",
           "exports": []
@@ -7002,7 +7024,7 @@
           "name": "fieldDtoToInput",
           "type": "function",
           "path": "apps/frontend/src/pages/TemplateEditorPage.tsx",
-          "line": 1543,
+          "line": 1556,
           "signature": "fieldDtoToInput(f: TemplateFieldDTO): TemplateFieldInputDTO",
           "docComment": "Translate a TemplateFieldDTO into the input shape sent on save.",
           "exports": []

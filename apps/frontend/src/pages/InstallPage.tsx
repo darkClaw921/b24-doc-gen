@@ -83,9 +83,16 @@ export function InstallPage() {
       });
 
       // 2. Register placements via the backend (which calls placement.bind).
-      //    We INSPECT the response — the endpoint always returns 200 with a
-      //    `results` map, so a silently-failed bind would otherwise pass
-      //    unnoticed and the deal-card tab would never appear.
+      //    BEST-EFFORT: a failed bind must NEVER abort the install flow.
+      //    Until step 3 (installFinish) runs, Bitrix24 keeps the app in
+      //    the "not installed" state — regular users see "ask the
+      //    administrator to finish install" and the admin is shown the
+      //    install page on every open. Previously a placement.bind error
+      //    threw here and step 3 never executed, trapping the app
+      //    permanently. We now only collect a warning and proceed; the
+      //    admin can (re-)bind placements later from the Settings page,
+      //    where placement.bind succeeds once the app is fully installed.
+      let placementWarning: string | null = null;
       try {
         const reg = await installApi.registerPlacements({});
         // eslint-disable-next-line no-console
@@ -101,27 +108,27 @@ export function InstallPage() {
             : reg.placementListError
               ? `placement.list упал: ${reg.placementListError}.`
               : 'placement.list вернул пустой список.';
-          throw new Error(
-            `placement.bind не сработал — вкладка не появится в карточке сделки. ${details}. ${allowed} Проверьте, что в манифесте локального приложения объявлен placement CRM_DEAL_DETAIL_TAB и выдан scope "placement".`,
-          );
+          placementWarning = `placement.bind не сработал — вкладка может не появиться в карточке сделки. ${details}. ${allowed} Проверьте, что в манифесте локального приложения объявлен placement CRM_DEAL_DETAIL_TAB и выдан scope "placement". Встройку можно повторно зарегистрировать в настройках.`;
         }
       } catch (err) {
-        // Re-throw so onError surfaces it in the UI instead of swallowing.
-        throw err;
+        placementWarning = err instanceof Error ? err.message : String(err);
+      }
+      if (placementWarning) {
+        // eslint-disable-next-line no-console
+        console.warn('register-placements (non-fatal):', placementWarning);
       }
 
-      // 3. Tell Bitrix24 the install wizard is finished.
-      //    Per B24 docs, until installFinish() is called the app is
-      //    considered NOT installed: placements don't show up and
-      //    regular users see "ask administrator to finish install".
-      //    Calling this triggers an iframe reload, so we don't need
-      //    to navigate manually — Bitrix24 reopens the app.
-      try {
-        await installFinishB24();
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.warn('installFinish() failed:', err);
-      }
+      // 3. Tell Bitrix24 the install wizard is finished. CRITICAL STEP.
+      //    Per B24 docs, until installFinish() resolves the app is
+      //    considered NOT installed: placements don't show up and regular
+      //    users see "ask administrator to finish install", while the
+      //    admin keeps getting the install page on every open. On success
+      //    the SDK reloads the iframe and Bitrix24 reopens the app, so the
+      //    code after this usually does not run. We DO NOT swallow a
+      //    failure here: if installFinish throws, the install genuinely
+      //    did not complete and the admin must see the error rather than a
+      //    false "success".
+      await installFinishB24();
 
       return res;
     },
@@ -138,6 +145,48 @@ export function InstallPage() {
       else setErrorMsg('Не удалось сохранить настройки');
     },
   });
+
+  /* ------------------------------------------------------------ */
+  /* Recovery: our DB says "installed" but Bitrix24 may disagree.   */
+  /*                                                                */
+  /* If a previous attempt saved settings (DB row created) but      */
+  /* never reached installFinish() — e.g. an old build aborted on a */
+  /* placement.bind error — Bitrix24 keeps INSTALLED=false and shows */
+  /* the install page on every open, while our status endpoint      */
+  /* reports installed:true. Detect that mismatch via app.info and  */
+  /* re-run installFinish so the portal-side install completes.     */
+  /* ------------------------------------------------------------ */
+  const [recovering, setRecovering] = useState(false);
+  const [recoverError, setRecoverError] = useState<string | null>(null);
+
+  const finishOnPortal = async () => {
+    setRecoverError(null);
+    setRecovering(true);
+    try {
+      // Best-effort: (re)register placements before finishing so the
+      // deal-card tab appears. Failures here must not block installFinish.
+      try {
+        await installApi.registerPlacements({});
+      } catch {
+        // non-fatal — admin can re-bind in Settings
+      }
+      await installFinishB24();
+      // On success the SDK reloads the iframe; if it doesn't, fall through.
+      navigate('/templates', { replace: true });
+    } catch (err) {
+      setRecoverError(
+        err instanceof Error ? err.message : 'Не удалось завершить установку в Bitrix24',
+      );
+    } finally {
+      setRecovering(false);
+    }
+  };
+
+  // NOTE: automatic portal-side install recovery (our DB says installed
+  // but Bitrix24 reports INSTALLED=false) lives in PlacementGuard, which
+  // runs on every app open regardless of route — the install handler URL
+  // may route straight into the app rather than to /install. Here we only
+  // expose a MANUAL "finish install" action via finishOnPortal().
 
   const selectedList = useMemo(() => Array.from(selected.values()), [selected]);
 
@@ -177,17 +226,42 @@ export function InstallPage() {
   }
 
   if (statusQuery.data?.installed) {
-    // Already installed — redirect to templates (handled by Placement
-    // router too, but this is an explicit escape hatch for /install).
+    // Our DB says installed. Two sub-cases:
+    //  - Bitrix24 also considers it installed → normal escape hatch.
+    //  - Bitrix24 disagrees (INSTALLED=false) → the effect above is
+    //    re-running installFinish; show progress / a manual retry so the
+    //    admin is never stuck on a dead-end "already installed" screen.
     return (
       <div className="mx-auto max-w-2xl p-8">
         <h1 className="text-2xl font-semibold">Приложение уже установлено</h1>
         <p className="mt-2 text-muted-foreground">
           Администраторы: {statusQuery.data.adminUserIds.join(', ')}
         </p>
-        <Button className="mt-4" onClick={() => navigate('/templates')}>
-          Перейти к шаблонам
-        </Button>
+
+        {recovering && (
+          <p className="mt-4 text-sm text-muted-foreground">
+            Завершаем установку на стороне Bitrix24…
+          </p>
+        )}
+
+        {recoverError && (
+          <div className="mt-4 rounded-md border border-destructive bg-destructive/10 p-3 text-sm text-destructive">
+            Не удалось завершить установку в Bitrix24: {recoverError}
+          </div>
+        )}
+
+        <div className="mt-4 flex items-center gap-3">
+          <Button onClick={() => navigate('/templates')} disabled={recovering}>
+            Перейти к шаблонам
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => void finishOnPortal()}
+            disabled={recovering}
+          >
+            {recovering ? 'Завершение…' : 'Завершить установку в Bitrix24'}
+          </Button>
+        </div>
       </div>
     );
   }

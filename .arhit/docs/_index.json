@@ -91,17 +91,17 @@
     "element": "InstallPage",
     "path": "apps/frontend/src/pages/InstallPage.tsx",
     "type": "function",
-    "content": "First-run setup React component. Uses TanStack Query to call installApi.status; if not installed, shows debounced (300ms) user search via usersApi.search and a multi-select list backed by Map<number, PortalUserDTO>. Saving calls installApi.install, then installApi.registerPlacements and INSPECTS results — if any placement.bind failed, throws an explicit error with the placement.list diagnostic so the user sees why (e.g. 'placement CRM_DEAL_DETAIL_TAB not declared in local app manifest') instead of a silent console.warn. On success calls installFinishB24() to trigger the iframe reload, then redirects to /templates as a fallback. Shows fallback UI if isB24Available() is false.",
+    "content": "Страница первичной установки (apps/frontend/src/pages/InstallPage.tsx). Рендерится PlacementGuard-ом когда GET /api/install/status вернул installed:false (редирект на /install). Дебаунс-поиск пользователей через usersApi.search, мульти-выбор админов в Map<number, PortalUserDTO>. Порядок сохранения (per B24 docs): 1) installApi.install (обязательно, сохраняет admin IDs + OAuth снапшот в нашу БД); 2) installApi.registerPlacements — BEST-EFFORT, ошибка placement.bind НЕ прерывает поток (иначе installFinish никогда не вызовется и приложение навсегда останется неустановленным в Bitrix), собирается лишь предупреждение в консоль; 3) installFinishB24() — КРИТИЧЕСКИЙ шаг, его ошибка НЕ глотается (раньше глоталась в console.warn), а пробрасывается в onError и показывается админу. Ручное восстановление: finishOnPortal() (best-effort registerPlacements + installFinishB24) доступно кнопкой 'Завершить установку в Bitrix24' на экране 'Приложение уже установлено' с индикатором recovering и recoverError. АВТОМАТИЧЕСКОЕ восстановление расхождения backend/Bitrix вынесено в PlacementGuard (срабатывает на любом роуте, т.к. обработчик установки может не вести на /install).",
     "createdAt": "2026-04-07T16:47:31.508Z",
-    "updatedAt": "2026-04-07T22:35:56.678Z"
+    "updatedAt": "2026-06-26T12:51:29.377Z"
   },
   {
     "element": "PlacementGuard",
     "path": "apps/frontend/src/components/PlacementGuard.tsx",
     "type": "function",
-    "content": "React wrapper that gates the entire route tree (apps/frontend/src/components/PlacementGuard.tsx). Renders fallback when SDK unavailable (isB24Available); loads GET /api/install/status and redirects to /install when not installed. HARD RULE — deal-card context: isDealCardContext() (placement starts with 'CRM_DEAL_DETAIL' OR getCurrentDealId() !== null) forces /generate and IGNORES ?view= / role / stale placement binding, so opening the app from a deal card ALWAYS shows the user-facing document generator, never the admin UI — even for admins (only exception: /install so a fresh portal can finish setup). Outside a deal card it dispatches by ?view= (VIEW_TO_PATH: generate->/generate, settings->/settings, templates->/templates, install->/install) and, at bare root, by defaultPathForPlacement (any CRM_DEAL_DETAIL* -> /generate; DEFAULT and others -> /templates). Admin gating: when installed and role resolved (useCurrentRole), non-admins hitting /settings (or DEFAULT placement settings) get a 403 stub. Admin management (/templates, /settings) is reached from the portal top-menu DEFAULT placement.",
+    "content": "Гард-обёртка всех роутов приложения (apps/frontend/src/components/PlacementGuard.tsx). Проверяет 3 предусловия: 1) инициализирован ли SDK Bitrix (isB24Available) иначе заглушка; 2) установлено ли приложение (GET /api/install/status) иначе редирект на /install; 3) соответствие placement (карточка сделки → /generate, DEFAULT → /templates). Маршрутизация по ?view= через VIEW_TO_PATH. ВАЖНО — автоматическое восстановление установки на стороне портала: наш backend-флаг installed отражает лишь наличие записи AppSettings, а Bitrix хранит отдельный флаг INSTALLED (ставится только вызовом installFinish). Если они расходятся (наша БД: установлено, Bitrix: нет — например прошлая установка прервалась на placement.bind), Bitrix при каждом открытии переоткрывает обработчик установки, а обычные пользователи видят 'обратитесь к администратору'. Поскольку URL обработчика установки может вести прямо в приложение (а не на /install), восстановление живёт здесь и срабатывает при каждом открытии: useEffect при statusQuery installed===true вызывает isAppInstalledOnPortal() (app.info); если портал вернул false — best-effort registerPlacements + installFinishB24() (перезагружает iframe при успехе). Защита от цикла — module-level флаг portalInstallRecoveryAttempted (одна попытка на загрузку страницы; успешный installFinish перезагружает iframe и сбрасывает флаг). null от app.info трактуется как 'неизвестно' — действий нет.",
     "createdAt": "2026-04-07T16:47:35.208Z",
-    "updatedAt": "2026-06-07T13:16:26.696Z"
+    "updatedAt": "2026-06-26T12:51:29.073Z"
   },
   {
     "element": "install",
@@ -1008,5 +1008,13 @@
       "автоподсказка формул",
       "похожая строка формула"
     ]
+  },
+  {
+    "element": "isAppInstalledOnPortal",
+    "path": "",
+    "type": "unknown",
+    "content": "Хелпер frontend (apps/frontend/src/lib/b24.ts). Запрашивает РЕАЛЬНЫЙ статус установки на стороне портала через REST app.info (frame.callMethod('app.info')) и возвращает поле INSTALLED как boolean | null. Отличается от GET /api/install/status нашего backend, который отражает лишь наличие записи AppSettings в нашей БД. Bitrix хранит собственный флаг INSTALLED, который выставляется в true ТОЛЬКО при вызове installFinish(). Эти два флага могут расходиться: если прошлая установка сохранила настройки, но не дошла до installFinish (например placement.bind упал и прервал поток), наша БД считает приложение установленным, а Bitrix продолжает показывать страницу установки админу при каждом открытии и обычные пользователи видят 'обратитесь к администратору'. Возвраты: true — Bitrix считает установленным; false — не установлено (нужен installFinish); null — не удалось определить (нет SDK/ошибка REST), вызывающий код трактует null как 'неизвестно' и не предпринимает разрушительных действий. Терпит варианты ответа INSTALLED: boolean, 'Y'/'N', 1/0. Используется в InstallPage для авто-восстановления из 'ловушки неустановки'.",
+    "createdAt": "2026-06-26T12:47:10.292Z",
+    "updatedAt": "2026-06-26T12:47:10.292Z"
   }
 ]

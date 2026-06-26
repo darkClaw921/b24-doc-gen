@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-23T21:35:35.915Z",
+  "generatedAt": "2026-06-26T12:51:36.389Z",
   "dependencies": [
     {
       "from": "apps/backend/scripts/render-check.ts",
@@ -16099,6 +16099,18 @@
     },
     {
       "from": "apps/frontend/src/components/PlacementGuard.tsx",
+      "to": "@/lib/b24",
+      "type": "import",
+      "toElement": "isAppInstalledOnPortal"
+    },
+    {
+      "from": "apps/frontend/src/components/PlacementGuard.tsx",
+      "to": "@/lib/b24",
+      "type": "import",
+      "toElement": "installFinishB24"
+    },
+    {
+      "from": "apps/frontend/src/components/PlacementGuard.tsx",
       "to": "@/lib/api",
       "type": "import",
       "toElement": "installApi"
@@ -16171,6 +16183,41 @@
       "type": "call",
       "fromElement": "PlacementGuard",
       "toElement": "useCurrentRole"
+    },
+    {
+      "from": "apps/frontend/src/components/PlacementGuard.tsx",
+      "to": "apps/frontend/src/components/PlacementGuard.tsx",
+      "type": "call",
+      "fromElement": "PlacementGuard",
+      "toElement": "useEffect"
+    },
+    {
+      "from": "apps/frontend/src/components/PlacementGuard.tsx",
+      "to": "apps/frontend/src/components/PlacementGuard.tsx",
+      "type": "call",
+      "fromElement": "PlacementGuard",
+      "toElement": "isB24Available"
+    },
+    {
+      "from": "apps/frontend/src/components/PlacementGuard.tsx",
+      "to": "apps/frontend/src/components/PlacementGuard.tsx",
+      "type": "call",
+      "fromElement": "PlacementGuard",
+      "toElement": "isAppInstalledOnPortal"
+    },
+    {
+      "from": "apps/frontend/src/components/PlacementGuard.tsx",
+      "to": "apps/frontend/src/components/PlacementGuard.tsx",
+      "type": "call",
+      "fromElement": "PlacementGuard",
+      "toElement": "installApi.registerPlacements"
+    },
+    {
+      "from": "apps/frontend/src/components/PlacementGuard.tsx",
+      "to": "apps/frontend/src/components/PlacementGuard.tsx",
+      "type": "call",
+      "fromElement": "PlacementGuard",
+      "toElement": "installFinishB24"
     },
     {
       "from": "apps/frontend/src/components/PlacementGuard.tsx",
@@ -19786,6 +19833,27 @@
       "from": "apps/frontend/src/lib/b24.ts",
       "to": "apps/frontend/src/lib/b24.ts",
       "type": "call",
+      "fromElement": "isAppInstalledOnPortal",
+      "toElement": "frame.callMethod"
+    },
+    {
+      "from": "apps/frontend/src/lib/b24.ts",
+      "to": "apps/frontend/src/lib/b24.ts",
+      "type": "call",
+      "fromElement": "isAppInstalledOnPortal",
+      "toElement": "res.getData"
+    },
+    {
+      "from": "apps/frontend/src/lib/b24.ts",
+      "to": "apps/frontend/src/lib/b24.ts",
+      "type": "call",
+      "fromElement": "isAppInstalledOnPortal",
+      "toElement": "res.data"
+    },
+    {
+      "from": "apps/frontend/src/lib/b24.ts",
+      "to": "apps/frontend/src/lib/b24.ts",
+      "type": "call",
       "fromElement": "reloadParentWindow",
       "toElement": "frameInstance.placement.call"
     },
@@ -22771,7 +22839,7 @@
       "to": "apps/frontend/src/pages/InstallPage.tsx",
       "type": "call",
       "fromElement": "InstallPage",
-      "toElement": "installFinishB24"
+      "toElement": "String"
     },
     {
       "from": "apps/frontend/src/pages/InstallPage.tsx",
@@ -22779,6 +22847,13 @@
       "type": "call",
       "fromElement": "InstallPage",
       "toElement": "console.warn"
+    },
+    {
+      "from": "apps/frontend/src/pages/InstallPage.tsx",
+      "to": "apps/frontend/src/pages/InstallPage.tsx",
+      "type": "call",
+      "fromElement": "InstallPage",
+      "toElement": "installFinishB24"
     },
     {
       "from": "apps/frontend/src/pages/InstallPage.tsx",
@@ -22814,6 +22889,69 @@
       "type": "call",
       "fromElement": "InstallPage",
       "toElement": "setErrorMsg"
+    },
+    {
+      "from": "apps/frontend/src/pages/InstallPage.tsx",
+      "to": "apps/frontend/src/pages/InstallPage.tsx",
+      "type": "call",
+      "fromElement": "InstallPage",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/pages/InstallPage.tsx",
+      "to": "apps/frontend/src/pages/InstallPage.tsx",
+      "type": "call",
+      "fromElement": "InstallPage",
+      "toElement": "useState"
+    },
+    {
+      "from": "apps/frontend/src/pages/InstallPage.tsx",
+      "to": "apps/frontend/src/pages/InstallPage.tsx",
+      "type": "call",
+      "fromElement": "InstallPage",
+      "toElement": "setRecoverError"
+    },
+    {
+      "from": "apps/frontend/src/pages/InstallPage.tsx",
+      "to": "apps/frontend/src/pages/InstallPage.tsx",
+      "type": "call",
+      "fromElement": "InstallPage",
+      "toElement": "setRecovering"
+    },
+    {
+      "from": "apps/frontend/src/pages/InstallPage.tsx",
+      "to": "apps/frontend/src/pages/InstallPage.tsx",
+      "type": "call",
+      "fromElement": "InstallPage",
+      "toElement": "installApi.registerPlacements"
+    },
+    {
+      "from": "apps/frontend/src/pages/InstallPage.tsx",
+      "to": "apps/frontend/src/pages/InstallPage.tsx",
+      "type": "call",
+      "fromElement": "InstallPage",
+      "toElement": "installFinishB24"
+    },
+    {
+      "from": "apps/frontend/src/pages/InstallPage.tsx",
+      "to": "apps/frontend/src/pages/InstallPage.tsx",
+      "type": "call",
+      "fromElement": "InstallPage",
+      "toElement": "navigate"
+    },
+    {
+      "from": "apps/frontend/src/pages/InstallPage.tsx",
+      "to": "apps/frontend/src/pages/InstallPage.tsx",
+      "type": "call",
+      "fromElement": "InstallPage",
+      "toElement": "setRecoverError"
+    },
+    {
+      "from": "apps/frontend/src/pages/InstallPage.tsx",
+      "to": "apps/frontend/src/pages/InstallPage.tsx",
+      "type": "call",
+      "fromElement": "InstallPage",
+      "toElement": "setRecovering"
     },
     {
       "from": "apps/frontend/src/pages/InstallPage.tsx",
@@ -22856,6 +22994,13 @@
       "type": "call",
       "fromElement": "InstallPage",
       "toElement": "navigate"
+    },
+    {
+      "from": "apps/frontend/src/pages/InstallPage.tsx",
+      "to": "apps/frontend/src/pages/InstallPage.tsx",
+      "type": "call",
+      "fromElement": "InstallPage",
+      "toElement": "finishOnPortal"
     },
     {
       "from": "apps/frontend/src/pages/InstallPage.tsx",
@@ -24694,6 +24839,13 @@
       "type": "call",
       "fromElement": "TemplateEditorPage",
       "toElement": "captureLinePattern"
+    },
+    {
+      "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "to": "apps/frontend/src/pages/TemplateEditorPage.tsx",
+      "type": "call",
+      "fromElement": "TemplateEditorPage",
+      "toElement": "setSuggestion"
     },
     {
       "from": "apps/frontend/src/pages/TemplateEditorPage.tsx",
